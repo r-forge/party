@@ -15,9 +15,15 @@ foo = function(object, h = 0) {
         iright = (object@nodeindex[,1] >= nrright)
         z = vector(length = 2, mode = "list")
         split = object@nodes[[1]]@primarysplit
-        attr(z, "edgetext") = paste(
-                              object@treegrow@inputs[[split@variable]]@name, 
-                                    " <= ", split@cutpoint)
+        nv = object@treegrow@inputs[[split@variable]]@name
+        if (class(split) == "OrderedSplit") {
+            attr(z, "edgetext") = as.expression(bquote(.(nv) <= .(split@cutpoint)))
+        } else {
+            lev = object@treegrow@inputs[[split@variable]]@levels
+            attr(z, "edgetext") = paste(nv, "=",
+                paste("\{", paste(lev[split@levelset], collapse = ","), "\}", 
+                      collapse = ""))
+       }
         attr(z, "label") = paste("Node", object@nodes[[1]]@number)
 
         leftt = object
