@@ -34,8 +34,8 @@ setClass("Node", representation = representation(
 setClass("GrowControl", representation = representation(
     minsplit = "numeric",
     minprob = "numeric",
-    minstat = "numeric"))
-
+    minstat = "numeric",
+    varnull = "numeric"))
     
 setClass("TreeGrow", representation = representation(
     inputs = "list",

@@ -35,6 +35,7 @@ splitordered = function(v, pselect, cw, S = NULL) {
         L = L + S[j,] * cw[j]
         E = w * evS[[1]]
         V = f1 * VS * w - f2 * VS * w^2
+        if (V < v@control@varnull) next
         if (w >= mmin) 
             criterion[j] = max(abs((L - E)/sqrt(V)))
     }

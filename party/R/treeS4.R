@@ -122,7 +122,7 @@ node = function(v, cw) {
 
     if (class(varselect) == "OrderedVariable") {
        ri = varselect@columns
-       split = splitordered2(v, pselect, cw)
+       split = splitordered(v, pselect, cw)
     } else {
        ri = varselect@columns
        split = splitcategorical(v, pselect, cw)

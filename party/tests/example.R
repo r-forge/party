@@ -12,7 +12,9 @@ MFF = ModelFrame(medv ~ ., data = BostonHousing)
 
 VarList = treedesign(MFF)
 VarList@control = new("GrowControl", minsplit = 20, 
-                       minstat = qnorm(1 - 0.05/ncol(MFF@input)))
+                       minprob = 0.1,
+                       minstat = qnorm(1 - 0.05/ncol(MFF@input)),
+                       varnull = 1e-10)
 
 Rprof("tree")
 x = stree(VarList)
@@ -51,7 +53,9 @@ MFF = ModelFrame(V4 ~ ., data = myOzone, na.action = na.pass)
 
 VarList = treedesign(MFF)
 VarList@control = new("GrowControl", minsplit = 20, 
-                       minstat = qnorm(1 - 0.05/ncol(MFF@input)))
+                       minprob = 0.1,
+                       minstat = qnorm(1 - 0.05/ncol(MFF@input)),
+                       varnull = 1e-10)
 
 # Rprof("tree")
 x = stree(VarList)
@@ -75,7 +79,9 @@ MFF = ModelFrame(Class ~ ., data = GlaucomaM)
 
 VarList = treedesign(MFF)
 VarList@control = new("GrowControl", minsplit = 20, 
-                       minstat = qnorm(1 - 0.05/ncol(MFF@input)))
+                       minprob = 0.1,
+                       minstat = qnorm(1 - 0.05/ncol(MFF@input)),
+                       varnull = 1e-10)
 
 # Rprof("tree")
 x = stree(VarList)
@@ -104,7 +110,9 @@ MFF = ModelFrame(res ~ ., data = dat)
 
 VarList = treedesign(MFF)
 VarList@control = new("GrowControl", minsplit = 20, 
-                       minstat = qnorm(1 - 0.05/ncol(MFF@input)))
+                       minprob = 0.1,
+                       minstat = qnorm(1 - 0.05/ncol(MFF@input)),
+                       varnull = 1e-10)
 
 # Rprof("tree")
 x = stree(VarList)
