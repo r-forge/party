@@ -1,6 +1,8 @@
 
 library(ipred)
 library(party)
+library(exactRankTests)
+
 data(BostonHousing)
 data(Ozone)
 data(GlaucomaM)
@@ -11,10 +13,12 @@ VarList = treedesign(MFF)
 VarList@control = new("GrowControl", minsplit = 20, 
                        minstat = qnorm(1 - 0.05/ncol(MFF@input)))
 
-# Rprof("tree")
+Rprof("tree")
 x = stree(VarList)
+Rprof(NULL)
 show(x)
-# Rprof(NULL)
+dx = as.dendrogram(x)
+plot(dx, center = TRUE)
 
 index = c(51,100,120,29,150)
 pr = treepredict(x, VarList, MFF@input[index,])
@@ -28,7 +32,7 @@ MFF@response[index,]
 pr = treepredict(x, VarList, MFF@input)[,1]
 pro = predict(a)        
 re = range(c(pr, pro))
-par(mfrow = c(1,3))
+#par(mfrow = c(1,3))
 plot(pr + rnorm(length(pr)), pro + rnorm(length(pro)), 
      xlim = re, ylim = re)
 
@@ -37,7 +41,6 @@ plot(pr + rnorm(length(pr)), MFF@response[[1]] + rnorm(length(pro)),
 
 plot(pro + rnorm(length(pro)), MFF@response[[1]] + rnorm(length(pro)), 
      xlim = re, ylim = re)
-
 
 
 myOzone = Ozone[complete.cases(Ozone$V4),]
@@ -51,6 +54,8 @@ VarList@control = new("GrowControl", minsplit = 20,
 x = stree(VarList)
 # Rprof(NULL)
 show(x)
+dx = as.dendrogram(x)
+plot(dx, center = TRUE)
 
 index = c(51,100,120,29,150)
 pr = treepredict(x, VarList, MFF@input[index,])
@@ -71,6 +76,8 @@ VarList@control = new("GrowControl", minsplit = 20,
 # Rprof("tree")
 x = stree(VarList)
 # Rprof(NULL)
+dx = as.dendrogram(x)
+plot(dx, center = TRUE)
 
 show(x)
 
@@ -97,6 +104,9 @@ VarList@control = new("GrowControl", minsplit = 20,
 # Rprof("tree")
 x = stree(VarList)
 # Rprof(NULL)
+
+dx = as.dendrogram(x)
+plot(dx, center = TRUE)
 
 show(x)
 
