@@ -1,5 +1,5 @@
 
-foo = function(object, h = 0, gx, sx) {
+foo = function(object, h = 0) {
     if (length(object@nodes) == 1) {
         z = list(object@nodes[[1]]@number)
         attr(z, "label") = paste("Node", object@nodes[[1]]@number)
@@ -27,25 +27,23 @@ foo = function(object, h = 0, gx, sx) {
         rightt@nodeindex = rightt@nodeindex[iright,,drop=FALSE]
         rightt@nodes = rightt@nodes[iright]
 
-        z[[1]] = foo(leftt, h - 1, gx, sx )
-
-        z[[2]] = foo(rightt, h - 1, gx, sx )
+        z[[1]] = foo(leftt, h - 1)
+        z[[2]] = foo(rightt, h - 1)
         attr(z, "members") = attr(z[[1]], "members") + attr(z[[2]], "members")
         attr(z, "height") = h
-#        attr(z, "midpoint") = (attr(z[[1]], "midpoint") + attr(z[[2]], "midpoint"))/2
-        attr(z, "midpoint") = 0 # gx() - attr(z[[1]], "midpoint")
-        sx(gx() + 1)
+        if (attr(z[[1]], "members") == 1 || attr(z[[2]], "members") == 1) 
+            attr(z, "midpoint") = 0.5 
+        else 
+            attr(z, "midpoint") = (attr(z[[1]], "members") + attr(z[[1]],
+                                   "midpoint") + attr(z[[2]], "midpoint"))/2
     }
     class(z) = "dendrogram"
     z
 }
 
 as.dendrogram.BinaryTree = function(object) {
-    x = 0
-    gx = function() x
-    sx = function(a) x <<- a 
     maxheight = max(unlist(sapply(pre(object@nodeindex), length)))
-    foo(object, maxheight, gx, sx)
+    foo(object, maxheight)
 }
 
 setMethod("as.dendrogram", "BinaryTree", function(object, ...) {
