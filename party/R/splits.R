@@ -3,10 +3,14 @@ splitordered = function(v, pselect, cw, S = NULL) {
     svar = v@inputs[[pselect]]
     x = v@Weights[svar@columns,]
     ox = svar@order
-
     if (is.null(S)) S = v@Scores
     if (length(svar@whichNA) > 0) cw[svar@whichNA] = 0
+    split = spoWH(x, ox, S, cw, v)
+    split@variable = pselect
+    split
+}
 
+spoWH = function(x, ox, S, cw, v) {
     evS = .Call("evS", S, cw) 
     ES = evS[[1]]
     VS = evS[[2]]
@@ -37,11 +41,13 @@ splitordered = function(v, pselect, cw, S = NULL) {
         V = f1 * VS * w - f2 * VS * w^2
         if (V < v@control@varnull) next
         if (w >= mmin) 
+            ### ordered response factors???
             criterion[j] = max(abs((L - E)/sqrt(V)))
     }
 
     cutpoint = x[which.max(criterion)]
-    sp = new("OrderedSplit", variable = pselect, 
-             cutpoint = cutpoint, totheleft = TRUE)
+    sp = new("OrderedSplit", # variable = pselect, 
+             cutpoint = cutpoint, totheleft = TRUE, criterium =
+             max(criterion))
     sp
 }

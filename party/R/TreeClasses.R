@@ -10,10 +10,10 @@ setClass("OrderedVariable", representation = representation(
 setClass("CategoricalVariable", representation = representation(
     levels = "character"), contains = "Variable")
 
-
 setClass("Split", representation = representation(
     variable = "integer", ### should be: a function
-    totheleft = "logical"))
+    totheleft = "logical",
+    criterium = "numeric"))
 
 setClass("OrderedSplit", representation = representation(
     cutpoint = "numeric"), contains = "Split")

@@ -34,7 +34,8 @@ splitcategorical = function(v, i, cw, S = NULL) {
     
     levelset = splits[[which.max(stats)]]
     #    cutpoint = logical2dual((1:nrow(x)) %in% splits[[which.max(stats)]])
-    sp = new("CategoricalSplit", variable = i, levelset = levelset, totheleft = TRUE)
+    sp = new("CategoricalSplit", variable = i, 
+             levelset = levelset, totheleft = TRUE, criterium = max(stats))
     sp
 
 }
