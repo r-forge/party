@@ -10,7 +10,6 @@ standstat = function(W, S, cw) {
     T
 }
 
-
 surrogates = function(v, pselect, leftw, cw, n = 1) {
 
     criterion = rep.int(0, v@p)
@@ -46,6 +45,7 @@ surrogates = function(v, pselect, leftw, cw, n = 1) {
     ss
 }
     
+
 node = function(v, cw) {
 
     if (sum(cw) < v@control@minsplit) {

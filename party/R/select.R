@@ -1,3 +1,4 @@
+
 best = function(v, cw) {
     criterion = rep.int(0, v@p)
     S = v@response@values
