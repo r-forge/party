@@ -1,7 +1,10 @@
 
 splitordered = function(v, pselect, cw) {
     svar = v@inputs[[pselect]]
-    x = as.vector(svar@values)
+    if (class(svar) == "OrderedCategoricalVariable") 
+        x = as.vector(svar@coding)
+    else
+        x = as.vector(svar@values)
     ox = svar@order
     S = v@response@values
     if (length(svar@whichNA) > 0) cw[svar@whichNA] = 0

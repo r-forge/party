@@ -12,35 +12,36 @@ standstat = function(W, S, cw) {
 
 
 
-splitcategorical = function(v, i, cw) {
-    svar = v@inputs[[i]]
+splitcategorical = function(v, pselect, cw) {
+    svar = v@inputs[[pselect]]
     x = svar@values 
 
-    S = v@response@values
+    S = v@workingresponse@values
     if (length(svar@whichNA) > 0) cw[svar@whichNA] = 0
 
     splits = vector(length = ncol(S), mode = "list")
     stats = rep(0, ncol(S))
 
-    for (j in 1:ncol(S)) {
-        T = standstat(x, S[,j,drop = FALSE], cw)
+    for (i in 1:ncol(S)) {
+        T = standstat(x, S[,i,drop = FALSE], cw)
         ox = order(T)
         W = apply(x[ox,], 2, cumsum)
         s = matrix(standstat(W, S, cw), nc = ncol(S))
         s = apply(abs(s), 1, max)
-        splits[[j]] = ox[-(1:which.max(abs(s)))]
-        stats[j] = max(abs(s))
+        splits[[i]] = ox[-(1:which.max(abs(s)))]
+        stats[i] = max(abs(s))
     }
     
     levelset = splits[[which.max(stats)]]
     #    cutpoint = logical2dual((1:nrow(x)) %in% splits[[which.max(stats)]])
-    sp = new("CategoricalSplit", variable = i, 
+    sp = new("CategoricalSplit", variable = pselect, 
              levelset = levelset, totheleft = TRUE, criterium = max(stats))
     sp
 
 }
 
 surrogates = function(v, pselect, leftw, cw, n = 1) {
+
     criterion = rep.int(0, v@p)
     myS = matrix(leftw, ncol = 1)
     for (p in 1:v@p) {
@@ -50,18 +51,19 @@ surrogates = function(v, pselect, leftw, cw, n = 1) {
             tcw[v@inputs[[p]]@whichNA] = 0
         criterion[p] = max(abs(standstat(v@inputs[[p]]@values, myS, tcw)))
     }
+
     surr = rev(order(criterion))[1:n]
-    
     ss = c()
     for (p in surr) {
-        varselect = v@inputs[[p]]
-        if (class(varselect) == "OrderedVariable") {
+        svar = v@inputs[[p]]
+        if (class(svar) == "ContinuousVariable" || 
+            class(svar) == "OrderedCategoricalVariable") {
             split = splitordered(v, pselect, cw, S = myS)
-            leftcw = cw * (as.vector(varselect@values) <= split@cutpoint)
+            leftcw = cw * (as.vector(svar@values) <= split@cutpoint)
         } else {
             csplit = splitcategorical(v, pselect, cw, S = myS)
             leftlevels = csplit@levelset
-            Wtmp = varselect@values
+            Wtmp = svar@values
             leftcw = cw * (colSums(Wtmp[leftlevels,,drop=FALSE]))
         }
         if (sum(leftcw * leftw * cw) < sum((1-leftcw) * leftw * cw))
@@ -79,21 +81,34 @@ best = function(v, cw) {
     sevS = .Call("evS", S, cw)
     Scw = S * cw
     for (p in 1:v@p) {
+
+        svar = v@inputs[[p]]
         tcw = cw
-        if (length(v@inputs[[p]]@whichNA) > 0) {
-            tcw[v@inputs[[p]]@whichNA] = 0
+        if (length(svar@whichNA) > 0) {
+            tcw[svar@whichNA] = 0
             es = .Call("evS", S, tcw)
             Sw = S * tcw
         } else {
             es = sevS
             Sw = Scw
         }
-        L = as.vector(v@inputs[[p]]@values %*% Sw)
-        ap = .Call("evL", v@inputs[[p]]@values, S, cw, es)
-        zeros = ap[[2]] < v@control@varnull
+        L = as.vector(svar@values %*% Sw)
+        if (class(svar) == "OrderedCategoricalVariable") {
+            ap = .Call("ec", svar@values, S, cw)
+            scores = matrix(rep(svar@scores, 
+                     length(L)/length(svar@scores)), nr = 1)
+            L = L %*% scores
+            EL = ap[[1]] %*% scores
+            VL = scores %*% ap[[2]] %*% t(scores)
+        } else { 
+            ap = .Call("evL", svar@values, S, cw, es)
+            EL = ap[[1]]
+            VL = ap[[2]]
+        } 
+        zeros = VL < v@control@varnull
         L[zeros] = 0
         T = L
-        T[!zeros] = ((L[!zeros] - ap[[1]][!zeros])/sqrt(ap[[2]][!zeros]))
+        T[!zeros] = ((L[!zeros] - EL[!zeros])/sqrt(VL[!zeros]))
         criterion[p] = max(abs(T))
     }
     if (max(criterion) < v@control@minstat) return(NULL)
@@ -114,9 +129,10 @@ node = function(v, cw) {
     }
     pselect = which.max(criterion)
 
-    varselect = v@inputs[[pselect]]
+    svar = v@inputs[[pselect]]
 
-    if (class(varselect) == "OrderedVariable") {
+    if (class(svar) == "ContinuousVariable" || 
+        class(svar) == "OrderedCategoricalVariable") {
        split = splitordered(v, pselect, cw)
     } else {
        split = splitcategorical(v, pselect, cw)
@@ -135,7 +151,7 @@ node = function(v, cw) {
 
 treegrow = function(v, sn, sni, gi, gt, cw = NULL, nr = 1) {
 
-    if (is.null(cw)) cw = rep(1, nrow(v@response@values))
+    if (is.null(cw)) cw = rep(1, nrow(v@workingresponse@values))
 
     nd = node(v, cw)
     nd@number = nr
@@ -148,14 +164,17 @@ treegrow = function(v, sn, sni, gi, gt, cw = NULL, nr = 1) {
     nd@number = nr
     pselect = nd@primarysplit@variable
     split = nd@primarysplit
-    varselect = v@inputs[[pselect]]
+    svar = v@inputs[[pselect]]
 
-    if (class(split) == "OrderedSplit") {
-        leftcw = cw * (as.vector(varselect@values) <= split@cutpoint)
-        rightcw = cw * (as.vector(varselect@values) >  split@cutpoint)
+    if (class(split) == "OrderedSplit" && class(svar) == "ContinuousVariable") {
+        leftcw = cw * (as.vector(svar@values) <= split@cutpoint)
+        rightcw = cw * (as.vector(svar@values) >  split@cutpoint)
     } else {
-       Wtmp = varselect@values 
-       leftlevels = (1:nrow(Wtmp)) %in% split@levelset
+       Wtmp = svar@values 
+       if (class(svar) == "OrderedCategoricalVariable") 
+           leftlevels = (1:nrow(Wtmp)) %in% (1:split@cutpoint)
+       else
+           leftlevels = (1:nrow(Wtmp)) %in% split@levelset
        leftcw = cw * (colSums(Wtmp[leftlevels,,drop=FALSE]))
        rightcw = cw * (colSums(Wtmp[!leftlevels,,drop=FALSE]))
     }
@@ -174,7 +193,7 @@ treegrow = function(v, sn, sni, gi, gt, cw = NULL, nr = 1) {
 }
 
 stree = function(v) {
-    nobs = nrow(v@response@values)
+    nobs = v@nobs
     tree = new("BinaryTree", 
                nodes = vector(length = floor(nobs / 2), mode = "list"), 
                nodeindex = matrix(0, nrow = floor(nobs)/2, ncol = 3),
