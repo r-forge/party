@@ -1,0 +1,55 @@
+
+foo = function(object, h = 0, gx, sx) {
+    if (length(object@nodes) == 1) {
+        z = list(object@nodes[[1]]@number)
+        attr(z, "label") = paste("Node", object@nodes[[1]]@number)
+        attr(z, "members") = 1
+        attr(z, "height") = h
+        attr(z, "leaf") = TRUE
+    } else {
+        two = 2:2
+        nrleft = object@nodeindex[1,2]
+        nrright = object@nodeindex[1,3]
+        ileft = (object@nodeindex[,1] >= nrleft & 
+                 object@nodeindex[,1] < nrright)
+        iright = (object@nodeindex[,1] >= nrright)
+        z = vector(length = 2, mode = "list")
+        split = object@nodes[[1]]@primarysplit
+        attr(z, "edgetext") = paste(
+                              object@treegrow@inputs[[split@variable]]@name, 
+                                    " <= ", split@cutpoint)
+        attr(z, "label") = paste("Node", object@nodes[[1]]@number)
+
+        leftt = object
+        leftt@nodeindex = leftt@nodeindex[ileft,,drop=FALSE]
+        leftt@nodes = leftt@nodes[ileft]
+        rightt = object
+        rightt@nodeindex = rightt@nodeindex[iright,,drop=FALSE]
+        rightt@nodes = rightt@nodes[iright]
+
+        z[[1]] = foo(leftt, h - 1, gx, sx )
+
+        z[[2]] = foo(rightt, h - 1, gx, sx )
+        attr(z, "members") = attr(z[[1]], "members") + attr(z[[2]], "members")
+        attr(z, "height") = h
+#        attr(z, "midpoint") = (attr(z[[1]], "midpoint") + attr(z[[2]], "midpoint"))/2
+        attr(z, "midpoint") = 0 # gx() - attr(z[[1]], "midpoint")
+        sx(gx() + 1)
+    }
+    class(z) = "dendrogram"
+    z
+}
+
+as.dendrogram.BinaryTree = function(object) {
+    x = 0
+    gx = function() x
+    sx = function(a) x <<- a 
+    maxheight = max(unlist(sapply(pre(object@nodeindex), length)))
+    foo(object, maxheight, gx, sx)
+}
+
+setMethod("as.dendrogram", "BinaryTree", function(object, ...) {
+    as.dendrogram.BinaryTree(object)
+})
+
+    
