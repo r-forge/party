@@ -83,9 +83,10 @@ VarList@control = new("GrowControl", minsplit = 20,
                        minstat = qnorm(1 - 0.05/ncol(MFF@input)),
                        varnull = 1e-10)
 
-VarList@response@values = VarList@response@values[,1,drop=FALSE]
+nVarList = VarList
+nVarList@response@values = nVarList@response@values[,1,drop=FALSE]
 # Rprof("tree")
-x = stree(VarList)
+x = stree(nVarList)
 # Rprof(NULL)
 dx = as.dendrogram(x)
 plot(dx, center = TRUE)
@@ -108,7 +109,6 @@ res = cscores(Surv(GBSG2$time, GBSG2$cens))
 dat = GBSG2[,-(9:10)]
 MFF = ModelFrame(res ~ ., data = dat)
 
-
 VarList = treedesign(MFF)
 VarList@control = new("GrowControl", minsplit = 20, 
                        minprob = 0.1,
@@ -125,10 +125,10 @@ plot(dx)
 
 show(x)
 
-Rprof("pred")
-pr = treepredict(x, VarList, MFF@input)
-Rprof(NULL)
+#Rprof("pred")
+#pr = treepredict(x, VarList, MFF@input)
+#Rprof(NULL)
 
-VarList@control@minstat = 2.4
-show(stree(VarList))
+#VarList@control@minstat = 2.4
+#show(stree(VarList))
 

@@ -17,10 +17,14 @@ show.BinaryTree = function(object) {
     for (n in 1:nrow(object@nodeindex)) {
         if (is.na(object@nodeindex[n, 2])) next
         nd = object@nodes[[n]]
-        if (class(nd@primarysplit) == "OrderedSplit") 
+        if (class(nd@primarysplit) == "ContinuousSplit") 
         cat(rep(" ", depth[n]), n, " Var: ",
             object@treegrow@inputs[[nd@primarysplit@variable]]@name, 
             " cutpoint: ", nd@primarysplit@cutpoint, "\n")
+        else 
+        cat(rep(" ", depth[n]), n, " Var: ",
+            object@treegrow@inputs[[nd@primarysplit@variable]]@name, 
+            " levels: ", nd@primarysplit@levelset, "\n")
     }
 }
 

@@ -131,12 +131,12 @@ node = function(v, cw) {
 
     svar = v@inputs[[pselect]]
 
-    if (class(svar) == "ContinuousVariable" || 
-        class(svar) == "OrderedCategoricalVariable") {
-       split = splitordered(v, pselect, cw)
-    } else {
+    if (class(svar) == "ContinuousVariable")
+       split = splitcontinuous(v, pselect, cw)
+    if (class(svar) == "OrderedCategoricalVariable")
+       split = splitordered(v, pselect, cw) 
+    if (class(svar) == "CategoricalVariable")
        split = splitcategorical(v, pselect, cw)
-    }
 
     if (is.null(split)) {
         tnode = new("TerminalNode", number = 0, weights = cw)
@@ -166,15 +166,12 @@ treegrow = function(v, sn, sni, gi, gt, cw = NULL, nr = 1) {
     split = nd@primarysplit
     svar = v@inputs[[pselect]]
 
-    if (class(split) == "OrderedSplit" && class(svar) == "ContinuousVariable") {
+    if (class(split) == "ContinuousSplit") {
         leftcw = cw * (as.vector(svar@values) <= split@cutpoint)
         rightcw = cw * (as.vector(svar@values) >  split@cutpoint)
-    } else {
+    } else { 
        Wtmp = svar@values 
-       if (class(svar) == "OrderedCategoricalVariable") 
-           leftlevels = (1:nrow(Wtmp)) %in% (1:split@cutpoint)
-       else
-           leftlevels = (1:nrow(Wtmp)) %in% split@levelset
+       leftlevels = (1:nrow(Wtmp)) %in% split@levelset
        leftcw = cw * (colSums(Wtmp[leftlevels,,drop=FALSE]))
        rightcw = cw * (colSums(Wtmp[!leftlevels,,drop=FALSE]))
     }

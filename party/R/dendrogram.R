@@ -16,7 +16,7 @@ foo = function(object, h = 0) {
         z = vector(length = 2, mode = "list")
         split = object@nodes[[1]]@primarysplit
         nv = object@treegrow@inputs[[split@variable]]@name
-        if (class(split) == "OrderedSplit") {
+        if (class(split) == "ContinuousSplit") {
             attr(z, "edgetext") = as.expression(bquote(.(nv) <= .(split@cutpoint)))
         } else {
             lev = object@treegrow@inputs[[split@variable]]@levels

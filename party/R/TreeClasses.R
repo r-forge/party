@@ -20,8 +20,11 @@ setClass("Split", representation = representation(
     totheleft = "logical",
     criterium = "numeric"))
 
-setClass("OrderedSplit", representation = representation(
+setClass("ContinuousSplit", representation = representation(
     cutpoint = "numeric"), contains = "Split")
+
+setClass("OrderedSplit", representation = representation(
+    levelset = "numeric"), contains = "Split")
 
 setClass("CategoricalSplit", representation = representation(
     levelset = "numeric"), contains = "Split")

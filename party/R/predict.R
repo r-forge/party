@@ -7,7 +7,7 @@ getNodeNumber = function(x, VarList, obs) {
         }
         pselect = x@nodes[[node]]@primarysplit@variable
         split = x@nodes[[node]]@primarysplit
-        if (class(split) == "OrderedSplit") {
+        if (class(split) == "ContinuousSplit") {
             left = obs[pselect] <= split@cutpoint
         } else {
             lev = as.integer(obs[pselect])
