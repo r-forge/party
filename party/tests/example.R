@@ -2,6 +2,7 @@
 library(ipred)
 library(party)
 library(exactRankTests)
+source("./dendrogram.R")
 
 data(BostonHousing)
 data(Ozone)
@@ -18,7 +19,9 @@ x = stree(VarList)
 Rprof(NULL)
 show(x)
 dx = as.dendrogram(x)
+save(dx, file = "dendrogram.Rda")
 plot(dx, center = TRUE)
+plot(dx)
 
 index = c(51,100,120,29,150)
 pr = treepredict(x, VarList, MFF@input[index,])
@@ -56,6 +59,7 @@ x = stree(VarList)
 show(x)
 dx = as.dendrogram(x)
 plot(dx, center = TRUE)
+plot(dx)
 
 index = c(51,100,120,29,150)
 pr = treepredict(x, VarList, MFF@input[index,])
@@ -78,6 +82,7 @@ x = stree(VarList)
 # Rprof(NULL)
 dx = as.dendrogram(x)
 plot(dx, center = TRUE)
+plot(dx)
 
 show(x)
 
@@ -107,8 +112,13 @@ x = stree(VarList)
 
 dx = as.dendrogram(x)
 plot(dx, center = TRUE)
+plot(dx)
 
 show(x)
+
+Rprof("pred")
+pr = treepredict(x, VarList, MFF@input)
+Rprof(NULL)
 
 VarList@control@minstat = 2.4
 show(stree(VarList))
