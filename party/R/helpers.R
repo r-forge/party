@@ -2,7 +2,7 @@
 cexpcov = function(W, S, cw, cov = FALSE) {
     if (cov)
         RET = .Call("ec", W, S, cw)
-    else
+    else 
         RET = .Call("ev", W, S, cw)
     names(RET) = c("ET", "VT")
     RET

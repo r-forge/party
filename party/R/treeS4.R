@@ -18,13 +18,14 @@ splitordered = function(v, i, cw, S = NULL) {
     if (length(svar@whichNA) > 0) cw[svar@whichNA] = 0
 
     ux = sort(unique(x[cw > 0]))
-    Wsplit = .Call("contcat", x, ux) 
-    if (ncol(S) == 1 || all(rowSums(S) == 1))
-        psplit = matrix(standstat(Wsplit, S[,1,drop=FALSE], cw), nc = 1)
-    else 
-        psplit = matrix(standstat(Wsplit, S, cw), 
-                        ncol = ncol(S))
-    cutpoint = ux[which.max(apply(abs(psplit), 1, max))]
+
+     Wsplit = .Call("contcat", x, ux) 
+     if (ncol(S) == 1 || all(rowSums(S) == 1))
+         psplit = matrix(standstat(Wsplit, S[,1,drop=FALSE], cw), nc = 1)
+     else 
+         psplit = matrix(standstat(Wsplit, S, cw), 
+                         ncol = ncol(S))
+     cutpoint = ux[which.max(apply(abs(psplit), 1, max))]
     sp = new("OrderedSplit", variable = i, 
              cutpoint = cutpoint, totheleft = TRUE)
     sp
@@ -95,12 +96,28 @@ surrogates = function(v, pselect, leftw, cw, n = 1) {
     
 best = function(v, cw) {
     criterion = rep.int(0, v@p)
+    sevS = .Call("evS", v@Scores, cw)
+    S = v@Scores
+    Scw = S * cw
     for (p in 1:v@p) {
         tcw = cw
-        if (length(v@inputs[[p]]@whichNA) > 0)
+        if (length(v@inputs[[p]]@whichNA) > 0) {
             tcw[v@inputs[[p]]@whichNA] = 0
+            es = .Call("evS", v@Scores, cw)
+            Sw = S * tcw
+        } else {
+            es = sevS
+            Sw = Scw
+        }
         ri = v@inputs[[p]]@columns
-        criterion[p] = max(abs(standstat(v@Weights[ri,,drop = FALSE], v@Scores, tcw)))
+        W = v@Weights[ri,,drop = FALSE]
+        L = as.vector(W %*% Sw)
+        ap = .Call("evL", W, S, cw, es)
+        zeros = ap[[2]] < 1e-10
+        L[zeros] = 0
+        T = L
+        T[!zeros] = ((L[!zeros] - ap[[1]][!zeros])/sqrt(ap[[2]][!zeros]))
+        criterion[p] = max(abs(T))
     }
     if (max(criterion) < v@control@minstat) return(NULL)
     criterion
