@@ -20,7 +20,7 @@ SEXP dummyvar(SEXP x, SEXP transposed) {
    levels = GET_LEVELS(x);
    nlevels = LENGTH(levels);
 
-   if (LOGICAL(transposed)[0]) { // == TRUE) {
+   if (LOGICAL(transposed)[0]) { /* == TRUE */
        PROTECT(ans = allocMatrix(INTSXP, nlevels, n));
    
        for (i = 0; i < n; i++) {
