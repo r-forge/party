@@ -5,8 +5,6 @@ data(BostonHousing)
 data(Ozone)
 data(GlaucomaM)
 
-dyn.load("../src/party.so")
-
 MFF = ModelFrame(medv ~ ., data = BostonHousing)
 
 VarList = treedesign(MFF)
@@ -84,4 +82,24 @@ print(a)
 predict(a, newdata = GlaucomaM[index,])
 pr
 MFF@response[index,]
+
+
+data(GBSG2)
+res = cscores(Surv(GBSG2$time, GBSG2$cens))
+dat = GBSG2[,-(9:10)]
+MFF = ModelFrame(res ~ ., data = dat)
+
+
+VarList = treedesign(MFF)
+VarList@control = new("GrowControl", minsplit = 20, 
+                       minstat = qnorm(1 - 0.05/ncol(MFF@input)))
+
+# Rprof("tree")
+x = stree(VarList)
+# Rprof(NULL)
+
+show(x)
+
+VarList@control@minstat = 2.4
+show(stree(VarList))
 
