@@ -6,11 +6,12 @@ getNodeNumber = function(x, VarList, obs) {
             return(x@nodes[[node]]@number)
         }
         pselect = x@nodes[[node]]@primarysplit@variable
-        if (class(VarList@inputs[[pselect]]) == "OrderedVariable") {
-            left = obs[pselect] <= x@nodes[[node]]@primarysplit@cutpoint
+        split = x@nodes[[node]]@primarysplit
+        if (class(split) == "OrderedSplit") {
+            left = obs[pselect] <= split@cutpoint
         } else {
             lev = as.integer(obs[pselect])
-            left = dual2logical(x@nodes[[node]]@primarysplit@cutpoint)[lev] 
+            left = any(split@levelset == lev)
         }
         node = ifelse(left, x@nodeindex[node,2], x@nodeindex[node,3])
     }

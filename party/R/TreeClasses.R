@@ -12,9 +12,14 @@ setClass("CategoricalVariable", representation = representation(
 
 
 setClass("Split", representation = representation(
-    variable = "integer",
-    cutpoint = "numeric",
+    variable = "integer", ### should be: a function
     totheleft = "logical"))
+
+setClass("OrderedSplit", representation = representation(
+    cutpoint = "numeric"), contains = "Split")
+
+setClass("CategoricalSplit", representation = representation(
+    levelset = "numeric"), contains = "Split")
 
 setClass("TerminalNode", representation = representation(
     number = "numeric",

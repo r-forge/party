@@ -25,7 +25,8 @@ splitordered = function(v, i, cw, S = NULL) {
         psplit = matrix(standstat(Wsplit, S, cw), 
                         ncol = ncol(S))
     cutpoint = ux[which.max(apply(abs(psplit), 1, max))]
-    sp = new("Split", variable = i, cutpoint = cutpoint, totheleft = TRUE)
+    sp = new("OrderedSplit", variable = i, 
+             cutpoint = cutpoint, totheleft = TRUE)
     sp
 }
 
@@ -49,8 +50,9 @@ splitcategorical = function(v, i, cw, S = NULL) {
         stats[j] = max(abs(s))
     }
     
-    cutpoint = logical2dual((1:nrow(x)) %in% splits[[which.max(stats)]])
-    sp = new("Split", variable = i, cutpoint = cutpoint, totheleft = TRUE)
+    levelset = splits[[which.max(stats)]]
+    #    cutpoint = logical2dual((1:nrow(x)) %in% splits[[which.max(stats)]])
+    sp = new("CategoricalSplit", variable = i, levelset = levelset, totheleft = TRUE)
     sp
 
 }
@@ -73,12 +75,12 @@ surrogates = function(v, pselect, leftw, cw, n = 1) {
         varselect = v@inputs[[p]]
         if (class(varselect) == "OrderedVariable") {
             ri = varselect@columns
-            cutpoint = splitordered(v, pselect, cw, S = myS)
-            leftcw = cw * (v@Weights[ri,] <= cutpoint)
+            split = splitordered(v, pselect, cw, S = myS)
+            leftcw = cw * (v@Weights[ri,] <= split@cutpoint)
         } else {
             ri = varselect@columns
-            cutpoint = splitcategorical(v, pselect, cw, S = myS)
-            leftlevels = dual2logical(cutpoint)
+            csplit = splitcategorical(v, pselect, cw, S = myS)
+            leftlevels = csplit@levelset
             Wtmp = v@Weights[ri,]
             leftcw = cw * (colSums(Wtmp[leftlevels,,drop=FALSE]))
         }
@@ -148,17 +150,15 @@ treegrow = function(v, sn, sni, gi, gt, cw = NULL, nr = 1) {
 
     nd@number = nr
     pselect = nd@primarysplit@variable
-    cutpoint = nd@primarysplit@cutpoint
+    split = nd@primarysplit
     varselect = v@inputs[[pselect]]
     ri = varselect@columns
-#    cat("Split in ", varselect@name, " <= ", 
-#        cutpoint, " with ", sum(cw), "obs \n")
 
-    if (class(varselect) == "OrderedVariable") {
-        leftcw = cw * (v@Weights[ri,] <= cutpoint)
-        rightcw = cw * (v@Weights[ri,] >  cutpoint)
+    if (class(split) == "OrderedSplit") {
+        leftcw = cw * (v@Weights[ri,] <= split@cutpoint)
+        rightcw = cw * (v@Weights[ri,] >  split@cutpoint)
     } else {
-       leftlevels = dual2logical(cutpoint)
+       leftlevels = (1:length(ri)) %in% split@levelset
        Wtmp = v@Weights[ri,]
        leftcw = cw * (colSums(Wtmp[leftlevels,,drop=FALSE]))
        rightcw = cw * (colSums(Wtmp[!leftlevels,,drop=FALSE]))

@@ -1,5 +1,4 @@
 
-
 pre = function(ni) {
     pres = vector(length=nrow(ni), mode = "list")
     pres[[1]] = NULL
@@ -18,6 +17,7 @@ show.BinaryTree = function(object) {
     for (n in 1:nrow(object@nodeindex)) {
         if (is.na(object@nodeindex[n, 2])) next
         nd = object@nodes[[n]]
+        if (class(nd@primarysplit) == "OrderedSplit") 
         cat(rep(" ", depth[n]), n, " Var: ",
             object@treegrow@inputs[[nd@primarysplit@variable]]@name, 
             " cutpoint: ", nd@primarysplit@cutpoint, "\n")
