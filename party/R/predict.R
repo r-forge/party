@@ -22,7 +22,7 @@ getWeights = function(x, number) {
 }
 
 treepredict = function(x, VarList, newobs) {
-    y = VarList@Scores
+    y = VarList@response@values
     f = sapply(newobs, is.factor)
     for (i in 1:ncol(newobs))
       if (f[i]) newobs[,i] = as.numeric(newobs[,i])

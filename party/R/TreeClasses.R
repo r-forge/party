@@ -1,14 +1,15 @@
 
 setClass("Variable", representation = representation(
     name = "character",
-    columns = "integer",
+    values = "matrix",
     whichNA = "INTEGERorNULL"))
 
 setClass("OrderedVariable", representation = representation(
     order = "integer"), contains = "Variable")
 
 setClass("CategoricalVariable", representation = representation(
-    levels = "character"), contains = "Variable")
+    levels = "character",
+    coding = "integer"), contains = "Variable")
 
 setClass("Split", representation = representation(
     variable = "integer", ### should be: a function
@@ -41,8 +42,6 @@ setClass("TreeGrow", representation = representation(
     inputs = "list",
     response = "Variable",
     p = "numeric",
-    Scores = "matrix",
-    Weights = "matrix",
     control = "GrowControl"))
 
 setClass("BinaryTree", representation = representation(

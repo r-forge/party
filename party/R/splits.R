@@ -1,11 +1,12 @@
 
-splitordered = function(v, pselect, cw, S = NULL) {
+splitordered = function(v, pselect, cw) {
     svar = v@inputs[[pselect]]
-    x = v@Weights[svar@columns,]
+    x = as.vector(svar@values)
     ox = svar@order
-    if (is.null(S)) S = v@Scores
+    S = v@response@values
     if (length(svar@whichNA) > 0) cw[svar@whichNA] = 0
     split = spoWH(x, ox, S, cw, v)
+    if (split@criterium == 0) return(NULL)
     split@variable = pselect
     split
 }
@@ -51,3 +52,4 @@ spoWH = function(x, ox, S, cw, v) {
              max(criterion))
     sp
 }
+

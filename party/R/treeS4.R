@@ -12,11 +12,11 @@ standstat = function(W, S, cw) {
 
 
 
-splitcategorical = function(v, i, cw, S = NULL) {
+splitcategorical = function(v, i, cw) {
     svar = v@inputs[[i]]
-    x = v@Weights[svar@columns,]
+    x = svar@values 
 
-    if (is.null(S)) S = v@Scores
+    S = v@response@values
     if (length(svar@whichNA) > 0) cw[svar@whichNA] = 0
 
     splits = vector(length = ncol(S), mode = "list")
@@ -48,8 +48,7 @@ surrogates = function(v, pselect, leftw, cw, n = 1) {
         tcw = cw
         if (length(v@inputs[[p]]@whichNA) > 0)
             tcw[v@inputs[[p]]@whichNA] = 0
-        ri = v@inputs[[p]]@columns
-        criterion[p] = max(abs(standstat(v@Weights[ri,,drop = FALSE], myS, tcw)))
+        criterion[p] = max(abs(standstat(v@inputs[[p]]@values, myS, tcw)))
     }
     surr = rev(order(criterion))[1:n]
     
@@ -57,14 +56,12 @@ surrogates = function(v, pselect, leftw, cw, n = 1) {
     for (p in surr) {
         varselect = v@inputs[[p]]
         if (class(varselect) == "OrderedVariable") {
-            ri = varselect@columns
             split = splitordered(v, pselect, cw, S = myS)
-            leftcw = cw * (v@Weights[ri,] <= split@cutpoint)
+            leftcw = cw * (as.vector(varselect@values) <= split@cutpoint)
         } else {
-            ri = varselect@columns
             csplit = splitcategorical(v, pselect, cw, S = myS)
             leftlevels = csplit@levelset
-            Wtmp = v@Weights[ri,]
+            Wtmp = varselect@values
             leftcw = cw * (colSums(Wtmp[leftlevels,,drop=FALSE]))
         }
         if (sum(leftcw * leftw * cw) < sum((1-leftcw) * leftw * cw))
@@ -78,24 +75,22 @@ surrogates = function(v, pselect, leftw, cw, n = 1) {
     
 best = function(v, cw) {
     criterion = rep.int(0, v@p)
-    sevS = .Call("evS", v@Scores, cw)
-    S = v@Scores
+    S = v@response@values
+    sevS = .Call("evS", S, cw)
     Scw = S * cw
     for (p in 1:v@p) {
         tcw = cw
         if (length(v@inputs[[p]]@whichNA) > 0) {
             tcw[v@inputs[[p]]@whichNA] = 0
-            es = .Call("evS", v@Scores, cw)
+            es = .Call("evS", S, tcw)
             Sw = S * tcw
         } else {
             es = sevS
             Sw = Scw
         }
-        ri = v@inputs[[p]]@columns
-        W = v@Weights[ri,,drop = FALSE]
-        L = as.vector(W %*% Sw)
-        ap = .Call("evL", W, S, cw, es)
-        zeros = ap[[2]] < 1e-10
+        L = as.vector(v@inputs[[p]]@values %*% Sw)
+        ap = .Call("evL", v@inputs[[p]]@values, S, cw, es)
+        zeros = ap[[2]] < v@control@varnull
         L[zeros] = 0
         T = L
         T[!zeros] = ((L[!zeros] - ap[[1]][!zeros])/sqrt(ap[[2]][!zeros]))
@@ -122,11 +117,14 @@ node = function(v, cw) {
     varselect = v@inputs[[pselect]]
 
     if (class(varselect) == "OrderedVariable") {
-       ri = varselect@columns
        split = splitordered(v, pselect, cw)
     } else {
-       ri = varselect@columns
        split = splitcategorical(v, pselect, cw)
+    }
+
+    if (is.null(split)) {
+        tnode = new("TerminalNode", number = 0, weights = cw)
+        return(tnode)
     }
 
     node = new("Node", number = 0,
@@ -137,7 +135,7 @@ node = function(v, cw) {
 
 treegrow = function(v, sn, sni, gi, gt, cw = NULL, nr = 1) {
 
-    if (is.null(cw)) cw = rep(1, ncol(v@Weights))
+    if (is.null(cw)) cw = rep(1, nrow(v@response@values))
 
     nd = node(v, cw)
     nd@number = nr
@@ -151,14 +149,13 @@ treegrow = function(v, sn, sni, gi, gt, cw = NULL, nr = 1) {
     pselect = nd@primarysplit@variable
     split = nd@primarysplit
     varselect = v@inputs[[pselect]]
-    ri = varselect@columns
 
     if (class(split) == "OrderedSplit") {
-        leftcw = cw * (v@Weights[ri,] <= split@cutpoint)
-        rightcw = cw * (v@Weights[ri,] >  split@cutpoint)
+        leftcw = cw * (as.vector(varselect@values) <= split@cutpoint)
+        rightcw = cw * (as.vector(varselect@values) >  split@cutpoint)
     } else {
-       leftlevels = (1:length(ri)) %in% split@levelset
-       Wtmp = v@Weights[ri,]
+       Wtmp = varselect@values 
+       leftlevels = (1:nrow(Wtmp)) %in% split@levelset
        leftcw = cw * (colSums(Wtmp[leftlevels,,drop=FALSE]))
        rightcw = cw * (colSums(Wtmp[!leftlevels,,drop=FALSE]))
     }
@@ -177,7 +174,7 @@ treegrow = function(v, sn, sni, gi, gt, cw = NULL, nr = 1) {
 }
 
 stree = function(v) {
-    nobs = ncol(v@Weights)
+    nobs = nrow(v@response@values)
     tree = new("BinaryTree", 
                nodes = vector(length = floor(nobs / 2), mode = "list"), 
                nodeindex = matrix(0, nrow = floor(nobs)/2, ncol = 3),
