@@ -66,7 +66,9 @@ treedesign = function(MFF, rtrans = NULL) {
         workingresponse = rtrans(var)
     }
         
-    varlist = new("PartyStarters", p = length(inputs), nobs = nrow(response@values), 
+    varlist = new("PartyStarters", 
+                  ninputs = length(inputs), 
+                  nobs = nrow(response@values), 
                   inputs = inputs, 
                   workingresponse = workingresponse, 
                   response = response,

@@ -125,6 +125,18 @@ plot(dx)
 
 show(x)
 
+w3 = getWeights(x, 3)
+w4 = getWeights(x, 4)
+w5 = getWeights(x, 5)
+
+plot(survfit(Surv(time, cens), data = GBSG2, weights = w4))
+lines(survfit(Surv(time, cens), data = GBSG2, weights = w5), col = "red")
+
+VarList@control@stump = TRUE
+x = stree(VarList)
+show(x)
+
+
 #Rprof("pred")
 #pr = treepredict(x, VarList, MFF@input)
 #Rprof(NULL)
@@ -132,3 +144,23 @@ show(x)
 #VarList@control@minstat = 2.4
 #show(stree(VarList))
 
+res = cscores(Surv(GBSG2$time, GBSG2$cens))
+dat = GBSG2[,-(9:10)]
+class(dat$tgrade) = "factor"
+MFF = ModelFrame(res ~ ., data = dat)
+
+VarList = treedesign(MFF)
+VarList@control = new("PartyControl", minsplit = 20, 
+                       minprob = 0.1,
+                       minstat = qnorm(1 - 0.05/ncol(MFF@input)),
+                       varnull = 1e-10)
+
+# Rprof("tree")
+x = stree(VarList)
+# Rprof(NULL)
+
+dx = as.dendrogram(x)
+plot(dx, center = TRUE)
+plot(dx)
+
+show(x)

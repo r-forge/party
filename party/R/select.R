@@ -1,11 +1,10 @@
 
 best = function(v, cw) {
-    criterion = rep.int(0, v@p)
-    S = v@response@values
+    criterion = rep.int(0, v@ninputs)
+    S = v@workingresponse@values
     sevS = .Call("evS", S, cw)
     Scw = S * cw
-    for (p in 1:v@p) {
-
+    for (p in 1:v@ninputs) {
         svar = v@inputs[[p]]
         tcw = cw
         if (length(svar@whichNA) > 0) {
@@ -19,6 +18,7 @@ best = function(v, cw) {
         L = as.vector(svar@values %*% Sw)
         if (class(svar) == "OrderedCategoricalVariable") {
             ap = .Call("ec", svar@values, S, cw)
+            ### fails for multivariate responses!!!
             scores = matrix(rep(svar@scores, 
                      length(L)/length(svar@scores)), nr = 1)
             L = L %*% scores

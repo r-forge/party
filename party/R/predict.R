@@ -1,24 +1,39 @@
 
-getNodeNumber = function(x, VarList, obs) {
-    node = 1
+getNodeNumber = function(x, obs) {
+    node = getNode(x, 1)
     while(TRUE) {
-        if (class(x@nodes[[node]]) == "TerminalNode") {
-            return(x@nodes[[node]]@number)
+        if (class(node) == "TerminalNode") {
+            return(node@number)
         }
-        pselect = x@nodes[[node]]@primarysplit@variable
-        split = x@nodes[[node]]@primarysplit
+        pselect = node@primarysplit@variable
+        split = node@primarysplit
         if (class(split) == "ContinuousSplit") {
             left = obs[pselect] <= split@cutpoint
         } else {
             lev = as.integer(obs[pselect])
             left = any(split@levelset == lev)
         }
-        node = ifelse(left, x@nodeindex[node,2], x@nodeindex[node,3])
+        if (left) node = getLeftNode(x, node@number) else
+                  node = getRightNode(x, node@number)
     }
 }
 
-getWeights = function(x, number) {
-    x@nodes[[number]]@weights
+getNode = function(x, number)
+    x@nodes[[which(x@nodeindex[,1] == number)]]
+
+getWeights = function(x, number)
+    getNode(x, number)@weights
+
+getLeftNode = function(x, number) {
+    indx = which(x@nodeindex[,1] == number)
+    indx = which(x@nodeindex[,1] == x@nodeindex[indx,2])
+    x@nodes[[indx]]
+}
+
+getRightNode = function(x, number) {
+    indx = which(x@nodeindex[,1] == number)
+    indx = which(x@nodeindex[,1] == x@nodeindex[indx,3])
+    x@nodes[[indx]]
 }
 
 treepredict = function(x, VarList, newobs) {
@@ -31,9 +46,9 @@ treepredict = function(x, VarList, newobs) {
     pred = matrix(0, nr = nrow(newobs), nc = ncol(y))
     
     for (i in 1:nrow(newobs)) {
-        node = getNodeNumber(x, VarList, newobs[i,])
-        pred[i,] = (x@nodes[[node]]@weights %*% y) / 
-                           sum(x@nodes[[node]]@weights) 
+        nodenr = getNodeNumber(x, newobs[i,])
+        pred[i,] = (getWeights(x, nodenr) %*% y) / 
+                           sum(getWeights(x, nodenr))
     }
     if (class(VarList@response) == "CategoricalVariable")
         colnames(pred) = VarList@response@levels

@@ -12,9 +12,9 @@ standstat = function(W, S, cw) {
 
 surrogates = function(v, pselect, leftw, cw, n = 1) {
 
-    criterion = rep.int(0, v@p)
+    criterion = rep.int(0, v@ninputs)
     myS = matrix(leftw, ncol = 1)
-    for (p in 1:v@p) {
+    for (p in 1:v@inputs) {
         if (p == pselect) next
         tcw = cw
         if (length(v@inputs[[p]]@whichNA) > 0)
@@ -52,6 +52,9 @@ node = function(v, cw) {
         tnode = new("TerminalNode", number = 0, weights = cw)
         return(tnode) 
     }
+
+    ### iterate over variables, search for split and 
+    ### choose best split by improved Bonferroni-p-values
 
     criterion = best(v, cw)
     if (is.null(criterion)) {
@@ -112,6 +115,17 @@ treegrow = function(v, sn, sni, gi, gt, cw = NULL, nr = 1) {
         leftcw[is.na(leftcw)] = rbinom(sum(is.na(leftcw)), 
             size = 1, prob = prob)
         rightcw[is.na(rightcw)] = 1 - leftcw[is.na(rightcw)]
+    }
+
+    if (v@control@stump) {
+        left = new("TerminalNode", number = 2, weights = leftcw)
+        sn(left)
+        sni(c(2, NA, NA))
+        right = new("TerminalNode", number = 3, weights = rightcw)
+        sn(right)
+        sni(c(3, NA, NA))
+        sni(c(1, 2, 3))
+        return(NULL)
     }
 
     treegrow(v, sn, sni, gi, gt, leftcw, nr = nr + 1)

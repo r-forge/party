@@ -31,7 +31,7 @@ setClass(Class = "CategoricalVariable",
     contains = "Variable"
 )
 
-### An ordered categorical varibale (corresponds to `ordered' objects)
+### An ordered categorical variable (corresponds to `ordered' objects)
 setClass(Class = "OrderedCategoricalVariable", 
     representation = representation(
         scores = "numeric",                # numeric scores giving the 
@@ -39,6 +39,16 @@ setClass(Class = "OrderedCategoricalVariable",
         order = "integer"                  # the ordering
     ), 
     contains = "CategoricalVariable"
+)
+
+### A class for multiple variables (corresponds to `data.frame's)
+setClass(Class = "Variable.Frame", 
+    representation = representation(
+        variables = "list"
+    ),
+    validity = function(object)
+        all(unlist(lapply(object, function(x) 
+                          extends(class(x), "Variable"))))
 )
 
 
@@ -117,20 +127,27 @@ setClass(Class = "PartyControl",
                                            # obs. in each branch of a node
         minstat = "numeric",               # stop splitting if the best 
                                            # test statistic is < minstat
-        varnull = "numeric"                # variances are interpreted as
+        varnull = "numeric",                # variances are interpreted as
                                            # zero is < varnull
+        stump   = "logical"                # one root split only
+        ### number of inputs to look at randomly in each node
+        ### statistic that must be exceeded at an univariate level
+        ### (in the root) in order to be included in the further
+        ### tree growing (variable selection, if you like
+        ### a subset of inputs to consider (variable selection)
     ),
     prototype = list(minsplit = 20, 
-                     minprob = 0.1, 
-                     minstat = 1.96, 
-                     varnull = 1e-10)
+                     minprob  = 0.1, 
+                     minstat  = 1.96, 
+                     varnull  = 1e-10,
+                     stump    = FALSE)
 )
 
 ### A class for handling all ingredients needed to start the party    
 setClass(Class = "PartyStarters", 
     representation = representation(
         inputs = "list",                   # a list of input `Variables' 
-        p = "numeric",                     # length(inputs)
+        ninputs = "numeric",               # number of variables
         response = "Variable",             # a single response `Variable'
         workingresponse = "Variable",      # a single (transformed) response
                                            # `Variable'
