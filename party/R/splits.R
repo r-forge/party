@@ -71,3 +71,31 @@ spoWH = function(x, ox, S, cw, v) {
     list(cut = cutpoint, crit = max(criterion))
 }
 
+
+splitcategorical = function(v, pselect, cw) {
+    svar = v@inputs[[pselect]]
+    x = svar@values 
+
+    S = v@workingresponse@values
+    if (length(svar@whichNA) > 0) cw[svar@whichNA] = 0
+
+    splits = vector(length = ncol(S), mode = "list")
+    stats = rep(0, ncol(S))
+
+    for (i in 1:ncol(S)) {
+        T = standstat(x, S[,i,drop = FALSE], cw)
+        ox = order(T)
+        W = apply(x[ox,], 2, cumsum)
+        s = matrix(standstat(W, S, cw), nc = ncol(S))
+        s = apply(abs(s), 1, max)
+        splits[[i]] = ox[-(1:which.max(abs(s)))]
+        stats[i] = max(abs(s))
+    }
+    
+    levelset = splits[[which.max(stats)]]
+    #    cutpoint = logical2dual((1:nrow(x)) %in% splits[[which.max(stats)]])
+    sp = new("CategoricalSplit", variable = pselect, 
+             levelset = levelset, totheleft = TRUE, criterium = max(stats))
+    sp
+
+}
