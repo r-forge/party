@@ -269,7 +269,89 @@ SEXP ec(SEXP Weights, SEXP Scores, SEXP cweights) {
 }
 
 
-SEXP ev(SEXP Weights, SEXP Scores, SEXP cweights) {
+SEXP evS(SEXP Scores, SEXP cweights) {
+
+    /*
+    *    expectation and variance (!) of the scores only
+    */
+
+
+    SEXP S;
+    
+    /*  nobs vector of case weights   */
+
+    SEXP cw;
+    
+    /*  list of two return values: conditional expectation and variance  */
+
+    SEXP ans, ES, VS, scw;
+    
+    /*  dimensions of W and S and corresponding loop variables  */
+
+    int nobs, i;
+    int k;
+    int q, j; 
+    
+    /* coerce the inputs to REALSXPs */
+    
+    PROTECT(S  = coerceVector(Scores, REALSXP));
+    PROTECT(cw = coerceVector(cweights, REALSXP));
+
+    /* determine the dimensions and some checks */
+
+    nobs = INTEGER(getAttrib(S, R_DimSymbol))[0];
+    q    = INTEGER(getAttrib(S, R_DimSymbol))[1];
+    
+    if (LENGTH(cw) != nobs) 
+        error("vector of case weights does not have %d elements", nobs);
+
+    /*  allocate storage: the list of return values */
+
+    PROTECT(ans = allocVector(VECSXP, 3));
+    SET_VECTOR_ELT(ans, 0, ES = allocVector(REALSXP, q));
+    SET_VECTOR_ELT(ans, 1, VS = allocVector(REALSXP, q));
+    SET_VECTOR_ELT(ans, 2, scw = allocVector(REALSXP, 1));
+    
+    setAllZero(ans);
+
+    for (i = 0; i < nobs; i++) {
+
+        if (REAL(cw)[i] == 0.0) continue;
+
+        REAL(scw)[0] = REAL(scw)[0] + REAL(cw)[i];
+
+        for (k = 0; k < q; k++) {
+            REAL(ES)[k] = REAL(ES)[k] 
+                          + REAL(cw)[i] * REAL(S)[aindx(i, k, nobs)];
+        }
+
+    }
+
+    for (k = 0; k < q; k++) {
+        REAL(ES)[k] = REAL(ES)[k] / REAL(scw)[0];
+    }
+
+    for (i = 0; i < nobs; i++) {
+        
+        if (REAL(cw)[i] == 0.0) continue;
+    
+        for (j = 0; j < q; j++) {
+                REAL(VS)[j] = REAL(VS)[j] + 
+                    REAL(cw)[i] * (REAL(S)[aindx(i, j, nobs)] - REAL(ES)[j]) * 
+                                  (REAL(S)[aindx(i, j, nobs)] - REAL(ES)[j]);
+        }
+    }
+    
+    for (k = 0; k < q; k++) {
+        REAL(VS)[k] = REAL(VS)[k] / REAL(scw)[0];
+    }
+
+    UNPROTECT(3);
+    return(ans);
+}
+
+
+SEXP evL(SEXP Weights, SEXP Scores, SEXP cweights, SEXP evSans) {
 
     /*
      *
@@ -282,7 +364,7 @@ SEXP ev(SEXP Weights, SEXP Scores, SEXP cweights) {
                                 
     /*  (p x nobs) matrix of weights  */
 
-    SEXP W;		
+    SEXP W;	
     
     /*  (nobs x q) matrix of scores   */
 
@@ -291,6 +373,7 @@ SEXP ev(SEXP Weights, SEXP Scores, SEXP cweights) {
     /*  nobs vector of case weights   */
 
     SEXP cw;
+    
     
     /*  list of two return values: conditional expectation and variance  */
 
@@ -303,8 +386,6 @@ SEXP ev(SEXP Weights, SEXP Scores, SEXP cweights) {
     int q, j; 
     int pq;
     
-    /*  sum of case weights  */
-
     double scw;
     
     /*  mothers little helpers  */
@@ -332,31 +413,25 @@ SEXP ev(SEXP Weights, SEXP Scores, SEXP cweights) {
 
     /*  compute the sum of the case weights */
         
-    scw = 0;
-    for (i = 0; i < nobs; i++) scw = scw + REAL(cw)[i];
-
+    scw = REAL(VECTOR_ELT(evSans, 2))[0];
+    ES = VECTOR_ELT(evSans, 0);
+    VS = VECTOR_ELT(evSans, 1);
+    
     /*  allocate storage: the list of return values */
 
     PROTECT(ans = allocVector(VECSXP, 2));
     SET_VECTOR_ELT(ans, 0, expL = allocVector(REALSXP, pq));
     SET_VECTOR_ELT(ans, 1, varL = allocVector(REALSXP, pq));
     
-    PROTECT(helpers = allocVector(VECSXP, 4));
-    SET_VECTOR_ELT(helpers, 0, ES = allocVector(REALSXP, q));
-    SET_VECTOR_ELT(helpers, 1, wi = allocVector(REALSXP, p));
-    SET_VECTOR_ELT(helpers, 2, wii = allocVector(REALSXP, p));
-    SET_VECTOR_ELT(helpers, 3, VS = allocVector(REALSXP, q));
+    PROTECT(helpers = allocVector(VECSXP, 2));
+    SET_VECTOR_ELT(helpers, 0, wi = allocVector(REALSXP, p));
+    SET_VECTOR_ELT(helpers, 1, wii = allocVector(REALSXP, p));
 
     setAllZero(helpers);
 
     for (i = 0; i < nobs; i++) {
 
         if (REAL(cw)[i] == 0.0) continue;
-
-        for (k = 0; k < q; k++) {
-            REAL(ES)[k] = REAL(ES)[k] 
-                          + REAL(cw)[i] * REAL(S)[aindx(i, k, nobs)];
-        }
 
         for (k = 0; k < p; k++) {
             REAL(wi)[k] = REAL(wi)[k] 
@@ -370,25 +445,6 @@ SEXP ev(SEXP Weights, SEXP Scores, SEXP cweights) {
         }
     }
 
-    for (k = 0; k < q; k++) {
-        REAL(ES)[k] = REAL(ES)[k] / scw;
-    }
-
-    for (i = 0; i < nobs; i++) {
-        
-        if (REAL(cw)[i] == 0.0) continue;
-    
-        for (j = 0; j < q; j++) {
-                REAL(VS)[j] = REAL(VS)[j] + 
-                    REAL(cw)[i] * (REAL(S)[aindx(i, j, nobs)] - REAL(ES)[j]) * 
-                                  (REAL(S)[aindx(i, j, nobs)] - REAL(ES)[j]);
-        }
-    }
-    
-    for (k = 0; k < q; k++) {
-        REAL(VS)[k] = REAL(VS)[k] / scw;
-    }
-
     f1 = scw/(scw - 1);
     f2 = (1/(scw - 1));
     for (k = 0; k < p; k++) {
@@ -400,4 +456,24 @@ SEXP ev(SEXP Weights, SEXP Scores, SEXP cweights) {
     }
     UNPROTECT(5);
     return(ans);
+}
+
+SEXP ev(SEXP Weights, SEXP Scores, SEXP cweights) {
+
+    /*
+     *
+     *   Conditional Expectation and Variance of
+     *   Linear Statistics of the form
+     *
+     *       L = vec(W %*% diag(cw) %*% S)
+     *
+     */
+                                
+
+    SEXP evSans, ans;
+    
+    evSans = evS(Scores, cweights);
+    ans = evL(Weights, Scores, cweights, evSans);
+    return(ans);
+
 }
