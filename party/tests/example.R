@@ -83,6 +83,7 @@ VarList@control = new("GrowControl", minsplit = 20,
                        minstat = qnorm(1 - 0.05/ncol(MFF@input)),
                        varnull = 1e-10)
 
+VarList@response@values = VarList@response@values[,1,drop=FALSE]
 # Rprof("tree")
 x = stree(VarList)
 # Rprof(NULL)
