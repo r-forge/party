@@ -10,26 +10,7 @@ standstat = function(W, S, cw) {
     T
 }
 
-splitordered = function(v, i, cw, S = NULL) {
-    svar = v@inputs[[i]]
-    x = v@Weights[svar@columns,]
 
-    if (is.null(S)) S = v@Scores
-    if (length(svar@whichNA) > 0) cw[svar@whichNA] = 0
-
-    ux = sort(unique(x[cw > 0]))
-
-     Wsplit = .Call("contcat", x, ux) 
-     if (ncol(S) == 1 || all(rowSums(S) == 1))
-         psplit = matrix(standstat(Wsplit, S[,1,drop=FALSE], cw), nc = 1)
-     else 
-         psplit = matrix(standstat(Wsplit, S, cw), 
-                         ncol = ncol(S))
-     cutpoint = ux[which.max(apply(abs(psplit), 1, max))]
-    sp = new("OrderedSplit", variable = i, 
-             cutpoint = cutpoint, totheleft = TRUE)
-    sp
-}
 
 splitcategorical = function(v, i, cw, S = NULL) {
     svar = v@inputs[[i]]
@@ -141,7 +122,7 @@ node = function(v, cw) {
 
     if (class(varselect) == "OrderedVariable") {
        ri = varselect@columns
-       split = splitordered(v, pselect, cw)
+       split = splitordered2(v, pselect, cw)
     } else {
        ri = varselect@columns
        split = splitcategorical(v, pselect, cw)

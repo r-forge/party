@@ -33,6 +33,7 @@ setClass("Node", representation = representation(
 
 setClass("GrowControl", representation = representation(
     minsplit = "numeric",
+    minprob = "numeric",
     minstat = "numeric"))
 
     
