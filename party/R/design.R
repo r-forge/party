@@ -66,11 +66,11 @@ treedesign = function(MFF, rtrans = NULL) {
         workingresponse = rtrans(var)
     }
         
-    varlist = new("TreeGrow", p = length(inputs), nobs = nrow(response@values), 
+    varlist = new("PartyStarters", p = length(inputs), nobs = nrow(response@values), 
                   inputs = inputs, 
                   workingresponse = workingresponse, 
                   response = response,
-                  control = new("GrowControl", minsplit = 10, minstat = 1.96))
+                  control = new("PartyControl"))
     return(varlist)
 }
 
