@@ -1,0 +1,10 @@
+Package: party
+Title: Recursive Part(y)itioning
+Date: $Date$
+Version: 0.0-1
+Author: Torsten Hothorn <Torsten.Hothorn@rzmail.uni-erlangen.de> and
+  Kurt Hornik <Kurt.Hornik@wu-wien.ac.at>
+Maintainer: Torsten Hothorn <Torsten.Hothorn@rzmail.uni-erlangen.de>
+Description: Recursive partitioning based on permutation tests
+Depends: R (>= 1.9.0)
+License: GPL
