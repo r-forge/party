@@ -119,6 +119,8 @@ VarList@control = new("PartyControl", minsplit = 20,
 x = stree(VarList)
 # Rprof(NULL)
 
+getNode(x, 1)@criterion
+
 dx = as.dendrogram(x)
 plot(dx, center = TRUE)
 plot(dx)
