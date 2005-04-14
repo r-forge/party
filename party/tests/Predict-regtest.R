@@ -1,0 +1,42 @@
+
+set.seed(290875)
+gctorture(on = FALSE)
+library(party)
+if (!require(ipred))
+    stop("cannot load package ipred")
+gctorture(on = GCtorture)
+
+### load additional R code which is only partially in arty/R'
+source(file.path(.find.package("party"), "Rcode", "TestCode.R"))
+
+data(treepipit)
+ct <- ctree(counts ~ ., data = treepipit, teststattype = "quadform")
+stopifnot(isequal(predict(ct), predict(ct, newdata = treepipit)))
+
+
+data(GlaucomaM, package = "ipred")
+ct <- ctree(Class ~ ., data = GlaucomaM, teststattype = "quadform")
+stopifnot(isequal(predict(ct), predict(ct, newdata = GlaucomaM)))
+stopifnot(isequal(predict(ct, type = "prob"), predict(ct, type = "prob", 
+                  newdata = GlaucomaM)))
+
+data(GBSG2, package = "ipred")  
+
+GBSG2tree <- ctree(Surv(time, cens) ~ ., data = GBSG2, teststattype = "quadform")
+stopifnot(isequal(GBSG2tree@predict_response(), 
+          GBSG2tree@predict_response(newdata = GBSG2)))
+stopifnot(isequal(GBSG2tree@cond_distr_response(), 
+          GBSG2tree@cond_distr_response(newdata = GBSG2)))
+
+data(mammoexp)
+attr(mammoexp$ME, "scores") <- 1:3   
+attr(mammoexp$SYMPT, "scores") <- 1:4
+attr(mammoexp$DECT, "scores") <- 1:3 
+names(mammoexp)[names(mammoexp) == "SYMPT"] <- "symptoms"
+names(mammoexp)[names(mammoexp) == "PB"] <- "benefit"
+
+names(mammoexp)
+mtree <- ctree(ME ~ ., data = mammoexp, teststattype = "quadform")
+stopifnot(isequal(predict(mtree), predict(mtree, newdata = mammoexp)))
+stopifnot(isequal(predict(mtree, type = "prob"), predict(mtree, type = "prob", 
+                  newdata = mammoexp)))
