@@ -4,12 +4,14 @@ gctorture(on = FALSE)
 library(party)
 if (!require(ipred))
     stop("cannot load package ipred")
+if (!require(coin))
+    stop("cannot load package coin")
 gctorture(on = GCtorture)
 
 ### load additional R code which is only partially in arty/R'
 source(file.path(.find.package("party"), "Rcode", "TestCode.R"))
 
-data(treepipit)
+data(treepipit, package = "coin")
 ct <- ctree(counts ~ ., data = treepipit, teststattype = "quadform")
 stopifnot(isequal(predict(ct), predict(ct, newdata = treepipit)))
 
