@@ -1,10 +1,15 @@
 Package: party
-Title: Recursive Part(y)itioning
+Title: A Laboratory for Recursive Part(y)itioning
 Date: $Date$
-Version: 0.0-1
-Author: Torsten Hothorn <Torsten.Hothorn@rzmail.uni-erlangen.de> and
-  Kurt Hornik <Kurt.Hornik@wu-wien.ac.at>
-Maintainer: Torsten Hothorn <Torsten.Hothorn@rzmail.uni-erlangen.de>
-Description: Recursive partitioning based on permutation tests
-Depends: R (>= 1.9.0)
+Version: 0.1-4
+Author: Torsten Hothorn <Torsten.Hothorn@R-project.org> and
+  Kurt Hornik <Kurt.Hornik@R-project.org> with contributions by 
+  Achim Zeileis  <Achim.Zeileis@R-project.org>
+Maintainer: Torsten Hothorn <Torsten.Hothorn@R-project.org>
+Description: Unbiased recursive partitioning in a conditional 
+  inference framework of permutation tests.
+Depends: R (>= 2.0.1), survival, grid, modeltools
+Suggests: ipred
+SaveImage: yes
 License: GPL
+Packaged: Thu Apr 14 09:48:39 2005; hothorn
