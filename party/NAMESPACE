@@ -5,8 +5,7 @@ import(methods)
 export(ctree, TreeFitMemory, innerNode, survNode, barNode, boxNode,
        histNode, densNode, termNode)
 
-exportClasses("BinaryTree", "VariableFrame", "SplittingNode",
-              "LearningSample", "VariableControl", "GlobalTestControl")
+exportClasses("BinaryTree", "LearningSample", "SplittingNode", "TreeControl")
 exportMethods("initialize")
 
 S3method(print, BinaryTree)
