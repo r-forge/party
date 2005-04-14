@@ -4,6 +4,8 @@ gctorture(on = FALSE)
 library(party)
 if (!require(ipred))
     stop("cannot load package ipred")
+if (!require(coin))
+    stop("cannot load package coin")
 gctorture(on = GCtorture)
 
 ### load additional R code which is only partially in arty/R'
@@ -33,7 +35,7 @@ ctrl@tgctrl@stump = TRUE
 stump <- .Call("R_TreeGrow", ls, ls@weights, tm, ctrl, where)
 # print(stump)
 
-data(treepipit)
+data(treepipit, package = "coin")
 
 tr <- ctree(counts ~ ., data = treepipit, teststattype = "quadform")
 tr
