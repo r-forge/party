@@ -21,3 +21,4 @@
 #include "Splits.h"
 #include "Node.h"
 #include "Predict.h"
+#include "SurrogateSplits.h"

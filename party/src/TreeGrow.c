@@ -29,6 +29,10 @@ void C_TreeGrow(SEXP node, SEXP learnsample, SEXP fitmem,
 
         C_splitnode(node, learnsample, controls);
 
+        /* determine surrogate splits */
+        if (get_maxsurrogate(get_splitctrl(controls)) > 0)
+            C_surrogates(node, learnsample, weights, controls, fitmem);
+            
         nodenum[0] += 1;
         C_TreeGrow(S3get_leftnode(node), learnsample, fitmem, 
                    controls, where, nodenum);
