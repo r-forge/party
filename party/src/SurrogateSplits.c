@@ -8,14 +8,25 @@
                 
 #include "PL2_common.h"
 
-void C_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls, SEXP fitmem) {
+/**
+    Search for surrogate splits for bypassing the primary split \n
+    *\param node the current node with primary split specified
+    *\param learnsample learning sample
+    *\param the weights associated with the current node
+    *\param controls an object of class `TreeControl'
+    *\param fitmem an object of class `TreeFitMemory'
+    *\todo enable nominal surrogate split variables as well
+*/
+
+void C_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls, 
+                  SEXP fitmem) {
 
     SEXP x, y, expcovinf; 
     SEXP splitctrl, inputs; 
-    SEXP ans;
     SEXP split, thiswhichNA;
     int nobs, ninputs, i, j, k, jselect, maxsurr, *order;
-    double ms, cp, *thisweights, *cutpoint, *maxstat, *splitstat, *dweights, *tweights, *dx, *dy;
+    double ms, cp, *thisweights, *cutpoint, *maxstat, 
+           *splitstat, *dweights, *tweights, *dx, *dy;
     double cut, *twotab;
     
     nobs = get_nobs(learnsample);
@@ -23,8 +34,7 @@ void C_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls, SEXP
     splitctrl = get_splitctrl(controls);
     maxsurr = get_maxsurrogate(splitctrl);
 
-    ans = S3get_surrogatesplits(node);
-    if (maxsurr != LENGTH(ans))
+    if (maxsurr != LENGTH(S3get_surrogatesplits(node)))
         error("nodes does not have %s surrogate splits", maxsurr);
 
     inputs = GET_SLOT(learnsample, PL2_inputsSym);
@@ -43,11 +53,14 @@ void C_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls, SEXP
     expcovinf = GET_SLOT(fitmem, PL2_expcovinfssSym);
     C_ExpectCovarInfluence(REAL(y), 1, REAL(weights), nobs, expcovinf);
     
+    /* <FIXME> extend `TreeFitMemory' to those as well ... */
     maxstat = Calloc(ninputs, double);
     cutpoint = Calloc(ninputs, double);
     splitstat = Calloc(nobs, double);
     order = Calloc(ninputs, int);
+    /* <FIXME> */
     
+    /* this is essentially an exhaustive search */
     for (j = 0; j < ninputs; j++) {
     
          order[j] = j + 1;
@@ -86,28 +99,36 @@ void C_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls, SEXP
          cutpoint[j] = cp;
     }
 
+    /* order with respect to maximal statistic */
     rsort_with_index(maxstat, order, ninputs);
     
     twotab = Calloc(4, double);
     
+    /* the best `maxsurr' ones are implemented */
     for (j = 0; j < maxsurr; j++) {
 
         for (i = 0; i < 4; i++) twotab[i] = 0.0;
         cut = cutpoint[order[j] - 1];
-        SET_VECTOR_ELT(S3get_surrogatesplits(node), j, split = allocVector(VECSXP, 5));
+        SET_VECTOR_ELT(S3get_surrogatesplits(node), j, 
+                       split = allocVector(VECSXP, 5));
         C_init_orderedsplit(split, 0);
         S3set_variableID(split, order[j]);
         REAL(S3get_splitpoint(split))[0] = cut;
         dx = REAL(get_variable(inputs, order[j]));
         dy = REAL(y);
 
+        /* OK, this is a dirty hack: determine if the split 
+           goes left or right by the Pearson residual of a 2x2 table.
+           I don't want to use the big caliber here 
+        */
         for (i = 0; i < nobs; i++) {
             twotab[0] += ((dy[i] == 1) && (dx[i] <= cut)) * tweights[i];
             twotab[1] += (dy[i] == 1) * tweights[i];
             twotab[2] += (dx[i] <= cut) * tweights[i];
             twotab[3] += tweights[i];
         }
-        S3set_toleft(split, (int) (twotab[0] - twotab[1] * twotab[2] / twotab[3]) > 0);
+        S3set_toleft(split, (int) (twotab[0] - twotab[1] * twotab[2] / 
+                     twotab[3]) > 0);
     }
     
     Free(maxstat);
@@ -118,12 +139,30 @@ void C_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls, SEXP
     Free(twotab);
 }
 
-SEXP R_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls, SEXP fitmem) {
+/**
+    R-interface to C_surrogates \n
+    *\param node the current node with primary split specified
+    *\param learnsample learning sample
+    *\param the weights associated with the current node
+    *\param controls an object of class `TreeControl'
+    *\param fitmem an object of class `TreeFitMemory'
+*/
+
+
+SEXP R_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls, 
+                  SEXP fitmem) {
 
     C_surrogates(node, learnsample, weights, controls, fitmem);
     return(S3get_surrogatesplits(node));
     
 }
+
+/**
+    Split with missing values \n
+    *\param node the current node with primary and surrogate splits 
+                 specified
+    *\param learnsample learning sample
+*/
 
 void C_splitsurrogate(SEXP node, SEXP learnsample) {
 
@@ -164,7 +203,8 @@ void C_splitsurrogate(SEXP node, SEXP learnsample) {
             
                 split = VECTOR_ELT(surrsplit, ns);
                 if (has_missings(inputs, S3get_variableID(split))) {
-                    if (INTEGER(get_missings(inputs, S3get_variableID(split)))[i]) {
+                    if (INTEGER(get_missings(inputs, 
+                            S3get_variableID(split)))[i]) {
                         ns++;
                         continue;
                     }
