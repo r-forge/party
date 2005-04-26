@@ -10,7 +10,7 @@ ctree(formula, data, subset = NULL, weights = NULL,
       teststattype = c("quadform", "maxabs"), 
       testtype = c("Bonferroni", "MonteCarlo", "Raw"), 
       mincriterion = 0.95, minsplit = 20, stump = FALSE, 
-      nresample = 9999, ifun = NULL, rfun = NULL)
+      nresample = 9999, maxsurrogate = 0, ifun = NULL, rfun = NULL)
 }
 \arguments{
   \item{formula}{ a symbolic description of the model to be fit. }
@@ -31,6 +31,9 @@ ctree(formula, data, subset = NULL, weights = NULL,
                 nodes only) is to be computed. }
   \item{nresample}{ number of Monte-Carlo replications to use when the 
                     distribution of the test statistic is simulated.}
+  \item{maxsurrogate}{ number of surrogate splits to evaluate. Note the
+                       currently only surrogate splits in ordered
+                       covariables are implemented. }
   \item{ifun}{ a function to be applied to all input variables. }
   \item{rfun}{ a function to be applied to all response variables. }
 }
@@ -90,7 +93,7 @@ ctree(formula, data, subset = NULL, weights = NULL,
 ### regression
 data(airquality)
 airq <- subset(airquality, !is.na(Ozone))
-airct <- ctree(Ozone ~ ., data = airq)
+airct <- ctree(Ozone ~ ., data = airq, maxsurrogate = 3)
 airct
 plot(airct)
 mean((airq$Ozone - predict(airct))^2)

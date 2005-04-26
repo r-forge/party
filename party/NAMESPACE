@@ -9,6 +9,10 @@ exportClasses("BinaryTree", "LearningSample", "SplittingNode", "TreeControl")
 exportMethods("initialize")
 
 S3method(print, BinaryTree)
+S3method(print, nominalSplit)
+S3method(print, orderedSplit)
+S3method(print, SplittingNode)
+S3method(print, TerminalNode)
 S3method(plot, BinaryTree)
 S3method(predict, BinaryTree)
 

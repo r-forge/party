@@ -9,4 +9,3 @@ int aindx(int i, int j, int m) {
   */
   return(j * m + i);
 }
-            

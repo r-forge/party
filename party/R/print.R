@@ -2,7 +2,11 @@
 # $Id$
 
 prettysplit <- function(x, inames = NULL, ilevels = NULL) {
-    names(x) <- c("variableID", "ordered", "splitpoint", "splitstatistics")
+    if (length(x) == 4)
+        names(x) <- c("variableID", "ordered", "splitpoint", "splitstatistics")
+    if (length(x) == 5)
+        names(x) <- c("variableID", "ordered", "splitpoint", "splitstatistics", 
+                      "toleft")
     if (x$ordered) {
         class(x) <- "orderedSplit"
     } else {
@@ -27,6 +31,8 @@ prettytree <- function(x, inames = NULL, ilevels = NULL) {
     }
 
     x$psplit <- prettysplit(x$psplit, inames = inames, ilevels = ilevels)
+    if (length(x$ssplit) > 0)
+        x$ssplit <- lapply(x$ssplit, prettysplit, inames = inames, ilevels = ilevels)
 
     class(x) <- "SplittingNode"
     x$left <- prettytree(x$left, inames = inames, ilevels = ilevels)   
@@ -57,6 +63,7 @@ print.orderedSplit <- function(x, left = TRUE, ...) {
     } else {
         sp <- x$splitpoint
     }
+    if (!is.null(x$toleft)) left <- x$toleft
     if (left) {
         cat(x$variableName, " <= ", sp)
     } else {
