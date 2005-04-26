@@ -8,7 +8,7 @@
                 
 #include "PL2_common.h"
 
-SEXP R_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls, SEXP fitmem) {
+void C_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls, SEXP fitmem) {
 
     SEXP x, y, expcovinf; 
     SEXP splitctrl, inputs; 
@@ -21,7 +21,6 @@ SEXP R_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls, SEXP
     ninputs = get_ninputs(learnsample);
     splitctrl = get_splitctrl(controls);
     maxsurr = get_maxsurrogate(splitctrl);
-    if (maxsurr == 0) return(R_NilValue);
 
     ans = S3get_surrogatesplits(node);
     if (maxsurr != LENGTH(ans))
@@ -92,5 +91,11 @@ SEXP R_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls, SEXP
     Free(splitstat);
     Free(order);
 
-    return(ans);
+}
+
+SEXP R_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls, SEXP fitmem) {
+
+    C_surrogates(node, learnsample, weights, controls, fitmem);
+    return(S3get_surrogatesplits(node));
+    
 }

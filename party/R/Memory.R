@@ -10,6 +10,7 @@ TreeFitMemory <- function(object, MPinv = FALSE) {
     ninputs <- inputs@ninputs
     RET <- new("TreeFitMemory")
     expcovinf <- new("ExpectCovarInfluence", q)
+    expcovinfss <- new("ExpectCovarInfluence", as.integer(1))
     linexpcov2sample  <- new("LinStatExpectCovar", as.integer(1), q) 
     weights <- vector(mode = "list", length = ninputs)
     varmemory <- vector(mode = "list", length = ninputs)
@@ -60,6 +61,7 @@ TreeFitMemory <- function(object, MPinv = FALSE) {
     }
 
     RET@expcovinf <- expcovinf
+    RET@expcovinfss <- expcovinfss
     RET@linexpcov2sample  <- linexpcov2sample
     RET@weights <- weights
     RET@varmemory <- varmemory

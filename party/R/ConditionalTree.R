@@ -176,7 +176,7 @@ conditionalTree <- new("StatModel",
 treecontrols <- function(teststattype = "quadform", 
                          testtype = "Bonferroni", 
                          nresample = 9999, mincriterion = 0.95, 
-                         stump = FALSE, minsplit = 20) {
+                         stump = FALSE, minsplit = 20, maxsurrogate = 0) {
 
     RET <- new("TreeControl")
     if (teststattype %in% levels(RET@varctrl@teststattype)) {
@@ -196,6 +196,7 @@ treecontrols <- function(teststattype = "quadform",
     RET@gtctrl@nresample <- as.integer(nresample)
     RET@gtctrl@mincriterion <- mincriterion
     RET@splitctrl@minsplit <- minsplit
+    RET@splitctrl@maxsurrogate <- as.integer(maxsurrogate)
     RET@tgctrl@stump <- stump
     RET
 }

@@ -57,6 +57,7 @@ setClass(Class = "LinStatExpectCovarMPinv",
 setClass(Class = "TreeFitMemory",
     representation = representation(
         expcovinf         = "ExpectCovarInfluence",
+        expcovinfss       = "ExpectCovarInfluence",
         linexpcov2sample  = "LinStatExpectCovar",
         weights           = "list",
         varmemory         = "list",
@@ -98,13 +99,14 @@ setClass(Class = "VariableControl",
 
 setClass(Class = "SplitControl",
     representation = representation(
-        minprob   = "numeric",
-        minsplit  = "numeric",
-        minbucket = "numeric",
-        tol       = "numeric"
+        minprob      = "numeric",
+        minsplit     = "numeric",
+        minbucket    = "numeric",
+        tol          = "numeric",
+        maxsurrogate = "integer"
     ),
     prototype = list(minprob = 0.01, minsplit = 20, 
-                     minbucket = 7, tol = 1e-10
+                     minbucket = 7, tol = 1e-10, maxsurrogate = as.integer(0)
     )
 )
 
