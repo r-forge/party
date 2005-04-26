@@ -92,7 +92,7 @@ SEXP S3get_rightnode(SEXP node) {
 
 void C_init_orderedsplit(SEXP split, int nobs) {
     
-    SEXP variableID, splitpoint, splitstatistics, ordered;
+    SEXP variableID, splitpoint, splitstatistics, ordered, toleft;
     
     SET_VECTOR_ELT(split, 0, variableID = allocVector(INTSXP, 1));
     SET_VECTOR_ELT(split, 1, ordered = allocVector(LGLSXP, 1));
@@ -103,6 +103,8 @@ void C_init_orderedsplit(SEXP split, int nobs) {
                        splitstatistics = allocVector(REALSXP, nobs));
     else
         SET_VECTOR_ELT(split, 3, R_NilValue);
+    if (LENGTH(split) == 5)
+        SET_VECTOR_ELT(split, 4, toleft = allocVector(INTSXP, 1));
 }
 
 void C_init_nominalsplit(SEXP split, int nlevels, int nobs) {
@@ -138,6 +140,17 @@ void S3set_ordered(SEXP split) {
 
 void S3set_nominal(SEXP split) {
     INTEGER(VECTOR_ELT(split, 1))[0] = 0;
+}
+
+int S3get_toleft(SEXP split) {
+    if (LENGTH(split) == 5)
+        return(INTEGER(VECTOR_ELT(split, 4))[0]);
+    else
+        return(1);
+}
+
+void S3set_toleft(SEXP split, int left) {
+    INTEGER(VECTOR_ELT(split, 4))[0] = left;
 }
 
 SEXP S3get_splitpoint(SEXP split) {

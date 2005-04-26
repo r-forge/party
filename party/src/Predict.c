@@ -120,9 +120,9 @@ void C_splitnode(SEXP node, SEXP learnsample, SEXP control) {
 SEXP C_get_node(SEXP subtree, SEXP newinputs, 
                 double mincriterion, int numobs) {
 
-    SEXP split, whichNA, weights;
+    SEXP split, whichNA, weights, ssplit, surrsplit;
     double cutpoint, x, *dweights, swleft, swright;
-    int level, *levelset, i;
+    int level, *levelset, i, ns;
 
     if (S3get_nodeterminal(subtree) || 
         REAL(S3get_maxcriterion(subtree))[0] < mincriterion) 
@@ -131,11 +131,53 @@ SEXP C_get_node(SEXP subtree, SEXP newinputs,
     split = S3get_primarysplit(subtree);
 
     /* missing values. Maybe store the proportions left / 
-      right in each node? */
+       right in each node? */
     if (has_missings(newinputs, S3get_variableID(split))) {
         whichNA = get_missings(newinputs, S3get_variableID(split));
     
         if (C_i_in_set(numobs, whichNA)) {
+        
+            surrsplit = S3get_surrogatesplits(subtree);
+            ns = 0;
+            i = numobs;      
+
+            /* try to find a surrogate split */
+            while(TRUE) {
+    
+                if (ns >= LENGTH(surrsplit)) break;
+            
+                ssplit = VECTOR_ELT(surrsplit, ns);
+                if (has_missings(newinputs, S3get_variableID(ssplit))) {
+                    if (INTEGER(get_missings(newinputs, S3get_variableID(ssplit)))[i]) {
+                        ns++;
+                        continue;
+                    }
+                }
+
+                cutpoint = REAL(S3get_splitpoint(ssplit))[0];
+                x = REAL(get_variable(newinputs, S3get_variableID(ssplit)))[i];
+                     
+                if (S3get_toleft(ssplit)) {
+                    if (x <= cutpoint) {
+                        return(C_get_node(S3get_leftnode(subtree),
+                                          newinputs, mincriterion, numobs));
+                    } else {
+                        return(C_get_node(S3get_rightnode(subtree),
+                               newinputs, mincriterion, numobs));
+                    }
+                } else {
+                    if (x <= cutpoint) {
+                        return(C_get_node(S3get_rightnode(subtree),
+                                          newinputs, mincriterion, numobs));
+                    } else {
+                        return(C_get_node(S3get_leftnode(subtree),
+                               newinputs, mincriterion, numobs));
+                    }
+                }
+                break;
+            }
+
+            /* if this was not successful, we go with the majority */
             weights = S3get_nodeweights(S3get_leftnode(subtree));
             dweights = REAL(weights);
             swleft = 0.0;

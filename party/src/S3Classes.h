@@ -22,3 +22,5 @@ SEXP S3get_splitpoint(SEXP split);
 SEXP S3get_splitstatistics(SEXP split);
 SEXP S3get_leftnode(SEXP node);
 SEXP S3get_rightnode(SEXP node);
+int S3get_toleft(SEXP split);
+void S3set_toleft(SEXP split, int left);

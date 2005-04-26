@@ -205,13 +205,13 @@ ctree <- function(formula, data, subset = NULL, weights = NULL,
                   teststattype = c("quadform", "maxabs"),
                   testtype = c("Bonferroni", "MonteCarlo", "Raw"),
                   mincriterion = 0.95, minsplit = 20, stump = FALSE,
-                  nresample = 9999,
+                  nresample = 9999, maxsurrogate = 0, 
                   ifun = NULL, rfun = NULL) {
 
     teststattype <- match.arg(teststattype)
     testtype <- match.arg(testtype)
     ctrl <- treecontrols(teststattype, testtype, stump = stump, nresample =
-                         nresample,
+                         nresample, maxsurrogate = maxsurrogate, 
                          mincriterion = mincriterion, minsplit = minsplit)
     ls <- conditionalTree@dpp(formula, data, subset, ifun = ifun, rfun = rfun)
     conditionalTree@fit(ls, ctrl, weights = weights)
