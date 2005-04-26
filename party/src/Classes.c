@@ -13,6 +13,7 @@ SEXP
     PL2_covarianceSym,
     PL2_linearstatisticSym,
     PL2_expcovinfSym,
+    PL2_expcovinfssSym,
     PL2_sumweightsSym,
     PL2_dimensionSym,
     PL2_MPinvSym,  
@@ -48,7 +49,6 @@ SEXP
     PL2_jointtransfSym, 
     PL2_nobsSym, 
     PL2_ninputsSym,
-    PL2_expcovinfSym, 
     PL2_linexpcov2sampleSym, 
     PL2_weightsSym, 
     PL2_varmemorySym,
@@ -75,6 +75,7 @@ SEXP party_init(void) {
     PL2_covarianceSym = install("covariance");
     PL2_linearstatisticSym = install("linearstatistic");
     PL2_expcovinfSym = install("expcovinf");
+    PL2_expcovinfssSym = install("expcovinfss");
     PL2_sumweightsSym = install("sumweights");
     PL2_dimensionSym = install("dimension");
     PL2_MPinvSym = install("MPinv");
@@ -110,7 +111,6 @@ SEXP party_init(void) {
     PL2_jointtransfSym = install("jointtransf"); 
     PL2_nobsSym = install("nobs"); 
     PL2_ninputsSym = install("ninputs"); 
-    PL2_expcovinfSym = install("expcovinf"); 
     PL2_linexpcov2sampleSym = install("linexpcov2sample"); 
     PL2_weightsSym = install("weights"); 
     PL2_varmemorySym = install("varmemory"); 

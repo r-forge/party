@@ -10,12 +10,12 @@
 
 SEXP R_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls, SEXP fitmem) {
 
-    SEXP x, y, ym, expcovinf; 
+    SEXP x, y, expcovinf; 
     SEXP splitctrl, inputs; 
-    SEXP ans, cutpoint, maxstat, splitstat, order; 
-    SEXP variableID, tcutpoint, tmp, split;
-    int nobs, ninputs, j, jselect, maxsurr;
-    double ms;
+    SEXP ans;
+    SEXP split, thiswhichNA;
+    int nobs, ninputs, i, j, k, jselect, maxsurr, *order;
+    double ms, cp, *thisweights, *cutpoint, *maxstat, *splitstat;
     
     nobs = get_nobs(learnsample);
     ninputs = get_ninputs(learnsample);
@@ -30,42 +30,67 @@ SEXP R_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls, SEXP
     inputs = GET_SLOT(learnsample, PL2_inputsSym);
     jselect = S3get_variableID(S3get_primarysplit(node));
     y = S3get_nodeweights(VECTOR_ELT(node, 7));
-    PROTECT(ym = allocMatrix(REALSXP, nobs, 1));
-    for (j = 0; j < nobs; j++) REAL(ym)[j] = REAL(y)[j];
-    PROTECT(expcovinf = R_ExpectCovarInfluence(ym, weights));
-    PROTECT(tmp = allocVector(VECSXP, ninputs));
-    PROTECT(maxstat = allocVector(REALSXP, ninputs));
-    PROTECT(order = allocVector(INTSXP, ninputs));
-    PROTECT(splitstat = allocVector(REALSXP, nobs));    
+
+    expcovinf = GET_SLOT(fitmem, PL2_expcovinfssSym);
+    C_ExpectCovarInfluence(REAL(y), 1, REAL(weights), nobs, expcovinf);
+    
+    maxstat = Calloc(ninputs, double);
+    cutpoint = Calloc(ninputs, double);
+    splitstat = Calloc(nobs, double);
+    order = Calloc(ninputs, int);
     
     for (j = 0; j < ninputs; j++) {
     
-         INTEGER(order)[j] = j + 1;
-         REAL(maxstat)[j] = 0.0;
-         SET_VECTOR_ELT(tmp, j, cutpoint = allocVector(REALSXP, 1));
+         order[j] = j + 1;
+         maxstat[j] = 0.0;
+         cutpoint[j] = 0.0;
 
-         if ((j + 1) == jselect) continue;
+         /* ordered input variables only (for the moment) */
+         if ((j + 1) == jselect || is_nominal(inputs, j + 1))
+             continue;
 
          x = get_variable(inputs, j + 1);
-         C_split(REAL(x), 1, REAL(ym), 1, REAL(weights), nobs,
-                 INTEGER(get_ordering(inputs, j + 1)), 0, 0, splitctrl,
-                 GET_SLOT(fitmem, PL2_linexpcov2sampleSym),
-                 expcovinf, REAL(cutpoint), &ms, REAL(splitstat));
 
-         REAL(maxstat)[j] = -ms;
+         if (has_missings(inputs, j + 1)) {
+
+             thisweights = REAL(get_weights(fitmem, j + 1));
+             for (i = 0; i < nobs; i++) thisweights[i] = REAL(weights)[i];
+             thiswhichNA = get_missings(inputs, j + 1);
+             for (k = 0; k < LENGTH(thiswhichNA); k++)
+                 thisweights[INTEGER(thiswhichNA)[k] - 1] = 0.0;
+                 
+             C_ExpectCovarInfluence(REAL(y), 1, thisweights, nobs, expcovinf);
+             
+             C_split(REAL(x), 1, REAL(y), 1, thisweights, nobs,
+                     INTEGER(get_ordering(inputs, j + 1)), 0, 0, splitctrl,
+                     GET_SLOT(fitmem, PL2_linexpcov2sampleSym),
+                     expcovinf, &cp, &ms, splitstat);
+         } else {
+         
+             C_split(REAL(x), 1, REAL(y), 1, REAL(weights), nobs,
+             INTEGER(get_ordering(inputs, j + 1)), 0, 0, splitctrl,
+             GET_SLOT(fitmem, PL2_linexpcov2sampleSym),
+             expcovinf, &cp, &ms, splitstat);
+         }
+
+         maxstat[j] = -ms;
+         cutpoint[j] = cp;
     }
 
-    rsort_with_index(REAL(maxstat), INTEGER(order), ninputs);
+    rsort_with_index(maxstat, order, ninputs);
     
     for (j = 0; j < maxsurr; j++) {
-        SET_VECTOR_ELT(ans, j, split = allocVector(VECSXP, 2));
-        SET_VECTOR_ELT(split, 0, variableID = allocVector(INTSXP, 1));
-        SET_VECTOR_ELT(split, 1, tcutpoint = allocVector(REALSXP, 1));
-        INTEGER(variableID)[0] = INTEGER(order)[j];
-        REAL(tcutpoint)[0] = REAL(VECTOR_ELT(tmp, INTEGER(order)[j] - 1))[0];
+        Rprintf("var: %d %f\n", order[j], cutpoint[order[j] - 1]);
+        SET_VECTOR_ELT(S3get_surrogatesplits(node), j, split = allocVector(VECSXP, 4));
+        C_init_orderedsplit(split, 0);
+        S3set_variableID(split, order[j]);
+        REAL(S3get_splitpoint(split))[0] = cutpoint[order[j] - 1];
     }
+    
+    Free(maxstat);
+    Free(cutpoint);
+    Free(splitstat);
+    Free(order);
 
-    UNPROTECT(6);
     return(ans);
 }
- 
