@@ -1,7 +1,7 @@
 
 # $Id$
 
-if (TRUE) {
+if (FALSE) {
 .First.lib <- function(libname, pkgname) {
     if (!require("methods")) stop("cannot load methods")
     if (!require("grid")) stop("cannot load grid")
