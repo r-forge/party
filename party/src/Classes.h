@@ -103,3 +103,4 @@ int get_mtry(SEXP object);
 SEXP get_dontuse(SEXP object);
 SEXP get_dontusetmp(SEXP object);
 int get_stump(SEXP object);
+int get_maxsurrogate(SEXP object);

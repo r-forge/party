@@ -15,3 +15,4 @@ void C_PermutedLinearStatistic(const double *x, const int p,
                                const int n, const int nperm,
                                const int *indx, const int *perm,
                                double *ans);
+SEXP R_ExpectCovarInfluence(SEXP y, SEXP weights);

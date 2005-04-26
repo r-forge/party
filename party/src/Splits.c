@@ -188,7 +188,7 @@ void C_split(const double *x, int p,
 
 
 /**
-    R-interface to C_split (does not handly ordered y's)
+    R-interface to C_split (does not handle ordered y's)
     *\param x values of the transformation
     *\param y values of the influence function
     *\param weights case weights
@@ -322,7 +322,7 @@ void C_splitcategorical(const int *codingx, int p,
 
 
 /**
-    R-interface to C_splitcategorical (does not handly ordered y's)
+    R-interface to C_splitcategorical (does not handle ordered y's)
     *\param codingx the coding of x, i.e. as.numeric(x)
     *\param y values of the influence function
     *\param weights case weights

@@ -52,7 +52,7 @@ SEXP R_TreeGrow(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls, SEXP
      
      nobs = get_nobs(learnsample);
      PROTECT(ans = allocVector(VECSXP, 9));
-     C_init_node(ans, nobs, get_ninputs(learnsample), 0,
+     C_init_node(ans, nobs, get_ninputs(learnsample), get_maxsurrogate(get_splitctrl(controls)),
                  ncol(GET_SLOT(GET_SLOT(learnsample, PL2_responsesSym), 
                       PL2_jointtransfSym)));
 
@@ -91,9 +91,10 @@ SEXP R_Ensemble2(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls, SEX
          iwhere = INTEGER(where);
          for (i = 0; i < nobs; i++) iwhere[i] = 0;
      
-         C_init_node(tree, nobs, get_ninputs(learnsample), 0,
-                 ncol(GET_SLOT(GET_SLOT(learnsample, PL2_responsesSym), 
-                      PL2_jointtransfSym)));
+         C_init_node(tree, nobs, get_ninputs(learnsample), 
+                     get_maxsurrogate(get_splitctrl(controls)),
+                     ncol(GET_SLOT(GET_SLOT(learnsample, PL2_responsesSym), 
+                          PL2_jointtransfSym)));
 
          /* weights for a bootstrap sample */
          GetRNGstate();

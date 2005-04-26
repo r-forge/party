@@ -35,7 +35,7 @@ void C_splitnode(SEXP node, SEXP learnsample, SEXP control) {
     /* set up memory for the left daughter */
     SET_VECTOR_ELT(node, 7, leftnode = allocVector(VECSXP, 9));
     C_init_node(leftnode, nobs, 
-                get_ninputs(learnsample), 0,
+                get_ninputs(learnsample), get_maxsurrogate(get_splitctrl(control)),
                 ncol(GET_SLOT(GET_SLOT(learnsample, PL2_responsesSym),
                                        PL2_jointtransfSym)));
     leftweights = REAL(S3get_nodeweights(leftnode));
@@ -43,7 +43,7 @@ void C_splitnode(SEXP node, SEXP learnsample, SEXP control) {
     /* set up memory for the right daughter */
     SET_VECTOR_ELT(node, 8, rightnode = allocVector(VECSXP, 9));
     C_init_node(rightnode, nobs, 
-                get_ninputs(learnsample), 0,
+                get_ninputs(learnsample), get_maxsurrogate(get_splitctrl(control)),
                 ncol(GET_SLOT(GET_SLOT(learnsample, PL2_responsesSym),
                                            PL2_jointtransfSym)));
     rightweights = REAL(S3get_nodeweights(rightnode));

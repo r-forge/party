@@ -62,6 +62,7 @@ SEXP
     PL2_splitctrlSym, 
     PL2_gtctrlSym,
     PL2_mincriterionSym,
+    PL2_maxsurrogateSym,
     PL2_randomsplitsSym,
     PL2_mtrySym,
     PL2_dontuseSym,
@@ -123,6 +124,7 @@ SEXP party_init(void) {
     PL2_splitctrlSym = install("splitctrl"); 
     PL2_gtctrlSym = install("gtctrl"); 
     PL2_mincriterionSym = install("mincriterion"); 
+    PL2_maxsurrogateSym = install("maxsurrogate"); 
     PL2_randomsplitsSym = install("randomsplits"); 
     PL2_mtrySym = install("mtry"); 
     PL2_dontuseSym = install("dontuse"); 
@@ -298,6 +300,10 @@ SEXP get_gtctrl(SEXP object) {
 
 double get_mincriterion(SEXP object) {
     return(REAL(GET_SLOT(object, PL2_mincriterionSym))[0]);
+}
+
+int get_maxsurrogate(SEXP object) {
+    return(INTEGER(GET_SLOT(object, PL2_maxsurrogateSym))[0]);
 }
 
 int get_randomsplits(SEXP object) {

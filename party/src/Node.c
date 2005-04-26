@@ -190,7 +190,8 @@ SEXP R_Node(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls) {
      SEXP ans;
      
      PROTECT(ans = allocVector(VECSXP, 9));
-     C_init_node(ans, get_nobs(learnsample), get_ninputs(learnsample), 0, 
+     C_init_node(ans, get_nobs(learnsample), get_ninputs(learnsample), 
+                 get_maxsurrogate(get_splitctrl(controls)),
                  ncol(GET_SLOT(GET_SLOT(learnsample, PL2_responsesSym), 
                       PL2_jointtransfSym)));
 
