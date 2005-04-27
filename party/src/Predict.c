@@ -14,7 +14,8 @@
     *\param node the current node with primary split specified
     *\param learnsample learning sample
     *\param control an object of class `TreeControl'
-    *\todo handle surrogate splits
+    *\todo outplace the splitting since there are at least 3 functions
+           with nearly identical code
 */
                 
 void C_splitnode(SEXP node, SEXP learnsample, SEXP control) {

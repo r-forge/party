@@ -61,6 +61,9 @@ void C_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls,
     /* <FIXME> */
     
     /* this is essentially an exhaustive search */
+    /* <FIXME>: we don't want to do this for random forest like trees 
+       </FIXME>
+     */
     for (j = 0; j < ninputs; j++) {
     
          order[j] = j + 1;
