@@ -21,6 +21,110 @@ MPinv <- function(x, tol = sqrt(.Machine$double.eps)) {
     return(RET@MPinv)
 }
 
+### wrapper for functions defined in ./src/Splits.c
+
+Split <- function(x, y, weights, splitctrl) {
+
+    if (is.factor(y))
+        ym <- sapply(levels(y), function(l) as.numeric(y == l))
+     else 
+        ym <- matrix(y, ncol = 1)
+    storage.mode(ym) <- "double"
+
+    if (is.factor(x)) {
+        xm <- sapply(levels(x), function(l) as.numeric(x == l))
+        storage.mode(xm) <- "double"
+        xc <- as.numeric(x)
+        storage.mode(xc) <- "integer"
+        lecxy <- new("LinStatExpectCovar", ncol(xm), ncol(ym))
+        lec <- new("LinStatExpectCovar", as.integer(1), ncol(ym))
+        eci <- ExpectCovarInfluence(ym, weights)
+        split <- .Call("R_splitcategorical", xm, xc, ym, weights, lec, lecxy,
+                       eci, splitctrl, PACKAGE = "partylab2")
+    } else {
+        ox <- order(x)
+        storage.mode(ox) <- "integer"
+        xm <- matrix(x, ncol = 1)
+        storage.mode(xm) <- "double"
+        lec <- new("LinStatExpectCovar", as.integer(1), ncol(ym))
+        eci <- ExpectCovarInfluence(ym, weights)
+        split <- .Call("R_split", xm, ym, weights, ox, lec,
+                       eci, splitctrl, PACKAGE = "partylab2")
+    }
+    split
+}
+
+### Wrapper for functions defined in ./src/TestStatistic.c
+
+maxabsTestStatistic <- function(t, mu, Sigma, tol = sqrt(.Machine$double.eps)) {
+    storage.mode(t) <- "double"
+    storage.mode(mu) <- "double"
+    storage.mode(Sigma) <- "double"
+    storage.mode(tol) <- "double"
+    
+    if (length(t) != length(mu) || length(t) != nrow(Sigma)) 
+        error("dimensions don't match")
+        
+    .Call("R_maxabsTestStatistic", t, mu, Sigma, tol, PACKAGE = "partylab2")
+}
+
+quadformTestStatistic <- function(t, mu, Sigma, tol = sqrt(.Machine$double.eps)) {
+    storage.mode(t) <- "double"
+    storage.mode(mu) <- "double"
+    storage.mode(Sigma) <- "double"
+    storage.mode(tol) <- "double"
+    
+    if (length(t) != length(mu) || length(t) != nrow(Sigma)) 
+        error("dimensions don't match")
+        
+    SigmaPlus <- MPinv(Sigma, tol = tol)
+    .Call("R_quadformTestStatistic", t, mu, SigmaPlus, PACKAGE = "partylab2")
+}
+
+
+### Wrapper for functions defined in ./src/LinearStatistic.c
+
+LinearStatistic <- function(x, y, weights) {
+    storage.mode(x) <- "double"
+    storage.mode(y) <- "double"
+    storage.mode(weights) <- "double"
+    .Call("R_LinearStatistic", x, y, weights, PACKAGE = "partylab2")
+}
+
+ExpectCovarInfluence <- function(y, weights) {
+    storage.mode(y) <- "double"
+    storage.mode(weights) <- "double"
+    .Call("R_ExpectCovarInfluence", y, weights, PACKAGE = "partylab2")
+}
+
+ExpectCovarLinearStatistic <- function(x, y, weights) {
+    storage.mode(x) <- "double"
+    storage.mode(y) <- "double"
+    storage.mode(weights) <- "double"
+    expcovinf <- ExpectCovarInfluence(y, weights)
+    .Call("R_ExpectCovarLinearStatistic", x, y, weights, expcovinf,
+          PACKAGE = "partylab2")
+}
+
+PermutedLinearStatistic <- function(x, y, indx, perm) {
+    storage.mode(x) <- "double"
+    storage.mode(y) <- "double"
+
+    if (any(indx < 1 || indx > nrow(y)))
+        stop("wrong indices")
+
+    if (any(perm < 1 || perm > nrow(y)))
+        stop("wrong indices")
+
+    # C indexing 
+    indx <- indx - 1
+    perm <- perm - 1
+    storage.mode(indx) <- "integer"
+    storage.mode(perm) <- "integer"
+    .Call("R_PermutedLinearStatistic", x, y, indx, perm, 
+          PACKAGE = "partylab2")
+}
+
 ### Median Survival Time, see survival:::print.survfit
 
 mst <- function(x) {
@@ -58,4 +162,53 @@ logrank_scores <- function(x) {
   RET <- event - cumsum(fact[ot])[rt]
   attr(RET, "scores") <- "LogRank"
   return(RET)
+}
+
+dostep <- function(x, y) {
+
+    ### create a step function based on x, y coordinates
+    ### modified from `survival:print.survfit'
+    if (is.na(x[1] + y[1])) {
+        x <- x[-1]
+        y <- y[-1]
+    }
+    n <- length(x)
+    if (n > 2) {  
+        # replace verbose horizonal sequences like
+        # (1, .2), (1.4, .2), (1.8, .2), (2.3, .2), (2.9, .2), (3, .1)
+        # with (1, .2), (3, .1).  They are slow, and can smear the looks
+        # of the line type.
+        dupy <- c(TRUE, diff(y[-n]) !=0, TRUE)
+        n2 <- sum(dupy)
+
+        #create a step function
+        xrep <- rep(x[dupy], c(1, rep(2, n2-1)))
+        yrep <- rep(y[dupy], c(rep(2, n2-1), 1))
+        RET <- list(x = xrep, y = yrep)
+    } else {
+        if (n == 1) {
+            RET <- list(x = x, y = y)
+        } else {
+            RET <- list(x = x[c(1,2,2)], y = y[c(1,1,2)])
+        }
+    }
+    return(RET)
+}
+
+### Normalized mutual information, Stehl & Gosh (2002) JMLR
+nmi <- function(x, y)
+{
+    x <- table(x, y)
+    x <- x / sum(x)                     # ???
+
+    m_x <- rowSums(x)
+    m_y <- colSums(x)
+    y <- outer(m_x, m_y)
+
+    i <- which((x > 0) & (y > 0))
+    out <- sum(x[i] * log(x[i] / y[i]))
+    e_x <- sum(m_x * log(ifelse(m_x > 0, m_x, 1)))
+    e_y <- sum(m_y * log(ifelse(m_y > 0, m_y, 1)))
+
+    out / sqrt(e_x * e_y)
 }

@@ -1,7 +1,7 @@
 Package: party
 Title: A Laboratory for Recursive Part(y)itioning
 Date: $Date$
-Version: 0.1-5
+Version: 0.1-6
 Author: Torsten Hothorn <Torsten.Hothorn@R-project.org> and
   Kurt Hornik <Kurt.Hornik@R-project.org> with contributions by 
   Achim Zeileis  <Achim.Zeileis@R-project.org>
