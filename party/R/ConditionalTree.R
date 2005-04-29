@@ -26,13 +26,14 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
     where <- rep(0, object@nobs)
     storage.mode(where) <- "integer"
 
+    ### grow the tree
     tree <- .Call("R_TreeGrow", object, weights, fitmem, controls, where,
                   PACKAGE = "party")
 
+    ### create S3 classes and put names on lists
     tree <- prettytree(tree, names(object@inputs@variables), object@inputs@levels)
-    # <FIXME> S3 class SplittingNode needs to extend list (for printing only)
-    # class(tree) <- "list"
-    # </FIXME>
+
+    ### prepare the returned object
     RET <- new("BinaryTree")
     RET@tree <- tree
     RET@where <- where
@@ -42,8 +43,7 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
 
     ### (estimated) conditional distribution of the response given the
     ### covariates
-    RET@cond_distr_response <- function(newdata = NULL, 
-                                        mincriterion = 0, KM = TRUE, ...) { 
+    RET@cond_distr_response <- function(newdata = NULL, mincriterion = 0, ...) { 
         
         if (is.null(newdata)) {
             newinp <- object@inputs
@@ -54,52 +54,35 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
         }
 
         response <- object@responses
-        ### classification: estimated class probabilities
-        if (all(response@is_nominal || response@is_ordinal)) {
-            if (is.null(newdata)) {
-                RET <- .Call("R_getpredictions", tree, where,
-                              PACKAGE = "party")
-            } else {
-                RET <- .Call("R_predict", tree, newinp, mincriterion,
-                              PACKAGE = "party")
-            }
-            return(RET)
-        }
 
         ### survival: estimated Kaplan-Meier
-        if (any(response@is_censored) && KM) {
+        if (any(response@is_censored)) {
             if (is.null(newdata)) {
                 wh <- where
             } else {
                 wh <- .Call("R_get_nodeID", tree, newinp, mincriterion,
                             PACKAGE = "party")
             }
-            w <- .Call("R_getweights", tree, sort(unique(wh)),
+            swh <- sort(unique(wh))
+            w <- .Call("R_getweights", tree, swh,
                        PACKAGE = "party")
             RET <- vector(mode = "list", length = length(wh))
             resp <- response@variables[[1]]
-            for (i in 1:length(unique(wh))) {
-                thisw <- w[[i]]
-                RET[wh == sort(unique(wh))[i]] <- list(survival:::survfit(resp,
-                    weights = thisw, subset = thisw > 0))
-            }   
+            for (i in 1:length(swh))
+                RET[wh == swh[i]] <- list(survival:::survfit(resp,
+                    weights = w[[i]], subset = w[[i]] > 0))
             return(RET)
         }
 
-        ### regression: hm, the weights, not really a distribution. 
-        if (is.null(newdata)) {  
-            wh <- where
+        ### classification: estimated class probabilities
+        ### regression: the means, not really a distribution
+        if (is.null(newdata)) {
+            RET <- .Call("R_getpredictions", tree, where,
+                          PACKAGE = "party")
         } else {
-            wh <- .Call("R_get_nodeID", tree, newinp, mincriterion,
-                        PACKAGE = "party")
+            RET <- .Call("R_predict", tree, newinp, mincriterion,
+                          PACKAGE = "party")
         }
-        w <- .Call("R_getweights", tree, sort(unique(wh)),
-                   PACKAGE = "party")
-        RET <- vector(mode = "list", length = length(wh))
-        for (i in 1:length(unique(wh))) {
-            thisw <- w[[i]]
-            RET[wh == sort(unique(wh))[i]] <- list(thisw)
-        }   
         return(RET)
     }
 
@@ -125,10 +108,39 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
         }
 
         ### regression: mean (median would be possible)
-        RET <- lapply(cdresp, function(x) sum(x*response@variables)/sum(x))
+        RET <- unlist(cdresp)
         RET <- matrix(unlist(RET),
                       nrow = length(RET), byrow = TRUE)
-        colnames(RET) <- names(response@variables)
+        ### <FIXME> what about multivariate responses?
+        if (response@ninputs == 1)
+            colnames(RET) <- names(response@variables)
+        ### </FIXME>
+        return(RET)
+    }
+
+    RET@prediction_weights <- function(newdata = NULL, mincriterion = 0, ...) {
+
+        if (is.null(newdata)) {
+            newinp <- object@inputs
+        } else {
+            penv <- new.env()
+            object@menv@set("input", data = newdata, env = penv)
+            newinp <- initVariableFrame(get("input", envir = penv))
+        }
+
+        if (is.null(newdata)) {
+            wh <- where
+        } else {
+            wh <- .Call("R_get_nodeID", tree, newinp, mincriterion,
+                        PACKAGE = "party")
+        }
+        swh <- sort(unique(wh))
+        w <- .Call("R_getweights", tree, swh,
+                   PACKAGE = "party")
+        RET <- vector(mode = "list", length = length(wh))   
+        
+        for (i in 1:length(swh))
+            RET[wh == swh[i]] <- list(w[[i]])
         return(RET)
     }
     return(RET)

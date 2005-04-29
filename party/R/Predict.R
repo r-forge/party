@@ -1,8 +1,8 @@
 
 # $Id$
 
-oldpredict <- function(object, mincriterion = 0, 
-    newdata = NULL, type = c("class", "prob"), ...) {
+oldpredict <- function(object, newdata = NULL, type = c("class", "prob"), 
+    mincriterion = 0, ...) {
 
     type <- match.arg(type)
 
@@ -30,6 +30,6 @@ oldpredict <- function(object, mincriterion = 0,
 predict.BinaryTree <- function(object, newdata = NULL, mincriterion = 0, 
     type = c("class", "prob"), ...) {
 
-    oldpredict(object = object, mincriterion = mincriterion,
-               newdata = newdata, type = type, ...)
+    oldpredict(object = object, newdata = newdata, type = type, 
+               mincriterion = mincriterion, ...)
 }
