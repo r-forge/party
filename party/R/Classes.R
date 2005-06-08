@@ -210,7 +210,8 @@ setClass(Class = "BinaryTree",
                                                # (for printing) 
         cond_distr_response = "function",      # predict distribtion
         predict_response    = "function",      # predict responses
-        prediction_weights  = "function"       # prediction weights
+        prediction_weights  = "function",      # prediction weights
+        get_where           = "function"
     ),
     contains = "BinaryTreePartition"
 )

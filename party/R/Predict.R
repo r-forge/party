@@ -1,35 +1,21 @@
 
 # $Id$
 
-oldpredict <- function(object, newdata = NULL, type = c("class", "prob"), 
-    mincriterion = 0, ...) {
-
-    type <- match.arg(type)
-
-    ### mimic old-style predict functions
-    response <- object@responses
-    if (all(response@is_nominal || response@is_ordinal)) {
-        if (type == "class") {
-            return(object@predict_response(newdata = newdata, 
-                   mincriterion = mincriterion, ...))
-        } else {
-            return(object@cond_distr_response(newdata = newdata,
-                   mincriterion = mincriterion, ...))
-        }
-    }
-
-    if (any(response@is_censored))
-        return(object@cond_distr_response(newdata = newdata,                
-               mincriterion = mincriterion, ...))
-
-    return(object@predict_response(newdata = newdata,                
-           mincriterion = mincriterion, ...)) 
+predict.BinaryTree <- function(object, ...) {
+    conditionalTree@predict(object, ...)
 }
 
+setGeneric("weights", function(object, ...) standardGeneric("weights"))
 
-predict.BinaryTree <- function(object, newdata = NULL, mincriterion = 0, 
-    type = c("class", "prob"), ...) {
+setMethod("weights", signature = signature(object = "BinaryTree"),
+    definition = function(object, newdata = NULL, ...)
+        object@prediction_weights(newdata = newdata, ...)
+)
 
-    oldpredict(object = object, newdata = newdata, type = type, 
-               mincriterion = mincriterion, ...)
-}
+
+setGeneric("where", function(object, ...) standardGeneric("where"))
+
+setMethod("where", signature = signature(object = "BinaryTree"),
+    definition = function(object, newdata = NULL, ...)
+        object@get_where(newdata = newdata, ...)
+)

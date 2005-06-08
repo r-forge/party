@@ -41,10 +41,11 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
     RET@inputnames <- names(object@inputs@variables)
     RET@levels <- object@inputs@levels
 
-    ### (estimated) conditional distribution of the response given the
-    ### covariates
-    RET@cond_distr_response <- function(newdata = NULL, mincriterion = 0, ...) { 
-        
+    ### get terminal node numbers
+    RET@get_where <- function(newdata = NULL, mincriterion = 0, ...) {
+
+        if (is.null(newdata) && mincriterion == 0) return(where)
+
         if (is.null(newdata)) {
             newinp <- object@inputs
         } else {
@@ -53,16 +54,19 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
             newinp <- initVariableFrame(get("input", envir = penv))
         }
 
+        .Call("R_get_nodeID", tree, newinp, mincriterion, PACKAGE = "party")
+    }
+
+    ### (estimated) conditional distribution of the response given the
+    ### covariates
+    RET@cond_distr_response <- function(newdata = NULL, mincriterion = 0, ...) { 
+        
+        wh <- RET@get_where(newdata = newdata, mincriterion = mincriterion)
+
         response <- object@responses
 
         ### survival: estimated Kaplan-Meier
         if (any(response@is_censored)) {
-            if (is.null(newdata)) {
-                wh <- where
-            } else {
-                wh <- .Call("R_get_nodeID", tree, newinp, mincriterion,
-                            PACKAGE = "party")
-            }
             swh <- sort(unique(wh))
             w <- .Call("R_getweights", tree, swh,
                        PACKAGE = "party")
@@ -76,13 +80,7 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
 
         ### classification: estimated class probabilities
         ### regression: the means, not really a distribution
-        if (is.null(newdata)) {
-            RET <- .Call("R_getpredictions", tree, where,
-                          PACKAGE = "party")
-        } else {
-            RET <- .Call("R_predict", tree, newinp, mincriterion,
-                          PACKAGE = "party")
-        }
+        RET <- .Call("R_getpredictions", tree, wh, PACKAGE = "party")
         return(RET)
     }
 
@@ -120,20 +118,8 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
 
     RET@prediction_weights <- function(newdata = NULL, mincriterion = 0, ...) {
 
-        if (is.null(newdata)) {
-            newinp <- object@inputs
-        } else {
-            penv <- new.env()
-            object@menv@set("input", data = newdata, env = penv)
-            newinp <- initVariableFrame(get("input", envir = penv))
-        }
+        wh <- RET@get_where(newdata = newdata, mincriterion = mincriterion)
 
-        if (is.null(newdata)) {
-            wh <- where
-        } else {
-            wh <- .Call("R_get_nodeID", tree, newinp, mincriterion,
-                        PACKAGE = "party")
-        }
         swh <- sort(unique(wh))
         w <- .Call("R_getweights", tree, swh,
                    PACKAGE = "party")
@@ -180,10 +166,12 @@ ctreedpp <- function(formula, data = list(), subset = NULL,
 
 
 conditionalTree <- new("StatModel",
-                   capabilities=new("StatModelCapabilities"),
-                   name="unbiased conditional recursive partitioning",
-                   dpp=ctreedpp,
-                   fit=ctreefit)
+                   capabilities = new("StatModelCapabilities"),
+                   name = "unbiased conditional recursive partitioning",
+                   dpp = ctreedpp,
+                   fit = ctreefit,
+                   predict = function(object, ...) 
+                                 object@predict_response(...) )
 
 treecontrols <- function(teststattype = "quadform", 
                          testtype = "Bonferroni", 
