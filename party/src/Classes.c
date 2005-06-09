@@ -1,7 +1,7 @@
 
 /**
     S4 classes 
-    *\file $RCSfile$
+    *\file Classes.c
     *\author $Author$
     *\date $Date$
 */

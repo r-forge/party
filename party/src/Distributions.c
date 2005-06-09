@@ -1,7 +1,7 @@
 
 /**
     Conditional Distributions
-    *\file $RCSfile$
+    *\file Distributions.c
     *\author $Author$
     *\date $Date$
 */

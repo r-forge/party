@@ -1,7 +1,7 @@
 
 /**
     The tree growing recursion
-    *\file $RCSfile$
+    *\file TreeGrow.c
     *\author $Author$
     *\date $Date$
 */

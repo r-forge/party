@@ -1,7 +1,7 @@
 
 /**
     Binary splits 
-    *\file $RCSfile$
+    *\file Splits.c
     *\author $Author$
     *\date $Date$
 */

@@ -1,7 +1,7 @@
 
 /**
     Suggorgate splits
-    *\file $RCSfile$
+    *\file SurrogateSplits.c
     *\author $Author$
     *\date $Date$
 */

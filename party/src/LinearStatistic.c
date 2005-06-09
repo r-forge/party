@@ -1,7 +1,7 @@
 
 /**
     Linear statistics for conditional inference
-    *\file $RCSfile$
+    *\file LinearStatistic.c
     *\author $Author$
     *\date $Date$
 */

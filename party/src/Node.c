@@ -1,7 +1,7 @@
 
 /**
     Node computations
-    *\file $RCSfile$
+    *\file Node.c
     *\author $Author$
     *\date $Date$
 */

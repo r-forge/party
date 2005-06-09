@@ -1,7 +1,7 @@
 
 /**
     Test statistics for conditional inference
-    *\file $RCSfile$
+    *\file TestStatistic.c
     *\author $Author$
     *\date $Date$
 */

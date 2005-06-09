@@ -1,7 +1,7 @@
 
 /**
     Node splitting and prediction
-    *\file $RCSfile$
+    *\file Predict.c
     *\author $Author$
     *\date $Date$
 */

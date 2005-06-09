@@ -1,7 +1,7 @@
 
 /**
     Functions for variable selection in each node of a tree
-    *\file $RCSfile$
+    *\file IndependenceTest.c
     *\author $Author$
     *\date $Date$
 */

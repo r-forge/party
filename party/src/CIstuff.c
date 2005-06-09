@@ -1,7 +1,7 @@
 
 /**
     Some additional functionality for package `ConditionalInference'
-    *\file $RCSfile$
+    *\file CIstuff.c
     *\author $Author$
     *\date $Date$
 */

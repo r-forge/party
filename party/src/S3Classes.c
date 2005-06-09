@@ -1,7 +1,7 @@
 
 /**
     S3 classes for dealing with nodes and splits
-    *\file $RCSfile$
+    *\file S3Classes.c
     *\author $Author$
     *\date $Date$
 */

@@ -1,7 +1,7 @@
 
 /**
     Some commonly needed utility functions.
-    *\file $RCSfile$
+    *\file Utils.c
     *\author $Author$
     *\date $Date$
 */

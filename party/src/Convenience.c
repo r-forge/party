@@ -1,7 +1,7 @@
 
 /**
     Some convenience functions
-    *\file $RCSfile$
+    *\file Convenience.c
     *\author $Author$
     *\date $Date$
 */
