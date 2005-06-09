@@ -266,6 +266,16 @@ sptree <- ctree(arct.lute + pard.lugu + zora.spin + pard.nigr + pard.pull +
            alop.fabr + arct.peri ~ herbs+reft+moss+sand+twigs+water, 
            teststat = "maxabs", testtype = "MonteCarlo", nresample = 9999, 
            minsplit = 5, mincriterion = 0.9, data = spider)
+sptree@tree$criterion
+
+library(coin)
+data(spider, package = "mvpart")
+it <- independence_test(arct.lute + pard.lugu + zora.spin + pard.nigr + pard.pull +
+                       aulo.albi + troc.terr + alop.cune + pard.mont + alop.acce +   
+                       alop.fabr + arct.peri ~ herbs+reft+moss+sand+twigs+water, 
+                       data = spider, distribution = approximate(B = 19999))
+statistic(it, "standardized")
+pvalue(it)
 @
 
 \begin{figure}
