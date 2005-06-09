@@ -1,5 +1,6 @@
 \name{ctree}
 \alias{ctree}
+\alias{conditionalTree}
 \title{ Conditional Trees }
 \description{
   Recursive partitioning for continuous, censored, ordered, nominal and
