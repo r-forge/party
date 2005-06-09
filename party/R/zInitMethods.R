@@ -2,7 +2,8 @@
 # $Id$
 
 setMethod(f = "initialize", signature = "ExpectCovar",
-    definition = function(.Object, pq) {
+    definition = function(.Object, pq = 1) {
+        pq <- as.integer(pq)
         .Object@expectation <- rep(0, pq)
         .Object@covariance <- matrix(0, nrow = pq, ncol = pq)
         .Object@dimension  <- pq
