@@ -3,7 +3,7 @@ import(methods)
 # import(modeltools)
 
 export(ctree, TreeFitMemory, innerNode, survNode, barNode, boxNode,
-       histNode, densNode, termNode, weights, where)
+       histNode, densNode, termNode, weights, where, nodes)
 
 exportClasses("BinaryTree", "LearningSample", "SplittingNode", "TreeControl")
 exportMethods("initialize")

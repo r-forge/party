@@ -177,11 +177,17 @@ setClass(Class = "LearningSample",
     )
 )
 
-### the tree structure itself is a list, this is for print() and plot() only
+### the tree structure itself is a list, 
+### and we need to make sure that the tree slot excepts
+### the S3 classes. 
 setClass(Class = "SplittingNode", contains = "list")
 setClass(Class = "TerminalNode", contains = "list")
 setClass(Class = "orderedSplit", contains = "list")
 setClass(Class = "nominalSplit", contains = "list")
+
+### and we don't want to see warnings that class `Surv'
+### (S3 method in `survival') is unknown
+setClass(Class = "Surv", contains = "list")
 
 
 ### A class for partitions induced by recursive binary splits
@@ -193,10 +199,6 @@ setClass(Class = "BinaryTreePartition",
                                     # learning sample
     ),
 )
-
-### <FIXME>
-# setClassUnion("BTPFSM", c("BinaryTreePartition", "FittedStatModel"))
-### </FIXME>
 
 ### A class for binary trees   
 setClass(Class = "BinaryTree", 
@@ -211,8 +213,7 @@ setClass(Class = "BinaryTree",
         cond_distr_response = "function",      # predict distribtion
         predict_response    = "function",      # predict responses
         prediction_weights  = "function",      # prediction weights
-        get_where           = "function"
+        get_where           = "function"       # node numbers
     ),
     contains = "BinaryTreePartition"
 )
-

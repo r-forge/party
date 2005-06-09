@@ -46,12 +46,20 @@ releases of the package.
                           observations in the learning sample) giving the
                           number of the terminal node the corresponding
                           observations is element of. }
+    \item{\code{prediction_weights}:}{ a function for extracting weights from
+                                     terminal nodes. }
+    \item{\code{get_where}:}{ a function for determining the number
+        of terminal nodes observations fall into. }
   }
 }
 \section{Extends}{
 Class \code{"BinaryTreePartition"}, directly.
 }
 \section{Methods}{
-A \code{print}, \code{plot} and \code{predict} method are available. 
+
+  A \code{print}, \code{\link{plot.BinaryTree}} and \code{predict} methods are available. 
+  Elements of trees can be extracted by \code{\link{weights}},
+  \code{\link{where}} and \code{\link{nodes}} methods.
+
 }
 \keyword{classes}
