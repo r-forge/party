@@ -22,6 +22,8 @@ Loading required package: survival
 Loading required package: splines
 Loading required package: grid
 Loading required package: modeltools
+Loading required package: coin
+Loading required package: mvtnorm
 > if (!require(ipred))
 +     stop("cannot load package ipred")
 Loading required package: ipred
@@ -32,19 +34,17 @@ Loading required package: nnet
 Loading required package: class
 > if (!require(coin))
 +     stop("cannot load package coin")
-Loading required package: coin
-Loading required package: mvtnorm
 > gctorture(on = GCtorture)
 > 
-> ### load additional R code which is only partially in arty/R'
-> source(file.path(.find.package("party"), "Rcode", "TestCode.R"))
+> ### get rid of the NAMESPACE
+> load(file.path(.find.package("party"), "R", "all.rda"))
 > 
 > gtctrl <- new("GlobalTestControl")
 > tlev <- levels(gtctrl@testtype)
 > 
 > data(GlaucomaM, package = "ipred")
-> inp <- party:::initVariableFrame(GlaucomaM[,-63,drop = FALSE]) #, fun = rank)
-> resp <- party:::initVariableFrame(GlaucomaM[,"Class",drop = FALSE])
+> inp <- initVariableFrame(GlaucomaM[,-63,drop = FALSE]) #, fun = rank)
+> resp <- initVariableFrame(GlaucomaM[,"Class",drop = FALSE])
 > ls <- new("LearningSample", inputs = inp, responses = resp,
 +           weights = rep(1, inp@nobs), nobs = nrow(GlaucomaM), 
 +           ninputs = inp@ninputs)

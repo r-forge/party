@@ -8,7 +8,7 @@ qsvd <- function(x) {
         stop(sQuote("x"), " is not a quadratic matrix")
 
     svdmem <- new("svd_mem", ncol(x)) 
-    dummy <- .Call("CR_svd", x, svdmem, PACKAGE = "partylab2")
+    dummy <- .Call("CR_svd", x, svdmem, PACKAGE = "party")
     return(svdmem@svd)
 }
 
@@ -17,7 +17,7 @@ MPinv <- function(x, tol = sqrt(.Machine$double.eps)) {
         stop(sQuote("x"), " is not a quadratic matrix")
 
     svdmem <- new("svd_mem", ncol(x))
-    RET <- .Call("R_MPinv", x, tol, svdmem, PACKAGE = "partylab2")
+    RET <- .Call("R_MPinv", x, tol, svdmem, PACKAGE = "party")
     return(RET@MPinv)
 }
 
@@ -40,7 +40,7 @@ Split <- function(x, y, weights, splitctrl) {
         lec <- new("LinStatExpectCovar", as.integer(1), ncol(ym))
         eci <- ExpectCovarInfluence(ym, weights)
         split <- .Call("R_splitcategorical", xm, xc, ym, weights, lec, lecxy,
-                       eci, splitctrl, PACKAGE = "partylab2")
+                       eci, splitctrl, PACKAGE = "party")
     } else {
         ox <- order(x)
         storage.mode(ox) <- "integer"
@@ -49,7 +49,7 @@ Split <- function(x, y, weights, splitctrl) {
         lec <- new("LinStatExpectCovar", as.integer(1), ncol(ym))
         eci <- ExpectCovarInfluence(ym, weights)
         split <- .Call("R_split", xm, ym, weights, ox, lec,
-                       eci, splitctrl, PACKAGE = "partylab2")
+                       eci, splitctrl, PACKAGE = "party")
     }
     split
 }
@@ -65,7 +65,7 @@ maxabsTestStatistic <- function(t, mu, Sigma, tol = sqrt(.Machine$double.eps)) {
     if (length(t) != length(mu) || length(t) != nrow(Sigma)) 
         error("dimensions don't match")
         
-    .Call("R_maxabsTestStatistic", t, mu, Sigma, tol, PACKAGE = "partylab2")
+    .Call("R_maxabsTestStatistic", t, mu, Sigma, tol, PACKAGE = "party")
 }
 
 quadformTestStatistic <- function(t, mu, Sigma, tol = sqrt(.Machine$double.eps)) {
@@ -78,7 +78,7 @@ quadformTestStatistic <- function(t, mu, Sigma, tol = sqrt(.Machine$double.eps))
         error("dimensions don't match")
         
     SigmaPlus <- MPinv(Sigma, tol = tol)
-    .Call("R_quadformTestStatistic", t, mu, SigmaPlus, PACKAGE = "partylab2")
+    .Call("R_quadformTestStatistic", t, mu, SigmaPlus, PACKAGE = "party")
 }
 
 
@@ -88,13 +88,13 @@ LinearStatistic <- function(x, y, weights) {
     storage.mode(x) <- "double"
     storage.mode(y) <- "double"
     storage.mode(weights) <- "double"
-    .Call("R_LinearStatistic", x, y, weights, PACKAGE = "partylab2")
+    .Call("R_LinearStatistic", x, y, weights, PACKAGE = "party")
 }
 
 ExpectCovarInfluence <- function(y, weights) {
     storage.mode(y) <- "double"
     storage.mode(weights) <- "double"
-    .Call("R_ExpectCovarInfluence", y, weights, PACKAGE = "partylab2")
+    .Call("R_ExpectCovarInfluence", y, weights, PACKAGE = "party")
 }
 
 ExpectCovarLinearStatistic <- function(x, y, weights) {
@@ -103,7 +103,7 @@ ExpectCovarLinearStatistic <- function(x, y, weights) {
     storage.mode(weights) <- "double"
     expcovinf <- ExpectCovarInfluence(y, weights)
     .Call("R_ExpectCovarLinearStatistic", x, y, weights, expcovinf,
-          PACKAGE = "partylab2")
+          PACKAGE = "party")
 }
 
 PermutedLinearStatistic <- function(x, y, indx, perm) {
@@ -122,7 +122,7 @@ PermutedLinearStatistic <- function(x, y, indx, perm) {
     storage.mode(indx) <- "integer"
     storage.mode(perm) <- "integer"
     .Call("R_PermutedLinearStatistic", x, y, indx, perm, 
-          PACKAGE = "partylab2")
+          PACKAGE = "party")
 }
 
 ### Median Survival Time, see survival:::print.survfit
@@ -215,4 +215,15 @@ nmi <- function(x, y)
     e_y <- sum(m_y * log(ifelse(m_y > 0, m_y, 1)))
 
     out / sqrt(e_x * e_y)
+}
+
+### check if two objects are identical and print differences else
+isequal <- function(a, b) {
+    if (!identical(all.equal(a, b), TRUE)) {
+        print(a, digits = 10)
+        print(b, digits = 10)
+        return(FALSE)
+    } else {
+        return(TRUE)
+    }
 }

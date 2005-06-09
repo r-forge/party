@@ -8,8 +8,8 @@ if (!require(coin))
     stop("cannot load package coin")
 gctorture(on = GCtorture)
 
-### load additional R code which is only partially in `party/R'
-source(file.path(.find.package("party"), "Rcode", "TestCode.R"))
+### get rid of the NAMESPACE
+load(file.path(.find.package("party"), "R", "all.rda"))
 
 data(treepipit, package = "coin")
 ct <- ctree(counts ~ ., data = treepipit, teststattype = "quadform")

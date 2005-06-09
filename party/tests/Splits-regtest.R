@@ -6,8 +6,8 @@ if (!require(maxstat))
     stop("cannot load package maxstat")
 gctorture(on = GCtorture)
 
-### load additional R code which is only partially in arty/R'
-source(file.path(.find.package("party"), "Rcode", "TestCode.R"))
+### get rid of the NAMESPACE
+load(file.path(.find.package("party"), "R", "all.rda"))
 
 ### 
 ###

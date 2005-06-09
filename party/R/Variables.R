@@ -85,7 +85,7 @@ setMethod("initVariableFrame", signature = c("data.frame", "ANY"),
     definition = initVariableFrame.df
 )
 
-initVariableFrame.Surv <- function(obj, fun = logrank_scores) {
+initVariableFrame.Surv <- function(obj, fun = logrank_trafo) {
 
     RET <- new("VariableFrame", nrow(obj), as.integer(1))
     RET@variables <- list(obj)

@@ -8,15 +8,15 @@ if (!require(coin))
     stop("cannot load package coin")
 gctorture(on = GCtorture)
 
-### load additional R code which is only partially in arty/R'
-source(file.path(.find.package("party"), "Rcode", "TestCode.R"))
+### get rid of the NAMESPACE
+load(file.path(.find.package("party"), "R", "all.rda"))
 
 gtctrl <- new("GlobalTestControl")
 tlev <- levels(gtctrl@testtype)
 
 data(GlaucomaM, package = "ipred")
-inp <- party:::initVariableFrame(GlaucomaM[,-63,drop = FALSE]) #, fun = rank)
-resp <- party:::initVariableFrame(GlaucomaM[,"Class",drop = FALSE])
+inp <- initVariableFrame(GlaucomaM[,-63,drop = FALSE]) #, fun = rank)
+resp <- initVariableFrame(GlaucomaM[,"Class",drop = FALSE])
 ls <- new("LearningSample", inputs = inp, responses = resp,
           weights = rep(1, inp@nobs), nobs = nrow(GlaucomaM), 
           ninputs = inp@ninputs)

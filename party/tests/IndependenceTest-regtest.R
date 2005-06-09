@@ -4,8 +4,8 @@ gctorture(on = FALSE)
 library(party)
 gctorture(on = GCtorture)
 
-### load additional R code which is only partially in arty/R'
-source(file.path(.find.package("party"), "Rcode", "TestCode.R"))
+### get rid of the NAMESPACE
+load(file.path(.find.package("party"), "R", "all.rda"))
 
 ### 
 ###
@@ -147,9 +147,9 @@ gtctrl@testtype <- factor("Raw", levels = tlev)
 
 mydata = data.frame(y = gl(2, 50), x1 = rnorm(100),
                     x2 = rnorm(100), x3 = rnorm(100))
-inp <- party:::initVariableFrame(mydata[,c("x1", "x2", "x3"),drop = FALSE], fun =
+inp <- initVariableFrame(mydata[,c("x1", "x2", "x3"),drop = FALSE], fun =
 rank)
-resp <- party:::initVariableFrame(mydata[,"y",drop = FALSE])
+resp <- initVariableFrame(mydata[,"y",drop = FALSE])
 ls <- new("LearningSample", inputs = inp, responses = resp,
           weights = rep(1, inp@nobs), nobs = nrow(mydata), 
           ninputs = inp@ninputs)
@@ -168,8 +168,8 @@ stopifnot(isequal(wpvals, 1 - pvals))
 varctrl <- new("VariableControl")
 gtctrl@testtype <- factor("MonteCarlo", levels = tlev)
 gtctrl@nresample <- as.integer(19999)
-inp <- party:::initVariableFrame(mydata[,"x1",drop = FALSE], fun = rank)
-resp <- party:::initVariableFrame(mydata[,"y",drop = FALSE])
+inp <- initVariableFrame(mydata[,"x1",drop = FALSE], fun = rank)
+resp <- initVariableFrame(mydata[,"y",drop = FALSE])
 ls <- new("LearningSample", inputs = inp, responses = resp,
           weights = rep(1, inp@nobs), nobs = nrow(mydata), 
           ninputs = as.integer(1))
