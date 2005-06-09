@@ -253,6 +253,7 @@ SEXP R_max(SEXP x) {
 /**
     absolute value 
     *\param x numeric vector
+    *\param n length(x)
 */
 
 void C_abs(double *x, int n) {
@@ -450,7 +451,8 @@ SEXP R_rsubset(SEXP m, SEXP k) {
 /**
     determine if i is element of the integer vector set
     *\param i an integer
-    *\param set a integer vector
+    *\param iset a pointer to an integer vector
+    *\param p length(iset)
 */
 
 int i_in_set(int i, int *iset, int p) {

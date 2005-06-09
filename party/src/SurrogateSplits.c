@@ -12,7 +12,7 @@
     Search for surrogate splits for bypassing the primary split \n
     *\param node the current node with primary split specified
     *\param learnsample learning sample
-    *\param the weights associated with the current node
+    *\param weights the weights associated with the current node
     *\param controls an object of class `TreeControl'
     *\param fitmem an object of class `TreeFitMemory'
     *\todo enable nominal surrogate split variables as well
@@ -146,7 +146,7 @@ void C_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls,
     R-interface to C_surrogates \n
     *\param node the current node with primary split specified
     *\param learnsample learning sample
-    *\param the weights associated with the current node
+    *\param weights the weights associated with the current node
     *\param controls an object of class `TreeControl'
     *\param fitmem an object of class `TreeFitMemory'
 */

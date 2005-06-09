@@ -323,6 +323,7 @@ void C_splitcategorical(const int *codingx, int p,
 
 /**
     R-interface to C_splitcategorical (does not handle ordered y's)
+    *\param x the values of the x-transformation
     *\param codingx the coding of x, i.e. as.numeric(x)
     *\param y values of the influence function
     *\param weights case weights

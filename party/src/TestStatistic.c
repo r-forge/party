@@ -103,7 +103,7 @@ SEXP R_maxabsTestStatistic(SEXP t, SEXP mu, SEXP Sigma, SEXP tol) {
     Quadratic form t(t - mu) SigmaPlus (t - mu) \n
     *\param t the vector of statistics
     *\param mu expectations
-    *\param Sigma Moore-Penrose inverse
+    *\param SigmaPlus Moore-Penrose inverse
     *\param pq dimension of t
 */
                                 
@@ -134,7 +134,7 @@ double C_quadformTestStatistic(const double *t, const double *mu,
     R-interface to C_quadformTestStatistic \n
     *\param t the vector of statistics
     *\param mu expectations
-    *\param Sigma Moore-Penrose inverse
+    *\param SigmaPlus Moore-Penrose inverse
 */
     
 SEXP R_quadformTestStatistic(SEXP t, SEXP mu, SEXP SigmaPlus) {

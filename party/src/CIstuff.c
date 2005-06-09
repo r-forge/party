@@ -59,8 +59,8 @@ SEXP R_blocksetup (SEXP block) {
 
 /**
     Block permutation
-    *\param index 
-    *\param block integer vector coding for blocks
+    *\param blocksetup an object as returned by function `R_blocksetup'
+    *\param ans return value, the (block)-permutation of 1:n
 */
                                 
 void C_blockperm (SEXP blocksetup, int *ans) {

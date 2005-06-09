@@ -320,7 +320,7 @@ int C_get_nodeID(SEXP subtree, SEXP newinputs,
 
 /**
     R-Interface to C_get_nodeID \n
-    *\param subtree a tree
+    *\param tree a tree
     *\param newinputs an object of class `VariableFrame'
     *\param mincriterion overwrites mincriterion used for tree growing
 */
@@ -342,7 +342,7 @@ SEXP R_get_nodeID(SEXP tree, SEXP newinputs, SEXP mincriterion) {
 
 /**
     Get all predictions for `newinputs' \n
-    *\param subtree a tree
+    *\param tree a tree
     *\param newinputs an object of class `VariableFrame'
     *\param mincriterion overwrites mincriterion used for tree growing
     *\param ans return value
@@ -364,10 +364,9 @@ void C_predict(SEXP tree, SEXP newinputs, double mincriterion, SEXP ans) {
 
 /**
     R-Interface to C_predict \n
-    *\param subtree a tree
+    *\param tree a tree
     *\param newinputs an object of class `VariableFrame'
     *\param mincriterion overwrites mincriterion used for tree growing
-    *\param ans return value
 */
 
 SEXP R_predict(SEXP tree, SEXP newinputs, SEXP mincriterion) {
@@ -409,7 +408,6 @@ void C_getpredictions(SEXP tree, SEXP where, SEXP ans) {
     R-Interface to C_getpredictions\n
     *\param tree a tree
     *\param where vector of nodeID's
-    *\param ans return value
 */
             
 SEXP R_getpredictions(SEXP tree, SEXP where) {
@@ -494,7 +492,6 @@ void C_weights(SEXP tree, SEXP newinputs,
     *\param tree a tree
     *\param newinputs an object of class `VariableFrame'
     *\param mincriterion overwrites mincriterion used for tree growing
-    *\param ans return value
 */
 
 SEXP R_weights(SEXP tree, SEXP newinputs, SEXP mincriterion) {
@@ -516,7 +513,6 @@ SEXP R_weights(SEXP tree, SEXP newinputs, SEXP mincriterion) {
     *\param newinputs an object of class `VariableFrame'
     *\param mincriterion overwrites mincriterion used for tree growing
     *\param oobpred a logical indicating out-of-bag predictions
-    *\param ans return value
 */
 
 SEXP R_predictRF(SEXP forest, SEXP newinputs, SEXP mincriterion, SEXP oobpred) {
@@ -571,7 +567,6 @@ SEXP R_predictRF(SEXP forest, SEXP newinputs, SEXP mincriterion, SEXP oobpred) {
     *\param newinputs an object of class `VariableFrame'
     *\param mincriterion overwrites mincriterion used for tree growing
     *\param oobpred a logical indicating out-of-bag predictions
-    *\param ans return value
 */
 
 SEXP R_predictRF2(SEXP forest, SEXP response, SEXP newinputs, 
