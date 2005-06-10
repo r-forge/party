@@ -13,27 +13,23 @@ gtctrl <- new("GlobalTestControl")
 tlev <- levels(gtctrl@testtype)
 
 data(GlaucomaM, package = "ipred")
-inp <- initVariableFrame(GlaucomaM[,-63,drop = FALSE]) #, fun = rank)
-resp <- initVariableFrame(GlaucomaM[,"Class",drop = FALSE])
+inp <- initVariableFrame(GlaucomaM[,-63,drop = FALSE], trafo = NULL) #, fun = rank)
+resp <- initVariableFrame(GlaucomaM[,"Class",drop = FALSE], trafo = NULL)
 ls <- new("LearningSample", inputs = inp, responses = resp,
           weights = rep(1, inp@nobs), nobs = nrow(GlaucomaM), 
           ninputs = inp@ninputs)
 tm <- TreeFitMemory(ls, TRUE)
-ctrl <- new("TreeControl")
-ctrl@gtctrl@testtype <- factor("Bonferroni", levels = tlev)
-ctrl@varctrl@teststattype <- factor("quadform", levels = c("maxabs", "quadform"))
+ctrl <- ctree.control()
 node <- .Call("R_Node", ls, ls@weights, tm, ctrl)
 stopifnot(isequal(node[[5]][[3]], 0.059))
 
 ### and now with ranked inputs -> Wilcoxon-Mann-Whitney tests
-inp <- initVariableFrame(GlaucomaM[,-63,drop = FALSE], fun = rank)
-resp <- initVariableFrame(GlaucomaM[,"Class",drop = FALSE])
+inp <- initVariableFrame(GlaucomaM[,-63,drop = FALSE], trafo = rank)
+resp <- initVariableFrame(GlaucomaM[,"Class",drop = FALSE], trafo = NULL)
 ls <- new("LearningSample", inputs = inp, responses = resp,
           weights = rep(1, inp@nobs), nobs = nrow(GlaucomaM), 
           ninputs = inp@ninputs)
 tm <- TreeFitMemory(ls, TRUE)
-ctrl <- new("TreeControl")
-ctrl@gtctrl@testtype <- factor("Bonferroni", levels = tlev)
-ctrl@varctrl@teststattype <- factor("quadform", levels = c("maxabs", "quadform"))
+ctrl <- ctree.control()
 node <- .Call("R_Node", ls, ls@weights, tm, ctrl)
 stopifnot(isequal(node[[5]][[3]], 0.059))

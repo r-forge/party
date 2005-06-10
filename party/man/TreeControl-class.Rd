@@ -1,6 +1,7 @@
 \name{TreeControl-class}
 \docType{class}
 \alias{TreeControl-class}
+\alias{TreeControl}
 
 \title{Class "TreeControl"}
 \description{ 

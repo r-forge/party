@@ -146,28 +146,6 @@ mst <- function(x) {
     return(med)
 }
 
-### Logrank scores, see coin::logrank_trafo
-
-logrank_scores <- function(x, ties.method = c("logrank", "HL")) {
-
-    if (class(x) != "Surv")
-      stop(sQuote("x"), " is not of class ", sQuote("Surv"))
-    ties.method <- match.arg(ties.method)  
-
-    time <- x[,1]
-    event <- x[,2]
-    n <- length(time)
-    ot <- order(time, event)
-    rt <- rank(time, ties.method = "max")
-    mt <- rank(time, ties.method = "min") - 1
-    fact <- switch(ties.method, "logrank" = event / (n - mt),
-                                "HL" = event/(n - rt + 1)   
-                  )
-    RET <- event - cumsum(fact[ot])[rt]
-    attr(RET, "scores") <- "Logrank" 
-    return(RET)
-}
-
 dostep <- function(x, y) {
 
     ### create a step function based on x, y coordinates

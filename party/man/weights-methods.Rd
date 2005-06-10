@@ -47,7 +47,8 @@
 
   data(airquality)
   airq <- subset(airquality, !is.na(Ozone))
-  airct <- ctree(Ozone ~ ., data = airq, maxsurrogate = 3)
+  airct <- ctree(Ozone ~ ., data = airq, 
+                 controls = ctree.control(maxsurrogate = 3))
 
   ### distribution of responses in the terminal nodes
   plot(airq$Ozone ~ as.factor(where(airct)))
@@ -67,7 +68,6 @@
 
   plot(airq$Ozone, pmean, col = "red")
   points(airq$Ozone, pmedian, col = "blue")
-
 
 }
 \keyword{methods}

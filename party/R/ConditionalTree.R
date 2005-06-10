@@ -1,6 +1,7 @@
 
 # $Id$
 
+### the fitting procedure
 ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
 
     if (!extends(class(object), "LearningSample"))
@@ -21,7 +22,6 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
     if (max(abs(floor(weights) -  weights)) > sqrt(.Machine$double.eps))
         stop(sQuote("weights"), " contains real valued elements; currently
              only integer values are allowed") 
-
 
     where <- rep(0, object@nobs)
     storage.mode(where) <- "integer"
@@ -51,7 +51,7 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
         } else {
             penv <- new.env()
             object@menv@set("input", data = newdata, env = penv)
-            newinp <- initVariableFrame(get("input", envir = penv))
+            newinp <- initVariableFrame(get("input", envir = penv), trafo = NULL)
         }
 
         .Call("R_get_nodeID", tree, newinp, mincriterion, PACKAGE = "party")
@@ -132,12 +132,15 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
     return(RET)
 }
 
+### data pre-processing (ordering, computing transformations etc)
 ctreedpp <- function(formula, data = list(), subset = NULL, 
-                     na.action = NULL, rfun = NULL, ifun = NULL, ...) {
+                     na.action = NULL, xtrafo = NULL, ytrafo = NULL, 
+                     scores = NULL, ...) {
 
     dat <- ModelEnvFormula(formula = formula, data = data, 
                            subset = subset, ...)
-    inp <- initVariableFrame(dat@get("input"), fun = ifun)
+    inp <- initVariableFrame(dat@get("input"), trafo = xtrafo, 
+                             scores = scores)
 
     if (has(dat, "censored"))
         censored <- as.logical(dat@get("censored")[[1]])
@@ -150,13 +153,10 @@ ctreedpp <- function(formula, data = list(), subset = NULL,
         stop("multiple failure times not yet implemented")
 
     if (has(dat, "censored")) {
-        if (!is.null(rfun))
-            resp <- initVariableFrame(Surv(response[[1]], censored), 
-                                      fun = rfun)
-        else
-            resp <- initVariableFrame(Surv(response[[1]], censored))
+        resp <- initVariableFrame(Surv(response[[1]], censored), 
+                                  trafo = ytrafo)
     } else {
-        resp <- initVariableFrame(response, fun = rfun)
+        resp <- initVariableFrame(response, trafo = ytrafo)
     }
     RET <- new("LearningSample", inputs = inp, responses = resp,
                weights = rep(1, inp@nobs), nobs = inp@nobs,
@@ -164,7 +164,8 @@ ctreedpp <- function(formula, data = list(), subset = NULL,
     RET
 }
 
-
+### the unfitted conditional tree, an object of class `StatModel'
+### see package `modeltools'
 conditionalTree <- new("StatModel",
                    capabilities = new("StatModelCapabilities"),
                    name = "unbiased conditional recursive partitioning",
@@ -173,11 +174,21 @@ conditionalTree <- new("StatModel",
                    predict = function(object, ...) 
                                  object@predict_response(...) )
 
-treecontrols <- function(teststattype = "quadform", 
-                         testtype = "Bonferroni", 
-                         nresample = 9999, mincriterion = 0.95, 
-                         stump = FALSE, minsplit = 20, maxsurrogate = 0) {
+### we need a `fit' method for data = LearningSample
+setMethod("fit", signature = signature(model = "StatModel",
+                                       data = "LearningSample"),
+    definition = function(model, data, ...)
+        model@fit(data, ...)
+)
 
+### control the hyper parameters
+ctree.control <- function(teststattype = c("quadform", "maxabs"),
+                          testtype = c("Bonferroni", "MonteCarlo", "Raw"),
+                          mincriterion = 0.95, minsplit = 20, stump = FALSE,
+                          nresample = 9999, maxsurrogate = 0) {
+
+    teststattype <- match.arg(teststattype)
+    testtype <- match.arg(testtype)
     RET <- new("TreeControl")
     if (teststattype %in% levels(RET@varctrl@teststattype)) {
         RET@varctrl@teststattype <- factor(teststattype, 
@@ -201,18 +212,19 @@ treecontrols <- function(teststattype = "quadform",
     RET
 }
 
+### the top-level convenience function
 ctree <- function(formula, data, subset = NULL, weights = NULL, 
-                  teststattype = c("quadform", "maxabs"),
-                  testtype = c("Bonferroni", "MonteCarlo", "Raw"),
-                  mincriterion = 0.95, minsplit = 20, stump = FALSE,
-                  nresample = 9999, maxsurrogate = 0, 
-                  ifun = NULL, rfun = NULL) {
+                  controls = ctree.control(),
+                  xtrafo = NULL, ytrafo = NULL, scores = NULL) {
 
-    teststattype <- match.arg(teststattype)
-    testtype <- match.arg(testtype)
-    ctrl <- treecontrols(teststattype, testtype, stump = stump, nresample =
-                         nresample, maxsurrogate = maxsurrogate, 
-                         mincriterion = mincriterion, minsplit = minsplit)
-    ls <- conditionalTree@dpp(formula, data, subset, ifun = ifun, rfun = rfun)
-    conditionalTree@fit(ls, ctrl, weights = weights)
+    ### setup learning sample
+    ls <- dpp(conditionalTree, formula, data, subset, xtrafo = xtrafo, 
+              ytrafo = ytrafo, scores = scores)
+
+    ### setup memory
+    fitmem <- TreeFitMemory(ls, TRUE)
+
+    ### fit and return a conditional tree
+    fit(conditionalTree, ls, controls = controls, weights = weights, 
+        fitmem = fitmem)
 }

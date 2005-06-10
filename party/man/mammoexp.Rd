@@ -39,11 +39,10 @@
 
 }
 \examples{
-data(mammoexp)
-### attach scores (those are the default values anyway)
-attr(mammoexp$ME, "scores") <- 1:3
-attr(mammoexp$SYMPT, "scores") <- 1:4
-attr(mammoexp$DECT, "scores") <- 1:3
-ctree(ME ~ .,data = mammoexp)
+
+  data(mammoexp)
+  ### fit tree with attached scores (but those are the default values anyway)
+  ctree(ME ~ .,data = mammoexp, 
+        scores = list(ME = 1:3, SYMPT = 1:4, DECT = 1:3))
 }
 \keyword{datasets}

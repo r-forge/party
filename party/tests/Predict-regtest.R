@@ -12,19 +12,19 @@ gctorture(on = GCtorture)
 load(file.path(.find.package("party"), "R", "all.rda"))
 
 data(treepipit, package = "coin")
-ct <- ctree(counts ~ ., data = treepipit, teststattype = "quadform")
+ct <- ctree(counts ~ ., data = treepipit)
 stopifnot(isequal(predict(ct), predict(ct, newdata = treepipit)))
 
 
 data(GlaucomaM, package = "ipred")
-ct <- ctree(Class ~ ., data = GlaucomaM, teststattype = "quadform")
+ct <- ctree(Class ~ ., data = GlaucomaM)
 stopifnot(isequal(predict(ct), predict(ct, newdata = GlaucomaM)))
 stopifnot(isequal(predict(ct, type = "prob"), predict(ct, type = "prob", 
                   newdata = GlaucomaM)))
 
 data(GBSG2, package = "ipred")  
 
-GBSG2tree <- ctree(Surv(time, cens) ~ ., data = GBSG2, teststattype = "quadform")
+GBSG2tree <- ctree(Surv(time, cens) ~ ., data = GBSG2)
 stopifnot(isequal(GBSG2tree@predict_response(), 
           GBSG2tree@predict_response(newdata = GBSG2)))
 stopifnot(isequal(GBSG2tree@cond_distr_response(), 
@@ -38,7 +38,6 @@ names(mammoexp)[names(mammoexp) == "SYMPT"] <- "symptoms"
 names(mammoexp)[names(mammoexp) == "PB"] <- "benefit"
 
 names(mammoexp)
-mtree <- ctree(ME ~ ., data = mammoexp, teststattype = "quadform")
+mtree <- ctree(ME ~ ., data = mammoexp)
 stopifnot(isequal(predict(mtree), predict(mtree, newdata = mammoexp)))
-stopifnot(isequal(predict(mtree, type = "prob"), predict(mtree, type = "prob", 
-                  newdata = mammoexp)))
+stopifnot(isequal(predict(mtree), predict(mtree, newdata = mammoexp)))

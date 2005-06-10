@@ -8,10 +8,8 @@
 }
 \usage{
 ctree(formula, data, subset = NULL, weights = NULL, 
-      teststattype = c("quadform", "maxabs"), 
-      testtype = c("Bonferroni", "MonteCarlo", "Raw"), 
-      mincriterion = 0.95, minsplit = 20, stump = FALSE, 
-      nresample = 9999, maxsurrogate = 0, ifun = NULL, rfun = NULL)
+      controls = ctree.control(), xtrafo = NULL, ytrafo = NULL, 
+      scores = NULL)
 }
 \arguments{
   \item{formula}{ a symbolic description of the model to be fit. }
@@ -21,22 +19,12 @@ ctree(formula, data, subset = NULL, weights = NULL,
   \item{weights}{ an optional vector of weights to be used in the fitting
                   process. Only non-negative integer valued weights are
                   allowed.}
-  \item{teststattype}{ a character specifying the type of the test statistic 
-                       to be applied. }
-  \item{testtype}{ a character specifying how to compute the distribution of
-                   the test statistic. }
-  \item{mincriterion}{ the value of the test statistic or 1 - P-value that
-                       must be exceeded in order to implement a split. }
-  \item{minsplit}{ the minimum sum of the weights in a node. }
-  \item{stump}{ a logical determining whether a stump (a tree with three
-                nodes only) is to be computed. }
-  \item{nresample}{ number of Monte-Carlo replications to use when the 
-                    distribution of the test statistic is simulated.}
-  \item{maxsurrogate}{ number of surrogate splits to evaluate. Note the
-                       currently only surrogate splits in ordered
-                       covariables are implemented. }
-  \item{ifun}{ a function to be applied to all input variables. }
-  \item{rfun}{ a function to be applied to all response variables. }
+  \item{controls}{an object of class \code{\link{TreeControl}}, which can be
+                  obtained using \code{\link{ctree.control}}.}
+  \item{xtrafo}{ an optional function to be applied to all input variables. }
+  \item{ytrafo}{ an optional function to be applied to all response variables. }
+  \item{scores}{ an optional named list of scores to be attached to ordered
+               factors.}
 }
 \details{
 
@@ -66,13 +54,15 @@ ctree(formula, data, subset = NULL, weights = NULL,
   \code{Bonferroni} or \code{MonteCarlo}) avoiding a variable selection bias
   towards input variables with many possible cutpoints.
 
+  By default, the scores for each ordinal factor \code{x} are
+  \code{1:length(x)}, this may be changed using \code{scores = list(x =
+  c(1,5,6))}, for example.
+
   For a general description of the methodology see Hothorn, Hornik and
   Zeileis (2004).
 
   The current handling of missing values is very rudimentary. An error is
-  thrown when the response has at least one missing value. Observations
-  with missing values in an input variable defining a split go with the
-  majority.
+  thrown when the response has at least one missing value. 
 
 }
 \value{
@@ -94,7 +84,8 @@ ctree(formula, data, subset = NULL, weights = NULL,
 ### regression
 data(airquality)
 airq <- subset(airquality, !is.na(Ozone))
-airct <- ctree(Ozone ~ ., data = airq, maxsurrogate = 3)
+airct <- ctree(Ozone ~ ., data = airq, 
+               controls = ctree.control(maxsurrogate = 3))
 airct
 plot(airct)
 mean((airq$Ozone - predict(airct))^2)
@@ -107,10 +98,6 @@ table(predict(irisct), iris$Species)
 
 ### ordinal regression
 data(mammoexp)
-### attach scores
-attr(mammoexp$ME, "scores") <- 1:3
-attr(mammoexp$SYMPT, "scores") <- 1:4
-attr(mammoexp$DECT, "scores") <- 1:3 
 mammoct <- ctree(ME ~ ., data = mammoexp)
 plot(mammoct)
 

@@ -94,21 +94,21 @@ simpleEdge(ctreeobj, digits = 3, abbreviate = FALSE)
 }
 \examples{
 
-data(airquality)
-airq <- subset(airquality, !is.na(Ozone))
-airct <- ctree(Ozone ~ ., data = airq)
+  data(airquality)
+  airq <- subset(airquality, !is.na(Ozone))
+  airct <- ctree(Ozone ~ ., data = airq)
 
-### very simple; the mean is given in each terminal
-### node
-plot(airct, type = "simple")
+  ### very simple; the mean is given in each terminal node
+  plot(airct, type = "simple")
 
-### density estimates
-plot(airct, terminal.panel = densNode)
+  ### density estimates
+  plot(airct, terminal.panel = densNode)
     
-### histograms 
-plot(airct, terminal.panel = histNode)
+  ### histograms 
+  plot(airct, terminal.panel = histNode)
 
-### histograms
-plot(airct, terminal.panel = boxNode, drop.terminal = TRUE)
+  ### histograms
+  plot(airct, terminal.panel = boxNode, drop.terminal = TRUE)
+
 }
 \keyword{hplot}

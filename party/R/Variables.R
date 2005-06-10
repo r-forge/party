@@ -1,7 +1,7 @@
 
 # $Id$
 
-initVariableFrame.df <- function(obj, fun = NULL) {
+initVariableFrame.df <- function(obj, trafo = NULL, scores = NULL, ...) {
 
     RET <- new("VariableFrame", nrow(obj), ncol(obj))
     
@@ -9,6 +9,21 @@ initVariableFrame.df <- function(obj, fun = NULL) {
     is_nominal <- sapply(obj, is.factor) & !is_ordinal
 
     jt <- c()
+
+    ### assign user-specified scores to variables in `obj'
+    if (!is.null(scores)) {
+        if (!is.list(scores) || is.null(names(scores)))
+            stop(sQuote("scores"), " is not a named list")
+        scores <- scores[names(scores) %in% colnames(obj)]
+    }
+    if (!is.null(scores)) {
+        tmp <- sapply(names(scores), function(n) {
+            if (!(is.factor(obj[[n]]) && is.ordered(obj[[n]])) || 
+                nlevels(obj[[n]]) != length(scores[[n]]))
+                stop("cannot assign scores to variable ", sQuote(n))
+            attr(obj[[n]], "scores") <- scores[[n]]
+        })
+    }
 
     ### speedup: extract the slots and re-assign them afterwards
     scores <- RET@scores
@@ -44,8 +59,8 @@ initVariableFrame.df <- function(obj, fun = NULL) {
             }
             # </FIXME>
         } else {
-            if (!is.null(fun)) 
-                xt <- matrix(fun(x), ncol = 1)
+            if (!is.null(trafo)) 
+                xt <- matrix(trafo(x), ncol = 1)
             else 
                 xt <- matrix(x, ncol = 1)
             storage.mode(xt) <- "double"
@@ -77,23 +92,27 @@ initVariableFrame.df <- function(obj, fun = NULL) {
 }
 
 setGeneric(name = "initVariableFrame",
-           def = function(obj, fun = NULL)
+           def = function(obj, trafo = NULL, ...)
                standardGeneric("initVariableFrame")
 )
 
-setMethod("initVariableFrame", signature = c("data.frame", "ANY"), 
+setClassUnion("function_OR_NULL", c("function", "NULL"))
+
+setMethod("initVariableFrame", 
+    signature = c("data.frame", "function_OR_NULL"), 
     definition = initVariableFrame.df
 )
 
-initVariableFrame.Surv <- function(obj, fun = logrank_trafo) {
+initVariableFrame.Surv <- function(obj, trafo = logrank_trafo, ...) {
 
+    if (is.null(trafo)) trafo <- logrank_trafo
     RET <- new("VariableFrame", nrow(obj), as.integer(1))
     RET@variables <- list(obj)
 
     RET@is_nominal <- FALSE
     RET@is_ordinal <- FALSE
     
-    RET@transformations <- list(matrix(fun(obj), ncol = 1))
+    RET@transformations <- list(matrix(trafo(obj), ncol = 1))
 
     RET@ordering <- list(order(RET@transformations[[1]]))
     RET@has_missings <- any(is.na(obj))
@@ -103,11 +122,11 @@ initVariableFrame.Surv <- function(obj, fun = logrank_trafo) {
     RET
 }
 
-setMethod("initVariableFrame", signature = c("Surv", "ANY"),
+setMethod("initVariableFrame", signature = c("Surv", "function_OR_NULL"),
     definition = initVariableFrame.Surv
 )
 
-initVariableFrame.matrix <- function(obj, fun = NULL) {
+initVariableFrame.matrix <- function(obj, trafo = NULL, ...) {
 
     RET <- new("VariableFrame", nrow(obj), ncol(obj))
     objDF <- as.data.frame(obj)
@@ -117,9 +136,9 @@ initVariableFrame.matrix <- function(obj, fun = NULL) {
     RET@is_nominal <- rep(FALSE, ncol(obj))
     RET@is_ordinal <- rep(FALSE, ncol(obj))
    
-    if (!is.null(fun)) 
+    if (!is.null(trafo)) 
         RET@transformations <- lapply(objDF, function(x) 
-                                      matrix(fun(x), ncol = 1))
+                                      matrix(trafo(x), ncol = 1))
     else
         RET@transformations <- lapply(objDF, function(x) matrix(x, ncol = 1))
 
@@ -134,6 +153,6 @@ initVariableFrame.matrix <- function(obj, fun = NULL) {
     RET
 }
 
-setMethod("initVariableFrame", signature = c("matrix", "ANY"),
+setMethod("initVariableFrame", signature = c("matrix", "function_OR_NULL"),
     definition = initVariableFrame.matrix
 )

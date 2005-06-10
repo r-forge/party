@@ -56,8 +56,8 @@ stopifnot(isequal(round(p1, 3), round(1 - p2, 3)))
 ### Monte-Carlo approximation of P-Values, univariate
 mydata = data.frame(y = gl(2, 50), x1 = rnorm(100),  
                     x2 = rnorm(100), x3 = rnorm(100))
-inp <- initVariableFrame(mydata[,"x1",drop = FALSE], fun = rank)
-resp <- initVariableFrame(mydata[,"y",drop = FALSE])
+inp <- initVariableFrame(mydata[,"x1",drop = FALSE], trafo = rank)
+resp <- initVariableFrame(mydata[,"y",drop = FALSE], trafo = NULL)
 ls <- new("LearningSample", inputs = inp, responses = resp,
           weights = rep(1, inp@nobs), nobs = nrow(mydata),
           ninputs = inp@ninputs)
@@ -80,8 +80,8 @@ stopifnot(abs(wpval - (1 - pvals[[2]])) < 0.01)
 mydata = data.frame(y = gl(2, 50), x1 = rnorm(100),  
                     x2 = rnorm(100), x3 = rnorm(100))
 inp <- initVariableFrame(mydata[,c("x1", "x2", "x3"),
-                                drop = FALSE], fun = rank)
-resp <- initVariableFrame(mydata[,"y",drop = FALSE])
+                                drop = FALSE], trafo = rank)
+resp <- initVariableFrame(mydata[,"y",drop = FALSE], trafo = NULL)
 ls <- new("LearningSample", inputs = inp, responses = resp,
           weights = rep(1, inp@nobs), nobs = nrow(mydata),
           ninputs = inp@ninputs)

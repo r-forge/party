@@ -33,7 +33,7 @@ TreeFitMemory(object, MPinv = FALSE)
 
     ### setup memory and controls 
     mem <- TreeFitMemory(ls)
-    ct <- party:::treecontrols(teststattype = "maxabs")
+    ct <- ctree.control(teststattype = "maxabs")
 
     ### fit 50 trees on bootstrap samples
     bs <- rmultinom(50, nrow(airq), rep(1, nrow(airq))/nrow(airq))
