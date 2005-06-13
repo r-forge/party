@@ -64,7 +64,8 @@ setClass(Class = "TreeFitMemory",
         varMmemory        = "list",
         Mscorematrices    = "list",
         dontuse           = "logical",
-        dontusetmp        = "logical"
+        dontusetmp        = "logical",
+        splitstatistics   = "numeric"
     ), 
     validity = function(object) {
         ni <- length(dontuse)
@@ -130,9 +131,10 @@ setClass(Class = "GlobalTestControl",
 
 setClass(Class = "TreeGrowControl",
     representation = representation(
-        stump = "logical"
+        stump           = "logical",
+        savesplitstats  = "logical"
     ),
-    prototype = list(stump = FALSE)
+    prototype = list(stump = FALSE, savesplitstats = TRUE)
 )
 
 setClass(Class = "TreeControl",

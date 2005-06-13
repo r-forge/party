@@ -54,6 +54,8 @@ SEXP
     PL2_varmemorySym,
     PL2_varMmemorySym, 
     PL2_MscorematricesSym,
+    PL2_splitstatisticsSym,
+    PL2_savesplitstatsSym,
     PL2_responsesSym, 
     PL2_inputsSym,
     PL2_testtypeSym, 
@@ -116,6 +118,8 @@ SEXP party_init(void) {
     PL2_varmemorySym = install("varmemory"); 
     PL2_varMmemorySym = install("varMmemory"); 
     PL2_MscorematricesSym = install("Mscorematrices"); 
+    PL2_splitstatisticsSym = install("splitstatistics");
+    PL2_savesplitstatsSym = install("savesplitstats");
     PL2_responsesSym = install("responses"); 
     PL2_inputsSym = install("inputs"); 
     PL2_testtypeSym = install("testtype"); 
@@ -266,6 +270,14 @@ SEXP get_Mscorematrix(SEXP object, int variable) {
                       variable - 1));
 }
 
+int get_savesplitstats(SEXP object) {
+    return(INTEGER(GET_SLOT(object, PL2_savesplitstatsSym))[0]);
+}
+
+SEXP get_splitstatistics(SEXP object) {
+    return(GET_SLOT(object, PL2_splitstatisticsSym));
+}
+
 int get_nobs(SEXP object) {
     return(INTEGER(GET_SLOT(object, PL2_nobsSym))[0]);
 }
@@ -296,6 +308,10 @@ SEXP get_splitctrl(SEXP object) {
 
 SEXP get_gtctrl(SEXP object) {
     return(GET_SLOT(object, PL2_gtctrlSym));
+}
+
+SEXP get_tgctrl(SEXP object) {
+    return(GET_SLOT(object, PL2_tgctrlSym));
 }
 
 double get_mincriterion(SEXP object) {

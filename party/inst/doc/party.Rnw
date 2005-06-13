@@ -164,6 +164,27 @@ is displayed for each terminal node. \label{glaucoma}}
 \end{center}
 \end{figure}
 
+\begin{figure}
+\begin{center}
+<<glaucoma-split-plot, echo = TRUE, fig = TRUE, width = 9, height = 3.5>>=
+inner <- nodes(gtree, 1:3)
+layout(matrix(1:length(inner), ncol = length(inner)))
+out <- sapply(inner, function(i) {
+    splitstat <- i$psplit$splitstatistic
+    x <- GlaucomaM[[i$psplit$variableName]][splitstat > 0]
+    plot(x, splitstat[splitstat > 0], main = paste("Node", i$nodeID),
+         xlab = i$psplit$variableName, ylab = "Statistic", ylim = c(0, 10))
+    abline(v = i$psplit$splitpoint, lty = 3)
+})
+@
+\caption{Split point estimation in each inner node. The process of 
+         the standardized two-sample test statistics for each possible 
+         split point in the selected input variable is show.
+         The estimated split point is given as vertical dotted line.
+         \label{glaucoma-split}}
+\end{center}
+\end{figure}
+
 
 \paragraph{Node Positive Breast Cancer.}
 

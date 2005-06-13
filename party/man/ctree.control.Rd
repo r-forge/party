@@ -10,7 +10,8 @@
 ctree.control(teststattype = c("quadform", "maxabs"), 
               testtype = c("Bonferroni", "MonteCarlo", "Raw"), 
               mincriterion = 0.95, minsplit = 20, stump = FALSE, 
-              nresample = 9999, maxsurrogate = 0)
+              nresample = 9999, maxsurrogate = 0, mtry = 0, 
+              savesplitstats = TRUE)
 }
 \arguments{
   \item{teststattype}{ a character specifying the type of the test statistic
@@ -27,6 +28,12 @@ ctree.control(teststattype = c("quadform", "maxabs"),
   \item{maxsurrogate}{ number of surrogate splits to evaluate. Note the
                        currently only surrogate splits in ordered
                        covariables are implemented. }
+  \item{mtry}{ number of input variables randomly sampled as candidates 
+               at each node for random forest like algorithms. The default
+               \code{mtry = 0} means that no random selection takes place.}
+  \item{savesplitstats}{ a logical determining if the process of standardized
+                         two-sample statistics for split point estimate
+                         is saved for each primary split.}
 }
 \details{
 

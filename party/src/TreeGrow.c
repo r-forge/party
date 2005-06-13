@@ -18,7 +18,7 @@ void C_TreeGrow(SEXP node, SEXP learnsample, SEXP fitmem,
     weights = S3get_nodeweights(node);
     
     if ((nodenum[0] == 2 || nodenum[0] == 3) && 
-        get_stump(GET_SLOT(controls, PL2_tgctrlSym)))
+        get_stump(get_tgctrl(controls)))
         C_Node(node, learnsample, weights, fitmem, controls, 1);
     else
         C_Node(node, learnsample, weights, fitmem, controls, 0);

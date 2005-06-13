@@ -53,10 +53,10 @@ void C_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls,
     expcovinf = GET_SLOT(fitmem, PL2_expcovinfssSym);
     C_ExpectCovarInfluence(REAL(y), 1, REAL(weights), nobs, expcovinf);
     
+    splitstat = REAL(get_splitstatistics(fitmem));
     /* <FIXME> extend `TreeFitMemory' to those as well ... */
     maxstat = Calloc(ninputs, double);
     cutpoint = Calloc(ninputs, double);
-    splitstat = Calloc(nobs, double);
     order = Calloc(ninputs, int);
     /* <FIXME> */
     
@@ -136,7 +136,6 @@ void C_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls,
     
     Free(maxstat);
     Free(cutpoint);
-    Free(splitstat);
     Free(order);
     Free(tweights);
     Free(twotab);

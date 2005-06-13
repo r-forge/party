@@ -51,15 +51,16 @@ void C_Node(SEXP node, SEXP learnsample, SEXP weights,
     int nobs, ninputs, jselect, yORDERED, q, j;
     double mincriterion, sweights, *dprediction;
     double *teststat, *pvalue, smax, cutpoint = 0.0, maxstat = 0.0;
-    double *standstat;
+    double *standstat, *splitstat;
     SEXP responses, inputs, y, x, expcovinf, thisweights, linexpcov;
-    SEXP varctrl, splitctrl, gtctrl, split, joint;
+    SEXP varctrl, splitctrl, gtctrl, tgctrl, split, joint;
     
     nobs = get_nobs(learnsample);
     ninputs = get_ninputs(learnsample);
     varctrl = get_varctrl(controls);
     splitctrl = get_splitctrl(controls);
     gtctrl = get_gtctrl(controls);
+    tgctrl = get_tgctrl(controls);
     mincriterion = get_mincriterion(gtctrl);
     responses = GET_SLOT(learnsample, PL2_responsesSym);
     inputs = GET_SLOT(learnsample, PL2_inputsSym);
@@ -121,7 +122,16 @@ void C_Node(SEXP node, SEXP learnsample, SEXP weights,
             
                 /* search for a split in a ordered variable x */
                 split = S3get_primarysplit(node);
-                C_init_orderedsplit(split, nobs);
+                
+                /* check if the n-vector of splitstatistics 
+                   should be returned for each primary split */
+                if (get_savesplitstats(tgctrl)) {
+                    C_init_orderedsplit(split, nobs);
+                    splitstat = REAL(S3get_splitstatistics(split));
+                } else {
+                    C_init_orderedsplit(split, 0);
+                    splitstat = REAL(get_splitstatistics(fitmem));
+                }
 
                 C_split(REAL(x), 1, REAL(y), q, REAL(weights), nobs,
                         INTEGER(get_ordering(inputs, jselect)), 
@@ -129,14 +139,26 @@ void C_Node(SEXP node, SEXP learnsample, SEXP weights,
                         yORDERED, splitctrl, 
                         GET_SLOT(fitmem, PL2_linexpcov2sampleSym),
                         expcovinf, REAL(S3get_splitpoint(split)), &maxstat,
-                        REAL(S3get_splitstatistics(split)));
+                        splitstat);
                 S3set_variableID(split, jselect);
              } else {
            
                  /* search of a set of levels (split) in a numeric variable x */
                  split = S3get_primarysplit(node);
-                 C_init_nominalsplit(split, LENGTH(get_levels(inputs, jselect)), 
-                                     nobs);
+                 
+                /* check if the n-vector of splitstatistics 
+                   should be returned for each primary split */
+                if (get_savesplitstats(tgctrl)) {
+                    C_init_nominalsplit(split, 
+                        LENGTH(get_levels(inputs, jselect)), 
+                        nobs);
+                    splitstat = REAL(S3get_splitstatistics(split));
+                } else {
+                    C_init_nominalsplit(split, 
+                        LENGTH(get_levels(inputs, jselect)), 
+                        0);
+                    splitstat = REAL(get_splitstatistics(fitmem));
+                }
           
                  linexpcov = get_varmemory(fitmem, jselect);
                  standstat = Calloc(get_dimension(linexpcov), double);
@@ -154,7 +176,7 @@ void C_Node(SEXP node, SEXP learnsample, SEXP weights,
                                     GET_SLOT(fitmem, PL2_linexpcov2sampleSym),
                                     expcovinf, &cutpoint, 
                                     INTEGER(S3get_splitpoint(split)),
-                                    &maxstat, REAL(S3get_splitstatistics(split)));
+                                    &maxstat, splitstat);
                  Free(standstat);
             }
             if (maxstat == 0) {

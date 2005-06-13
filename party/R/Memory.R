@@ -13,6 +13,7 @@ TreeFitMemory <- function(object, MPinv = FALSE) {
     expcovinfss <- new("ExpectCovarInfluence", as.integer(1))
     linexpcov2sample  <- new("LinStatExpectCovar", as.integer(1), q) 
     weights <- vector(mode = "list", length = ninputs)
+    splitstatistics <- as.double(rep(0, nobs))
     varmemory <- vector(mode = "list", length = ninputs)
     varMmemory <- vector(mode = "list", length = ninputs)
     Mscorematrices <- vector(mode = "list", length = ninputs)
@@ -69,5 +70,6 @@ TreeFitMemory <- function(object, MPinv = FALSE) {
     RET@Mscorematrices <- Mscorematrices
     RET@dontuse <- dontuse
     RET@dontusetmp <- dontusetmp
+    RET@splitstatistics <- splitstatistics
     RET
 }

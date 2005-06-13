@@ -155,6 +155,7 @@ ctreedpp <- function(formula, data = list(), subset = NULL,
     if (has(dat, "censored")) {
         resp <- initVariableFrame(Surv(response[[1]], censored), 
                                   trafo = ytrafo)
+        names(resp@variables) <- names(response)
     } else {
         resp <- initVariableFrame(response, trafo = ytrafo)
     }
@@ -185,7 +186,8 @@ setMethod("fit", signature = signature(model = "StatModel",
 ctree.control <- function(teststattype = c("quadform", "maxabs"),
                           testtype = c("Bonferroni", "MonteCarlo", "Raw"),
                           mincriterion = 0.95, minsplit = 20, stump = FALSE,
-                          nresample = 9999, maxsurrogate = 0) {
+                          nresample = 9999, maxsurrogate = 0, mtry = 0, 
+                          savesplitstats = TRUE) {
 
     teststattype <- match.arg(teststattype)
     testtype <- match.arg(testtype)
@@ -206,9 +208,15 @@ ctree.control <- function(teststattype = c("quadform", "maxabs"),
     if (RET@gtctrl@testtype == "MonteCarlo") RET@varctrl@pvalue <- FALSE
     RET@gtctrl@nresample <- as.integer(nresample)
     RET@gtctrl@mincriterion <- mincriterion
+    if (mtry > 0) {
+        RET@gtctrl@randomsplits <- TRUE
+        RET@gtctrl@mtry <- as.integer(mtry)
+    }
+    RET@tgctrl@savesplitstats <- savesplitstats
     RET@splitctrl@minsplit <- minsplit
     RET@splitctrl@maxsurrogate <- as.integer(maxsurrogate)
     RET@tgctrl@stump <- stump
+    RET@tgctrl@savesplitstats <- savesplitstats
     RET
 }
 
