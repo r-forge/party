@@ -139,13 +139,13 @@ double C_ConditionalPvalue(const double tstat, SEXP linexpcov,
 
     switch(type) {
         /* maxabs-type test statistic */
-        case 1:
+        case MAXABS:
             ans = C_maxabsConditionalPvalue(tstat,
                 REAL(GET_SLOT(linexpcov, PL2_covarianceSym)),
                 pq, maxpts, releps, abseps, &tol);
             break;
         /* quadform-type test statistic */
-        case 2:
+        case QUADFORM:
             ans = C_quadformConditionalPvalue(tstat, 
                 REAL(GET_SLOT(linexpcov, PL2_rankSym))[0]);
             break;

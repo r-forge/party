@@ -1,6 +1,6 @@
 
 /**
-    Linear statistics for conditional inference
+    Linear statistics for conditional inference based on Strasser & Weber (1999)
     *\file LinearStatistic.c
     *\author $Author$
     *\date $Date$

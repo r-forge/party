@@ -263,14 +263,16 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
         type = get_testtype(gtctrl);
         switch(type) {
             /* Bonferroni */
-            case 1: for (j = 0; j < ninputs; j++) {
+            case BONFERRONI: 
+                    for (j = 0; j < ninputs; j++) {
                         ans_criterion[j] = 1 - (1 - ans_criterion[j])*ninputs;
                         if (ans_criterion[j] < 0) 
                             ans_criterion[j] = 0.0;
                     }
                     break;
             /* Monte-Carlo */
-            case 2: pvaltmp = Calloc(ninputs, double);
+            case MONTECARLO: 
+                    pvaltmp = Calloc(ninputs, double);
                     C_MonteCarlo(ans_criterion, learnsample, weights, fitmem, 
                                  varctrl, gtctrl, pvaltmp);
                     for (j = 0; j < ninputs; j++)
@@ -278,10 +280,11 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
                     Free(pvaltmp);
                     break;
             /* aggregated */
-            case 3: error("C_GlobalTest: aggregated global test not yet implemented");
+            case AGGREGATED: 
+                    error("C_GlobalTest: aggregated global test not yet implemented");
                     break;
             /* raw */
-            case 4: break;
+            case RAW: break;
             default: error("C_GlobalTest: undefined value for type argument");
                      break;
         }

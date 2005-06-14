@@ -1,6 +1,6 @@
 
 /**
-    S4 classes 
+    S4 classes for package `party'
     *\file Classes.c
     *\author $Author$
     *\date $Date$
@@ -137,6 +137,8 @@ SEXP party_init(void) {
     PL2_tgctrlSym = install("tgctrl"); 
     return(R_NilValue);
 }
+
+/* accessor functions */
 
 int get_dimension(SEXP object) {
     return(INTEGER(GET_SLOT(object, PL2_dimensionSym))[0]);

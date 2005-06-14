@@ -53,3 +53,13 @@
 #define S3_SPLITSTATISTICS	3    /* splitstatistics */
 #define S3_TOLEFT		4    /* toleft */
 #define SPLIT_LENGTH		5    /* 5 elements in total */
+
+/* type of test statistic */
+#define MAXABS			1
+#define QUADFORM		2
+
+/* type of multiplicity adjustment */
+#define BONFERRONI		1
+#define MONTECARLO		2
+#define AGGREGATED		3
+#define RAW			4

@@ -162,13 +162,15 @@ void C_Node(SEXP node, SEXP learnsample, SEXP weights,
           
                  linexpcov = get_varmemory(fitmem, jselect);
                  standstat = Calloc(get_dimension(linexpcov), double);
-                 C_standardize(REAL(GET_SLOT(linexpcov, PL2_linearstatisticSym)),
+                 C_standardize(REAL(GET_SLOT(linexpcov, 
+                                             PL2_linearstatisticSym)),
                                REAL(GET_SLOT(linexpcov, PL2_expectationSym)),
                                REAL(GET_SLOT(linexpcov, PL2_covarianceSym)),
                                get_dimension(linexpcov), get_tol(splitctrl), 
                                standstat);
  
-                 C_splitcategorical(INTEGER(x), LENGTH(get_levels(inputs, jselect)), 
+                 C_splitcategorical(INTEGER(x), 
+                                    LENGTH(get_levels(inputs, jselect)), 
                                     REAL(y), q, REAL(weights), 
                                     nobs, REAL(VECTOR_ELT(GET_SLOT(responses, 
                                                PL2_scoresSym), 0)),

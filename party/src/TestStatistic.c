@@ -144,7 +144,8 @@ SEXP R_quadformTestStatistic(SEXP t, SEXP mu, SEXP SigmaPlus) {
     
     pq = LENGTH(t);
     PROTECT(ans = allocVector(REALSXP, 1));
-    REAL(ans)[0] = C_quadformTestStatistic(REAL(t), REAL(mu), REAL(SigmaPlus), pq);
+    REAL(ans)[0] = C_quadformTestStatistic(REAL(t), 
+                                           REAL(mu), REAL(SigmaPlus), pq);
     UNPROTECT(1);
     return(ans);
 }

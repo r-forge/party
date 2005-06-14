@@ -8,6 +8,17 @@
 
 #include "party.h"
 
+
+/**
+    The main tree growing function, handles the recursion. \n
+    *\param node  a list representing the current node
+    *\param learnsample an object of class `LearningSample'
+    *\param fitmen an object of class `TreeFitMemory'
+    *\param controls an object of class `TreeControl'
+    *\param where a pointer to an integer vector of n-elements
+    *\param nodenum a pointer to a integer vector of length 1
+*/
+
 void C_TreeGrow(SEXP node, SEXP learnsample, SEXP fitmem, 
                 SEXP controls, int *where, int *nodenum) {
 
@@ -50,6 +61,16 @@ void C_TreeGrow(SEXP node, SEXP learnsample, SEXP fitmem,
     } 
 }
 
+
+/**
+    R-interface to C_TreeGrow\n
+    *\param learnsample an object of class `LearningSample'
+    *\param weights a vector of case weights
+    *\param fitmen an object of class `TreeFitMemory'
+    *\param controls an object of class `TreeControl'
+    *\param where a vector of node indices for each observation
+*/
+
 SEXP R_TreeGrow(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls, SEXP where) {
             
      SEXP ans, nweights;
@@ -73,7 +94,17 @@ SEXP R_TreeGrow(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls, SEXP
 }
 
 
-SEXP R_Ensemble2(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls, SEXP ans) {
+/**
+    An experimental implementation of random forest like algorithms \n
+    *\param learnsample an object of class `LearningSample'
+    *\param weights a vector of case weights
+    *\param fitmen an object of class `TreeFitMemory'
+    *\param controls an object of class `TreeControl'
+    *\param ans a list whose length determined the number of trees
+*/
+
+
+SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls, SEXP ans) {
             
      SEXP nweights, tree, where;
      double *dnweights, *dweights, sw = 0.0, *prob;
@@ -92,8 +123,8 @@ SEXP R_Ensemble2(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls, SEX
          prob[i] = dweights[i]/sw;
 
      for (b  = 0; b < B; b++) {
-         SET_VECTOR_ELT(ans, b, tree = allocVector(VECSXP, 10));
-         SET_VECTOR_ELT(tree, 9, where = allocVector(INTSXP, nobs));
+         SET_VECTOR_ELT(ans, b, tree = allocVector(VECSXP, NODE_LENGTH + 1));
+         SET_VECTOR_ELT(tree, NODE_LENGTH, where = allocVector(INTSXP, nobs));
          iwhere = INTEGER(where);
          for (i = 0; i < nobs; i++) iwhere[i] = 0;
      

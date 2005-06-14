@@ -490,6 +490,8 @@ int C_whichmax(double *pvalue, double *teststat, int ninputs) {
     int ans = -1, j;
     double tmppval = 0.0, tmptstat = 0.0;
        
+    /* <FIXME> can we switch to the log scale here? </FIXME> */
+
     tmppval = 0.0;
     tmptstat = 0.0;
     for (j = 0; j < ninputs; j++) {

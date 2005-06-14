@@ -39,6 +39,7 @@ SEXP R_quadformConditionalPvalue(SEXP tstat, SEXP df) {
 
 /**
     Conditional asymptotic P-value of a maxabs-type test statistic\n
+    Basically the functionality from package `mvtnorm' \n
     *\param tstat test statitstic
     *\param Sigma covariance matrix
     *\param pq nrow(Sigma)
@@ -48,14 +49,16 @@ SEXP R_quadformConditionalPvalue(SEXP tstat, SEXP df) {
     *\param tol tolerance
 */
 
-double C_maxabsConditionalPvalue(const double tstat, const double *Sigma, const int pq,
-                                 int *maxpts, double *releps, double *abseps, double *tol) {
+double C_maxabsConditionalPvalue(const double tstat, const double *Sigma, 
+    const int pq, int *maxpts, double *releps, double *abseps, double *tol) {
 
     int *n, *nu, *inform, i, j, *infin, sub;
     double *lower, *upper, *delta, *corr, *sd, *myerror,
            *prob, ans;
 
-    if (pq == 1) return(2*pnorm(fabs(tstat)*-1.0, 0.0, 1.0, 1, 0)); /* return P-value */
+    /* univariate problem */
+    if (pq == 1) 
+        return(2*pnorm(fabs(tstat)*-1.0, 0.0, 1.0, 1, 0)); /* return P-value */
     
     n = Calloc(1, int);
     nu = Calloc(1, int);

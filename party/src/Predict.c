@@ -42,7 +42,8 @@ void C_splitnode(SEXP node, SEXP learnsample, SEXP control) {
     leftweights = REAL(S3get_nodeweights(leftnode));
 
     /* set up memory for the right daughter */
-    SET_VECTOR_ELT(node, S3_RIGHT, rightnode = allocVector(VECSXP, NODE_LENGTH));
+    SET_VECTOR_ELT(node, S3_RIGHT, 
+                   rightnode = allocVector(VECSXP, NODE_LENGTH));
     C_init_node(rightnode, nobs, 
         get_ninputs(learnsample), get_maxsurrogate(get_splitctrl(control)),
         ncol(GET_SLOT(GET_SLOT(learnsample, PL2_responsesSym),
@@ -149,7 +150,8 @@ SEXP C_get_node(SEXP subtree, SEXP newinputs,
             
                 ssplit = VECTOR_ELT(surrsplit, ns);
                 if (has_missings(newinputs, S3get_variableID(ssplit))) {
-                    if (INTEGER(get_missings(newinputs, S3get_variableID(ssplit)))[i]) {
+                    if (INTEGER(get_missings(newinputs, 
+                                             S3get_variableID(ssplit)))[i]) {
                         ns++;
                         continue;
                     }
@@ -543,7 +545,8 @@ SEXP R_predictRF(SEXP forest, SEXP newinputs, SEXP mincriterion, SEXP oobpred) {
         for (b = 0; b < ntrees; b++) {
             tree = VECTOR_ELT(forest, b);
 
-            if (oob && REAL(S3get_nodeweights(C_get_nodebynum(tree, 1)))[i] > 0.0) 
+            if (oob && 
+                REAL(S3get_nodeweights(C_get_nodebynum(tree, 1)))[i] > 0.0) 
                 continue;
 
             iwhere = C_get_nodeID(tree, newinputs, REAL(mincriterion)[0], i);
@@ -552,7 +555,8 @@ SEXP R_predictRF(SEXP forest, SEXP newinputs, SEXP mincriterion, SEXP oobpred) {
                 REAL(VECTOR_ELT(ans, i))[j] += REAL(tmp)[j];
             count++;
         }
-        if (count == 0) error("cannot compute out-of-bag predictions for obs ", i + 1);
+        if (count == 0) 
+            error("cannot compute out-of-bag predictions for obs ", i + 1);
         for (j = 0; j < q; j++)
             REAL(VECTOR_ELT(ans, i))[j] = REAL(VECTOR_ELT(ans, i))[j] / count;
     }
@@ -601,7 +605,8 @@ SEXP R_predictRF2(SEXP forest, SEXP response, SEXP newinputs,
         for (b = 0; b < ntrees; b++) {
             tree = VECTOR_ELT(forest, b);
 
-            if (oob && REAL(S3get_nodeweights(C_get_nodebynum(tree, 1)))[i] > 0.0) 
+            if (oob && 
+                REAL(S3get_nodeweights(C_get_nodebynum(tree, 1)))[i] > 0.0) 
                 continue;
 
             iwhere = C_get_nodeID(tree, newinputs, REAL(mincriterion)[0], i);
