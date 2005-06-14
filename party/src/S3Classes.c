@@ -13,8 +13,8 @@ void C_init_node(SEXP node, int nobs, int ninputs, int nsurr, int q) {
     SEXP nodeID, weights, criterion, primarysplit, surrogatesplits, 
          terminal, prediction;
 
-    if (LENGTH(node) != NODE_LENGTH)
-        error("node is not a list with %s elements", NODE_LENGTH);
+    if (LENGTH(node) < NODE_LENGTH)
+        error("node is not a list with at least %s elements", NODE_LENGTH);
         
     SET_VECTOR_ELT(node, S3_NODEID, nodeID = allocVector(INTSXP, 1));
     if (nobs > 0) 
@@ -100,8 +100,8 @@ void C_init_orderedsplit(SEXP split, int nobs) {
     
     SEXP variableID, splitpoint, splitstatistics, ordered, toleft;
     
-    if (LENGTH(split) != SPLIT_LENGTH)
-        error("split is not a list with %s elements", SPLIT_LENGTH);
+    if (LENGTH(split) < SPLIT_LENGTH)
+        error("split is not a list with at least %s elements", SPLIT_LENGTH);
         
     SET_VECTOR_ELT(split, S3_VARIABLEID, 
                    variableID = allocVector(INTSXP, 1));
@@ -123,8 +123,8 @@ void C_init_nominalsplit(SEXP split, int nlevels, int nobs) {
     
     SEXP variableID, splitpoint, splitstatistics, ordered, toleft;
     
-    if (LENGTH(split) != SPLIT_LENGTH)
-        error("split is not a list with %s elements", SPLIT_LENGTH);
+    if (LENGTH(split) < SPLIT_LENGTH)
+        error("split is not a list with at least %s elements", SPLIT_LENGTH);
 
     SET_VECTOR_ELT(split, S3_VARIABLEID, variableID = allocVector(INTSXP, 1));
     SET_VECTOR_ELT(split, S3_ORDERED, ordered = allocVector(LGLSXP, 1));
