@@ -6,7 +6,7 @@
     *\date $Date$
 */
 
-#include "PL2_common.h"
+#include "party.h"
 
 void C_TreeGrow(SEXP node, SEXP learnsample, SEXP fitmem, 
                 SEXP controls, int *where, int *nodenum) {
@@ -57,7 +57,7 @@ SEXP R_TreeGrow(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls, SEXP
      int nobs, i, nodenum = 1;
      
      nobs = get_nobs(learnsample);
-     PROTECT(ans = allocVector(VECSXP, 9));
+     PROTECT(ans = allocVector(VECSXP, NODE_LENGTH));
      C_init_node(ans, nobs, get_ninputs(learnsample), get_maxsurrogate(get_splitctrl(controls)),
                  ncol(GET_SLOT(GET_SLOT(learnsample, PL2_responsesSym), 
                       PL2_jointtransfSym)));

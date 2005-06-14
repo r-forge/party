@@ -6,7 +6,7 @@
     *\date $Date$
 */
                 
-#include "PL2_common.h"
+#include "party.h"
 
 
 /**
@@ -34,19 +34,19 @@ void C_splitnode(SEXP node, SEXP learnsample, SEXP control) {
     nobs = get_nobs(learnsample);
             
     /* set up memory for the left daughter */
-    SET_VECTOR_ELT(node, 7, leftnode = allocVector(VECSXP, 9));
+    SET_VECTOR_ELT(node, S3_LEFT, leftnode = allocVector(VECSXP, NODE_LENGTH));
     C_init_node(leftnode, nobs, 
-                get_ninputs(learnsample), get_maxsurrogate(get_splitctrl(control)),
-                ncol(GET_SLOT(GET_SLOT(learnsample, PL2_responsesSym),
-                                       PL2_jointtransfSym)));
+        get_ninputs(learnsample), get_maxsurrogate(get_splitctrl(control)),
+        ncol(GET_SLOT(GET_SLOT(learnsample, PL2_responsesSym),
+                      PL2_jointtransfSym)));
     leftweights = REAL(S3get_nodeweights(leftnode));
 
     /* set up memory for the right daughter */
-    SET_VECTOR_ELT(node, 8, rightnode = allocVector(VECSXP, 9));
+    SET_VECTOR_ELT(node, S3_RIGHT, rightnode = allocVector(VECSXP, NODE_LENGTH));
     C_init_node(rightnode, nobs, 
-                get_ninputs(learnsample), get_maxsurrogate(get_splitctrl(control)),
-                ncol(GET_SLOT(GET_SLOT(learnsample, PL2_responsesSym),
-                                           PL2_jointtransfSym)));
+        get_ninputs(learnsample), get_maxsurrogate(get_splitctrl(control)),
+        ncol(GET_SLOT(GET_SLOT(learnsample, PL2_responsesSym),
+                      PL2_jointtransfSym)));
     rightweights = REAL(S3get_nodeweights(rightnode));
 
     /* split according to the primary split */

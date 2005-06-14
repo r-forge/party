@@ -6,7 +6,7 @@
     *\date $Date$
 */
                 
-#include "PL2_common.h"
+#include "party.h"
 
 
 /**
@@ -211,7 +211,7 @@ SEXP R_Node(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls) {
             
      SEXP ans;
      
-     PROTECT(ans = allocVector(VECSXP, 9));
+     PROTECT(ans = allocVector(VECSXP, NODE_LENGTH));
      C_init_node(ans, get_nobs(learnsample), get_ninputs(learnsample), 
                  get_maxsurrogate(get_splitctrl(controls)),
                  ncol(GET_SLOT(GET_SLOT(learnsample, PL2_responsesSym), 

@@ -6,7 +6,7 @@
 *
 */
 
-#include "PL2_common.h"
+#include "party.h"
 
 void F77_SUB(rndstart)(void) { GetRNGstate(); }
 void F77_SUB(rndend)(void) { PutRNGstate(); }

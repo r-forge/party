@@ -6,7 +6,7 @@
     *\date $Date$
 */
 
-#include "PL2_common.h"
+#include "party.h"
 
 SEXP 
     PL2_expectationSym,

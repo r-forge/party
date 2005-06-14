@@ -6,7 +6,7 @@
     *\date $Date$
 */
                 
-#include "PL2_common.h"
+#include "party.h"
 
 /**
     Search for surrogate splits for bypassing the primary split \n
@@ -113,7 +113,7 @@ void C_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls,
         for (i = 0; i < 4; i++) twotab[i] = 0.0;
         cut = cutpoint[order[j] - 1];
         SET_VECTOR_ELT(S3get_surrogatesplits(node), j, 
-                       split = allocVector(VECSXP, 5));
+                       split = allocVector(VECSXP, SPLIT_LENGTH));
         C_init_orderedsplit(split, 0);
         S3set_variableID(split, order[j]);
         REAL(S3get_splitpoint(split))[0] = cut;
