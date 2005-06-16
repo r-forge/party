@@ -25,6 +25,7 @@
   linktocpage = {true},
 }
 
+\newcommand{\bft}{\mathbf{t}}
 
 \begin{document}
 
@@ -262,16 +263,16 @@ Having the conditional expectation and covariance at hand we are able to
 standardize a linear statistic $\T \in \R^{pq}$ of the form
 (\ref{linstat}) for some $p \in \{p_1, \dots, p_m\}$. 
 Univariate test statistics~$c$ mapping an observed multivariate 
-linear statistic $\t \in
+linear statistic $\bft \in
 \R^{pq}$ into the real line can be of arbitrary form.  An obvious choice is
 the maximum of the absolute values of the standardized linear statistic
 \begin{eqnarray*}
-c_\text{max}(\t, \mu, \Sigma)  = \max_{k = 1, \dots, pq} \left| \frac{(\t -
+c_\text{max}(\bft, \mu, \Sigma)  = \max_{k = 1, \dots, pq} \left| \frac{(\bft -
 \mu)_k}{\sqrt{(\Sigma)_{kk}}} \right|
 \end{eqnarray*}
 utilizing the conditional expectation $\mu$ and covariance matrix
-$\Sigma$. The application of a quadratic form $c_\text{quad}(\t, \mu, \Sigma)  = 
-(\t - \mu) \Sigma^+ (\t - \mu)^\top$ is one alternative, although
+$\Sigma$. The application of a quadratic form $c_\text{quad}(\bft, \mu, \Sigma)  = 
+(\bft - \mu) \Sigma^+ (\bft - \mu)^\top$ is one alternative, although
 computationally more expensive because the Moore-Penrose 
 inverse $\Sigma^+$ of $\Sigma$ is involved.
 
@@ -288,7 +289,7 @@ ctree(y ~ x1 + x2, data = ls,
 @
 takes $c_\text{quad}$ (the default).
 
-It is important to note that the test statistics $c(\t_j, \mu_j, \Sigma_j),
+It is important to note that the test statistics $c(\bft_j, \mu_j, \Sigma_j),
 j = 1, \dots, m$, cannot be directly compared in an unbiased  
 way unless all of the covariates are measured at the same scale, i.e.,
 $p_1 = p_j, j = 2, \dots, m$. 
@@ -301,7 +302,7 @@ select the covariate with minimum $P$-value, i.e., the covariate $X_{j^*}$
 with $j^*  =  \argmin_{j = 1, \dots, m} P_j$, where
 \begin{displaymath}
 P_j  =  \Prob_{H_0^j}(c(\T_j(\LS, \w), \mu_j,
-            \Sigma_j) \ge c(\t_j, \mu_j, \Sigma_j) | S(\LS, \w))
+            \Sigma_j) \ge c(\bft_j, \mu_j, \Sigma_j) | S(\LS, \w))
 \end{displaymath}
 denotes the $P$-value of the conditional test for $H_0^j$. 
 So far, we have only addressed testing each partial hypothesis $H_0^j$, which
@@ -361,9 +362,9 @@ can be computed by (\ref{expectcovar}).
 The split $A^*$ with a test statistic maximized over all possible
 subsets $A$ is established:
 \begin{eqnarray} \label{split}
-A^* = \argmax_A c(\t_{j^*}^A, \mu_{j^*}^A, \Sigma_{j^*}^A).
+A^* = \argmax_A c(\bft_{j^*}^A, \mu_{j^*}^A, \Sigma_{j^*}^A).
 \end{eqnarray}
-The statistics $c(\t_{j^*}^A, \mu_{j^*}^A, \Sigma_{j^*}^A)$ are available
+The statistics $c(\bft_{j^*}^A, \mu_{j^*}^A, \Sigma_{j^*}^A)$ are available
 for each node with
 <<party-ss, echo = TRUE, results = hide>>=
 ctree.control(savesplitstats = TRUE)
@@ -372,7 +373,7 @@ and can be used to depict a scatter plot of the covariate
 $\sX_{j^*}$ against the statistics.
 
 Note that we do not need to compute the distribution of 
-$c(\t_{j^*}^A, \mu_{j^*}^A, \Sigma_{j^*}^A)$ in step~2. 
+$c(\bft_{j^*}^A, \mu_{j^*}^A, \Sigma_{j^*}^A)$ in step~2. 
 In order to anticipate pathological splits one can restrict the number of
 possible subsets that are evaluated, for example by introducing restrictions
 on the sample size or the sum of the case weights in each of the two groups
