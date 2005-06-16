@@ -18,7 +18,7 @@ ctree.control(teststattype = c("quadform", "maxabs"),
                        to be applied. }
   \item{testtype}{ a character specifying how to compute the distribution of
                    the test statistic. }
-  \item{mincriterion}{ the value of the test statistic or 1 - P-value that
+  \item{mincriterion}{ the value of the test statistic or 1 - p-value that
                        must be exceeded in order to implement a split. }
   \item{minsplit}{ the minimum sum of the weights in a node. }
   \item{stump}{ a logical determining whether a stump (a tree with three
@@ -37,20 +37,26 @@ ctree.control(teststattype = c("quadform", "maxabs"),
 }
 \details{
 
-The stop
-  criterion in step 1) is either based on a P-value (\code{teststattype} is
-  \code{Bonferroni} or \code{MonteCarlo}) or on the raw (standardized) test
-  statistic (\code{teststattype} is \code{Raw}). In both cases, the
-  criterion is maximized, i.e., 1 - P-value is used. A split is implemented
-  when the criterion exceeds the value given by \code{mincriterion}. For   
-  example, when \code{mincriterion = 0.95}, the P-value must be smaller than
-  $0.05$ in order to split this node. This statistical approach ensures that
-  the right sized tree is grown and no form of pruning or cross-validation  
-  or whatsoever is needed. The selection of the input variable to split in  
-  is based on the univariate P-values (when \code{teststattype} is
-  \code{Bonferroni} or \code{MonteCarlo}) avoiding a variable selection bias
-  towards input variables with many possible cutpoints.
+  The arguments \code{teststattype}, \code{testtype} and \code{mincriterion}
+  determine how the global null hypothesis of independence between all input
+  variables and the response is tested (see \code{\link{ctree}}). The 
+  argument \code{nresample} is the number of Monte-Carlo replications to be
+  used when \code{testtype = "MonteCarlo"}.
 
+  A split is established when the sum of the weights in both daugther nodes
+  is larger than \code{minsplit}, this avoids pathological splits at the
+  borders. When \code{stump = TRUE}, a tree with at most two terminal nodes
+  is computed.
+
+  The argument \code{mtry > 0} means that a random forest like `variable
+  selection', i.e., a random selection of \code{mtry} input variables, is
+  performed in each node.
+
+  It might be informative to look at scatterplots of input variables against
+  the standardized two-sample split statistics, those are available when
+  \code{savesplitstats = TRUE}. Each node is then associated with a vector
+  those length is determined by the number of observations in the learning
+  sample and thus much more memory is required.
 
 }
 \value{

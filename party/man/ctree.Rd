@@ -41,17 +41,19 @@ ctree(formula, data, subset = NULL, weights = NULL,
 
   The implementation utilizes a unified framework for conditional inference,
   or permutation tests, developed by Strasser and Weber (1999). The stop
-  criterion in step 1) is either based on a P-value (\code{teststattype} is
-  \code{Bonferroni} or \code{MonteCarlo}) or on the raw (standardized) test
-  statistic (\code{teststattype} is \code{Raw}). In both cases, the
-  criterion is maximized, i.e., 1 - P-value is used. A split is implemented 
-  when the criterion exceeds the value given by \code{mincriterion}. For
-  example, when \code{mincriterion = 0.95}, the P-value must be smaller than
+  criterion in step 1) is either based on a p-value 
+  (\code{ctree.control(teststattype = "Bonferroni")} 
+   or \code{ctree.control(teststattype = "MonteCarlo")}) is
+  or on the raw (standardized) test
+  statistic (\code{ctree.control(teststattype = "Raw")}). In both cases, the
+  criterion is maximized, i.e., 1 - p-value is used. A split is implemented 
+  when the criterion exceeds the value given by \code{mincriterion} as
+  specified in \code{\link{ctree.control}}. For
+  example, when \code{mincriterion = 0.95}, the p-value must be smaller than
   $0.05$ in order to split this node. This statistical approach ensures that
   the right sized tree is grown and no form of pruning or cross-validation
   or whatsoever is needed. The selection of the input variable to split in
-  is based on the univariate P-values (when \code{teststattype} is
-  \code{Bonferroni} or \code{MonteCarlo}) avoiding a variable selection bias
+  is based on the univariate p-values avoiding a variable selection bias
   towards input variables with many possible cutpoints.
 
   By default, the scores for each ordinal factor \code{x} are
@@ -60,9 +62,6 @@ ctree(formula, data, subset = NULL, weights = NULL,
 
   For a general description of the methodology see Hothorn, Hornik and
   Zeileis (2004).
-
-  The current handling of missing values is very rudimentary. An error is
-  thrown when the response has at least one missing value. 
 
 }
 \value{
@@ -81,31 +80,39 @@ ctree(formula, data, subset = NULL, weights = NULL,
 }
 \examples{
 
-### regression
-data(airquality)
-airq <- subset(airquality, !is.na(Ozone))
-airct <- ctree(Ozone ~ ., data = airq, 
-               controls = ctree.control(maxsurrogate = 3))
-airct
-plot(airct)
-mean((airq$Ozone - predict(airct))^2)
+    ### regression
+    data(airquality)
+    airq <- subset(airquality, !is.na(Ozone))
+    airct <- ctree(Ozone ~ ., data = airq, 
+                   controls = ctree.control(maxsurrogate = 3))
+    airct
+    plot(airct)
+    mean((airq$Ozone - predict(airct))^2)
 
-### classification
-irisct <- ctree(Species ~ .,data = iris)
-irisct
-plot(irisct)
-table(predict(irisct), iris$Species)
+    ### classification
+    irisct <- ctree(Species ~ .,data = iris)
+    irisct
+    plot(irisct)
+    table(predict(irisct), iris$Species)
 
-### ordinal regression
-data(mammoexp)
-mammoct <- ctree(ME ~ ., data = mammoexp)
-plot(mammoct)
+    ### estimated class probabilities, a list
+    tr <- treeresponse(irisct, newdata = iris[1:10,])
 
-### survival analysis
-if (require(ipred)) {
-    data(GBSG2, package = "ipred")
-    GBSG2ct <- ctree(Surv(time, cens) ~ .,data = GBSG2)
-    plot(GBSG2ct)
-}
+    ### ordinal regression
+    data(mammoexp) 
+    mammoct <- ctree(ME ~ ., data = mammoexp) 
+    plot(mammoct)
+
+    ### estimated class probabilities
+    treeresponse(mammoct, newdata = mammoexp[1:10,])
+
+    ### survival analysis
+    if (require(ipred)) {
+        data(GBSG2, package = "ipred")
+        GBSG2ct <- ctree(Surv(time, cens) ~ .,data = GBSG2)
+        plot(GBSG2ct)
+        treeresponse(GBSG2ct, newdata = GBSG2[1:2,])        
+    }
+
 }
 \keyword{tree}
