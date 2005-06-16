@@ -18,17 +18,17 @@
      inner.panel = innerNode, edge.panel = simpleEdge,
      drop.terminal = (type[1] == "extended"), 
      tnex = (type[1] == "extended") + 1, new = TRUE,  
-     pop = FALSE, ...)
+     pop = FALSE, \dots)
 innerNode(ctreeobj, digits = 3, abbreviate = FALSE, 
           fill = "white", id = TRUE)
-survNode(ctreeobj, ylines = 2, id = TRUE, ...)
+survNode(ctreeobj, ylines = 2, id = TRUE, \dots)
 barNode(ctreeobj, col = "black", fill = "lightgray", ymax = NULL,
         ylines = 3, widths = 1, gap = NULL, id = TRUE)
 boxNode(ctreeobj, col = "black", fill = "lightgray",  width = 0.5,
         yscale = NULL, ylines = 3, id = TRUE)
 histNode(ctreeobj, col = "black", fill = "lightgray", freq = FALSE,
          horizontal = TRUE, xscale = NULL, ymax = NULL, ylines = 3,
-         id = TRUE)
+         id = TRUE, \dots)
 densNode(ctreeobj, col = "black", rug = TRUE, horizontal = TRUE,
          xscale = NULL, yscale = NULL, ylines = 3, id = TRUE)
 termNode(ctreeobj, digits = 3, abbreviate = FALSE, 
@@ -46,7 +46,7 @@ simpleEdge(ctreeobj, digits = 3, abbreviate = FALSE)
   \item{terminal.panel}{ an optional panel function of the form 
                          \code{function(node)} plotting the terminal nodes.
                          Alternatively, a panel generating function of the form
-                         \code{function(ctreeobj, ...)} can be supplied.}
+                         \code{function(ctreeobj, \dots)} can be supplied.}
   \item{inner.panel}{ an optional panel function of the form 
                          \code{function(node)} plotting the inner nodes.}
   \item{edge.panel}{ an optional panel function of the form 
@@ -58,7 +58,7 @@ simpleEdge(ctreeobj, digits = 3, abbreviate = FALSE)
   \item{new}{ a logical indicating whether a new plot should be created. }
   \item{pop}{ a logical whether the viewport tree should be popped before
               return. }
-  \item{...}{ additional arguments passed to callies.}
+  \item{\dots}{ additional arguments passed to callies.}
   \item{ctreeobj}{ an object of class \code{BinaryTree}.}
   \item{digits}{ integer, used for formating numbers. }
   \item{abbreviate}{ logical indicating whether strings should be 

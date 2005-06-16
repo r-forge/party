@@ -328,14 +328,15 @@ histNode <- function(ctreeobj,
 		     xscale = NULL,
 		     ymax = NULL,
 		     ylines = 3,
-		     id = TRUE)
+		     id = TRUE,
+		     ...)
 {
 
     y <- ctreeobj@responses@variables[[1]]
     if (!is.numeric(y))
         stop(sQuote("ctreeobj"), " is not a regression tree")
     y <- rep.int(y, ctreeobj@tree$weights)
-    yhist <- hist(y, plot = FALSE)
+    yhist <- hist(y, plot = FALSE, ...)
     if (is.null(xscale)) 
         xscale <- range(yhist$breaks) + 
                         c(-0.05, 0.05) * diff(range(yhist$breaks))
@@ -356,7 +357,7 @@ histNode <- function(ctreeobj,
     rval <- function(node) {
     
         ## parameter setup
-	yhist <- hist(rep.int(y, node$weights), plot = FALSE)
+	yhist <- hist(rep.int(y, node$weights), plot = FALSE, ...)
 
         top_vp <- viewport(layout = grid.layout(nrow = 2, ncol = 3,
                            widths = unit(c(ylines, 1, 1), 

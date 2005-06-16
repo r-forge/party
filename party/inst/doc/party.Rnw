@@ -413,7 +413,7 @@ or by looking at a graphical representation as in Figure \ref{party-plot1}.
 
 \begin{figure}[t]
 \begin{center}
-<<party-plot, echo = TRUE, fig = TRUE, height = 4>>=
+<<party-plot, echo = TRUE, fig = TRUE, height = 5, width = 8>>=
 plot(ct)
 @
 \caption{A graphical representation of a classification tree.
@@ -595,8 +595,8 @@ tptree <- ctree(counts ~ ., data = treepipit)
 
 \begin{figure}[t]
 \begin{center}
-<<treepipit-plot, echo = TRUE, fig = TRUE, height = 4>>=
-plot(tptree, terminal.panel = histNode(tptree, xscale = c(0, 5), ymax = 70, 
+<<treepipit-plot, echo = TRUE, fig = TRUE, height = 5, width = 8>>=
+plot(tptree, terminal.panel = histNode(tptree, breaks = 0:6-0.5, ymax = 65, 
 horizontal = FALSE, freq = TRUE))
 @
 \caption{Conditional regression tree for the tree pipit data.}
@@ -660,7 +660,7 @@ temporal part of the optic nerve head (\texttt{vart}).
 
 \begin{figure}[t]
 \begin{center}
-<<glaucoma-plot, echo = TRUE, fig = TRUE, width = 9>>=
+<<glaucoma-plot, echo = TRUE, fig = TRUE, height = 6, width = 10>>=
 plot(gtree)
 @
 \caption{Conditional inference tree for the glaucoma data. For each inner node, the
@@ -682,7 +682,7 @@ especially, $3$.
 
 \begin{figure}[t]
 \begin{center}
-<<glaucoma-split-plot, echo = TRUE, fig = TRUE, width = 9, height = 3.5>>=
+<<glaucoma-split-plot, echo = TRUE, fig = TRUE, height = 4, width = 11>>=
 inner <- nodes(gtree, 1:3)
 layout(matrix(1:length(inner), ncol = length(inner)))
 out <- sapply(inner, function(i) {
@@ -711,6 +711,7 @@ When we are interested in conditional class probabilities, the
 \texttt{treeresponse} method must be used. A graphical representation is
 shown in Figure \ref{glaucoma-boxplot}.
 
+\setkeys{Gin}{width=.5\textwidth}
 \begin{figure}[h]
 \begin{center}
 <<glaucoma-classprob, echo = TRUE, fig = TRUE, height = 4, width = 4>>=
@@ -729,9 +730,10 @@ data(GBSG2, package = "ipred")
 stree <- ctree(Surv(time, cens) ~ ., data = GBSG2)
 @
 
+\setkeys{Gin}{width=\textwidth}
 \begin{figure}[t]
 \begin{center}
-<<GBSG2-plot, echo = TRUE, fig = TRUE, width = 9>>=
+<<GBSG2-plot, echo = TRUE, fig = TRUE, height = 6, width = 10>>=
 plot(stree)
 @
 \caption{Tree-structured survival model for the GBSG2 data and the distribution of 
@@ -776,7 +778,7 @@ mtree <- ctree(ME ~ ., data = mammoexp)
 
 \begin{figure}[t]
 \begin{center}
-<<mammo-plot, echo = TRUE, fig = TRUE, width = 10>>=
+<<mammo-plot, echo = TRUE, fig = TRUE, height = 5, width = 8>>=
 plot(mtree)
 @
 \caption{Ordinal regression for the mammography experience data with the
