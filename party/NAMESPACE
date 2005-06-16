@@ -1,10 +1,10 @@
 
 import(methods)
-# import(modeltools)
+importFrom(coin, logrank_trafo)
 
 export(ctree, TreeFitMemory, innerNode, survNode, barNode, boxNode,
        histNode, densNode, termNode, weights, where, nodes, conditionalTree,
-       ctree.control)
+       ctree.control, treeresponse)
 
 exportClasses("BinaryTree", "LearningSample", "SplittingNode",
               "TerminalNode", "TreeControl")

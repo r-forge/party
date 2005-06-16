@@ -6,7 +6,7 @@
     if (!require("grid")) stop("cannot load grid")
     if (!require("survival")) stop("cannot load survival")
     if (!require("modeltools")) stop("cannot load modeltools")
-    if (!require("coin")) stop("cannot load coin")
+    # if (!require("coin")) stop("cannot load coin")
     GCtorture <<- FALSE
     .Call("party_init", PACKAGE = "party")
     return(TRUE)
