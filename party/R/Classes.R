@@ -124,7 +124,7 @@ setClass(Class = "GlobalTestControl",
             levels = c("Bonferroni", "MonteCarlo", "Aggregated", "Raw")),
         nresample = as.integer(9999),
         randomsplits = FALSE,
-        mtry = as.integer(3),
+        mtry = as.integer(0),
         mincriterion = 0.95
     )
 )

@@ -194,7 +194,7 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
         /* random forest */
         RANDOM = get_randomsplits(gtctrl);
         mtry = get_mtry(gtctrl);
-        if (mtry > ninputs) {
+        if (RANDOM & (mtry > ninputs)) {
             warning("mtry is larger than ninputs, using mtry = inputs");
             mtry = ninputs;
             RANDOM = 0;
