@@ -72,7 +72,7 @@ ctree(formula, data, subset = NULL, weights = NULL,
    Torsten Hothorn, Kurt Hornik and Achim Zeileis (2004). Unbiased Recursive
    Partitioning: A Conditional Inference Framework. Technical Report Nr. 8, 
    Research Report Series / Department of Statistics and Mathematics, WU Wien.
-   \url{http://epub.wu-wien.ac.at/dyn/virlib/wp/showentry?ID=epub-wu-01_756&back=/}
+   \url{http://epub.wu-wien.ac.at/dyn/openURL?id=oai:epub.wu-wien.ac.at:epub-wu-01_756}
 
    Helmut Strasser and Christian Weber (1999). On the asymptotic theory of permutation
    statistics. \emph{Mathematical Methods of Statistics}, \bold{8}, 220--250.
