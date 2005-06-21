@@ -7,6 +7,9 @@
 \alias{where}
 \alias{where-methods}
 \alias{where,BinaryTree-method}
+\alias{response}
+\alias{response-methods}
+\alias{response,BinaryTree-method}
 \alias{nodes}
 \alias{nodes-methods}
 \alias{nodes,BinaryTree,integer-method}
@@ -78,6 +81,8 @@ Class \code{"BinaryTreePartition"}, directly.
 }
 \section{Methods}{
 \describe{
+    \item{\code{response(object, ...)}:}{extract the response variables the
+       tree was fitted to.}
     \item{\code{treeresponse(object, newdata = NULL, ...)}:}{compute
       statistics for the conditional distribution of the response as
       modelled by the tree. For regression problems, this is just the mean.

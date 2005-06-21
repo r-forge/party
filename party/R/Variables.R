@@ -156,3 +156,14 @@ initVariableFrame.matrix <- function(obj, trafo = NULL, ...) {
 setMethod("initVariableFrame", signature = c("matrix", "function_OR_NULL"),
     definition = initVariableFrame.matrix
 )
+
+
+setGeneric(name = "response",
+           def = function(object, ...)
+               standardGeneric("response")
+)
+
+setMethod("response",
+    signature = "BinaryTree",
+    definition = function(object) object@responses@variables
+)

@@ -4,7 +4,7 @@ importFrom(coin, logrank_trafo)
 
 export(ctree, TreeFitMemory, innerNode, survNode, barNode, boxNode,
        histNode, densNode, termNode, weights, where, nodes, conditionalTree,
-       ctree.control, treeresponse)
+       ctree.control, treeresponse, response)
 
 exportClasses("BinaryTree", "LearningSample", "SplittingNode",
               "TerminalNode", "TreeControl")
