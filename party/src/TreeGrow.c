@@ -13,7 +13,7 @@
     The main tree growing function, handles the recursion. \n
     *\param node  a list representing the current node
     *\param learnsample an object of class `LearningSample'
-    *\param fitmen an object of class `TreeFitMemory'
+    *\param fitmem an object of class `TreeFitMemory'
     *\param controls an object of class `TreeControl'
     *\param where a pointer to an integer vector of n-elements
     *\param nodenum a pointer to a integer vector of length 1
@@ -66,7 +66,7 @@ void C_TreeGrow(SEXP node, SEXP learnsample, SEXP fitmem,
     R-interface to C_TreeGrow\n
     *\param learnsample an object of class `LearningSample'
     *\param weights a vector of case weights
-    *\param fitmen an object of class `TreeFitMemory'
+    *\param fitmem an object of class `TreeFitMemory'
     *\param controls an object of class `TreeControl'
     *\param where a vector of node indices for each observation
 */
@@ -98,7 +98,7 @@ SEXP R_TreeGrow(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls, SEXP
     An experimental implementation of random forest like algorithms \n
     *\param learnsample an object of class `LearningSample'
     *\param weights a vector of case weights
-    *\param fitmen an object of class `TreeFitMemory'
+    *\param fitmem an object of class `TreeFitMemory'
     *\param controls an object of class `TreeControl'
     *\param ans a list whose length determined the number of trees
 */
