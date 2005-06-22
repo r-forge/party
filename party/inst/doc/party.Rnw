@@ -54,6 +54,15 @@ require(coin)
 set.seed(290875)
 @
 
+<<bibtex, echo = FALSE, eval = FALSE>>=
+bib <- HSAuR:::readBibtex("partyrefs.bib")
+subbib <- HSAuR:::extractBibtex("party.Rnw", bib)
+sink("party.bib")
+HSAuR:::toBibtex.txtBibtex(subbib)
+sink()
+@
+
+
 \setkeys{Gin}{width=\textwidth}
 
 
@@ -807,7 +816,7 @@ experienced such an examination at all.
 
 
 \bibliographystyle{plainnat}
-\bibliography{partyrefs}
+\bibliography{party}
 
 \end{document}
 
