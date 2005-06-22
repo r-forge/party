@@ -94,7 +94,7 @@ survNode <- function(ctreeobj,
 		     id = TRUE, ...)
 {
 
-    survobj <- ctreeobj@responses@variables[[1]]
+    survobj <- response(ctreeobj)[[1]]
     if (!("Surv" %in% class(survobj))) 
         stop(sQuote("ctreeobj"), " is not a survival tree")
 
@@ -159,7 +159,7 @@ barNode <- function(ctreeobj,
      return(max(c(mp, mpl, mpr)))
    }
 
-    y <- ctreeobj@responses@variables[[1]]
+    y <- response(ctreeobj)[[1]]
     if (is.factor(y)) {
         ylevels <- levels(y)
         if (is.null(ymax)) 
@@ -242,7 +242,7 @@ boxNode <- function(ctreeobj,
 		    id = TRUE)
 {
 
-    y <- ctreeobj@responses@variables[[1]]
+    y <- response(ctreeobj)[[1]]
     if (!is.numeric(y))
         stop(sQuote("ctreeobj"), " is not a regression tree")
     if (is.null(yscale)) 
@@ -332,7 +332,7 @@ histNode <- function(ctreeobj,
 		     ...)
 {
 
-    y <- ctreeobj@responses@variables[[1]]
+    y <- response(ctreeobj)[[1]]
     if (!is.numeric(y))
         stop(sQuote("ctreeobj"), " is not a regression tree")
     y <- rep.int(y, ctreeobj@tree$weights)
@@ -423,7 +423,7 @@ densNode <- function(ctreeobj,
 		     id = TRUE)
 {
 
-    y <- ctreeobj@responses@variables[[1]]
+    y <- response(ctreeobj)[[1]]
     if (!is.numeric(y))
         stop(sQuote("ctreeobj"), " is not a regression tree")
     y <- rep.int(y, ctreeobj@tree$weights)
@@ -773,7 +773,7 @@ plot.BinaryTree <- function(x, main = NULL,
         if (is.null(tnex)) tnex <- 1
     } else {
         if (is.null(terminal_panel))
-            terminal_panel <- switch(class(x@responses@variables[[1]])[1],
+            terminal_panel <- switch(class(response(x)[[1]])[1],
 	                             "Surv" = survNode,
                                      "factor" = barNode,
                                      "ordered" = barNode,
