@@ -70,7 +70,7 @@ print.orderedSplit <- function(x, left = TRUE, ...) {
     } else {
         sp <- x$splitpoint
     }
-    if (!is.null(x$toleft)) left <- x$toleft
+    if (!is.null(x$toleft)) left <- as.logical(x$toleft) == left
     if (left) {
         cat(x$variableName, "<=", sp)
     } else {

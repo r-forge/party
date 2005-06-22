@@ -166,6 +166,7 @@ int S3get_toleft(SEXP split) {
 }
 
 void S3set_toleft(SEXP split, int left) {
+    /* <FIXME> use LOGICAL here? </FIXME> */
     INTEGER(VECTOR_ELT(split, S3_TOLEFT))[0] = left;
 }
 
