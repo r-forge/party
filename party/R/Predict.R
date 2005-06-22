@@ -5,7 +5,8 @@ predict.BinaryTree <- function(object, ...) {
     conditionalTree@predict(object, ...)
 }
 
-setGeneric("treeresponse", function(object, ...) standardGeneric("treeresponse"))
+setGeneric("treeresponse", function(object, ...) 
+           standardGeneric("treeresponse"))
 
 setMethod("treeresponse", signature = signature(object = "BinaryTree"),
     definition = function(object, newdata = NULL, ...)   
@@ -31,12 +32,14 @@ setMethod("where", signature = signature(object = "BinaryTree"),
 
 setGeneric("nodes", function(object, where, ...) standardGeneric("nodes"))
 
-setMethod("nodes", signature = signature(object = "BinaryTree", where = "integer"),
+setMethod("nodes", signature = signature(object = "BinaryTree", 
+                                         where = "integer"),
     definition = function(object, where, ...)
         lapply(where, function(i) .Call("R_get_nodebynum", object@tree, i))
 )
 
-setMethod("nodes", signature = signature(object = "BinaryTree", where = "numeric"),
+setMethod("nodes", signature = signature(object = "BinaryTree", 
+                                         where = "numeric"),
     definition = function(object, where, ...)
         nodes(object, as.integer(where))
 )

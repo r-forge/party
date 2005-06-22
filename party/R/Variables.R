@@ -49,7 +49,8 @@ initVariableFrame.df <- function(obj, trafo = NULL, scores = NULL, ...) {
             storage.mode(xt) <- "double"
             levels[[j]] <- attr(x, "levels")
 
-            # <FIXME> storage mode of nominal and ordered factors are different!!!       
+            ### <FIXME> storage mode of nominal and ordered 
+            ### factors are different!!!       
             if (!is_ordinal[j]) {
                 storage.mode(RET@variables[[j]]) <- "integer"
                 tordering <- NULL
@@ -57,7 +58,7 @@ initVariableFrame.df <- function(obj, trafo = NULL, scores = NULL, ...) {
                 storage.mode(variables[[j]]) <- "double"
                 tordering <- order(as.numeric(x))
             }
-            # </FIXME>
+            ### </FIXME>
         } else {
             if (!is.null(trafo)) 
                 xt <- matrix(trafo(x), ncol = 1)

@@ -1,7 +1,7 @@
 
 # $Id$
 
-TreeFitMemory <- function(object, MPinv = FALSE) {
+ctreeFitMemory <- function(object, MPinv = FALSE) {
 
     inputs <- object@inputs
     responses <- object@responses
@@ -39,8 +39,8 @@ TreeFitMemory <- function(object, MPinv = FALSE) {
                 inputs@scores[[j]]), nrow = 1)
 
         if (!xORDINAL && yORDINAL)
-            Mscorematrices[[j]] <- .Call("R_scmatright", responses@scores[[1]], p * q,
-                    PACKAGE = "party")
+            Mscorematrices[[j]] <- .Call("R_scmatright", 
+                responses@scores[[1]], p * q, PACKAGE = "party")
         
         if (!xORDINAL && !yORDINAL) {
             if (MPinv) {

@@ -10,7 +10,7 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
         stop(sQuote("controls"), " is not of class ", sQuote("TreeControl"))
 
     if (is.null(fitmem)) 
-        fitmem <- TreeFitMemory(object, TRUE)
+        fitmem <- ctreeFitMemory(object, TRUE)
     if (!extends(class(fitmem), "TreeFitMemory"))
         stop(sQuote("fitmem"), " is not of class ", sQuote("TreeFitMemory"))
 
@@ -31,7 +31,8 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
                   PACKAGE = "party")
 
     ### create S3 classes and put names on lists
-    tree <- prettytree(tree, names(object@inputs@variables), object@inputs@levels)
+    tree <- prettytree(tree, names(object@inputs@variables), 
+                       object@inputs@levels)
 
     ### prepare the returned object
     RET <- new("BinaryTree")
@@ -51,7 +52,8 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
         } else {
             penv <- new.env()
             object@menv@set("input", data = newdata, env = penv)
-            newinp <- initVariableFrame(get("input", envir = penv), trafo = NULL)
+            newinp <- initVariableFrame(get("input", envir = penv), 
+                                        trafo = NULL)
         }
 
         .Call("R_get_nodeID", tree, newinp, mincriterion, PACKAGE = "party")
@@ -116,7 +118,8 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
         return(RET)
     }
 
-    RET@prediction_weights <- function(newdata = NULL, mincriterion = 0, ...) {
+    RET@prediction_weights <- function(newdata = NULL, 
+                                       mincriterion = 0, ...) {
 
         wh <- RET@get_where(newdata = newdata, mincriterion = mincriterion)
 
@@ -183,11 +186,11 @@ setMethod("fit", signature = signature(model = "StatModel",
 )
 
 ### control the hyper parameters
-ctree.control <- function(teststattype = c("quadform", "maxabs"),
-                          testtype = c("Bonferroni", "MonteCarlo", "Raw"),
-                          mincriterion = 0.95, minsplit = 20, stump = FALSE,
-                          nresample = 9999, maxsurrogate = 0, mtry = 0, 
-                          savesplitstats = TRUE) {
+ctreecontrol <- function(teststattype = c("quadform", "maxabs"),
+                         testtype = c("Bonferroni", "MonteCarlo", "Raw"),
+                         mincriterion = 0.95, minsplit = 20, stump = FALSE,
+                         nresample = 9999, maxsurrogate = 0, mtry = 0, 
+                         savesplitstats = TRUE) {
 
     teststattype <- match.arg(teststattype)
     testtype <- match.arg(testtype)
@@ -222,15 +225,15 @@ ctree.control <- function(teststattype = c("quadform", "maxabs"),
 
 ### the top-level convenience function
 ctree <- function(formula, data, subset = NULL, weights = NULL, 
-                  controls = ctree.control(),
-                  xtrafo = NULL, ytrafo = NULL, scores = NULL) {
+                  controls = ctreecontrol(), xtrafo = NULL, 
+                  ytrafo = NULL, scores = NULL) {
 
     ### setup learning sample
     ls <- dpp(conditionalTree, formula, data, subset, xtrafo = xtrafo, 
               ytrafo = ytrafo, scores = scores)
 
     ### setup memory
-    fitmem <- TreeFitMemory(ls, TRUE)
+    fitmem <- ctreeFitMemory(ls, TRUE)
 
     ### fit and return a conditional tree
     fit(conditionalTree, ls, controls = controls, weights = weights, 

@@ -14,9 +14,9 @@
 }
 \usage{
 \method{plot}{BinaryTree}(x, main = NULL,
-     type = c("extended", "simple"), terminal.panel = NULL,
-     inner.panel = innerNode, edge.panel = simpleEdge,
-     drop.terminal = (type[1] == "extended"), 
+     type = c("extended", "simple"), terminal_panel = NULL,
+     inner_panel = innerNode, edge_panel = simpleEdge,
+     drop_terminal = (type[1] == "extended"), 
      tnex = (type[1] == "extended") + 1, new = TRUE,  
      pop = FALSE, \dots)
 innerNode(ctreeobj, digits = 3, abbreviate = FALSE, 
@@ -43,16 +43,16 @@ simpleEdge(ctreeobj, digits = 3, abbreviate = FALSE)
                \code{extended} tries to visualize the distribution of the
                response variable in each terminal node whereas \code{simple} 
                only gives some summary information.}
-  \item{terminal.panel}{ an optional panel function of the form 
+  \item{terminal_panel}{ an optional panel function of the form 
                          \code{function(node)} plotting the terminal nodes.
                          Alternatively, a panel generating function of the form
                          \code{function(ctreeobj, \dots)} can be supplied.}
-  \item{inner.panel}{ an optional panel function of the form 
+  \item{inner_panel}{ an optional panel function of the form 
                          \code{function(node)} plotting the inner nodes.}
-  \item{edge.panel}{ an optional panel function of the form 
+  \item{edge_panel}{ an optional panel function of the form 
                     \code{function(split, ordered = FALSE, left = TRUE)}
                     plotting the edges.}
-  \item{drop.terminal}{ a logical indicating whether all terminal nodes
+  \item{drop_terminal}{ a logical indicating whether all terminal nodes
                         should be plotted at the bottom.}
   \item{tnex}{ a numeric value giving the terminal node extention. }
   \item{new}{ a logical indicating whether a new plot should be created. }
@@ -104,13 +104,13 @@ simpleEdge(ctreeobj, digits = 3, abbreviate = FALSE)
   plot(airct, type = "simple")
 
   ### density estimates
-  plot(airct, terminal.panel = densNode)
+  plot(airct, terminal_panel = densNode)
     
   ### histograms 
-  plot(airct, terminal.panel = histNode)
+  plot(airct, terminal_panel = histNode)
 
   ### histograms
-  plot(airct, terminal.panel = boxNode, drop.terminal = TRUE)
+  plot(airct, terminal_panel = boxNode, drop_terminal = TRUE)
 
 }
 \keyword{hplot}

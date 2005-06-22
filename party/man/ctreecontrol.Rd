@@ -1,5 +1,5 @@
-\name{ctree.control}
-\alias{ctree.control}
+\name{ctreecontrol}
+\alias{ctreecontrol}
 \title{ Control for Conditional Tree Models }
 \description{
 
@@ -7,11 +7,11 @@
 
 }
 \usage{
-ctree.control(teststattype = c("quadform", "maxabs"), 
-              testtype = c("Bonferroni", "MonteCarlo", "Raw"), 
-              mincriterion = 0.95, minsplit = 20, stump = FALSE, 
-              nresample = 9999, maxsurrogate = 0, mtry = 0, 
-              savesplitstats = TRUE)
+ctreecontrol(teststattype = c("quadform", "maxabs"), 
+             testtype = c("Bonferroni", "MonteCarlo", "Raw"), 
+             mincriterion = 0.95, minsplit = 20, stump = FALSE, 
+             nresample = 9999, maxsurrogate = 0, mtry = 0, 
+             savesplitstats = TRUE)
 }
 \arguments{
   \item{teststattype}{ a character specifying the type of the test statistic

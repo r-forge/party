@@ -68,7 +68,9 @@ maxabsTestStatistic <- function(t, mu, Sigma, tol = sqrt(.Machine$double.eps)) {
     .Call("R_maxabsTestStatistic", t, mu, Sigma, tol, PACKAGE = "party")
 }
 
-quadformTestStatistic <- function(t, mu, Sigma, tol = sqrt(.Machine$double.eps)) {
+quadformTestStatistic <- function(t, mu, Sigma, 
+    tol = sqrt(.Machine$double.eps)) {
+
     storage.mode(t) <- "double"
     storage.mode(mu) <- "double"
     storage.mode(Sigma) <- "double"

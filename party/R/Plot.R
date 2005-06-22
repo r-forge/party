@@ -604,8 +604,8 @@ simpleEdge <- function(ctreeobj,
 }
 
 plotTree <- function(node, xlim, ylim, nx, ny, 
-               terminal.panel, inner.panel, edge.panel,
-	       tnex = 2, drop.terminal = TRUE, debug = FALSE) {
+               terminal_panel, inner_panel, edge_panel,
+	       tnex = 2, drop_terminal = TRUE, debug = FALSE) {
 
     ### the workhorse for plotting trees
 
@@ -623,7 +623,7 @@ plotTree <- function(node, xlim, ylim, nx, ny,
         pushViewport(tn_vp)
         if (debug)
             grid.rect(gp = gpar(lty = "dotted", col = 4))
-        terminal.panel(node) 
+        terminal_panel(node) 
         upViewport()
         return(NULL)
     }    
@@ -658,7 +658,7 @@ plotTree <- function(node, xlim, ylim, nx, ny,
     x1l <- xlim[1] + (x0 - xlim[1]) * lf
     x1r <- x0 + (xlim[2] - x0) * rf
     
-    if (!drop.terminal) {
+    if (!drop_terminal) {
         y1l <- y1r <- y0 - 1
     } else {
         y1l <- if (node$left$terminal) tnex - 0.5 else y0 - 1
@@ -680,7 +680,7 @@ plotTree <- function(node, xlim, ylim, nx, ny,
     pushViewport(in_vp)
     if (debug)
         grid.rect(gp = gpar(lty = "dotted"))
-    inner.panel(node)
+    inner_panel(node)
     upViewport()
 
     ps <- node$psplit
@@ -711,7 +711,7 @@ plotTree <- function(node, xlim, ylim, nx, ny,
     pushViewport(lsp_vp)
     if (debug)
         grid.rect(gp = gpar(lty = "dotted", col = 2))
-    edge.panel(split, ordered = ps$ordered, left = TRUE)
+    edge_panel(split, ordered = ps$ordered, left = TRUE)
     upViewport()
 
     ### setup right label
@@ -733,24 +733,24 @@ plotTree <- function(node, xlim, ylim, nx, ny,
     pushViewport(rsp_vp) 
     if (debug)
         grid.rect(gp = gpar(lty = "dotted", col = 2))
-    edge.panel(split, ordered = ps$ordered, left = FALSE)
+    edge_panel(split, ordered = ps$ordered, left = FALSE)
     upViewport()
 
     plotTree(node$left, c(xlim[1], x0), c(y1l, 1), nx, ny, 
-      terminal.panel, inner.panel, edge.panel,
-      tnex = tnex, drop.terminal = drop.terminal, debug = debug)
+      terminal_panel, inner_panel, edge_panel,
+      tnex = tnex, drop_terminal = drop_terminal, debug = debug)
     plotTree(node$right, c(x0, xlim[2]), c(y1r, 1), nx, ny,
-      terminal.panel, inner.panel, edge.panel,
-      tnex = tnex, drop.terminal = drop.terminal, debug = debug)
+      terminal_panel, inner_panel, edge_panel,
+      tnex = tnex, drop_terminal = drop_terminal, debug = debug)
 }
 
 
 plot.BinaryTree <- function(x, main = NULL,
                             type = c("extended", "simple"),
-                            terminal.panel = NULL,
-			    inner.panel = innerNode, 
-                            edge.panel = simpleEdge,
-			    drop.terminal = (type[1] == "extended"),
+                            terminal_panel = NULL,
+			    inner_panel = innerNode, 
+                            edge_panel = simpleEdge,
+			    drop_terminal = (type[1] == "extended"),
 			    tnex = (type[1] == "extended") + 1, 
 			    new = TRUE,
 			    pop = FALSE,
@@ -768,12 +768,12 @@ plot.BinaryTree <- function(x, main = NULL,
     ### compute default settings
     type <- match.arg(type)
     if (type == "simple") {
-        if (is.null(terminal.panel)) 
-            terminal.panel <- termNode
+        if (is.null(terminal_panel)) 
+            terminal_panel <- termNode
         if (is.null(tnex)) tnex <- 1
     } else {
-        if (is.null(terminal.panel))
-            terminal.panel <- switch(class(x@responses@variables[[1]])[1],
+        if (is.null(terminal_panel))
+            terminal_panel <- switch(class(x@responses@variables[[1]])[1],
 	                             "Surv" = survNode,
                                      "factor" = barNode,
                                      "ordered" = barNode,
@@ -812,22 +812,22 @@ plot.BinaryTree <- function(x, main = NULL,
     ### the heuristic is as follows: If the first argument
     ### is `ctreeobj' than we assume a panel generating function, 
     ### otherwise the function is treated as a panel function
-    if (names(formals(terminal.panel))[1] == "ctreeobj") 
-        terminal.panel <- terminal.panel(x)
-    if (names(formals(inner.panel))[1] == "ctreeobj") 
-        inner.panel <- inner.panel(x)
-    if (names(formals(edge.panel))[1] == "ctreeobj") 
-        edge.panel <- edge.panel(x)
+    if (names(formals(terminal_panel))[1] == "ctreeobj") 
+        terminal_panel <- terminal_panel(x)
+    if (names(formals(inner_panel))[1] == "ctreeobj") 
+        inner_panel <- inner_panel(x)
+    if (names(formals(edge_panel))[1] == "ctreeobj") 
+        edge_panel <- edge_panel(x)
 
     ## call the workhorse
     plotTree(ptr,
        xlim = c(0, nx), ylim = c(0, ny - 0.5 + (tnex - 1)),
        nx = nx, ny = ny, 
-       terminal.panel = terminal.panel,
-       inner.panel = inner.panel,
-       edge.panel = edge.panel,
+       terminal_panel = terminal_panel,
+       inner_panel = inner_panel,
+       edge_panel = edge_panel,
        tnex = tnex,
-       drop.terminal = drop.terminal,
+       drop_terminal = drop_terminal,
        debug = FALSE)
 
     upViewport()

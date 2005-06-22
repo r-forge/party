@@ -208,7 +208,7 @@ setClass(Class = "BinaryTree",
         inputnames          = "character",     # a character vector with 
                                                # input names
                                                # (just for printing)
-        responses           = "VariableFrame", # a list of response `variables' 
+        responses           = "VariableFrame", # a list of response `variables'
                                                # for computing predictions
         levels              = "list",          # factor levels of inputs 
                                                # (for printing) 

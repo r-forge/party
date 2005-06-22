@@ -61,7 +61,7 @@ resp <- initVariableFrame(mydata[,"y",drop = FALSE], trafo = NULL)
 ls <- new("LearningSample", inputs = inp, responses = resp,
           weights = rep(1, inp@nobs), nobs = nrow(mydata),
           ninputs = inp@ninputs)
-tm <- TreeFitMemory(ls)
+tm <- ctreeFitMemory(ls)
 varctrl <- new("VariableControl")
 varctrl@teststattype <- factor("maxabs", levels = c("maxabs", "quadform"))
 varctrl@pvalue <- FALSE
@@ -85,7 +85,7 @@ resp <- initVariableFrame(mydata[,"y",drop = FALSE], trafo = NULL)
 ls <- new("LearningSample", inputs = inp, responses = resp,
           weights = rep(1, inp@nobs), nobs = nrow(mydata),
           ninputs = inp@ninputs)
-tm <- TreeFitMemory(ls)
+tm <- ctreeFitMemory(ls)
 varctrl <- new("VariableControl")
 varctrl@teststattype <- factor("maxabs", levels = c("maxabs", "quadform"))
 varctrl@pvalue <- TRUE

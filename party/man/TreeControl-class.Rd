@@ -9,7 +9,7 @@
    growing.
 }
 \section{Objects from the Class}{
-Objects can be created by \code{\link{ctree.control}}.
+Objects can be created by \code{\link{ctreecontrol}}.
 }
 \section{Slots}{
   \describe{
