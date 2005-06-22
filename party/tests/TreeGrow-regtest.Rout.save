@@ -43,67 +43,88 @@ Loading required package: class
 > tlev <- levels(gtctrl@testtype)
 > 
 > data(GlaucomaM, package = "ipred")
-> inp <- initVariableFrame(GlaucomaM[,-63,drop = FALSE]) #, fun = rank)
-> resp <- initVariableFrame(GlaucomaM[,"Class",drop = FALSE])
-> ls <- new("LearningSample", inputs = inp, responses = resp,
-+           weights = rep(1, inp@nobs), nobs = nrow(GlaucomaM), 
-+           ninputs = inp@ninputs)
-> tm <- TreeFitMemory(ls, TRUE)
-> ctrl <- new("TreeControl")
-> ctrl@gtctrl@testtype <- factor("Bonferroni", levels = tlev)
-> ctrl@varctrl@teststattype <- factor("quadform", levels = c("maxabs", "quadform"))
-> where <- rep(0, ls@nobs)
-> storage.mode(where) <- "integer"
-> tree <- .Call("R_TreeGrow", ls, ls@weights, tm, ctrl, where)
+> tree <- ctree(Class ~ ., data = GlaucomaM)@tree
 > stopifnot(isequal(tree[[5]][[3]], 0.059))
 > 
 > # print(tree)
 > 
-> ctrl@tgctrl@stump = TRUE
-> stump <- .Call("R_TreeGrow", ls, ls@weights, tm, ctrl, where)
-> # print(stump)
+> stump <- ctree(Class ~ ., data = GlaucomaM, 
++                control = ctreecontrol(stump = TRUE))
+> print(stump)
+
+	 Conditional tree with 2 terminal nodes
+
+Response:  Class 
+Inputs:  ag, at, as, an, ai, eag, eat, eas, ean, eai, abrg, abrt, abrs, abrn, abri, hic, mhcg, mhct, mhcs, mhcn, mhci, phcg, phct, phcs, phcn, phci, hvc, vbsg, vbst, vbss, vbsn, vbsi, vasg, vast, vass, vasn, vasi, vbrg, vbrt, vbrs, vbrn, vbri, varg, vart, vars, varn, vari, mdg, mdt, mds, mdn, mdi, tmg, tmt, tms, tmn, tmi, mr, rnf, mdic, emd, mv 
+Number of observations:  196 
+
+1) vari <= 0.059; criterion = 1, statistic = 71.475
+  2)*  weights = 87 
+1) vari > 0.059
+  3)*  weights = 109 
 > 
 > data(treepipit, package = "coin")
 > 
-> tr <- ctree(counts ~ ., data = treepipit, teststattype = "quadform")
+> tr <- ctree(counts ~ ., data = treepipit)
 > tr
- 1) coverstorey  <=  40; max(criterion) =  0.998 , max(test statistic) =  13.678 
-   2)*  weights =  24 , prediction =  1.042 
- 1) coverstorey  >  40
-   3)*  weights =  62 , prediction =  0.032 
+
+	 Conditional tree with 2 terminal nodes
+
+Response:  counts 
+Inputs:  age, coverstorey, coverregen, meanregen, coniferous, deadtree, cbpiles, ivytree, fdist 
+Number of observations:  86 
+
+1) coverstorey <= 40; criterion = 0.998, statistic = 13.678
+  2)*  weights = 24 
+1) coverstorey > 40
+  3)*  weights = 62 
 > plot(tr)
 > 
 > 
 > data(GlaucomaM, package = "ipred")
 > 
-> tr <- ctree(Class ~ ., data = GlaucomaM, teststattype = "quadform")
+> tr <- ctree(Class ~ ., data = GlaucomaM)
 > tr
- 1) vari  <=  0.059; max(criterion) =  1 , max(test statistic) =  71.475 
-   2) vasg  <=  0.046; max(criterion) =  1 , max(test statistic) =  29.265 
-     3) vart  <=  0.005; max(criterion) =  0.999 , max(test statistic) =  18.185 
-       4)*  weights =  51 , prediction =  1 0 
-     3) vart  >  0.005
-       5)*  weights =  22 , prediction =  0.864 0.136 
-   2) vasg  >  0.046
-     6)*  weights =  14 , prediction =  0.357 0.643 
- 1) vari  >  0.059
-   7)*  weights =  109 , prediction =  0.211 0.789 
+
+	 Conditional tree with 4 terminal nodes
+
+Response:  Class 
+Inputs:  ag, at, as, an, ai, eag, eat, eas, ean, eai, abrg, abrt, abrs, abrn, abri, hic, mhcg, mhct, mhcs, mhcn, mhci, phcg, phct, phcs, phcn, phci, hvc, vbsg, vbst, vbss, vbsn, vbsi, vasg, vast, vass, vasn, vasi, vbrg, vbrt, vbrs, vbrn, vbri, varg, vart, vars, varn, vari, mdg, mdt, mds, mdn, mdi, tmg, tmt, tms, tmn, tmi, mr, rnf, mdic, emd, mv 
+Number of observations:  196 
+
+1) vari <= 0.059; criterion = 1, statistic = 71.475
+  2) vasg <= 0.046; criterion = 1, statistic = 29.265
+    3) vart <= 0.005; criterion = 0.999, statistic = 18.185
+      4)*  weights = 51 
+    3) vart > 0.005
+      5)*  weights = 22 
+  2) vasg > 0.046
+    6)*  weights = 14 
+1) vari > 0.059
+  7)*  weights = 109 
 > plot(tr)
 > 
 > data(GBSG2, package = "ipred")  
 > 
-> GBSG2tree <- ctree(Surv(time, cens) ~ ., data = GBSG2, teststattype = "quadform")
+> GBSG2tree <- ctree(Surv(time, cens) ~ ., data = GBSG2)
 > GBSG2tree
- 1) pnodes  <=  3; max(criterion) =  1 , max(test statistic) =  56.156 
-   2) horTh  ==  { no }; max(criterion) =  0.965 , max(test statistic) =  8.113 
-     3)*  weights =  248 , prediction =  -0.118 
-   2) horTh  ==  { yes }
-     4)*  weights =  128 , prediction =  -0.307 
- 1) pnodes  >  3
-   5) progrec  <=  20; max(criterion) =  0.999 , max(test statistic) =  14.941 
-     6)*  weights =  144 , prediction =  0.44 
-   5) progrec  >  20
-     7)*  weights =  166 , prediction =  0.031 
+
+	 Conditional tree with 4 terminal nodes
+
+Response:  time (censored)
+Inputs:  horTh, age, menostat, tsize, tgrade, pnodes, progrec, estrec 
+Number of observations:  686 
+
+1) pnodes <= 3; criterion = 1, statistic = 56.156
+  2) horTh == {no}; criterion = 0.965, statistic = 8.113
+    3)*  weights = 248 
+  2) horTh == {yes}
+    4)*  weights = 128 
+1) pnodes > 3
+  5) progrec <= 20; criterion = 0.999, statistic = 14.941
+    6)*  weights = 144 
+  5) progrec > 20
+    7)*  weights = 166 
 > plot(GBSG2tree)
 > plot(GBSG2tree, terminal = survNode(GBSG2tree))
 > survfit(Surv(time, cens) ~ as.factor(GBSG2tree@where), data = GBSG2)
@@ -119,36 +140,45 @@ as.factor(GBSG2tree@where)=7 166     77   1701    1174    2018
  [1] "horTh"    "age"      "menostat" "tsize"    "tgrade"   "pnodes"  
  [7] "progrec"  "estrec"   "time"     "cens"    
 > 
-> tr <- ctree(Surv(time, cens) ~ ., data = GBSG2, teststattype = "maxabs", testtype = "Raw")
+> tr <- ctree(Surv(time, cens) ~ ., data = GBSG2, 
++             control = ctreecontrol(teststattype = "maxabs", 
++                                     testtype = "Raw"))
 > tr
- 1) pnodes  <=  3; max(criterion) =  1 , max(test statistic) =  7.494 
-   2) horTh  ==  { no }; max(criterion) =  0.996 , max(test statistic) =  2.848 
-     3) menostat  ==  { Post }; max(criterion) =  0.978 , max(test statistic) =  2.286 
-       4)*  weights =  112 , prediction =  -0.018 
-     3) menostat  ==  { Pre }
-       5) age  <=  37; max(criterion) =  1 , max(test statistic) =  3.858 
-         6)*  weights =  21 , prediction =  0.293 
-       5) age  >  37
-         7)*  weights =  115 , prediction =  -0.29 
-   2) horTh  ==  { yes }
-     8) progrec  <=  74; max(criterion) =  0.975 , max(test statistic) =  2.241 
-       9)*  weights =  73 , prediction =  -0.135 
-     8) progrec  >  74
-       10)*  weights =  55 , prediction =  -0.535 
- 1) pnodes  >  3
-   11) progrec  <=  20; max(criterion) =  1 , max(test statistic) =  3.865 
-     12) pnodes  <=  9; max(criterion) =  0.991 , max(test statistic) =  2.612 
-       13)*  weights =  87 , prediction =  0.318 
-     12) pnodes  >  9
-       14)*  weights =  57 , prediction =  0.627 
-   11) progrec  >  20
-     15) horTh  ==  { no }; max(criterion) =  0.976 , max(test statistic) =  2.251 
-       16)*  weights =  101 , prediction =  0.12 
-     15) horTh  ==  { yes }
-       17) menostat  ==  { Post }; max(criterion) =  0.965 , max(test statistic) =  2.105 
-         18)*  weights =  45 , prediction =  0.001 
-       17) menostat  ==  { Pre }
-         19)*  weights =  20 , prediction =  -0.355 
+
+	 Conditional tree with 10 terminal nodes
+
+Response:  time (censored)
+Inputs:  horTh, age, menostat, tsize, tgrade, pnodes, progrec, estrec 
+Number of observations:  686 
+
+1) pnodes <= 3; criterion = 1, statistic = 7.494
+  2) horTh == {no}; criterion = 0.996, statistic = 2.848
+    3) menostat == {Post}; criterion = 0.978, statistic = 2.286
+      4)*  weights = 112 
+    3) menostat == {Pre}
+      5) age <= 37; criterion = 1, statistic = 3.858
+        6)*  weights = 21 
+      5) age > 37
+        7)*  weights = 115 
+  2) horTh == {yes}
+    8) progrec <= 74; criterion = 0.975, statistic = 2.241
+      9)*  weights = 73 
+    8) progrec > 74
+      10)*  weights = 55 
+1) pnodes > 3
+  11) progrec <= 20; criterion = 1, statistic = 3.865
+    12) pnodes <= 9; criterion = 0.991, statistic = 2.612
+      13)*  weights = 87 
+    12) pnodes > 9
+      14)*  weights = 57 
+  11) progrec > 20
+    15) horTh == {no}; criterion = 0.976, statistic = 2.251
+      16)*  weights = 101 
+    15) horTh == {yes}
+      17) menostat == {Post}; criterion = 0.965, statistic = 2.105
+        18)*  weights = 45 
+      17) menostat == {Pre}
+        19)*  weights = 20 
 > plot(tr)
 > 
 > data(mammoexp)
@@ -160,17 +190,24 @@ as.factor(GBSG2tree@where)=7 166     77   1701    1174    2018
 > 
 > names(mammoexp)
 [1] "ME"       "symptoms" "benefit"  "HIST"     "BSE"      "DECT"    
-> tr <- ctree(ME ~ ., data = mammoexp, teststattype = "quadform")
+> tr <- ctree(ME ~ ., data = mammoexp)
 Warning message:
 no admissible split found 
 > tr
- 1) symptoms  ==  { Strongly Agree, Agree }; max(criterion) =  1 , max(test statistic) =  34.44 
-   2)*  weights =  113 , prediction =  0.841 0.053 0.106 
- 1) symptoms  ==  { Disagree, Strongly Disagree }
-   3) benefit  <=  8; max(criterion) =  0.988 , max(test statistic) =  9.17 
-     4)*  weights =  208 , prediction =  0.399 0.38 0.221 
-   3) benefit  >  8
-     5)*  weights =  91 , prediction =  0.615 0.209 0.176 
+
+	 Conditional tree with 3 terminal nodes
+
+Response:  ME 
+Inputs:  symptoms, benefit, HIST, BSE, DECT 
+Number of observations:  412 
+
+1) symptoms <= Agree; criterion = 1, statistic = 29.933
+  2)*  weights = 113 
+1) symptoms > Agree
+  3) benefit <= 8; criterion = 0.988, statistic = 9.17
+    4)*  weights = 208 
+  3) benefit > 8
+    5)*  weights = 91 
 > plot(tr)
 > 
 > 
