@@ -18,8 +18,7 @@
 \alias{treeresponse-methods}
 \alias{treeresponse,BinaryTree-method}
 \title{Class "BinaryTree"}
-\description{A class for representing binary trees and some information
-             about the data used for fitting.}
+\description{A class for representing binary trees.}
 \section{Objects from the Class}{
 Objects can be created by calls of the form \code{new("BinaryTree", ...)}.
 The most important slot is \code{tree}, a (recursive) list with elements

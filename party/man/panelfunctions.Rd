@@ -1,4 +1,4 @@
-\name{Panel Functions}
+\name{Panel Generating Functions}
 \alias{node_inner}
 \alias{node_terminal}
 \alias{edge_simple}
@@ -7,11 +7,11 @@
 \alias{node_boxplot}
 \alias{node_hist}
 \alias{node_density}
-\title{ Panel Functions for the Visualization of Binary Regression Trees }
+\title{ Visualization of Binary Regression Trees }
 \description{
     The plot method for \code{BinaryTree} objects is rather flexible and can
-    be extended by panel functions. Some pre-defined panel functions for the
-    most important cases are documented here.
+    be extended by panel functions. Some pre-defined panel generating 
+    functions for the most important cases are documented here.
 }
 \usage{
 node_inner(ctreeobj, digits = 3, abbreviate = FALSE, 
@@ -53,15 +53,15 @@ node_density(ctreeobj, col = "black", rug = TRUE, horizontal = TRUE,
 }
 \details{
 
-  This \code{plot} method for \code{BinaryTree} objects provides an
+  The \code{plot} method for \code{BinaryTree} objects provides an
   extensible framework for the visualization of binary regression trees. The
   user is allowed to specify panel functions for plotting terminal and inner
   nodes as well as the corresponding edges. For convenience, the panel
   generating functions \code{node_inner} and \code{edge_simple} 
   return panel functions to draw inner nodes and left and right edges. 
   For drawing terminal nodes, the functions returned by the other panel 
-  functions can be used. The panel function \code{node_terminal} is
-  a terse text-based representation of terminal nodes.
+  functions can be used. The panel generating function \code{panel_terminal_node} 
+  is a terse text-based representation of terminal nodes.
 
   Graphical representations of terminal nodes are available and depend on
   the measurement scale of the response variable the tree was fitted to.
@@ -69,6 +69,7 @@ node_density(ctreeobj, col = "black", rug = TRUE, horizontal = TRUE,
   terminal node. \code{node_barplot}, \code{node_boxplot}, \code{node_hist} and
   \code{node_density} can be used to plot barplots, boxplots, histograms and 
   estimated densities into the terminal nodes.
+
 }
 \examples{
 

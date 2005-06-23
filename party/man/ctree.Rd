@@ -34,22 +34,22 @@ ctree(formula, data, subset = NULL, weights = NULL,
   any of the input variables and the response (which may be multivariate as well). 
   Stop if this hypothesis cannot be rejected. Otherwise select the input
   variable with strongest association to the resonse. This
-  association is measured by a P-value corresponding to a test for the
+  association is measured by a p-value corresponding to a test for the
   partial null hypothesis of a single input variable and the response.
-  2) Implement a binary split in the selected input variable. 3) Recursively repeate
-  steps 1) and 2). 
+  2) Implement a binary split in the selected input variable. 
+  3) Recursively repeate steps 1) and 2). 
 
   The implementation utilizes a unified framework for conditional inference,
   or permutation tests, developed by Strasser and Weber (1999). The stop
   criterion in step 1) is either based on a p-value 
-  (\code{ctree_control(teststattype = "Bonferroni")} 
-   or \code{ctree_control(teststattype = "MonteCarlo")}) is
+  (\code{teststattype = "Bonferroni"} 
+  or \code{teststattype = "MonteCarlo"} in \code{\link{ctree_control}})
   or on the raw (standardized) test
-  statistic (\code{ctree_control(teststattype = "Raw")}). In both cases, the
+  statistic (\code{teststattype = "Raw"}). In both cases, the
   criterion is maximized, i.e., 1 - p-value is used. A split is implemented 
   when the criterion exceeds the value given by \code{mincriterion} as
-  specified in \code{\link{ctree_control}}. For
-  example, when \code{mincriterion = 0.95}, the p-value must be smaller than
+  specified in \code{\link{ctree_control}}. For example, when 
+  \code{mincriterion = 0.95}, the p-value must be smaller than
   $0.05$ in order to split this node. This statistical approach ensures that
   the right sized tree is grown and no form of pruning or cross-validation
   or whatsoever is needed. The selection of the input variable to split in

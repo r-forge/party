@@ -9,6 +9,7 @@
 }
 \section{Extends}{
 Class \code{"list"}, from data part.
-Class \code{"vector"}, by class \code{"list"}.
+Class \code{"vector"}, by class \code{"list"}. See
+\code{\link{BinaryTree-class}} for more details.
 }
 \keyword{classes}
