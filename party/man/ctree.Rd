@@ -1,4 +1,4 @@
-\name{ctree}
+\name{Conditional Trees}
 \alias{ctree}
 \alias{conditionalTree}
 \title{ Conditional Trees }
@@ -8,7 +8,7 @@
 }
 \usage{
 ctree(formula, data, subset = NULL, weights = NULL, 
-      controls = ctreecontrol(), xtrafo = NULL, ytrafo = NULL, 
+      controls = ctree_control(), xtrafo = NULL, ytrafo = NULL, 
       scores = NULL)
 }
 \arguments{
@@ -20,7 +20,7 @@ ctree(formula, data, subset = NULL, weights = NULL,
                   process. Only non-negative integer valued weights are
                   allowed.}
   \item{controls}{an object of class \code{\link{TreeControl}}, which can be
-                  obtained using \code{\link{ctreecontrol}}.}
+                  obtained using \code{\link{ctree_control}}.}
   \item{xtrafo}{ an optional function to be applied to all input variables. }
   \item{ytrafo}{ an optional function to be applied to all response variables. }
   \item{scores}{ an optional named list of scores to be attached to ordered
@@ -42,13 +42,13 @@ ctree(formula, data, subset = NULL, weights = NULL,
   The implementation utilizes a unified framework for conditional inference,
   or permutation tests, developed by Strasser and Weber (1999). The stop
   criterion in step 1) is either based on a p-value 
-  (\code{ctreecontrol(teststattype = "Bonferroni")} 
-   or \code{ctreecontrol(teststattype = "MonteCarlo")}) is
+  (\code{ctree_control(teststattype = "Bonferroni")} 
+   or \code{ctree_control(teststattype = "MonteCarlo")}) is
   or on the raw (standardized) test
-  statistic (\code{ctreecontrol(teststattype = "Raw")}). In both cases, the
+  statistic (\code{ctree_control(teststattype = "Raw")}). In both cases, the
   criterion is maximized, i.e., 1 - p-value is used. A split is implemented 
   when the criterion exceeds the value given by \code{mincriterion} as
-  specified in \code{\link{ctreecontrol}}. For
+  specified in \code{\link{ctree_control}}. For
   example, when \code{mincriterion = 0.95}, the p-value must be smaller than
   $0.05$ in order to split this node. This statistical approach ensures that
   the right sized tree is grown and no form of pruning or cross-validation
@@ -84,7 +84,7 @@ ctree(formula, data, subset = NULL, weights = NULL,
     data(airquality)
     airq <- subset(airquality, !is.na(Ozone))
     airct <- ctree(Ozone ~ ., data = airq, 
-                   controls = ctreecontrol(maxsurrogate = 3))
+                   controls = ctree_control(maxsurrogate = 3))
     airct
     plot(airct)
     mean((airq$Ozone - predict(airct))^2)

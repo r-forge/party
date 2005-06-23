@@ -1,4 +1,4 @@
-\name{LearningSample-class}
+\name{LearningSample Class}
 \docType{class}
 \alias{LearningSample-class}
 

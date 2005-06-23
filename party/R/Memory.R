@@ -1,7 +1,7 @@
 
 # $Id$
 
-ctreeFitMemory <- function(object, MPinv = FALSE) {
+ctree_memory <- function(object, MPinv = FALSE) {
 
     inputs <- object@inputs
     responses <- object@responses

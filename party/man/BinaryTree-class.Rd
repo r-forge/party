@@ -1,4 +1,4 @@
-\name{BinaryTree-class}
+\name{BinaryTree Class}
 \docType{class}
 \alias{BinaryTree-class}
 \alias{weights}
@@ -111,7 +111,7 @@ Class \code{"BinaryTreePartition"}, directly.
   data(airquality)
   airq <- subset(airquality, !is.na(Ozone))
   airct <- ctree(Ozone ~ ., data = airq,   
-                 controls = ctreecontrol(maxsurrogate = 3))
+                 controls = ctree_control(maxsurrogate = 3))
 
   ### distribution of responses in the terminal nodes
   plot(airq$Ozone ~ as.factor(where(airct)))

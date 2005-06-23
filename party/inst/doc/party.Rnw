@@ -287,15 +287,15 @@ computationally more expensive because the Moore-Penrose
 inverse $\Sigma^+$ of $\Sigma$ is involved.
 
 The type of test statistic to be used can be specified by means of the
-\texttt{ctreecontrol} function, for example
+\texttt{ctree\_control} function, for example
 <<party-teststattype, echo = TRUE, results = hide>>=
 ctree(y ~ x1 + x2, data = ls, 
-      control = ctreecontrol(teststattype = "maxabs"))
+      control = ctree_control(teststattype = "maxabs"))
 @
 uses $c_\text{max}$ and 
 <<party-teststattype2, echo = TRUE, results = hide>>=
 ctree(y ~ x1 + x2, data = ls, 
-      control = ctreecontrol(teststattype = "quadform"))
+      control = ctree_control(teststattype = "quadform"))
 @
 takes $c_\text{quad}$ (the default).
 
@@ -332,11 +332,11 @@ procedures based on $P_1, \dots, P_m$.
 Simple Bonferroni-adjusted $P$-values $m
 P_j$, available via 
 <<party-Bonf, echo = TRUE, results = hide>>=
-ctreecontrol(testtype = "Bonferroni")
+ctree_control(testtype = "Bonferroni")
 @
 or a min-$P$-value resampling approach 
 <<party-MC, echo = TRUE, results = hide>>=
-ctreecontrol(testtype = "MonteCarlo")           
+ctree_control(testtype = "MonteCarlo")           
 @
 are just examples and we refer
 to the multiple testing literature \citep[e.g.,][]{WestfallYoung1993}
@@ -377,7 +377,7 @@ A^* = \argmax_A c(\bft_{j^*}^A, \mu_{j^*}^A, \Sigma_{j^*}^A).
 The statistics $c(\bft_{j^*}^A, \mu_{j^*}^A, \Sigma_{j^*}^A)$ are available
 for each node with
 <<party-ss, echo = TRUE, results = hide>>=
-ctreecontrol(savesplitstats = TRUE)
+ctree_control(savesplitstats = TRUE)
 @
 and can be used to depict a scatter plot of the covariate
 $\sX_{j^*}$ against the statistics.
@@ -389,7 +389,7 @@ possible subsets that are evaluated, for example by introducing restrictions
 on the sample size or the sum of the case weights in each of the two groups
 of observations induced by a possible split. For example,
 <<party-minsplit, echo = TRUE, results = hide>>=
-ctreecontrol(minsplit = 20)
+ctree_control(minsplit = 20)
 @
 requires the sum of the weights in both the left and right daughter 
 node to exceed the value of $20$.
@@ -407,7 +407,7 @@ response variable by a binary variable $I(X_{ji} \in A^*)$ coding the
 split and proceeds as described in the previous part. The number of
 surrogate splits can be controlled using
 <<party-maxsurr, echo = TRUE, results = hide>>=
-ctreecontrol(maxsurrogate = 3)
+ctree_control(maxsurrogate = 3)
 @
 
 \paragraph{Inspecting a Tree.}
@@ -607,7 +607,7 @@ tptree <- ctree(counts ~ ., data = treepipit)
 \begin{figure}[t]
 \begin{center}
 <<treepipit-plot, echo = TRUE, fig = TRUE, height = 5, width = 8>>=
-plot(tptree, terminal_panel = histNode(tptree, breaks = 0:6-0.5, ymax = 65, 
+plot(tptree, terminal_panel = panel_hist(tptree, breaks = 0:6-0.5, ymax = 65, 
 horizontal = FALSE, freq = TRUE))
 @
 \caption{Conditional regression tree for the tree pipit data.}
@@ -848,7 +848,7 @@ data(spider, package = "mvpart")
 sptree <- ctree(arct.lute + pard.lugu + zora.spin + pard.nigr + pard.pull +
            aulo.albi + troc.terr + alop.cune + pard.mont + alop.acce + 
            alop.fabr + arct.peri ~ herbs+reft+moss+sand+twigs+water, 
-           controls = ctreecontrol(teststat = "maxabs", testtype = "MonteCarlo", nresample = 9999, 
+           controls = ctree_control(teststat = "maxabs", testtype = "MonteCarlo", nresample = 9999, 
            minsplit = 5, mincriterion = 0.9), data = spider)
 sptree@tree$criterion
 
@@ -865,7 +865,7 @@ pvalue(it)
 \begin{figure}[t]
 \begin{center}
 <<spider-plot, echo = TRUE, fig = TRUE>>=
-plot(sptree, terminal_panel = termNode)
+plot(sptree, terminal_panel = panel_terminal_node)
 @
 \caption{Regression tree for hunting spider abundance. The species with
          maximal abundance is given for each terminal node. \label{spider}}

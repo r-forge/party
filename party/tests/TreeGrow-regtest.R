@@ -21,7 +21,7 @@ stopifnot(isequal(tree[[5]][[3]], 0.059))
 # print(tree)
 
 stump <- ctree(Class ~ ., data = GlaucomaM, 
-               control = ctreecontrol(stump = TRUE))
+               control = ctree_control(stump = TRUE))
 print(stump)
 
 data(treepipit, package = "coin")
@@ -42,12 +42,12 @@ data(GBSG2, package = "ipred")
 GBSG2tree <- ctree(Surv(time, cens) ~ ., data = GBSG2)
 GBSG2tree
 plot(GBSG2tree)
-plot(GBSG2tree, terminal = survNode(GBSG2tree))
+plot(GBSG2tree, terminal_panel = panel_surv(GBSG2tree))
 survfit(Surv(time, cens) ~ as.factor(GBSG2tree@where), data = GBSG2)
 names(GBSG2)
 
 tr <- ctree(Surv(time, cens) ~ ., data = GBSG2, 
-            control = ctreecontrol(teststattype = "maxabs", 
+            control = ctree_control(teststattype = "maxabs", 
                                     testtype = "Raw"))
 tr
 plot(tr)

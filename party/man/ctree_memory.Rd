@@ -1,5 +1,5 @@
-\name{ctreeFitMemory}
-\alias{ctreeFitMemory}
+\name{Memory Allocation}
+\alias{ctree_memory}
 \title{ Memory Allocation }
 \description{
 
@@ -7,7 +7,7 @@
     convenient to allocate memory only once but build multiple trees.
 }
 \usage{
-ctreeFitMemory(object, MPinv = FALSE)
+ctree_memory(object, MPinv = FALSE)
 }
 \arguments{
   \item{object}{an object of class \code{LearningSample}.}
@@ -32,8 +32,8 @@ ctreeFitMemory(object, MPinv = FALSE)
     ls <- dpp(conditionalTree, Ozone ~ ., data = airq)
 
     ### setup memory and controls 
-    mem <- ctreeFitMemory(ls)
-    ct <- ctreecontrol(teststattype = "maxabs")
+    mem <- ctree_memory(ls)
+    ct <- ctree_control(teststattype = "maxabs")
 
     ### fit 50 trees on bootstrap samples
     bs <- rmultinom(50, nrow(airq), rep(1, nrow(airq))/nrow(airq))

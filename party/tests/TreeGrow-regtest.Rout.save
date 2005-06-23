@@ -49,7 +49,7 @@ Loading required package: class
 > # print(tree)
 > 
 > stump <- ctree(Class ~ ., data = GlaucomaM, 
-+                control = ctreecontrol(stump = TRUE))
++                control = ctree_control(stump = TRUE))
 > print(stump)
 
 	 Conditional tree with 2 terminal nodes
@@ -126,7 +126,7 @@ Number of observations:  686
   5) progrec > 20
     7)*  weights = 166 
 > plot(GBSG2tree)
-> plot(GBSG2tree, terminal = survNode(GBSG2tree))
+> plot(GBSG2tree, terminal_panel = panel_surv(GBSG2tree))
 > survfit(Surv(time, cens) ~ as.factor(GBSG2tree@where), data = GBSG2)
 Call: survfit(formula = Surv(time, cens) ~ as.factor(GBSG2tree@where), 
     data = GBSG2)
@@ -141,7 +141,7 @@ as.factor(GBSG2tree@where)=7 166     77   1701    1174    2018
  [7] "progrec"  "estrec"   "time"     "cens"    
 > 
 > tr <- ctree(Surv(time, cens) ~ ., data = GBSG2, 
-+             control = ctreecontrol(teststattype = "maxabs", 
++             control = ctree_control(teststattype = "maxabs", 
 +                                     testtype = "Raw"))
 > tr
 

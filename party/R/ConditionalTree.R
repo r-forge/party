@@ -10,7 +10,7 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
         stop(sQuote("controls"), " is not of class ", sQuote("TreeControl"))
 
     if (is.null(fitmem)) 
-        fitmem <- ctreeFitMemory(object, TRUE)
+        fitmem <- ctree_memory(object, TRUE)
     if (!extends(class(fitmem), "TreeFitMemory"))
         stop(sQuote("fitmem"), " is not of class ", sQuote("TreeFitMemory"))
 
@@ -186,11 +186,11 @@ setMethod("fit", signature = signature(model = "StatModel",
 )
 
 ### control the hyper parameters
-ctreecontrol <- function(teststattype = c("quadform", "maxabs"),
-                         testtype = c("Bonferroni", "MonteCarlo", "Raw"),
-                         mincriterion = 0.95, minsplit = 20, stump = FALSE,
-                         nresample = 9999, maxsurrogate = 0, mtry = 0, 
-                         savesplitstats = TRUE) {
+ctree_control <- function(teststattype = c("quadform", "maxabs"),
+                          testtype = c("Bonferroni", "MonteCarlo", "Raw"),
+                          mincriterion = 0.95, minsplit = 20, stump = FALSE,
+                          nresample = 9999, maxsurrogate = 0, mtry = 0, 
+                          savesplitstats = TRUE) {
 
     teststattype <- match.arg(teststattype)
     testtype <- match.arg(testtype)
@@ -225,7 +225,7 @@ ctreecontrol <- function(teststattype = c("quadform", "maxabs"),
 
 ### the top-level convenience function
 ctree <- function(formula, data, subset = NULL, weights = NULL, 
-                  controls = ctreecontrol(), xtrafo = NULL, 
+                  controls = ctree_control(), xtrafo = NULL, 
                   ytrafo = NULL, scores = NULL) {
 
     ### setup learning sample
@@ -233,7 +233,7 @@ ctree <- function(formula, data, subset = NULL, weights = NULL,
               ytrafo = ytrafo, scores = scores)
 
     ### setup memory
-    fitmem <- ctreeFitMemory(ls, TRUE)
+    fitmem <- ctree_memory(ls, TRUE)
 
     ### fit and return a conditional tree
     fit(conditionalTree, ls, controls = controls, weights = weights, 

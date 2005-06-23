@@ -1,4 +1,4 @@
-\name{TreeControl-class}
+\name{TreeControl Class}
 \docType{class}
 \alias{TreeControl-class}
 \alias{TreeControl}
@@ -9,7 +9,7 @@
    growing.
 }
 \section{Objects from the Class}{
-Objects can be created by \code{\link{ctreecontrol}}.
+Objects can be created by \code{\link{ctree_control}}.
 }
 \section{Slots}{
   \describe{

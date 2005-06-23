@@ -21,7 +21,7 @@ maxdepth <- function(node) {
 ## panel functions for labeling trees:
 ## inner and terminal nodes and edges.
 
-innerNode <- function(ctreeobj,
+panel_inner_node <- function(ctreeobj,
                       digits = 3,
 		      abbreviate = FALSE,
 		      fill = "white",
@@ -57,7 +57,7 @@ innerNode <- function(ctreeobj,
                         y = unit(0.5, "npc"),
                         width = unit(1, "strwidth", nstr) * 1.3, 
                         height = unit(3, "lines"),
- 		        name = paste("innerNode", node$nodeID, sep = ""))
+ 		        name = paste("panel_inner_node", node$nodeID, sep = ""))
         pushViewport(node_vp)
 
         xell <- c(seq(0, 0.2, by = 0.01),
@@ -89,7 +89,7 @@ innerNode <- function(ctreeobj,
     return(rval)
 }
 
-survNode <- function(ctreeobj,
+panel_surv <- function(ctreeobj,
 		     ylines = 2,
 		     id = TRUE, ...)
 {
@@ -113,7 +113,7 @@ survNode <- function(ctreeobj,
                            heights = unit(c(1, 1), c("lines", "null"))),
                            width = unit(1, "npc"), 
                            height = unit(1, "npc") - unit(2, "lines"),
-			   name = paste("survNode", node$nodeID, sep = ""))
+			   name = paste("panel_surv", node$nodeID, sep = ""))
 
         pushViewport(top_vp)
         grid.rect(gp = gpar(fill = "white", col = NULL))
@@ -128,7 +128,7 @@ survNode <- function(ctreeobj,
 	
         plot <- viewport(layout.pos.col=2, layout.pos.row=2,
                          xscale=xscale, yscale=yscale,
-			 name = paste("survNode", node$nodeID, "plot", 
+			 name = paste("panel_surv", node$nodeID, "plot", 
                          sep = ""))
 
         pushViewport(plot)
@@ -142,7 +142,7 @@ survNode <- function(ctreeobj,
     return(rval)
 }
 
-barNode <- function(ctreeobj,
+panel_bar <- function(ctreeobj,
                     col = "black",
 		    fill = "lightgray",
 		    ymax = NULL,
@@ -193,7 +193,7 @@ barNode <- function(ctreeobj,
                            heights = unit(c(1, 1), c("lines", "null"))),
                            width = unit(1, "npc"), 
                            height = unit(1, "npc") - unit(2, "lines"),
-			   name = paste("barNode", node$nodeID, sep = ""))
+			   name = paste("panel_bar", node$nodeID, sep = ""))
 
         pushViewport(top_vp)
         grid.rect(gp = gpar(fill = "white", col = NULL))
@@ -208,7 +208,7 @@ barNode <- function(ctreeobj,
 	
         plot <- viewport(layout.pos.col=2, layout.pos.row=2,
                          xscale=xscale, yscale=yscale,
-			 name = paste("barNode", node$nodeID, "plot", 
+			 name = paste("panel_bar", node$nodeID, "plot", 
                          sep = ""))
 
         pushViewport(plot)
@@ -233,7 +233,7 @@ barNode <- function(ctreeobj,
     return(rval)
 }
 
-boxNode <- function(ctreeobj,
+panel_box <- function(ctreeobj,
                     col = "black",
 		    fill = "lightgray",
 		    width = 0.5,
@@ -260,7 +260,7 @@ boxNode <- function(ctreeobj,
                            heights = unit(c(1, 1), c("lines", "null"))),
                            width = unit(1, "npc"), 
                            height = unit(1, "npc") - unit(2, "lines"),
-			   name = paste("boxNode", node$nodeID, sep = ""))
+			   name = paste("panel_box", node$nodeID, sep = ""))
 
         pushViewport(top_vp)
         grid.rect(gp = gpar(fill = "white", col = NULL))
@@ -275,7 +275,7 @@ boxNode <- function(ctreeobj,
 	
         plot <- viewport(layout.pos.col = 2, layout.pos.row = 2,
                          xscale = c(0, 1), yscale = yscale,
-			 name = paste("boxNode", node$nodeID, "plot", 
+			 name = paste("panel_box", node$nodeID, "plot", 
                          sep = ""))
 
         pushViewport(plot)
@@ -320,7 +320,7 @@ boxNode <- function(ctreeobj,
     return(rval)
 }
 
-histNode <- function(ctreeobj,
+panel_hist <- function(ctreeobj,
                      col = "black",
 		     fill = "lightgray",
 		     freq = FALSE,
@@ -365,7 +365,7 @@ histNode <- function(ctreeobj,
                            heights = unit(c(1, 1), c("lines", "null"))),
                            width = unit(1, "npc"), 
                            height = unit(1, "npc") - unit(2, "lines"),
-			   name = paste("boxNode", node$nodeID, sep = ""))
+			   name = paste("panel_box", node$nodeID, sep = ""))
 
         pushViewport(top_vp)
         grid.rect(gp = gpar(fill = "white", col = NULL))
@@ -380,7 +380,7 @@ histNode <- function(ctreeobj,
 	
         plot <- viewport(layout.pos.col = 2, layout.pos.row = 2,
                          xscale = xscale, yscale = yscale,
-			 name = paste("histNode", node$nodeID, "plot", 
+			 name = paste("panel_hist", node$nodeID, "plot", 
                          sep = ""))
 
         pushViewport(plot)
@@ -413,7 +413,7 @@ histNode <- function(ctreeobj,
     return(rval)
 }
 
-densNode <- function(ctreeobj,
+panel_dens <- function(ctreeobj,
                      col = "black",
 		     rug = TRUE,
 		     horizontal = TRUE,
@@ -455,7 +455,7 @@ densNode <- function(ctreeobj,
                            heights = unit(c(1, 1), c("lines", "null"))),
                            width = unit(1, "npc"), 
                            height = unit(1, "npc") - unit(2, "lines"),
-			   name = paste("boxNode", node$nodeID, sep = ""))
+			   name = paste("panel_box", node$nodeID, sep = ""))
 
         pushViewport(top_vp)
         grid.rect(gp = gpar(fill = "white", col = NULL))
@@ -470,7 +470,7 @@ densNode <- function(ctreeobj,
 	
         plot <- viewport(layout.pos.col = 2, layout.pos.row = 2,
                          xscale = xscale, yscale = yscale,
-			 name = paste("densNode", node$nodeID, "plot", 
+			 name = paste("panel_dens", node$nodeID, "plot", 
                          sep = ""))
 
         pushViewport(plot)
@@ -517,7 +517,7 @@ densNode <- function(ctreeobj,
     return(rval)
 }
 
-termNode <- function(ctreeobj,
+panel_terminal_node <- function(ctreeobj,
                      digits = 3,
 		     abbreviate = FALSE,
 		     fill = c("lightgray", "white"),
@@ -553,7 +553,7 @@ termNode <- function(ctreeobj,
                        y = unit(0.5, "npc"),   
                        width = unit(1, "strwidth", nstr) * 1.1,
                        height = unit(3, "lines"),
-		       name = paste("termNode", node$nodeID, sep = ""))
+		       name = paste("panel_terminal_node", node$nodeID, sep = ""))
         pushViewport(node_vp)
 
         lab <- getLabel1(node)
@@ -576,7 +576,7 @@ termNode <- function(ctreeobj,
     return(rval)
 }
 
-simpleEdge <- function(ctreeobj,
+panel_simple_edge <- function(ctreeobj,
                        digits = 3,
 		       abbreviate = FALSE)
 {
@@ -748,8 +748,8 @@ plotTree <- function(node, xlim, ylim, nx, ny,
 plot.BinaryTree <- function(x, main = NULL,
                             type = c("extended", "simple"),
                             terminal_panel = NULL,
-			    inner_panel = innerNode, 
-                            edge_panel = simpleEdge,
+			    inner_panel = panel_inner_node, 
+                            edge_panel = panel_simple_edge,
 			    drop_terminal = (type[1] == "extended"),
 			    tnex = (type[1] == "extended") + 1, 
 			    new = TRUE,
@@ -769,15 +769,15 @@ plot.BinaryTree <- function(x, main = NULL,
     type <- match.arg(type)
     if (type == "simple") {
         if (is.null(terminal_panel)) 
-            terminal_panel <- termNode
+            terminal_panel <- panel_terminal_node
         if (is.null(tnex)) tnex <- 1
     } else {
         if (is.null(terminal_panel))
             terminal_panel <- switch(class(response(x)[[1]])[1],
-	                             "Surv" = survNode,
-                                     "factor" = barNode,
-                                     "ordered" = barNode,
-                                     boxNode)
+	                             "Surv" = panel_surv,
+                                     "factor" = panel_bar,
+                                     "ordered" = panel_bar,
+                                     panel_box)
         if (is.null(tnex)) tnex <- 2
     }
 

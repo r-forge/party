@@ -1,4 +1,4 @@
-\name{initialize-methods}
+\name{Initialize Methods}
 \docType{methods}
 \alias{initialize}
 \alias{initialize-methods}

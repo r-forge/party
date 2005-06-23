@@ -1,4 +1,4 @@
-\name{fit-methods}
+\name{Fit Methods}
 \docType{methods}
 \alias{fit-methods}
 \alias{fit,StatModel,LearningSample-method}

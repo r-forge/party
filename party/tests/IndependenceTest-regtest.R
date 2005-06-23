@@ -153,7 +153,7 @@ resp <- initVariableFrame(mydata[,"y",drop = FALSE], trafo = NULL)
 ls <- new("LearningSample", inputs = inp, responses = resp,
           weights = rep(1, inp@nobs), nobs = nrow(mydata), 
           ninputs = inp@ninputs)
-tm <- ctreeFitMemory(ls)
+tm <- ctree_memory(ls)
 varctrl <- new("VariableControl")
 pvals <- .Call("R_GlobalTest", ls, ls@weights, tm, varctrl, gtctrl)[[2]]
 wpvals <- rep(0, 3)

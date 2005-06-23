@@ -1,4 +1,4 @@
-\name{SplittingNode-class}
+\name{SplittingNode Class}
 \docType{class}
 \alias{SplittingNode-class}
 \alias{TerminalNode-class}

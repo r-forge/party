@@ -18,8 +18,8 @@ resp <- initVariableFrame(GlaucomaM[,"Class",drop = FALSE], trafo = NULL)
 ls <- new("LearningSample", inputs = inp, responses = resp,
           weights = rep(1, inp@nobs), nobs = nrow(GlaucomaM), 
           ninputs = inp@ninputs)
-tm <- ctreeFitMemory(ls, TRUE)
-ctrl <- ctreecontrol()
+tm <- ctree_memory(ls, TRUE)
+ctrl <- ctree_control()
 node <- .Call("R_Node", ls, ls@weights, tm, ctrl)
 stopifnot(isequal(node[[5]][[3]], 0.059))
 
@@ -29,7 +29,7 @@ resp <- initVariableFrame(GlaucomaM[,"Class",drop = FALSE], trafo = NULL)
 ls <- new("LearningSample", inputs = inp, responses = resp,
           weights = rep(1, inp@nobs), nobs = nrow(GlaucomaM), 
           ninputs = inp@ninputs)
-tm <- ctreeFitMemory(ls, TRUE)
-ctrl <- ctreecontrol()
+tm <- ctree_memory(ls, TRUE)
+ctrl <- ctree_control()
 node <- .Call("R_Node", ls, ls@weights, tm, ctrl)
 stopifnot(isequal(node[[5]][[3]], 0.059))
