@@ -680,18 +680,22 @@ is displayed for each terminal node. \label{glaucoma}}
 \end{center}
 \end{figure}
 
-\begin{figure}[t]
+The plot in Figure~\ref{glaucoma} shows the distribution of the classes in 
+the terminal nodes. This distribution can be shown for the inner nodes as
+well, namely by specifying the appropriate panel generating function
+(\texttt{node\_barplot} in our case), see Figure~\ref{glaucoma-inner}.
+
+\begin{figure}[hp!]
 \begin{center}
-<<glaucoma-plot-inner, echo = TRUE, fig = TRUE, height = 8, width = 8>>=
-plot(gtree, inner_panel = node_barplot, edge_panel = function(ctreeobj, ...)
-{ function(...) invisible() }, tnex = 1)
+<<glaucoma-plot-inner, echo = TRUE, fig = TRUE, height = 7, width = 10>>=
+plot(gtree, inner_panel = node_barplot, 
+     edge_panel = function(ctreeobj, ...) { function(...) invisible() }, tnex = 1)
 @
-\caption{Conditional inference tree for the glaucoma data. For each inner node, the
-Bonferroni-adjusted $P$-values are given, the fraction of glaucomatous eyes
-is displayed for each terminal node. \label{glaucoma}}
+\caption{Conditional inference tree for the glaucoma data with the 
+         fraction of glaucomatous eyes displayed for both inner and terminal
+         nodes. \label{glaucoma-inner}}
 \end{center}
 \end{figure}
-
 
 
 As mentioned in Section \ref{framework}, it might be interesting to have a
@@ -736,17 +740,24 @@ table(Predict(gtree), GlaucomaM$Class)
 @
 When we are interested in conditional class probabilities, the
 \texttt{treeresponse} method must be used. A graphical representation is
-shown in Figure \ref{glaucoma-boxplot}.
+shown in Figure \ref{glaucoma-probplot}.
 
-\setkeys{Gin}{width=.5\textwidth}
-\begin{figure}[h]
+\setkeys{Gin}{width=.7\textwidth}
+\begin{figure}[ht]
 \begin{center}
-<<glaucoma-classprob, echo = TRUE, fig = TRUE, height = 4, width = 4>>=
-boxplot(sapply(treeresponse(gtree), function(x) x[1]) ~ GlaucomaM$Class, 
-        ylab = "Class Probability Glaucoma", ylim = c(0, 1))
+<<glaucoma-classprob, echo = TRUE, fig = TRUE, height = 5, width = 5>>=
+prob <- sapply(treeresponse(gtree), function(x) x[1]) +
+               runif(nrow(GlaucomaM), min = -0.01, max = 0.01)
+splitvar <- nodes(gtree, 1)[[1]]$psplit$variableName
+plot(GlaucomaM[[splitvar]], prob, 
+     pch = as.numeric(GlaucomaM$Class), ylab = "Conditional Class Prob.",
+     xlab = splitvar)
+abline(v = nodes(gtree, 1)[[1]]$psplit$splitpoint, lty = 2)
+legend(0.18, 0.5, pch = 1:2, legend = levels(GlaucomaM$Class), bty = "n")
 @
-\caption{Estimated conditional class probabilities for the Glaucoma data.
-\label{glaucoma-boxplot}}
+\caption{Estimated conditional class probabilities (slightly jittered) 
+         for the Glaucoma data depending on the first split variable. 
+         The vertical line denotes the first split point. \label{glaucoma-probplot}}
 \end{center}
 \end{figure}
 
