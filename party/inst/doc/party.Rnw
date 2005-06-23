@@ -8,7 +8,7 @@
 
 
 %%\VignetteIndexEntry{party: A Laboratory for Recursive Part(y)itioning}
-%%\VignetteSuggests{mvpart,coin,ipred}
+%%\VignetteDepends{coin,ipred}
 
 \input{head}
 
@@ -672,13 +672,30 @@ temporal part of the optic nerve head (\texttt{vart}).
 \begin{figure}[t]
 \begin{center}
 <<glaucoma-plot, echo = TRUE, fig = TRUE, height = 6, width = 10>>=
+layout(matrix(1:2, nrow = 2))
 plot(gtree)
+plot(gtree, inner_panel = node_barplot, edge_panel = function(ctreeobj, ...)
+{ function(...) invisible() })
 @
 \caption{Conditional inference tree for the glaucoma data. For each inner node, the
 Bonferroni-adjusted $P$-values are given, the fraction of glaucomatous eyes
 is displayed for each terminal node. \label{glaucoma}}
 \end{center}
 \end{figure}
+
+\begin{figure}[t]
+\begin{center}
+<<glaucoma-plot-inner, echo = TRUE, fig = TRUE, height = 6, width = 10>>=
+plot(gtree, inner_panel = node_barplot, edge_panel = function(ctreeobj, ...)
+{ function(...) invisible() })
+@
+\caption{Conditional inference tree for the glaucoma data. For each inner node, the
+Bonferroni-adjusted $P$-values are given, the fraction of glaucomatous eyes
+is displayed for each terminal node. \label{glaucoma}}
+\end{center}
+\end{figure}
+
+
 
 As mentioned in Section \ref{framework}, it might be interesting to have a
 look at the split statistics the split point estimate was derived from.
@@ -843,7 +860,7 @@ shown in Figure~\ref{spider} which additionally identifies \texttt{reft}.
 The data are available in package 
 \texttt{mvpart} \citep{mvpart2004} at \url{http://CRAN.R-project.org}.
 
-<<spider-ctree, echo = TRUE>>=
+<<spider-ctree, echo = TRUE, eval = FALSE>>=
 data(spider, package = "mvpart")   
 sptree <- ctree(arct.lute + pard.lugu + zora.spin + pard.nigr + pard.pull +
            aulo.albi + troc.terr + alop.cune + pard.mont + alop.acce + 
@@ -864,7 +881,8 @@ pvalue(it)
 
 \begin{figure}[t]
 \begin{center}
-<<spider-plot, echo = TRUE, fig = TRUE>>=
+<<<<<<< party.Rnw
+<<spider-plot, eval = FALSE, echo = TRUE, fig = TRUE>>=
 plot(sptree, terminal_panel = node_terminal)
 @
 \caption{Regression tree for hunting spider abundance. The species with
