@@ -133,7 +133,7 @@ missing,
 \end{eqnarray*}
 For the sake of simplicity, we use a learning sample
 <<party-data, echo = TRUE>>=
-ls <- data.frame(y = gl(3, 50), x1 = rnorm(150) + rep(c(1, 0, 0), c(50, 50,
+ls <- data.frame(y = gl(3, 50, labels = c("A", "B", "C")), x1 = rnorm(150) + rep(c(1, 0, 0), c(50, 50,
 50)), x2 = runif(150))
 @
 in the following illustrations.
@@ -685,7 +685,7 @@ the terminal nodes. This distribution can be shown for the inner nodes as
 well, namely by specifying the appropriate panel generating function
 (\texttt{node\_barplot} in our case), see Figure~\ref{glaucoma-inner}.
 
-\begin{figure}[hp!]
+\begin{figure}[ht!]
 \begin{center}
 <<glaucoma-plot-inner, echo = TRUE, fig = TRUE, height = 7, width = 10>>=
 plot(gtree, inner_panel = node_barplot, 
@@ -742,10 +742,10 @@ When we are interested in conditional class probabilities, the
 \texttt{treeresponse} method must be used. A graphical representation is
 shown in Figure \ref{glaucoma-probplot}.
 
-\setkeys{Gin}{width=.7\textwidth}
-\begin{figure}[ht]
+\setkeys{Gin}{width=.6\textwidth}
+\begin{figure}[ht!]
 \begin{center}
-<<glaucoma-classprob, echo = TRUE, fig = TRUE, height = 5, width = 5>>=
+<<glaucoma-classprob, echo = TRUE, fig = TRUE, height = 4, width = 4>>=
 prob <- sapply(treeresponse(gtree), function(x) x[1]) +
                runif(nrow(GlaucomaM), min = -0.01, max = 0.01)
 splitvar <- nodes(gtree, 1)[[1]]$psplit$variableName
@@ -753,7 +753,7 @@ plot(GlaucomaM[[splitvar]], prob,
      pch = as.numeric(GlaucomaM$Class), ylab = "Conditional Class Prob.",
      xlab = splitvar)
 abline(v = nodes(gtree, 1)[[1]]$psplit$splitpoint, lty = 2)
-legend(0.18, 0.5, pch = 1:2, legend = levels(GlaucomaM$Class), bty = "n")
+legend(0.15, 0.7, pch = 1:2, legend = levels(GlaucomaM$Class), bty = "n")
 @
 \caption{Estimated conditional class probabilities (slightly jittered) 
          for the Glaucoma data depending on the first split variable. 
