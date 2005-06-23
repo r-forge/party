@@ -21,11 +21,11 @@ maxdepth <- function(node) {
 ## panel functions for labeling trees:
 ## inner and terminal nodes and edges.
 
-panel_inner_node <- function(ctreeobj,
-                      digits = 3,
-		      abbreviate = FALSE,
-		      fill = "white",
-		      id = TRUE)
+node_inner <- function(ctreeobj,
+                       digits = 3,
+		       abbreviate = FALSE,
+		       fill = "white",
+		       id = TRUE)
 {
 
     getLabel1 <- function(x) {
@@ -57,7 +57,7 @@ panel_inner_node <- function(ctreeobj,
                         y = unit(0.5, "npc"),
                         width = unit(1, "strwidth", nstr) * 1.3, 
                         height = unit(3, "lines"),
- 		        name = paste("panel_inner_node", node$nodeID, sep = ""))
+ 		        name = paste("node_inner", node$nodeID, sep = ""))
         pushViewport(node_vp)
 
         xell <- c(seq(0, 0.2, by = 0.01),
@@ -89,9 +89,9 @@ panel_inner_node <- function(ctreeobj,
     return(rval)
 }
 
-panel_surv <- function(ctreeobj,
-		     ylines = 2,
-		     id = TRUE, ...)
+node_surv <- function(ctreeobj,
+	 	      ylines = 2,
+		      id = TRUE, ...)
 {
 
     survobj <- response(ctreeobj)[[1]]
@@ -113,7 +113,7 @@ panel_surv <- function(ctreeobj,
                            heights = unit(c(1, 1), c("lines", "null"))),
                            width = unit(1, "npc"), 
                            height = unit(1, "npc") - unit(2, "lines"),
-			   name = paste("panel_surv", node$nodeID, sep = ""))
+			   name = paste("node_surv", node$nodeID, sep = ""))
 
         pushViewport(top_vp)
         grid.rect(gp = gpar(fill = "white", col = NULL))
@@ -128,7 +128,7 @@ panel_surv <- function(ctreeobj,
 	
         plot <- viewport(layout.pos.col=2, layout.pos.row=2,
                          xscale=xscale, yscale=yscale,
-			 name = paste("panel_surv", node$nodeID, "plot", 
+			 name = paste("node_surv", node$nodeID, "plot", 
                          sep = ""))
 
         pushViewport(plot)
@@ -142,14 +142,14 @@ panel_surv <- function(ctreeobj,
     return(rval)
 }
 
-panel_bar <- function(ctreeobj,
-                    col = "black",
-		    fill = "lightgray",
-		    ymax = NULL,
-		    ylines = 3,
-		    widths = 1,
-		    gap = NULL,
-		    id = TRUE)
+node_barplot <- function(ctreeobj,
+                         col = "black",
+      		         fill = "lightgray",
+		         ymax = NULL,
+		         ylines = 3,
+		         widths = 1,
+		         gap = NULL,
+		         id = TRUE)
 {
 
    getMaxPred <- function(x) {
@@ -193,7 +193,7 @@ panel_bar <- function(ctreeobj,
                            heights = unit(c(1, 1), c("lines", "null"))),
                            width = unit(1, "npc"), 
                            height = unit(1, "npc") - unit(2, "lines"),
-			   name = paste("panel_bar", node$nodeID, sep = ""))
+			   name = paste("node_barplot", node$nodeID, sep = ""))
 
         pushViewport(top_vp)
         grid.rect(gp = gpar(fill = "white", col = NULL))
@@ -208,7 +208,7 @@ panel_bar <- function(ctreeobj,
 	
         plot <- viewport(layout.pos.col=2, layout.pos.row=2,
                          xscale=xscale, yscale=yscale,
-			 name = paste("panel_bar", node$nodeID, "plot", 
+			 name = paste("node_barplot", node$nodeID, "plot", 
                          sep = ""))
 
         pushViewport(plot)
@@ -233,13 +233,13 @@ panel_bar <- function(ctreeobj,
     return(rval)
 }
 
-panel_box <- function(ctreeobj,
-                    col = "black",
-		    fill = "lightgray",
-		    width = 0.5,
-		    yscale = NULL,
-		    ylines = 3,
-		    id = TRUE)
+node_boxplot <- function(ctreeobj,
+                         col = "black",
+		         fill = "lightgray",
+		         width = 0.5,
+		         yscale = NULL,
+		         ylines = 3,
+		         id = TRUE)
 {
 
     y <- response(ctreeobj)[[1]]
@@ -248,7 +248,7 @@ panel_box <- function(ctreeobj,
     if (is.null(yscale)) 
         yscale <- range(y) + c(-0.1, 0.1) * diff(range(y))
          
-    ### panel function for barplots in nodes
+    ### panel function for boxplots in nodes
     rval <- function(node) {
     
         ## parameter setup
@@ -260,7 +260,7 @@ panel_box <- function(ctreeobj,
                            heights = unit(c(1, 1), c("lines", "null"))),
                            width = unit(1, "npc"), 
                            height = unit(1, "npc") - unit(2, "lines"),
-			   name = paste("panel_box", node$nodeID, sep = ""))
+			   name = paste("node_boxplot", node$nodeID, sep = ""))
 
         pushViewport(top_vp)
         grid.rect(gp = gpar(fill = "white", col = NULL))
@@ -275,7 +275,7 @@ panel_box <- function(ctreeobj,
 	
         plot <- viewport(layout.pos.col = 2, layout.pos.row = 2,
                          xscale = c(0, 1), yscale = yscale,
-			 name = paste("panel_box", node$nodeID, "plot", 
+			 name = paste("node_boxplot", node$nodeID, "plot", 
                          sep = ""))
 
         pushViewport(plot)
@@ -320,16 +320,16 @@ panel_box <- function(ctreeobj,
     return(rval)
 }
 
-panel_hist <- function(ctreeobj,
-                     col = "black",
-		     fill = "lightgray",
-		     freq = FALSE,
-		     horizontal = TRUE,
-		     xscale = NULL,
-		     ymax = NULL,
-		     ylines = 3,
-		     id = TRUE,
-		     ...)
+node_hist <- function(ctreeobj,
+                      col = "black",
+		      fill = "lightgray",
+		      freq = FALSE,
+		      horizontal = TRUE,
+		      xscale = NULL,
+		      ymax = NULL,
+		      ylines = 3,
+		      id = TRUE,
+		      ...)
 {
 
     y <- response(ctreeobj)[[1]]
@@ -353,7 +353,7 @@ panel_hist <- function(ctreeobj,
         yscale <- yyy
     }
          
-    ### panel function for barplots in nodes
+    ### panel function for histograms in nodes
     rval <- function(node) {
     
         ## parameter setup
@@ -365,7 +365,7 @@ panel_hist <- function(ctreeobj,
                            heights = unit(c(1, 1), c("lines", "null"))),
                            width = unit(1, "npc"), 
                            height = unit(1, "npc") - unit(2, "lines"),
-			   name = paste("panel_box", node$nodeID, sep = ""))
+			   name = paste("node_hist", node$nodeID, sep = ""))
 
         pushViewport(top_vp)
         grid.rect(gp = gpar(fill = "white", col = NULL))
@@ -380,7 +380,7 @@ panel_hist <- function(ctreeobj,
 	
         plot <- viewport(layout.pos.col = 2, layout.pos.row = 2,
                          xscale = xscale, yscale = yscale,
-			 name = paste("panel_hist", node$nodeID, "plot", 
+			 name = paste("node_hist", node$nodeID, "plot", 
                          sep = ""))
 
         pushViewport(plot)
@@ -413,14 +413,14 @@ panel_hist <- function(ctreeobj,
     return(rval)
 }
 
-panel_dens <- function(ctreeobj,
-                     col = "black",
-		     rug = TRUE,
-		     horizontal = TRUE,
-		     xscale = NULL,
-		     yscale = NULL,
-		     ylines = 3,
-		     id = TRUE)
+node_density <- function(ctreeobj,
+                         col = "black",
+		         rug = TRUE,
+		         horizontal = TRUE,
+		         xscale = NULL,
+		         yscale = NULL,
+		         ylines = 3,
+		         id = TRUE)
 {
 
     y <- response(ctreeobj)[[1]]
@@ -443,7 +443,7 @@ panel_dens <- function(ctreeobj,
         yscale <- yyy
     }
          
-    ### panel function for barplots in nodes
+    ### panel function for density plots in nodes
     rval <- function(node) {
     
         ## parameter setup
@@ -455,7 +455,7 @@ panel_dens <- function(ctreeobj,
                            heights = unit(c(1, 1), c("lines", "null"))),
                            width = unit(1, "npc"), 
                            height = unit(1, "npc") - unit(2, "lines"),
-			   name = paste("panel_box", node$nodeID, sep = ""))
+			   name = paste("node_density", node$nodeID, sep = ""))
 
         pushViewport(top_vp)
         grid.rect(gp = gpar(fill = "white", col = NULL))
@@ -470,7 +470,7 @@ panel_dens <- function(ctreeobj,
 	
         plot <- viewport(layout.pos.col = 2, layout.pos.row = 2,
                          xscale = xscale, yscale = yscale,
-			 name = paste("panel_dens", node$nodeID, "plot", 
+			 name = paste("node_density", node$nodeID, "plot", 
                          sep = ""))
 
         pushViewport(plot)
@@ -517,11 +517,11 @@ panel_dens <- function(ctreeobj,
     return(rval)
 }
 
-panel_terminal_node <- function(ctreeobj,
-                     digits = 3,
-		     abbreviate = FALSE,
-		     fill = c("lightgray", "white"),
-		     id = TRUE)
+node_terminal <- function(ctreeobj,
+                          digits = 3,
+		          abbreviate = FALSE,
+		          fill = c("lightgray", "white"),
+		          id = TRUE)
 {
 
     getLabel1 <- function(x) {
@@ -553,7 +553,7 @@ panel_terminal_node <- function(ctreeobj,
                        y = unit(0.5, "npc"),   
                        width = unit(1, "strwidth", nstr) * 1.1,
                        height = unit(3, "lines"),
-		       name = paste("panel_terminal_node", node$nodeID, sep = ""))
+		       name = paste("node_terminal", node$nodeID, sep = ""))
         pushViewport(node_vp)
 
         lab <- getLabel1(node)
@@ -576,9 +576,9 @@ panel_terminal_node <- function(ctreeobj,
     return(rval)
 }
 
-panel_simple_edge <- function(ctreeobj,
-                       digits = 3,
-		       abbreviate = FALSE)
+edge_simple <- function(ctreeobj,
+                        digits = 3,
+		        abbreviate = FALSE)
 {
 
     ### panel function for simple edge labelling
@@ -748,8 +748,8 @@ plotTree <- function(node, xlim, ylim, nx, ny,
 plot.BinaryTree <- function(x, main = NULL,
                             type = c("extended", "simple"),
                             terminal_panel = NULL,
-			    inner_panel = panel_inner_node, 
-                            edge_panel = panel_simple_edge,
+			    inner_panel = node_inner, 
+                            edge_panel = edge_simple,
 			    drop_terminal = (type[1] == "extended"),
 			    tnex = (type[1] == "extended") + 1, 
 			    new = TRUE,
@@ -769,15 +769,15 @@ plot.BinaryTree <- function(x, main = NULL,
     type <- match.arg(type)
     if (type == "simple") {
         if (is.null(terminal_panel)) 
-            terminal_panel <- panel_terminal_node
+            terminal_panel <- node_terminal
         if (is.null(tnex)) tnex <- 1
     } else {
         if (is.null(terminal_panel))
             terminal_panel <- switch(class(response(x)[[1]])[1],
-	                             "Surv" = panel_surv,
-                                     "factor" = panel_bar,
-                                     "ordered" = panel_bar,
-                                     panel_box)
+	                             "Surv" = node_surv,
+                                     "factor" = node_barplot,
+                                     "ordered" = node_barplot,
+                                     node_boxplot)
         if (is.null(tnex)) tnex <- 2
     }
 

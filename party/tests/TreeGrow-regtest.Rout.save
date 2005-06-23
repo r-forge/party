@@ -126,7 +126,7 @@ Number of observations:  686
   5) progrec > 20
     7)*  weights = 166 
 > plot(GBSG2tree)
-> plot(GBSG2tree, terminal_panel = panel_surv(GBSG2tree))
+> plot(GBSG2tree, terminal_panel = node_surv(GBSG2tree))
 > survfit(Surv(time, cens) ~ as.factor(GBSG2tree@where), data = GBSG2)
 Call: survfit(formula = Surv(time, cens) ~ as.factor(GBSG2tree@where), 
     data = GBSG2)

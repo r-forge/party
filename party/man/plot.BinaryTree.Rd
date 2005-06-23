@@ -7,7 +7,7 @@
 \usage{
 \method{plot}{BinaryTree}(x, main = NULL,
      type = c("extended", "simple"), terminal_panel = NULL,
-     inner_panel = panel_inner_node, edge_panel = panel_simple_edge,
+     inner_panel = node_inner, edge_panel = edge_simple,
      drop_terminal = (type[1] == "extended"), 
      tnex = (type[1] == "extended") + 1, new = TRUE,  
      pop = FALSE, \dots)
@@ -44,7 +44,7 @@
   nodes as well as the corresponding edges. Panel functions for plotting
   inner nodes, edges and terminal nodes are available for the most important
   cases and can serve as the basis for user-supplied extensions, see
-  \code{\link{panel_inner_node}}.
+  \code{\link{node_inner}}.
 
 }
 \examples{
@@ -54,7 +54,7 @@
   airct <- ctree(Ozone ~ ., data = airq)
 
   ### boxplots in each node
-  plot(airct, terminal_panel = panel_box, drop_terminal = TRUE)
+  plot(airct, terminal_panel = node_boxplot, drop_terminal = TRUE)
 
 }
 \keyword{hplot}

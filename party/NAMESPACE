@@ -3,9 +3,9 @@ import(methods)
 importFrom(coin, logrank_trafo)
 
 export(ctree, ctree_memory, ctree_control, 
-       panel_inner_node, panel_simple_edge, panel_terminal_node,
-       panel_surv, panel_bar, panel_box,
-       panel_hist, panel_dens, weights, 
+       node_inner, edge_simple, node_terminal,
+       node_surv, node_barplot, node_boxplot,
+       node_hist, node_density, weights, 
        where, nodes, conditionalTree,
        treeresponse, response)
 

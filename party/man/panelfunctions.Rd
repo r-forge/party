@@ -1,12 +1,12 @@
 \name{Panel Functions}
-\alias{panel_inner_node}
-\alias{panel_terminal_node}
-\alias{panel_simple_edge}
-\alias{panel_surv}
-\alias{panel_bar}
-\alias{panel_box}
-\alias{panel_hist}
-\alias{panel_dens}
+\alias{node_inner}
+\alias{node_terminal}
+\alias{edge_simple}
+\alias{node_surv}
+\alias{node_barplot}
+\alias{node_boxplot}
+\alias{node_hist}
+\alias{node_density}
 \title{ Panel Functions for the Visualization of Binary Regression Trees }
 \description{
     The plot method for \code{BinaryTree} objects is rather flexible and can
@@ -14,21 +14,21 @@
     most important cases are documented here.
 }
 \usage{
-panel_inner_node(ctreeobj, digits = 3, abbreviate = FALSE, 
-                 fill = "white", id = TRUE)
-panel_terminal_node(ctreeobj, digits = 3, abbreviate = FALSE, 
-         fill = c("lightgray", "white"), id = TRUE)
-panel_simple_edge(ctreeobj, digits = 3, abbreviate = FALSE)
-panel_surv(ctreeobj, ylines = 2, id = TRUE, \dots)
-panel_bar(ctreeobj, col = "black", fill = "lightgray", ymax = NULL,
-        ylines = 3, widths = 1, gap = NULL, id = TRUE)
-panel_box(ctreeobj, col = "black", fill = "lightgray",  width = 0.5,
-        yscale = NULL, ylines = 3, id = TRUE)
-panel_hist(ctreeobj, col = "black", fill = "lightgray", freq = FALSE,
-         horizontal = TRUE, xscale = NULL, ymax = NULL, ylines = 3,
-         id = TRUE, \dots)
-panel_dens(ctreeobj, col = "black", rug = TRUE, horizontal = TRUE,
-         xscale = NULL, yscale = NULL, ylines = 3, id = TRUE)
+node_inner(ctreeobj, digits = 3, abbreviate = FALSE, 
+  fill = "white", id = TRUE)
+node_terminal(ctreeobj, digits = 3, abbreviate = FALSE, 
+  fill = c("lightgray", "white"), id = TRUE)
+edge_simple(ctreeobj, digits = 3, abbreviate = FALSE)
+node_surv(ctreeobj, ylines = 2, id = TRUE, \dots)
+node_barplot(ctreeobj, col = "black", fill = "lightgray", ymax = NULL,
+  ylines = 3, widths = 1, gap = NULL, id = TRUE)
+node_boxplot(ctreeobj, col = "black", fill = "lightgray",  width = 0.5,
+  yscale = NULL, ylines = 3, id = TRUE)
+node_hist(ctreeobj, col = "black", fill = "lightgray", freq = FALSE,
+  horizontal = TRUE, xscale = NULL, ymax = NULL, ylines = 3,
+  id = TRUE, \dots)
+node_density(ctreeobj, col = "black", rug = TRUE, horizontal = TRUE,
+  xscale = NULL, yscale = NULL, ylines = 3, id = TRUE)
 }
 \arguments{
   \item{ctreeobj}{ an object of class \code{BinaryTree}.}
@@ -41,7 +41,7 @@ panel_dens(ctreeobj, col = "black", rug = TRUE, horizontal = TRUE,
   \item{ylines}{ number of lines in y-direction. }
   \item{widths}{ widths in barplots. }
   \item{width}{ width in boxplots. }
-  \item{gap}{ gap between bars in a barplot (\code{panel_bar}). }
+  \item{gap}{ gap between bars in a barplot (\code{node_barplot}). }
   \item{yscale}{ limits in y-direction}
   \item{xscale}{ limits in x-direction}
   \item{ymax}{ upper limit in y-direction}
@@ -57,17 +57,17 @@ panel_dens(ctreeobj, col = "black", rug = TRUE, horizontal = TRUE,
   extensible framework for the visualization of binary regression trees. The
   user is allowed to specify panel functions for plotting terminal and inner
   nodes as well as the corresponding edges. For convenience, the panel
-  generating functions \code{panel_inner_node} and \code{panel_simple_edge} 
+  generating functions \code{node_inner} and \code{edge_simple} 
   return panel functions to draw inner nodes and left and right edges. 
   For drawing terminal nodes, the functions returned by the other panel 
-  functions can be used. The panel function \code{panel_terminal_node} is
+  functions can be used. The panel function \code{node_terminal} is
   a terse text-based representation of terminal nodes.
 
   Graphical representations of terminal nodes are available and depend on
   the measurement scale of the response variable the tree was fitted to.
-  \code{panel_surv} returns a functions that plots Kaplan-Meier curves in each 
-  terminal node. \code{panel_bar}, \code{panel_box}, \code{panel_hist} and
-  \code{panel_dens} can be used to plot barplots, boxplots, histograms and 
+  \code{node_surv} returns a functions that plots Kaplan-Meier curves in each 
+  terminal node. \code{node_barplot}, \code{node_boxplot}, \code{node_hist} and
+  \code{node_density} can be used to plot barplots, boxplots, histograms and 
   estimated densities into the terminal nodes.
 }
 \examples{
@@ -80,13 +80,13 @@ panel_dens(ctreeobj, col = "black", rug = TRUE, horizontal = TRUE,
   plot(airct, type = "simple")
 
   ### density estimates
-  plot(airct, terminal_panel = panel_dens)
+  plot(airct, terminal_panel = node_density)
     
   ### histograms 
-  plot(airct, terminal_panel = panel_hist)
+  plot(airct, terminal_panel = node_hist)
 
   ### boxplots
-  plot(airct, terminal_panel = panel_box, drop_terminal = TRUE)
+  plot(airct, terminal_panel = node_boxplot, drop_terminal = TRUE)
 
 }
 \keyword{hplot}

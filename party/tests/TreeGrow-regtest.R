@@ -42,7 +42,7 @@ data(GBSG2, package = "ipred")
 GBSG2tree <- ctree(Surv(time, cens) ~ ., data = GBSG2)
 GBSG2tree
 plot(GBSG2tree)
-plot(GBSG2tree, terminal_panel = panel_surv(GBSG2tree))
+plot(GBSG2tree, terminal_panel = node_surv(GBSG2tree))
 survfit(Surv(time, cens) ~ as.factor(GBSG2tree@where), data = GBSG2)
 names(GBSG2)
 

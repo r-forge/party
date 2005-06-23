@@ -607,7 +607,7 @@ tptree <- ctree(counts ~ ., data = treepipit)
 \begin{figure}[t]
 \begin{center}
 <<treepipit-plot, echo = TRUE, fig = TRUE, height = 5, width = 8>>=
-plot(tptree, terminal_panel = panel_hist(tptree, breaks = 0:6-0.5, ymax = 65, 
+plot(tptree, terminal_panel = node_hist(tptree, breaks = 0:6-0.5, ymax = 65, 
 horizontal = FALSE, freq = TRUE))
 @
 \caption{Conditional regression tree for the tree pipit data.}
@@ -865,7 +865,7 @@ pvalue(it)
 \begin{figure}[t]
 \begin{center}
 <<spider-plot, echo = TRUE, fig = TRUE>>=
-plot(sptree, terminal_panel = panel_terminal_node)
+plot(sptree, terminal_panel = node_terminal)
 @
 \caption{Regression tree for hunting spider abundance. The species with
          maximal abundance is given for each terminal node. \label{spider}}
