@@ -1,479 +1,512 @@
-Classes.o: Classes.c PL2_common.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdlib.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/_mingw.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdio.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/sys/types.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/limits.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/float.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/float.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/math.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rconfig.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Arith.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/libextern.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Boolean.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Complex.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Constants.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Error.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Memory.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Print.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Random.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Utils.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/RS.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/string.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rmath.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/errno.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rinternals.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/PrtUtil.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/ctype.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rdefines.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Applic.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/BLAS.h Classes.h Utils.h \
+Classes.o: Classes.c party.h /home/hothorn/software/rw2010/include/R.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stddef.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdlib.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/_mingw.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdio.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stdarg.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/sys/types.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/syslimits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/float.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/math.h \
+  /home/hothorn/software/rw2010/include/Rconfig.h \
+  /home/hothorn/software/rw2010/include/R_ext/Arith.h \
+  /home/hothorn/software/rw2010/include/R_ext/libextern.h \
+  /home/hothorn/software/rw2010/include/R_ext/Boolean.h \
+  /home/hothorn/software/rw2010/include/R_ext/Complex.h \
+  /home/hothorn/software/rw2010/include/R_ext/Constants.h \
+  /home/hothorn/software/rw2010/include/R_ext/Error.h \
+  /home/hothorn/software/rw2010/include/R_ext/Memory.h \
+  /home/hothorn/software/rw2010/include/R_ext/Print.h \
+  /home/hothorn/software/rw2010/include/R_ext/Random.h \
+  /home/hothorn/software/rw2010/include/R_ext/Utils.h \
+  /home/hothorn/software/rw2010/include/R_ext/RS.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/string.h \
+  /home/hothorn/software/rw2010/include/Rmath.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/errno.h \
+  /home/hothorn/software/rw2010/include/Rinternals.h \
+  /home/hothorn/software/rw2010/include/R_ext/PrtUtil.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/ctype.h \
+  /home/hothorn/software/rw2010/include/Rdefines.h \
+  /home/hothorn/software/rw2010/include/R_ext/Applic.h \
+  /home/hothorn/software/rw2010/include/R_ext/BLAS.h Classes.h Utils.h \
   mvt.h LinearStatistic.h TestStatistic.h Distributions.h Convenience.h \
-  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h
-Convenience.o: Convenience.c PL2_common.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdlib.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/_mingw.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdio.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/sys/types.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/limits.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/float.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/float.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/math.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rconfig.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Arith.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/libextern.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Boolean.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Complex.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Constants.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Error.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Memory.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Print.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Random.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Utils.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/RS.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/string.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rmath.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/errno.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rinternals.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/PrtUtil.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/ctype.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rdefines.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Applic.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/BLAS.h Classes.h Utils.h \
+  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h \
+  SurrogateSplits.h
+Convenience.o: Convenience.c party.h \
+  /home/hothorn/software/rw2010/include/R.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stddef.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdlib.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/_mingw.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdio.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stdarg.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/sys/types.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/syslimits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/float.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/math.h \
+  /home/hothorn/software/rw2010/include/Rconfig.h \
+  /home/hothorn/software/rw2010/include/R_ext/Arith.h \
+  /home/hothorn/software/rw2010/include/R_ext/libextern.h \
+  /home/hothorn/software/rw2010/include/R_ext/Boolean.h \
+  /home/hothorn/software/rw2010/include/R_ext/Complex.h \
+  /home/hothorn/software/rw2010/include/R_ext/Constants.h \
+  /home/hothorn/software/rw2010/include/R_ext/Error.h \
+  /home/hothorn/software/rw2010/include/R_ext/Memory.h \
+  /home/hothorn/software/rw2010/include/R_ext/Print.h \
+  /home/hothorn/software/rw2010/include/R_ext/Random.h \
+  /home/hothorn/software/rw2010/include/R_ext/Utils.h \
+  /home/hothorn/software/rw2010/include/R_ext/RS.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/string.h \
+  /home/hothorn/software/rw2010/include/Rmath.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/errno.h \
+  /home/hothorn/software/rw2010/include/Rinternals.h \
+  /home/hothorn/software/rw2010/include/R_ext/PrtUtil.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/ctype.h \
+  /home/hothorn/software/rw2010/include/Rdefines.h \
+  /home/hothorn/software/rw2010/include/R_ext/Applic.h \
+  /home/hothorn/software/rw2010/include/R_ext/BLAS.h Classes.h Utils.h \
   mvt.h LinearStatistic.h TestStatistic.h Distributions.h Convenience.h \
-  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h
-Distributions.o: Distributions.c PL2_common.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdlib.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/_mingw.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdio.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/sys/types.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/limits.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/float.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/float.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/math.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rconfig.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Arith.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/libextern.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Boolean.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Complex.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Constants.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Error.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Memory.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Print.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Random.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Utils.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/RS.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/string.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rmath.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/errno.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rinternals.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/PrtUtil.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/ctype.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rdefines.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Applic.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/BLAS.h Classes.h Utils.h \
+  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h \
+  SurrogateSplits.h
+Distributions.o: Distributions.c party.h \
+  /home/hothorn/software/rw2010/include/R.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stddef.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdlib.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/_mingw.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdio.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stdarg.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/sys/types.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/syslimits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/float.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/math.h \
+  /home/hothorn/software/rw2010/include/Rconfig.h \
+  /home/hothorn/software/rw2010/include/R_ext/Arith.h \
+  /home/hothorn/software/rw2010/include/R_ext/libextern.h \
+  /home/hothorn/software/rw2010/include/R_ext/Boolean.h \
+  /home/hothorn/software/rw2010/include/R_ext/Complex.h \
+  /home/hothorn/software/rw2010/include/R_ext/Constants.h \
+  /home/hothorn/software/rw2010/include/R_ext/Error.h \
+  /home/hothorn/software/rw2010/include/R_ext/Memory.h \
+  /home/hothorn/software/rw2010/include/R_ext/Print.h \
+  /home/hothorn/software/rw2010/include/R_ext/Random.h \
+  /home/hothorn/software/rw2010/include/R_ext/Utils.h \
+  /home/hothorn/software/rw2010/include/R_ext/RS.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/string.h \
+  /home/hothorn/software/rw2010/include/Rmath.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/errno.h \
+  /home/hothorn/software/rw2010/include/Rinternals.h \
+  /home/hothorn/software/rw2010/include/R_ext/PrtUtil.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/ctype.h \
+  /home/hothorn/software/rw2010/include/Rdefines.h \
+  /home/hothorn/software/rw2010/include/R_ext/Applic.h \
+  /home/hothorn/software/rw2010/include/R_ext/BLAS.h Classes.h Utils.h \
   mvt.h LinearStatistic.h TestStatistic.h Distributions.h Convenience.h \
-  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h
-IndependenceTest.o: IndependenceTest.c PL2_common.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdlib.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/_mingw.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdio.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/sys/types.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/limits.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/float.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/float.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/math.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rconfig.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Arith.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/libextern.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Boolean.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Complex.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Constants.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Error.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Memory.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Print.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Random.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Utils.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/RS.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/string.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rmath.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/errno.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rinternals.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/PrtUtil.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/ctype.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rdefines.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Applic.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/BLAS.h Classes.h Utils.h \
+  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h \
+  SurrogateSplits.h
+IndependenceTest.o: IndependenceTest.c party.h \
+  /home/hothorn/software/rw2010/include/R.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stddef.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdlib.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/_mingw.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdio.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stdarg.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/sys/types.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/syslimits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/float.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/math.h \
+  /home/hothorn/software/rw2010/include/Rconfig.h \
+  /home/hothorn/software/rw2010/include/R_ext/Arith.h \
+  /home/hothorn/software/rw2010/include/R_ext/libextern.h \
+  /home/hothorn/software/rw2010/include/R_ext/Boolean.h \
+  /home/hothorn/software/rw2010/include/R_ext/Complex.h \
+  /home/hothorn/software/rw2010/include/R_ext/Constants.h \
+  /home/hothorn/software/rw2010/include/R_ext/Error.h \
+  /home/hothorn/software/rw2010/include/R_ext/Memory.h \
+  /home/hothorn/software/rw2010/include/R_ext/Print.h \
+  /home/hothorn/software/rw2010/include/R_ext/Random.h \
+  /home/hothorn/software/rw2010/include/R_ext/Utils.h \
+  /home/hothorn/software/rw2010/include/R_ext/RS.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/string.h \
+  /home/hothorn/software/rw2010/include/Rmath.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/errno.h \
+  /home/hothorn/software/rw2010/include/Rinternals.h \
+  /home/hothorn/software/rw2010/include/R_ext/PrtUtil.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/ctype.h \
+  /home/hothorn/software/rw2010/include/Rdefines.h \
+  /home/hothorn/software/rw2010/include/R_ext/Applic.h \
+  /home/hothorn/software/rw2010/include/R_ext/BLAS.h Classes.h Utils.h \
   mvt.h LinearStatistic.h TestStatistic.h Distributions.h Convenience.h \
-  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h
-LinearStatistic.o: LinearStatistic.c PL2_common.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdlib.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/_mingw.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdio.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/sys/types.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/limits.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/float.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/float.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/math.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rconfig.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Arith.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/libextern.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Boolean.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Complex.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Constants.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Error.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Memory.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Print.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Random.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Utils.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/RS.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/string.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rmath.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/errno.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rinternals.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/PrtUtil.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/ctype.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rdefines.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Applic.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/BLAS.h Classes.h Utils.h \
+  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h \
+  SurrogateSplits.h
+LinearStatistic.o: LinearStatistic.c party.h \
+  /home/hothorn/software/rw2010/include/R.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stddef.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdlib.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/_mingw.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdio.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stdarg.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/sys/types.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/syslimits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/float.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/math.h \
+  /home/hothorn/software/rw2010/include/Rconfig.h \
+  /home/hothorn/software/rw2010/include/R_ext/Arith.h \
+  /home/hothorn/software/rw2010/include/R_ext/libextern.h \
+  /home/hothorn/software/rw2010/include/R_ext/Boolean.h \
+  /home/hothorn/software/rw2010/include/R_ext/Complex.h \
+  /home/hothorn/software/rw2010/include/R_ext/Constants.h \
+  /home/hothorn/software/rw2010/include/R_ext/Error.h \
+  /home/hothorn/software/rw2010/include/R_ext/Memory.h \
+  /home/hothorn/software/rw2010/include/R_ext/Print.h \
+  /home/hothorn/software/rw2010/include/R_ext/Random.h \
+  /home/hothorn/software/rw2010/include/R_ext/Utils.h \
+  /home/hothorn/software/rw2010/include/R_ext/RS.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/string.h \
+  /home/hothorn/software/rw2010/include/Rmath.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/errno.h \
+  /home/hothorn/software/rw2010/include/Rinternals.h \
+  /home/hothorn/software/rw2010/include/R_ext/PrtUtil.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/ctype.h \
+  /home/hothorn/software/rw2010/include/Rdefines.h \
+  /home/hothorn/software/rw2010/include/R_ext/Applic.h \
+  /home/hothorn/software/rw2010/include/R_ext/BLAS.h Classes.h Utils.h \
   mvt.h LinearStatistic.h TestStatistic.h Distributions.h Convenience.h \
-  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h
-Node.o: Node.c PL2_common.h /home/hothorn/tmp/WinR/R-2.0.0/include/R.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdlib.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/_mingw.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdio.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/sys/types.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/limits.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/float.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/float.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/math.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rconfig.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Arith.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/libextern.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Boolean.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Complex.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Constants.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Error.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Memory.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Print.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Random.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Utils.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/RS.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/string.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rmath.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/errno.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rinternals.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/PrtUtil.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/ctype.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rdefines.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Applic.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/BLAS.h Classes.h Utils.h \
+  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h \
+  SurrogateSplits.h
+Node.o: Node.c party.h /home/hothorn/software/rw2010/include/R.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stddef.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdlib.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/_mingw.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdio.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stdarg.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/sys/types.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/syslimits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/float.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/math.h \
+  /home/hothorn/software/rw2010/include/Rconfig.h \
+  /home/hothorn/software/rw2010/include/R_ext/Arith.h \
+  /home/hothorn/software/rw2010/include/R_ext/libextern.h \
+  /home/hothorn/software/rw2010/include/R_ext/Boolean.h \
+  /home/hothorn/software/rw2010/include/R_ext/Complex.h \
+  /home/hothorn/software/rw2010/include/R_ext/Constants.h \
+  /home/hothorn/software/rw2010/include/R_ext/Error.h \
+  /home/hothorn/software/rw2010/include/R_ext/Memory.h \
+  /home/hothorn/software/rw2010/include/R_ext/Print.h \
+  /home/hothorn/software/rw2010/include/R_ext/Random.h \
+  /home/hothorn/software/rw2010/include/R_ext/Utils.h \
+  /home/hothorn/software/rw2010/include/R_ext/RS.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/string.h \
+  /home/hothorn/software/rw2010/include/Rmath.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/errno.h \
+  /home/hothorn/software/rw2010/include/Rinternals.h \
+  /home/hothorn/software/rw2010/include/R_ext/PrtUtil.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/ctype.h \
+  /home/hothorn/software/rw2010/include/Rdefines.h \
+  /home/hothorn/software/rw2010/include/R_ext/Applic.h \
+  /home/hothorn/software/rw2010/include/R_ext/BLAS.h Classes.h Utils.h \
   mvt.h LinearStatistic.h TestStatistic.h Distributions.h Convenience.h \
-  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h
-Predict.o: Predict.c PL2_common.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdlib.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/_mingw.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdio.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/sys/types.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/limits.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/float.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/float.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/math.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rconfig.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Arith.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/libextern.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Boolean.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Complex.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Constants.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Error.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Memory.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Print.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Random.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Utils.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/RS.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/string.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rmath.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/errno.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rinternals.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/PrtUtil.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/ctype.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rdefines.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Applic.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/BLAS.h Classes.h Utils.h \
+  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h \
+  SurrogateSplits.h
+Predict.o: Predict.c party.h /home/hothorn/software/rw2010/include/R.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stddef.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdlib.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/_mingw.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdio.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stdarg.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/sys/types.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/syslimits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/float.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/math.h \
+  /home/hothorn/software/rw2010/include/Rconfig.h \
+  /home/hothorn/software/rw2010/include/R_ext/Arith.h \
+  /home/hothorn/software/rw2010/include/R_ext/libextern.h \
+  /home/hothorn/software/rw2010/include/R_ext/Boolean.h \
+  /home/hothorn/software/rw2010/include/R_ext/Complex.h \
+  /home/hothorn/software/rw2010/include/R_ext/Constants.h \
+  /home/hothorn/software/rw2010/include/R_ext/Error.h \
+  /home/hothorn/software/rw2010/include/R_ext/Memory.h \
+  /home/hothorn/software/rw2010/include/R_ext/Print.h \
+  /home/hothorn/software/rw2010/include/R_ext/Random.h \
+  /home/hothorn/software/rw2010/include/R_ext/Utils.h \
+  /home/hothorn/software/rw2010/include/R_ext/RS.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/string.h \
+  /home/hothorn/software/rw2010/include/Rmath.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/errno.h \
+  /home/hothorn/software/rw2010/include/Rinternals.h \
+  /home/hothorn/software/rw2010/include/R_ext/PrtUtil.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/ctype.h \
+  /home/hothorn/software/rw2010/include/Rdefines.h \
+  /home/hothorn/software/rw2010/include/R_ext/Applic.h \
+  /home/hothorn/software/rw2010/include/R_ext/BLAS.h Classes.h Utils.h \
   mvt.h LinearStatistic.h TestStatistic.h Distributions.h Convenience.h \
-  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h
-randomF77.o: randomF77.c PL2_common.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdlib.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/_mingw.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdio.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/sys/types.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/limits.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/float.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/float.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/math.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rconfig.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Arith.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/libextern.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Boolean.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Complex.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Constants.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Error.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Memory.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Print.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Random.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Utils.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/RS.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/string.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rmath.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/errno.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rinternals.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/PrtUtil.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/ctype.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rdefines.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Applic.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/BLAS.h Classes.h Utils.h \
+  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h \
+  SurrogateSplits.h
+randomF77.o: randomF77.c party.h \
+  /home/hothorn/software/rw2010/include/R.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stddef.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdlib.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/_mingw.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdio.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stdarg.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/sys/types.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/syslimits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/float.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/math.h \
+  /home/hothorn/software/rw2010/include/Rconfig.h \
+  /home/hothorn/software/rw2010/include/R_ext/Arith.h \
+  /home/hothorn/software/rw2010/include/R_ext/libextern.h \
+  /home/hothorn/software/rw2010/include/R_ext/Boolean.h \
+  /home/hothorn/software/rw2010/include/R_ext/Complex.h \
+  /home/hothorn/software/rw2010/include/R_ext/Constants.h \
+  /home/hothorn/software/rw2010/include/R_ext/Error.h \
+  /home/hothorn/software/rw2010/include/R_ext/Memory.h \
+  /home/hothorn/software/rw2010/include/R_ext/Print.h \
+  /home/hothorn/software/rw2010/include/R_ext/Random.h \
+  /home/hothorn/software/rw2010/include/R_ext/Utils.h \
+  /home/hothorn/software/rw2010/include/R_ext/RS.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/string.h \
+  /home/hothorn/software/rw2010/include/Rmath.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/errno.h \
+  /home/hothorn/software/rw2010/include/Rinternals.h \
+  /home/hothorn/software/rw2010/include/R_ext/PrtUtil.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/ctype.h \
+  /home/hothorn/software/rw2010/include/Rdefines.h \
+  /home/hothorn/software/rw2010/include/R_ext/Applic.h \
+  /home/hothorn/software/rw2010/include/R_ext/BLAS.h Classes.h Utils.h \
   mvt.h LinearStatistic.h TestStatistic.h Distributions.h Convenience.h \
-  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h
-S3Classes.o: S3Classes.c PL2_common.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdlib.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/_mingw.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdio.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/sys/types.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/limits.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/float.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/float.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/math.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rconfig.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Arith.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/libextern.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Boolean.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Complex.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Constants.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Error.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Memory.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Print.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Random.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Utils.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/RS.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/string.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rmath.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/errno.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rinternals.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/PrtUtil.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/ctype.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rdefines.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Applic.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/BLAS.h Classes.h Utils.h \
+  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h \
+  SurrogateSplits.h
+S3Classes.o: S3Classes.c party.h \
+  /home/hothorn/software/rw2010/include/R.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stddef.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdlib.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/_mingw.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdio.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stdarg.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/sys/types.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/syslimits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/float.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/math.h \
+  /home/hothorn/software/rw2010/include/Rconfig.h \
+  /home/hothorn/software/rw2010/include/R_ext/Arith.h \
+  /home/hothorn/software/rw2010/include/R_ext/libextern.h \
+  /home/hothorn/software/rw2010/include/R_ext/Boolean.h \
+  /home/hothorn/software/rw2010/include/R_ext/Complex.h \
+  /home/hothorn/software/rw2010/include/R_ext/Constants.h \
+  /home/hothorn/software/rw2010/include/R_ext/Error.h \
+  /home/hothorn/software/rw2010/include/R_ext/Memory.h \
+  /home/hothorn/software/rw2010/include/R_ext/Print.h \
+  /home/hothorn/software/rw2010/include/R_ext/Random.h \
+  /home/hothorn/software/rw2010/include/R_ext/Utils.h \
+  /home/hothorn/software/rw2010/include/R_ext/RS.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/string.h \
+  /home/hothorn/software/rw2010/include/Rmath.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/errno.h \
+  /home/hothorn/software/rw2010/include/Rinternals.h \
+  /home/hothorn/software/rw2010/include/R_ext/PrtUtil.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/ctype.h \
+  /home/hothorn/software/rw2010/include/Rdefines.h \
+  /home/hothorn/software/rw2010/include/R_ext/Applic.h \
+  /home/hothorn/software/rw2010/include/R_ext/BLAS.h Classes.h Utils.h \
   mvt.h LinearStatistic.h TestStatistic.h Distributions.h Convenience.h \
-  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h
-Splits.o: Splits.c PL2_common.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdlib.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/_mingw.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdio.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/sys/types.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/limits.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/float.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/float.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/math.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rconfig.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Arith.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/libextern.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Boolean.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Complex.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Constants.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Error.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Memory.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Print.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Random.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Utils.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/RS.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/string.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rmath.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/errno.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rinternals.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/PrtUtil.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/ctype.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rdefines.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Applic.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/BLAS.h Classes.h Utils.h \
+  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h \
+  SurrogateSplits.h
+Splits.o: Splits.c party.h /home/hothorn/software/rw2010/include/R.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stddef.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdlib.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/_mingw.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdio.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stdarg.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/sys/types.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/syslimits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/float.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/math.h \
+  /home/hothorn/software/rw2010/include/Rconfig.h \
+  /home/hothorn/software/rw2010/include/R_ext/Arith.h \
+  /home/hothorn/software/rw2010/include/R_ext/libextern.h \
+  /home/hothorn/software/rw2010/include/R_ext/Boolean.h \
+  /home/hothorn/software/rw2010/include/R_ext/Complex.h \
+  /home/hothorn/software/rw2010/include/R_ext/Constants.h \
+  /home/hothorn/software/rw2010/include/R_ext/Error.h \
+  /home/hothorn/software/rw2010/include/R_ext/Memory.h \
+  /home/hothorn/software/rw2010/include/R_ext/Print.h \
+  /home/hothorn/software/rw2010/include/R_ext/Random.h \
+  /home/hothorn/software/rw2010/include/R_ext/Utils.h \
+  /home/hothorn/software/rw2010/include/R_ext/RS.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/string.h \
+  /home/hothorn/software/rw2010/include/Rmath.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/errno.h \
+  /home/hothorn/software/rw2010/include/Rinternals.h \
+  /home/hothorn/software/rw2010/include/R_ext/PrtUtil.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/ctype.h \
+  /home/hothorn/software/rw2010/include/Rdefines.h \
+  /home/hothorn/software/rw2010/include/R_ext/Applic.h \
+  /home/hothorn/software/rw2010/include/R_ext/BLAS.h Classes.h Utils.h \
   mvt.h LinearStatistic.h TestStatistic.h Distributions.h Convenience.h \
-  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h
-TestStatistic.o: TestStatistic.c PL2_common.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdlib.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/_mingw.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdio.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/sys/types.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/limits.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/float.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/float.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/math.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rconfig.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Arith.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/libextern.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Boolean.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Complex.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Constants.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Error.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Memory.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Print.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Random.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Utils.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/RS.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/string.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rmath.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/errno.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rinternals.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/PrtUtil.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/ctype.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rdefines.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Applic.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/BLAS.h Classes.h Utils.h \
+  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h \
+  SurrogateSplits.h
+SurrogateSplits.o: SurrogateSplits.c party.h \
+  /home/hothorn/software/rw2010/include/R.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stddef.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdlib.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/_mingw.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdio.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stdarg.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/sys/types.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/syslimits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/float.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/math.h \
+  /home/hothorn/software/rw2010/include/Rconfig.h \
+  /home/hothorn/software/rw2010/include/R_ext/Arith.h \
+  /home/hothorn/software/rw2010/include/R_ext/libextern.h \
+  /home/hothorn/software/rw2010/include/R_ext/Boolean.h \
+  /home/hothorn/software/rw2010/include/R_ext/Complex.h \
+  /home/hothorn/software/rw2010/include/R_ext/Constants.h \
+  /home/hothorn/software/rw2010/include/R_ext/Error.h \
+  /home/hothorn/software/rw2010/include/R_ext/Memory.h \
+  /home/hothorn/software/rw2010/include/R_ext/Print.h \
+  /home/hothorn/software/rw2010/include/R_ext/Random.h \
+  /home/hothorn/software/rw2010/include/R_ext/Utils.h \
+  /home/hothorn/software/rw2010/include/R_ext/RS.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/string.h \
+  /home/hothorn/software/rw2010/include/Rmath.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/errno.h \
+  /home/hothorn/software/rw2010/include/Rinternals.h \
+  /home/hothorn/software/rw2010/include/R_ext/PrtUtil.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/ctype.h \
+  /home/hothorn/software/rw2010/include/Rdefines.h \
+  /home/hothorn/software/rw2010/include/R_ext/Applic.h \
+  /home/hothorn/software/rw2010/include/R_ext/BLAS.h Classes.h Utils.h \
   mvt.h LinearStatistic.h TestStatistic.h Distributions.h Convenience.h \
-  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h
-TreeGrow.o: TreeGrow.c PL2_common.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdlib.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/_mingw.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdio.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/sys/types.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/limits.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/float.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/float.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/math.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rconfig.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Arith.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/libextern.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Boolean.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Complex.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Constants.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Error.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Memory.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Print.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Random.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Utils.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/RS.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/string.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rmath.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/errno.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rinternals.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/PrtUtil.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/ctype.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rdefines.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Applic.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/BLAS.h Classes.h Utils.h \
+  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h \
+  SurrogateSplits.h
+TestStatistic.o: TestStatistic.c party.h \
+  /home/hothorn/software/rw2010/include/R.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stddef.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdlib.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/_mingw.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdio.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stdarg.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/sys/types.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/syslimits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/float.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/math.h \
+  /home/hothorn/software/rw2010/include/Rconfig.h \
+  /home/hothorn/software/rw2010/include/R_ext/Arith.h \
+  /home/hothorn/software/rw2010/include/R_ext/libextern.h \
+  /home/hothorn/software/rw2010/include/R_ext/Boolean.h \
+  /home/hothorn/software/rw2010/include/R_ext/Complex.h \
+  /home/hothorn/software/rw2010/include/R_ext/Constants.h \
+  /home/hothorn/software/rw2010/include/R_ext/Error.h \
+  /home/hothorn/software/rw2010/include/R_ext/Memory.h \
+  /home/hothorn/software/rw2010/include/R_ext/Print.h \
+  /home/hothorn/software/rw2010/include/R_ext/Random.h \
+  /home/hothorn/software/rw2010/include/R_ext/Utils.h \
+  /home/hothorn/software/rw2010/include/R_ext/RS.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/string.h \
+  /home/hothorn/software/rw2010/include/Rmath.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/errno.h \
+  /home/hothorn/software/rw2010/include/Rinternals.h \
+  /home/hothorn/software/rw2010/include/R_ext/PrtUtil.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/ctype.h \
+  /home/hothorn/software/rw2010/include/Rdefines.h \
+  /home/hothorn/software/rw2010/include/R_ext/Applic.h \
+  /home/hothorn/software/rw2010/include/R_ext/BLAS.h Classes.h Utils.h \
   mvt.h LinearStatistic.h TestStatistic.h Distributions.h Convenience.h \
-  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h
-Utils.o: Utils.c PL2_common.h /home/hothorn/tmp/WinR/R-2.0.0/include/R.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stddef.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdlib.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/_mingw.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdio.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/stdarg.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/sys/types.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/limits.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/float.h \
-  /home/hothorn/tmp/cross-tools/bin/../lib/gcc/i586-mingw32/3.4.2/include/float.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/math.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rconfig.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Arith.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/libextern.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Boolean.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Complex.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Constants.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Error.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Memory.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Print.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Random.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Utils.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/RS.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/string.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rmath.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/errno.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rinternals.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/PrtUtil.h \
-  /home/hothorn/tmp/cross-tools/i586-mingw32/include/ctype.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/Rdefines.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/Applic.h \
-  /home/hothorn/tmp/WinR/R-2.0.0/include/R_ext/BLAS.h Classes.h Utils.h \
+  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h \
+  SurrogateSplits.h
+TreeGrow.o: TreeGrow.c party.h /home/hothorn/software/rw2010/include/R.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stddef.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdlib.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/_mingw.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdio.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stdarg.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/sys/types.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/syslimits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/float.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/math.h \
+  /home/hothorn/software/rw2010/include/Rconfig.h \
+  /home/hothorn/software/rw2010/include/R_ext/Arith.h \
+  /home/hothorn/software/rw2010/include/R_ext/libextern.h \
+  /home/hothorn/software/rw2010/include/R_ext/Boolean.h \
+  /home/hothorn/software/rw2010/include/R_ext/Complex.h \
+  /home/hothorn/software/rw2010/include/R_ext/Constants.h \
+  /home/hothorn/software/rw2010/include/R_ext/Error.h \
+  /home/hothorn/software/rw2010/include/R_ext/Memory.h \
+  /home/hothorn/software/rw2010/include/R_ext/Print.h \
+  /home/hothorn/software/rw2010/include/R_ext/Random.h \
+  /home/hothorn/software/rw2010/include/R_ext/Utils.h \
+  /home/hothorn/software/rw2010/include/R_ext/RS.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/string.h \
+  /home/hothorn/software/rw2010/include/Rmath.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/errno.h \
+  /home/hothorn/software/rw2010/include/Rinternals.h \
+  /home/hothorn/software/rw2010/include/R_ext/PrtUtil.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/ctype.h \
+  /home/hothorn/software/rw2010/include/Rdefines.h \
+  /home/hothorn/software/rw2010/include/R_ext/Applic.h \
+  /home/hothorn/software/rw2010/include/R_ext/BLAS.h Classes.h Utils.h \
   mvt.h LinearStatistic.h TestStatistic.h Distributions.h Convenience.h \
-  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h
+  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h \
+  SurrogateSplits.h
+Utils.o: Utils.c party.h /home/hothorn/software/rw2010/include/R.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stddef.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdlib.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/_mingw.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/stdio.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/stdarg.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/sys/types.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/syslimits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/limits.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/include/float.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/math.h \
+  /home/hothorn/software/rw2010/include/Rconfig.h \
+  /home/hothorn/software/rw2010/include/R_ext/Arith.h \
+  /home/hothorn/software/rw2010/include/R_ext/libextern.h \
+  /home/hothorn/software/rw2010/include/R_ext/Boolean.h \
+  /home/hothorn/software/rw2010/include/R_ext/Complex.h \
+  /home/hothorn/software/rw2010/include/R_ext/Constants.h \
+  /home/hothorn/software/rw2010/include/R_ext/Error.h \
+  /home/hothorn/software/rw2010/include/R_ext/Memory.h \
+  /home/hothorn/software/rw2010/include/R_ext/Print.h \
+  /home/hothorn/software/rw2010/include/R_ext/Random.h \
+  /home/hothorn/software/rw2010/include/R_ext/Utils.h \
+  /home/hothorn/software/rw2010/include/R_ext/RS.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/string.h \
+  /home/hothorn/software/rw2010/include/Rmath.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/errno.h \
+  /home/hothorn/software/rw2010/include/Rinternals.h \
+  /home/hothorn/software/rw2010/include/R_ext/PrtUtil.h \
+  /usr/lib/gcc/i586-mingw32msvc/3.4.2/../../../../i586-mingw32msvc/include/ctype.h \
+  /home/hothorn/software/rw2010/include/Rdefines.h \
+  /home/hothorn/software/rw2010/include/R_ext/Applic.h \
+  /home/hothorn/software/rw2010/include/R_ext/BLAS.h Classes.h Utils.h \
+  mvt.h LinearStatistic.h TestStatistic.h Distributions.h Convenience.h \
+  S3Classes.h IndependenceTest.h Splits.h Node.h Predict.h \
+  SurrogateSplits.h
