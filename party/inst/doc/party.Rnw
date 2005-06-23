@@ -672,10 +672,7 @@ temporal part of the optic nerve head (\texttt{vart}).
 \begin{figure}[t]
 \begin{center}
 <<glaucoma-plot, echo = TRUE, fig = TRUE, height = 6, width = 10>>=
-layout(matrix(1:2, nrow = 2))
 plot(gtree)
-plot(gtree, inner_panel = node_barplot, edge_panel = function(ctreeobj, ...)
-{ function(...) invisible() })
 @
 \caption{Conditional inference tree for the glaucoma data. For each inner node, the
 Bonferroni-adjusted $P$-values are given, the fraction of glaucomatous eyes
@@ -685,9 +682,9 @@ is displayed for each terminal node. \label{glaucoma}}
 
 \begin{figure}[t]
 \begin{center}
-<<glaucoma-plot-inner, echo = TRUE, fig = TRUE, height = 6, width = 10>>=
+<<glaucoma-plot-inner, echo = TRUE, fig = TRUE, height = 8, width = 8>>=
 plot(gtree, inner_panel = node_barplot, edge_panel = function(ctreeobj, ...)
-{ function(...) invisible() })
+{ function(...) invisible() }, tnex = 1)
 @
 \caption{Conditional inference tree for the glaucoma data. For each inner node, the
 Bonferroni-adjusted $P$-values are given, the fraction of glaucomatous eyes
