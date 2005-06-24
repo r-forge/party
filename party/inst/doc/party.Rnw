@@ -90,9 +90,9 @@ information measure.
 With the \texttt{party} package 
 we enter at the point where \cite{WhiteLiu1994} demand for
 \begin{quote}
-[\ldots] a \textsl{statistical} approach [to recursive partitioning] which
+[\ldots] a \textit{statistical} approach [to recursive partitioning] which
 takes
-into account the \textsl{distributional} properties of the measures.
+into account the \textit{distributional} properties of the measures.
 \end{quote} 
 We present a unified framework embedding recursive binary partitioning into
 the well defined theory of permutation tests developed by
@@ -236,7 +236,7 @@ distribution of $\Y$ and $X_j$, which is unknown under almost all practical
 circumstances. At least under the null hypothesis one can dispose of this
 dependency by fixing the covariates and conditioning on all possible 
 permutations of the responses. This principle leads to test procedures known
-as \textsl{permutation tests}. 
+as \textit{permutation tests}. 
 The conditional expectation $\mu_j \in \R^{p_jq}$ and covariance $\Sigma_j
 \in \R^{p_jq \times p_jq}$ of $\T_j(\LS, \w)$ under $H_0$ given
 all permutations $\sigma \in S(\LS, \w)$ of the responses are derived by
@@ -619,7 +619,7 @@ x <- tptree@tree
 @
 
 The impact of certain environmental factors on the population density of the 
-tree pipit \textsl{Anthus trivialis} 
+tree pipit \textit{Anthus trivialis} 
 %%in Frankonian oak forests 
 is investigated by \cite{MuellerHothorn2004}.
 The occurrence of tree pipits was recorded several times at
