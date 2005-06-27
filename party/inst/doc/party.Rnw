@@ -288,15 +288,19 @@ inverse $\Sigma^+$ of $\Sigma$ is involved.
 
 The type of test statistic to be used can be specified by means of the
 \texttt{ctree\_control} function, for example
-<<party-teststattype, echo = TRUE, results = hide>>=
-ctree(y ~ x1 + x2, data = ls, 
+\begin{Schunk}
+\begin{Sinput}
+R> ctree(y ~ x1 + x2, data = ls, 
       control = ctree_control(teststattype = "maxabs"))
-@
+\end{Sinput}
+\end{Schunk}
 uses $c_\text{max}$ and 
-<<party-teststattype2, echo = TRUE, results = hide>>=
-ctree(y ~ x1 + x2, data = ls, 
+\begin{Schunk}
+\begin{Sinput}
+R> ctree(y ~ x1 + x2, data = ls, 
       control = ctree_control(teststattype = "quadform"))
-@
+\end{Sinput}
+\end{Schunk}
 takes $c_\text{quad}$ (the default).
 
 It is important to note that the test statistics $c(\bft_j, \mu_j, \Sigma_j),
