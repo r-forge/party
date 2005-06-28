@@ -752,8 +752,8 @@ plot.BinaryTree <- function(x, main = NULL,
                             edge_panel = edge_simple,
 			    drop_terminal = (type[1] == "extended"),
 			    tnex = (type[1] == "extended") + 1, 
-			    new = TRUE,
-			    pop = FALSE,
+			    newpage = TRUE,
+			    pop = TRUE,
 			    ...) {
 
     ### plot BinaryTree objects
@@ -782,7 +782,7 @@ plot.BinaryTree <- function(x, main = NULL,
     }
 
     ## setup newpage
-    if (new) grid.newpage()
+    if (newpage) grid.newpage()
 
     ## setup root viewport
     root_vp <- viewport(layout = grid.layout(3, 3, 
