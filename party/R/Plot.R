@@ -692,7 +692,7 @@ plotTree <- function(node, xlim, ylim, nx, ny,
         }
     } else {
         ### <FIXME>: always to the left? </FIXME>
-        split <- attr(ps$splitpoint, "levels")[as.logical(ps$splitpoint)]
+        split <- attr(ps$splitpoint, "levels")[as.logical(ps$splitpoint) & (ps$table > 0)]
     }
 
 
@@ -722,7 +722,7 @@ plotTree <- function(node, xlim, ylim, nx, ny,
             split <- ps$splitpoint
         }
     } else {
-        split <- attr(ps$splitpoint, "levels")[!as.logical(ps$splitpoint)]
+        split <- attr(ps$splitpoint, "levels")[!as.logical(ps$splitpoint) & (ps$table > 0)]
     }
 
     rsp_vp <- viewport(x = unit(xrpos, "native"),

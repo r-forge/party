@@ -1,4 +1,12 @@
 
+		CHANGES IN `party' VERSION 0.x-y
+
+
+    o   print and plot only levels which are available in a node (for nominal
+        splits)
+
+
+
 		CHANGES IN `party' VERSION 0.2-2
 
 
