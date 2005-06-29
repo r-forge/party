@@ -64,9 +64,3 @@ tr <- ctree(ME ~ ., data = mammoexp)
 tr
 plot(tr)
 
-### check nominal level printing
-set.seed(290875)
-x <- gl(5, 50)
-df <- data.frame(y = c(rnorm(50, 0), rnorm(50, 1), rnorm(50, 2), rnorm(50, 3), rnorm(50, 4)), 
-                 x = x)
-ctree(y ~ x, data = df)
