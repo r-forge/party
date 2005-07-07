@@ -11,7 +11,7 @@ load(file.path(.find.package("party"), "R", "all.rda"))
 set.seed(290875)
 x <- gl(5, 50)
 df <- data.frame(y = c(rnorm(50, 0), rnorm(50, 1), rnorm(50, 2), rnorm(50, 3), rnorm(50, 4)), 
-                 x = x, z = c(rnorm(100), rnorm(150, 0.5)))
+                 x = x, z = rnorm(250))
 ctree(y ~ x, data = df)
 
 ### check asymptotic vs. MonteCarlo, especially categorical splits after
@@ -21,5 +21,3 @@ b <- ctree(y ~ x + z, data = df,
            control =  ctree_control(testtype = "Monte", stump = TRUE))
 stopifnot(isequal(a@tree$psplit, b@tree$psplit))  
 stopifnot(isequal(a@tree$criterion$statistic, b@tree$criterion$statistic))
-stopifnot(isequal(round(a@tree$criterion$criterion, 3),
-                  round(b@tree$criterion$criterion, 3)))
