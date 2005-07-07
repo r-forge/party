@@ -2,3 +2,4 @@
 o	we can re-compute prediction weights from the weights in the root
 	node, the terminal node number and where.
 
+o	more checks for MonteCarlo

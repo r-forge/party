@@ -33,7 +33,7 @@ node_inner <- function(ctreeobj,
         varlab <- ifelse(abbreviate > 0,
             abbreviate(x$psplit$variableName, as.numeric(abbreviate)),
 	    x$psplit$variableName)
-        pval <- 1 - x$criterion[[3]]
+        pval <- 1 - x$criterion$maxcriterion
         plab <- ifelse(pval < 10^(-digits),
                        paste("p <", 10^(-digits)),
                        paste("p =", round(pval, digits = digits)))

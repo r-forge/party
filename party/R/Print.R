@@ -28,7 +28,7 @@ prettytree <- function(x, inames = NULL, ilevels = NULL) {
                   "psplit", "ssplits", "prediction", "left", "right")
     if (is.null(inames) && extends(class(x), "BinaryTree"))
         inames <- x@inputnames
-    names(x$criterion) <- c("criterion", "statistic", "maxcriterion")
+    names(x$criterion) <- c("statistic", "criterion", "maxcriterion")
     names(x$criterion$criterion) <- inames
     names(x$criterion$statistic) <- inames
 
@@ -57,8 +57,8 @@ print.TerminalNode <- function(x, n = 1, ...) {
 print.SplittingNode <- function(x, n = 1, ...) {
     cat(paste(paste(rep(" ", n - 1), collapse = ""), x$nodeID, ") ", sep=""))
     print(x$psplit, left = TRUE)
-    cat(paste("; criterion = ", round(x$criterion[[3]], 3), 
-              ", statistic = ", round(max(x$criterion[[1]]), 3), "\n", 
+    cat(paste("; criterion = ", round(x$criterion$maxcriterion, 3), 
+              ", statistic = ", round(max(x$criterion$statistic), 3), "\n", 
               collapse = "", sep = ""))
     print(x$left, n + 2)
     cat(paste(paste(rep(" ", n - 1), collapse = ""), x$nodeID, ") ", sep=""))
