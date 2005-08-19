@@ -224,7 +224,7 @@ ctree_control <- function(teststattype = c("quadform", "maxabs"),
 }
 
 ### the top-level convenience function
-ctree <- function(formula, data, subset = NULL, weights = NULL, 
+ctree <- function(formula, data = list(), subset = NULL, weights = NULL, 
                   controls = ctree_control(), xtrafo = NULL, 
                   ytrafo = NULL, scores = NULL) {
 
