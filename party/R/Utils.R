@@ -63,7 +63,7 @@ maxabsTestStatistic <- function(t, mu, Sigma, tol = sqrt(.Machine$double.eps)) {
     storage.mode(tol) <- "double"
     
     if (length(t) != length(mu) || length(t) != nrow(Sigma)) 
-        error("dimensions don't match")
+        stop("dimensions don't match")
         
     .Call("R_maxabsTestStatistic", t, mu, Sigma, tol, PACKAGE = "party")
 }
@@ -77,7 +77,7 @@ quadformTestStatistic <- function(t, mu, Sigma,
     storage.mode(tol) <- "double"
     
     if (length(t) != length(mu) || length(t) != nrow(Sigma)) 
-        error("dimensions don't match")
+        stop("dimensions don't match")
         
     SigmaPlus <- MPinv(Sigma, tol = tol)
     .Call("R_quadformTestStatistic", t, mu, SigmaPlus, PACKAGE = "party")
