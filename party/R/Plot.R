@@ -594,6 +594,9 @@ edge_simple <- function(ctreeobj,
                 split <- paste("\{", paste(split, collapse = ", "), 
     	                       "\}", sep="")
         } else {
+            ### <FIXME> phantom and . functions cannot be found by
+                        codetools
+            ### </FIXME>
             if (left) split <- as.expression(bquote(phantom(0) <= .(split)))
                 else split <- as.expression(bquote(phantom(0) > .(split)))
         }
