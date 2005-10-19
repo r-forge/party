@@ -207,6 +207,7 @@ void C_Node(SEXP node, SEXP learnsample, SEXP weights,
                 if (j == 1) {          
                     S3set_nodeterminal(node);
                 } else {
+                    /* <FIXME> why? </FIXME> */
                     pvalue[jselect - 1] = 0.0;
                 }
             } else {
