@@ -27,7 +27,7 @@ prettytree <- function(x, inames = NULL, ilevels = NULL) {
     names(x) <- c("nodeID", "weights", "criterion", "terminal",
                   "psplit", "ssplits", "prediction", "left", "right")
     if (is.null(inames) && extends(class(x), "BinaryTree"))
-        inames <- x@inputnames
+        inames <- names(x@data@get("input"))
     names(x$criterion) <- c("statistic", "criterion", "maxcriterion")
     names(x$criterion$criterion) <- inames
     names(x$criterion$statistic) <- inames
@@ -117,10 +117,11 @@ print.BinaryTree <- function(x, ...) {
             cat("Response: ", names(y@variables), "\n")
         }
     }
-    if (length(x@inputnames) > 1) {
-        cat("Inputs: ", paste(x@inputnames, collapse = ", "), "\n")
+    inames <- names(x@data@get("input"))
+    if (length(inames) > 1) {
+        cat("Inputs: ", paste(inames, collapse = ", "), "\n")
     } else {
-        cat("Input: ", x@inputnames, "\n")
+        cat("Input: ", inames, "\n")
     }
     cat("Number of observations: ", x@responses@nobs, "\n\n")
     print(x@tree)

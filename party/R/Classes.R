@@ -205,13 +205,9 @@ setClass(Class = "BinaryTreePartition",
 ### A class for binary trees   
 setClass(Class = "BinaryTree", 
     representation = representation(
-        inputnames          = "character",     # a character vector with 
-                                               # input names
-                                               # (just for printing)
+        data                = "ModelEnv",
         responses           = "VariableFrame", # a list of response `variables'
                                                # for computing predictions
-        levels              = "list",          # factor levels of inputs 
-                                               # (for printing) 
         cond_distr_response = "function",      # predict distribtion
         predict_response    = "function",      # predict responses
         prediction_weights  = "function",      # prediction weights
