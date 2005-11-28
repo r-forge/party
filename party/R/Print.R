@@ -107,15 +107,11 @@ print.BinaryTree <- function(x, ...) {
     cat("\t Conditional tree with", length(unique(where(x))), 
         "terminal nodes\n\n")
     y <- x@responses
-    if (y@is_censored) {
-        cat("Response: ", names(y@variables), "(censored)\n")
-    } else {
-        if (y@ninputs > 1) {
-            cat("Responses:", paste(names(y@variables), 
-                                    collapse = ", "), "\n")
-        }  else {
-            cat("Response: ", names(y@variables), "\n")
-        }
+    if (y@ninputs > 1) {
+        cat("Responses:", paste(names(y@variables), 
+                                collapse = ", "), "\n")
+    }  else {
+        cat("Response: ", names(y@variables), "\n")
     }
     inames <- names(x@data@get("input"))
     if (length(inames) > 1) {
