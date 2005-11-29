@@ -92,48 +92,14 @@ initVariableFrame.df <- function(obj, trafo = trafo, scores = NULL, ...) {
 }
 
 setGeneric(name = "initVariableFrame",
-           def = function(obj, trafo = NULL, ...)
+           def = function(obj, ...)
                standardGeneric("initVariableFrame")
 )
 
-setClassUnion("function_OR_NULL", c("function", "NULL"))
-
 setMethod("initVariableFrame", 
-    signature = c("data.frame", "function_OR_NULL"), 
+    signature = "data.frame",
     definition = initVariableFrame.df
 )
-
-initVariableFrame.matrix <- function(obj, trafo = NULL, ...) {
-
-    RET <- new("VariableFrame", nrow(obj), ncol(obj))
-    objDF <- as.data.frame(obj)
-    class(objDF) <- "list"
-    RET@variables <- objDF
-
-    RET@is_nominal <- rep(FALSE, ncol(obj))
-    RET@is_ordinal <- rep(FALSE, ncol(obj))
-   
-    if (!is.null(trafo)) 
-        RET@transformations <- lapply(objDF, function(x) 
-                                      matrix(trafo(x), ncol = 1))
-    else
-        RET@transformations <- lapply(objDF, function(x) matrix(x, ncol = 1))
-
-    RET@ordering <- lapply(RET@transformations, order)
-    RET@has_missings <- unlist(lapply(RET@transformations, function(x) 
-                               any(is.na(x))))
-    if (any(is.na(obj)))
-        RET@whichNA <- lapply(objDF, function(x) which(is.na(x)))
-    RET@jointtransf <- matrix(unlist(RET@transformations), 
-                              nrow = nrow(obj), byrow = TRUE)
-    RET@is_censored <- rep(FALSE, ncol(obj))
-    RET
-}
-
-setMethod("initVariableFrame", signature = c("matrix", "function_OR_NULL"),
-    definition = initVariableFrame.matrix
-)
-
 
 setGeneric(name = "response",
            def = function(object, ...)
