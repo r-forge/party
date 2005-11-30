@@ -15,13 +15,14 @@ initVariableFrame.df <- function(obj, trafo = trafo, scores = NULL, ...) {
         scores <- scores[names(scores) %in% colnames(obj)]
     }
     if (!is.null(scores)) {
-        tmp <- sapply(names(scores), function(n) {
+        for (n in names(scores)) {
             if (!(is.factor(obj[[n]]) && is.ordered(obj[[n]])) || 
                 nlevels(obj[[n]]) != length(scores[[n]]))
                 stop("cannot assign scores to variable ", sQuote(n))
             attr(obj[[n]], "scores") <- scores[[n]]
-        })
+        }
     }
+
     RET@scores <- lapply(obj, function(x) {
         sc <- NULL
         if (is.ordered(x)) {
