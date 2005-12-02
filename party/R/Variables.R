@@ -1,7 +1,15 @@
 
 # $Id$
 
-initVariableFrame.df <- function(obj, trafo = trafo, scores = NULL, ...) {
+ptrafo <- function(data, numeric_trafo = id_trafo, 
+   factor_trafo = function(x) model.matrix(~ x - 1), 
+   surv_trafo = logrank_trafo, var_trafo = NULL)
+
+    trafo(data = data, numeric_trafo = numeric_trafo, factor_trafo =
+          factor_trafo, surv_trafo = surv_trafo, var_trafo = var_trafo)
+
+
+initVariableFrame.df <- function(obj, trafo = ptrafo, scores = NULL, ...) {
 
     RET <- new("VariableFrame", nrow(obj), ncol(obj))
     
