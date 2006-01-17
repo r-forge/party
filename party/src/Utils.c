@@ -551,3 +551,26 @@ SEXP R_listplus(SEXP a, SEXP b, SEXP which) {
     }
     return(a);
 }
+
+SEXP R_modify_response(SEXP x, SEXP vf) {
+
+    double *src, *tar;
+    int i, n;
+    
+    src = REAL(x);
+    n = LENGTH(x);
+
+    tar = REAL(get_transformation(vf, 1));
+    for (i = 0; i < n; i++)
+        tar[i] = src[i];
+
+    tar = REAL(get_jointtransf(vf));
+    for (i = 0; i < n; i++)
+        tar[i] = src[i];
+
+    tar = REAL(get_variable(vf, 1));
+    for (i = 0; i < n; i++)
+        tar[i] = src[i];
+                                          
+    return(R_NilValue);
+}

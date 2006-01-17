@@ -119,3 +119,8 @@ setMethod("response",
     signature = "BinaryTree",
     definition = function(object) object@responses@variables
 )
+
+get_variables <- function(x)
+    x@variables
+
+    
