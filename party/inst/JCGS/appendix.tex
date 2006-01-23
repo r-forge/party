@@ -1,0 +1,37 @@
+
+\section*{Appendix A}
+
+An equivalent but computational simpler formulation of the linear statistic
+for case weights greater than one can be written as follows. Let $\a = (a_1,
+\dots, a_{\ws})$, $a_l \in \{1, \dots, n\}, l = 1, \dots, \ws$, denote the
+vector of observation indices, with index $i$ occuring $w_i$ times. 
+Instead of recycling the $i$th observation $w_i$ times it is sufficient to
+implement the index vector $\a$ into the computation of the test statistic
+and its expectation and covariance. For one
+permutation $\sigma$ of $\{1, \dots, \ws\}$, the linear statistic
+(\ref{linstat}) may be written as 
+\begin{eqnarray*}
+\T_j(\LS, \w) = \vec \left(\sum_{k=1}^{\ws} g_j(X_{ja_k})
+           h(\Y_{\sigma(\a)_k}, (\Y_1, \dots, \Y_n))^\top \right) \in \R^{p_jq}
+\end{eqnarray*}
+now taking case weights greater zero into account.
+
+\section*{Appendix B}
+
+The results shown in Section~\ref{illustrations} are, up to some labelling, 
+reproducible using the following \textsf{R} code:
+
+\renewcommand{\baselinestretch}{1}
+
+\begin{Sinput}
+library("party")
+
+data("GlaucomaM", package = "ipred")
+plot(ctree(Class ~ ., data = GlaucomaM))
+
+data("GBSG2", package = "ipred")  
+plot(ctree(Surv(time, cens) ~ ., data = GBSG2))
+
+data("mammoexp", package = "party")
+plot(ctree(ME ~ ., data = mammoexp))
+\end{Sinput}
