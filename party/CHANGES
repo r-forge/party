@@ -1,9 +1,22 @@
 
-		CHANGES IN `party' VERSION 0.3-5 (2006-02-06)
+
+		CHANGES IN `party' VERSION 0.4-0 (2006-02-08)		
+
+
+    o    `rforest', an implementation of Breiman's random forest ensemble
+         algorithm has been added. It is still experimental for the expert
+         only.
+
+    o    LazyData: yes
+
+
+		CHANGES IN `party' VERSION 0.3-6 (2006-02-06)
 
 
     o    use a different way to deal with NAMESPACEs during in tests/*.R
          following a suggestion by Prof. Brian D. Ripley
+
+    o    use LazyLoad: yes instead of SaveImage: yes
 
 
 		CHANGES IN `party' VERSION 0.3-5 (2006-02-02)

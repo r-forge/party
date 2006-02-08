@@ -5,10 +5,20 @@ predict.BinaryTree <- function(object, ...) {
     conditionalTree@predict(object, ...)
 }
 
+predict.RandomForest <- function(object, OOB = FALSE, ...) {
+    RandomForest@predict(object, OOB = OOB, ...)
+}
+
+
 setGeneric("treeresponse", function(object, ...) 
            standardGeneric("treeresponse"))
 
 setMethod("treeresponse", signature = signature(object = "BinaryTree"),
+    definition = function(object, newdata = NULL, ...)   
+        object@cond_distr_response(newdata = newdata, ...)
+)
+
+setMethod("treeresponse", signature = signature(object = "RandomForest"),
     definition = function(object, newdata = NULL, ...)   
         object@cond_distr_response(newdata = newdata, ...)
 )
@@ -19,6 +29,11 @@ setGeneric("weights", function(object, ...) standardGeneric("weights"))
 setMethod("weights", signature = signature(object = "BinaryTree"),
     definition = function(object, newdata = NULL, ...)
         object@prediction_weights(newdata = newdata, ...)
+)
+
+setMethod("weights", signature = signature(object = "RandomForest"),
+    definition = function(object, newdata = NULL, OOB = FALSE, ...)
+        object@prediction_weights(newdata = newdata, OOB = OOB, ...)
 )
 
 

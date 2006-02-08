@@ -6,3 +6,8 @@ o	more checks for MonteCarlo
 
 
 o	check categorical splits more carefully (and add an example)
+
+
+o	check `rforest' and convenience functions (`treepredict' seems the
+        wrong name)
+

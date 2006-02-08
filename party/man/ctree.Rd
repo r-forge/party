@@ -67,7 +67,7 @@ ctree(formula, data, subset = NULL, weights = NULL,
 
 }
 \value{
-  An object of class \code{BinaryTree}.
+  An object of class \code{\link{BinaryTree-class}}.
 }
 \references{ 
 
@@ -83,7 +83,6 @@ ctree(formula, data, subset = NULL, weights = NULL,
 \examples{
 
     ### regression
-    data("airquality")
     airq <- subset(airquality, !is.na(Ozone))
     airct <- ctree(Ozone ~ ., data = airq, 
                    controls = ctree_control(maxsurrogate = 3))
@@ -101,7 +100,6 @@ ctree(formula, data, subset = NULL, weights = NULL,
     tr <- treeresponse(irisct, newdata = iris[1:10,])
 
     ### ordinal regression
-    data("mammoexp", package = "party") 
     mammoct <- ctree(ME ~ ., data = mammoexp) 
     plot(mammoct)
 

@@ -215,3 +215,17 @@ setClass(Class = "BinaryTree",
     ),
     contains = "BinaryTreePartition"
 )
+
+### A class for random forest  
+setClass(Class = "RandomForest", 
+    representation = representation(
+        ensemble            = "list",
+        data                = "ModelEnv",
+        responses           = "VariableFrame", # a list of response `variables'
+                                               # for computing predictions
+        cond_distr_response = "function",      # predict distribtion
+        predict_response    = "function",      # predict responses
+        prediction_weights  = "function"      # prediction weights
+    )
+)
+

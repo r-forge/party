@@ -816,7 +816,6 @@ treeresponse(stree, newdata = GBSG2[1:2,])
 \paragraph{Mammography Experience.}
 
 <<mammo-ctree, echo = TRUE>>=
-data("mammoexp", package = "party")
 mtree <- ctree(ME ~ ., data = mammoexp)
 @
 
@@ -895,7 +894,6 @@ pvalue(it)
 
 \begin{figure}[t]
 \begin{center}
-<<<<<<< party.Rnw
 <<spider-plot, eval = FALSE, echo = TRUE, fig = TRUE>>=
 plot(sptree, terminal_panel = node_terminal)
 @
