@@ -5,12 +5,14 @@ importFrom(coin, logrank_trafo)
 export(ctree, ctree_memory, ctree_control, 
        node_inner, edge_simple, node_terminal,
        node_surv, node_barplot, node_boxplot,
-       node_hist, node_density, weights, 
-       where, nodes, conditionalTree,
-       treeresponse, response, ptrafo, cforest)
+       node_hist, node_density,
+       node_scatterplot, node_spineplot, node_cdplot,
+       weights, where, nodes, conditionalTree,
+       treeresponse, response, ptrafo, cforest,
+       mob, mob_control)
 
 exportClasses("BinaryTree", "LearningSample", "SplittingNode",
-              "TerminalNode", "TreeControl", "RandomForest")
+              "TerminalNode", "TreeControl", "RandomForest", "mob")
 exportMethods("initialize", "fit")
 
 S3method(print, BinaryTree)
@@ -18,8 +20,24 @@ S3method(print, nominalSplit)
 S3method(print, orderedSplit)
 S3method(print, SplittingNode)
 S3method(print, TerminalNode)
+S3method(print, TerminalModelNode)
 S3method(print, RandomForest)
 S3method(plot, BinaryTree)
 S3method(predict, BinaryTree)
 S3method(predict, RandomForest)
+
+S3method(coef, mob)
+S3method(fitted, mob)
+S3method(plot, mob)
+S3method(predict, mob)
+S3method(print, mob)
+S3method(residuals, mob)
+S3method(sctest, mob)
+S3method(summary, mob)
+
 useDynLib(party)
+
+## FIXME: mob_weights
+export(mob_weights)
+S3method(mob_weights, linearModel)
+S3method(mob_weights, glinearModel)
