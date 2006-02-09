@@ -1,13 +1,12 @@
-\name{rforest}
-\alias{rforest}
+\name{cforest}
+\alias{cforest}
 \title{ Random Forest }
 \description{
     An implementation of the random forest and bagging ensemble algorithms
-    utilizing conditional inference trees as base learners. EXPERIMENTAL AND
-    FOR EXPERTS ONLY!
+    utilizing conditional inference trees as base learners.
 }
 \usage{
-rforest(formula, data = list(), subset = NULL, weights = NULL, 
+cforest(formula, data = list(), subset = NULL, weights = NULL, 
         controls = ctree_control(teststattype = "maxabs", 
             testtype = "Raw", mtry = 5, savesplitstats = FALSE), 
         xtrafo = ptrafo, ytrafo = ptrafo, scores = NULL, B = 500)
@@ -38,7 +37,7 @@ rforest(formula, data = list(), subset = NULL, weights = NULL,
   
   Conditional inference trees, see \code{\link{ctree}}, are fitted to each
   of the \code{B} bootstrap samples of the learning sample. There are many
-  hyper parameters that can be controled, see \code{\link{ctree_control}}.
+  hyper parameters that can be controlled, see \code{\link{ctree_control}}.
   You MUST NOT change anything you don't understand completely.
 
   The aggregation scheme works by averaging observation weights extracted
@@ -67,14 +66,14 @@ rforest(formula, data = list(), subset = NULL, weights = NULL,
 
     ### honest (i.e., out-of-bag) cross-classification of
     ### true vs. predicted classes
-    table(mammoexp$ME, predict(rforest(ME ~ ., data = mammoexp, B = 50),
+    table(mammoexp$ME, predict(cforest(ME ~ ., data = mammoexp, B = 50),
                                OOB = TRUE))
 
     ### fit forest to censored response
     if (require("ipred")) {
 
         data("GBSG2", package = "ipred")
-        bst <- rforest(Surv(time, cens) ~ ., data = GBSG2, B = 50)
+        bst <- cforest(Surv(time, cens) ~ ., data = GBSG2, B = 50)
 
         ### estimate conditional Kaplan-Meier curves
         treeresponse(bst, newdata = GBSG2[1:2,], OOB = TRUE)

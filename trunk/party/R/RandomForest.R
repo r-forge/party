@@ -2,7 +2,7 @@
 # $Id$
 
 ### the fitting procedure
-rforestfit <- function(object, controls, weights = NULL, fitmem = NULL, 
+cforestfit <- function(object, controls, weights = NULL, fitmem = NULL, 
                        B = 500, ...) {
 
     if (!extends(class(object), "LearningSample"))
@@ -108,18 +108,18 @@ rforestfit <- function(object, controls, weights = NULL, fitmem = NULL,
     return(RET)
 }
 
-### the unfitted conditional tree, an object of class `StatModel'
+### the unfitted forest, an object of class `StatModel'
 ### see package `modeltools'
 RandomForest <- new("StatModel",
                     capabilities = new("StatModelCapabilities"),
                     name = "random forest",
                     dpp = ctreedpp,
-                    fit = rforestfit,
+                    fit = cforestfit,
                     predict = function(object, ...) 
                         object@predict_response(...))
 
 ### the top-level convenience function
-rforest <- function(formula, data = list(), subset = NULL, weights = NULL, 
+cforest <- function(formula, data = list(), subset = NULL, weights = NULL, 
                     controls = ctree_control(teststattype = "maxabs", 
                                              testtype = "Raw", mtry = 5, 
                                              savesplitstats = FALSE),

@@ -1,6 +1,6 @@
 
 R : Copyright 2005, The R Foundation for Statistical Computing
-Version 2.2.1  (2005-12-20 r36812)
+Version 2.3.0 Under development (unstable) (2005-12-01 r36567)
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -12,7 +12,7 @@ Type 'contributors()' for more information and
 'citation()' on how to cite R or R packages in publications.
 
 Type 'demo()' for some demos, 'help()' for on-line help, or
-'help.start()' for an HTML browser interface to help.
+'help.start()' for a HTML browser interface to help.
 Type 'q()' to quit R.
 
 > 
@@ -33,19 +33,21 @@ Loading required package: MASS
 Loading required package: mlbench
 Loading required package: nnet
 Loading required package: class
+Warning message:
+use of NULL environment is deprecated 
 > if (!require(coin))
 +     stop("cannot load package coin")
 > gctorture(on = GCtorture)
 > 
 > data("GlaucomaM", package = "ipred")
-> rf <- rforest(Class ~ ., data = GlaucomaM, B = 100)
+> rf <- cforest(Class ~ ., data = GlaucomaM, B = 100)
 Warning message:
 no admissible split found 
 > stopifnot(mean(GlaucomaM$Class != predict(rf)) < 
 +           mean(GlaucomaM$Class != predict(rf, OOB = TRUE)))
 > 
 > data("GBSG2", package = "ipred")
-> rf <- rforest(Surv(time, cens) ~ ., data = GBSG2, B = 100)
+> rf <- cforest(Surv(time, cens) ~ ., data = GBSG2, B = 100)
 There were 27 warnings (use warnings() to see them)
 > treeresponse(rf, newdata = GBSG2[1:2,])
 [[1]]
