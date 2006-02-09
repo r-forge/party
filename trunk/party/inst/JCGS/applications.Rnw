@@ -1,0 +1,156 @@
+
+%%\VignetteIndexEntry{Applications}
+
+<<global, echo = FALSE, results = hide>>=
+set.seed(290875)
+a <- require(survival, quietly = TRUE)
+a <- require(party, quietly = TRUE)
+@
+
+\begin{center}
+\section{ILLUSTRATIONS AND APPLICATIONS \label{illustrations}}
+\end{center}
+
+In this section, we present regression problems which illustrate the
+potential fields of application of the methodology.  
+Conditional inference trees based on $c_\text{quad}$-type test statistics 
+using the identity influence function for numeric responses 
+and asymptotic $\chi^2$ distribution are applied.
+For the stopping criterion a simple
+Bonferroni correction is used and we follow the usual convention by choosing
+the nominal level of the conditional independence tests as $\alpha = 0.05$.
+Conditional inference trees are implemented in the \texttt{party} add-on
+package to the \textsf{R} system for statistical computing
+\citep[version 2.0.1,][]{Rcore2004}, both being freely available from CRAN
+(\url{http://CRAN.R-project.org}). Our analyses can be reproduced using the
+code given in Appendix B.
+
+%%Two additional restrictions are made: Nodes with less than $20$ observations are not
+%%split and each split needs to send at least 
+%%$1\%$ of the observations into each of the two daughter nodes. 
+%%The computations are based on an implementation of conditional inference trees
+%%within the \textsf{R} system for statistical computing \citep{Rcore2004}.
+%%Until the package is published on CRAN (\url{http://CRAN.R-project.org}) it is 
+%%available upon request.
+
+\paragraph{Glaucoma \& Laser Scanning Images.}
+<<glaucoma, echo = FALSE, results = hide>>=
+data(GlaucomaM, package = "ipred")
+x <- ctree(Class ~ ., data = GlaucomaM, 
+           control = ctree_control(teststattype = "quadform"))@tree
+@
+\setkeys{Gin}{width=\textwidth}
+\begin{figure}[h]
+\begin{center}
+<<glaucoma,echo=FALSE,fig=TRUE,width=10,height=6>>=  
+data("GlaucomaM", package = "ipred")
+gtree <- ctree(Class ~ ., data = GlaucomaM)
+plot(gtree, terminal_panel = node_barplot(gtree, fill = grey.colors(2)))
+@
+\caption{Conditional inference tree for the glaucoma data. For each inner node, the
+Bonferroni-adjusted $P$-values are given, the fraction of glaucomateous eyes
+is displayed for each terminal node. \label{glaucoma}}
+\end{center}
+\end{figure}
+Laser scanning images taken from the eye background are expected to serve as 
+the basis of an automated system for glaucoma diagnosis. 
+%%Various numeric features describing the morphology of the optic nerve head are 
+%%derived from the images. The task is to predict whether the eye under test suffers
+%%glaucomatous changes or not. 
+Although prediction is more important in this application
+\citep{new-glauco:2003}, a simple
+visualization of the regression relationship is useful for comparing the
+structures inherent in the learning sample with subject matter knowledge. 
+For $98$ patients and $98$ controls, matched by age
+and gender, $62$ covariates describing the eye morphology are available. The
+data is part of the 
+\texttt{ipred} package
+\citep{Rnews:Peters+Hothorn+Lausen:2002}.
+The first split in Figure~\ref{glaucoma} separates eyes with a volume 
+above reference less than
+$\Sexpr{x$psplit$splitpoint} \text{ mm}^3$ in the inferior part of the
+optic nerve head (\texttt{vari}). 
+Observations with larger volume are mostly controls, a finding which
+corresponds to subject matter knowledge: The volume above reference measures the
+thickness of the nerve layer, expected to decrease with a glaucomateous
+damage of the optic nerve. Further separation is achieved by the volume
+above surface global (\texttt{vasg}) and the volume above reference in the
+temporal part of the optic nerve head (\texttt{vart}).
+
+
+
+\paragraph{Node Positive Breast Cancer.}
+
+Recursive partitioning for censored responses has attracted a lot of interest
+\citep[e.g.,][]{regression:1988,relative-r:1992}. 
+Survival trees using $P$-value adjusted Logrank statistics
+are used by \cite{statistics:2001a} 
+for the evaluation of prognostic factors for the German Breast
+Cancer Study Group (GBSG2) data,  a prospective controlled clinical trial on the
+treatment of node positive breast cancer patients. Here, we use
+Logrank scores as well. Complete data of seven prognostic factors of $686$
+women are used for prognostic modeling, the
+dataset is available within the 
+\texttt{ipred} package.
+The number of positive lymph nodes
+(\texttt{pnodes}) and the progesterone receptor (\texttt{progrec}) have
+been identified as prognostic factors in the survival tree analysis
+by \cite{statistics:2001a}.  Here, the binary variable coding whether a
+hormonal therapy was applied or not (\texttt{horTh}) additionally is
+part of the model depicted in Figure~\ref{gbsg2}.
+
+\begin{figure}
+\begin{center}
+<<gbsg2,fig=TRUE,echo=FALSE,width=10,height=5>>=
+data("GBSG2", package = "ipred")  
+GBSG2$time <- GBSG2$time / 365
+stree <- ctree(Surv(time, cens) ~ ., data = GBSG2)
+plot(stree)
+@
+\caption{Tree-structured survival model for the GBSG2 data with Kaplan-Meier
+estimates of the survival time (in years) in the terminal nodes. \label{gbsg2}}
+\end{center}
+\end{figure}  
+
+
+
+\paragraph{Mammography Experience.}
+
+Ordinal response variables are common in investigations where the response
+is a subjective human interpretation. 
+We use an example given by \cite{HosmerLemeshow2000}, p. 264, 
+studying the relationship between the mammography experience (never,
+within a year, over one year) and opinions about mammography expressed in
+questionnaires answered by $n = 412$ women. The resulting partition based on
+scores $\xi = (1,2,3)$ is given in Figure~\ref{mammoexp}. 
+Most women who (strongly) agree with the question `You do not need a mammogram unless
+you develop symptoms' have not experienced a mammography. The variable
+\texttt{benefit} is a score with low values indicating a strong agreement with the
+benefits of the examination. For those women in (strong) disagreement with the first
+question above, low values of \texttt{benefit} identify persons being more likely to have 
+experienced such an examination at all. 
+
+\begin{figure}[t]
+\begin{center}
+<<mammo,fig=TRUE,echo=FALSE,height=5,width=10>>=
+data("mammoexp", package = "party")
+colnames(mammoexp)[3] <- "benefit"
+symptoms <- rep("", nrow(mammoexp))
+dis <- grep("Dis", as.character(mammoexp$SYMPT))
+symptoms[dis] <- "(Strongly) Disagree"
+symptoms[-dis] <- "(Strongly) Agree"
+mammoexp <- mammoexp[,-2]
+mammoexp$symptoms <- factor(symptoms)
+levels(mammoexp$ME) <- c("Never", "One Yr.", "> One Yr.")
+mtree <- ctree(ME ~ ., data = mammoexp)
+plot(mtree, terminal_panel = node_barplot(mtree, fill = grey.colors(3)))
+@
+\caption{Ordinal regression for the mammography experience data with the
+fractions of (never, within a year, over one year) given in the nodes.
+%%No admissible split was found for node 4 because only $5$ of $91$ women reported 
+%%a family history of breast cancer and the sample size restrictions would 
+%%require more than $5$ observations in each daughter node. 
+\label{mammoexp}}
+\end{center}
+\end{figure}
+
