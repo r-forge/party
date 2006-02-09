@@ -83,11 +83,10 @@ node_scatterplot <- function(ctreeobj, which = NULL, col = "black", linecol = "r
     return(rval)
 }
 
-node_spineplot <- function(ctreeobj, which = NULL, col = "black", linecol = "red", cex = 0.5,
-  ylines = 3, id = TRUE, ...)
+node_spineplot <- function(ctreeobj, which = NULL, id = TRUE, ...)
 {
     ## re-use spine() from vcd package
-    stopifnot(require("vcd"))
+    if(!require("vcd")) stop("the `vcd' package is required for spine plots")
 
     y <- response(ctreeobj)[[1]]
     if(is.factor(y)) y <- factor(y, levels = rev(levels(y)))
@@ -119,11 +118,10 @@ node_spineplot <- function(ctreeobj, which = NULL, col = "black", linecol = "red
     return(rval)
 }
 
-node_cdplot <- function(ctreeobj, which = NULL, col = "black", linecol = "red", cex = 0.5,
-  ylines = 3, id = TRUE, ...)
+node_cdplot <- function(ctreeobj, which = NULL, id = TRUE, ...)
 {
-    ## re-use spine() from vcd package
-    stopifnot(require("vcd"))
+    ## re-use cd_plot() from vcd package
+    if(!require("vcd")) stop("the `vcd' package is required for CD plots")
 
     y <- response(ctreeobj)[[1]]
     if(is.factor(y)) y <- factor(y, levels = rev(levels(y)))

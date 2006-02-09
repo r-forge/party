@@ -15,9 +15,8 @@ Description: Unbiased recursive partitioning in a conditional
   scales of the covariates. Extensible functionality for visualizing
   tree-structured regression models is available.
 Depends: R (>= 2.0.1), survival, grid, modeltools (>= 0.2-2), coin (>= 0.3-8),
-  zoo, sandwich, strucchange, vcd
-Suggests: ipred
+  zoo, sandwich, strucchange
+Suggests: ipred, mlbench, vcd
 LazyLoad: yes
 LazyData: yes
 License: GPL
-Packaged: Sun Jun 12 10:38:21 2005; hothorn
