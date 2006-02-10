@@ -2,8 +2,7 @@
 ## requirements for model objects
 ##   - StatModel object
 ##   - for fitting: estfun, reweight, weights, some extractor for objective function
-##   - inherited if available: print, predict, coef, summary, residuals
-##   - fitted method (plot.mob: node_scatterplot)
+##   - inherited if available: print, predict, coef, summary, residuals, logLik
 
 ## generic function mob creates objects of class "mob"
 setClass("mob", contains = "BinaryTree")
@@ -19,7 +18,6 @@ mob <- function(formula, weights, data = list(),
       ff$input[[3]] <- ff$input[[2]]
       ff$input[[2]] <- ff$response[[2]]
       dpp(model, as.formula(ff$input), other = list(part = as.formula(ff$blocks)), data = data)
-      ##FIXME## model@dpp?
     }
     formula <- mobpp(formula, data, model)
   }
@@ -186,5 +184,16 @@ sctest.mob <- function(object, node = NULL) {
     names(rval) <- node 
   }
   rval
+}
+
+logLik.mob <- function(object, node = NULL) {
+  if(is.null(node)) node <- terminal_nodeIDs(object@tree)
+  rval <- lapply(nodes(object, node), function(z) logLik(z$model))
+  rval <- structure(sum(sapply(rval, head, 1)),
+    nall = sum(sapply(rval, function(z) attr(z, "nall"))),
+    nobs = sum(sapply(rval, function(z) attr(z, "nobs"))),
+    df = sum(sapply(rval, function(z) attr(z, "df"))) + nterminal(object@tree) - 1,
+    class = "logLik")
+  return(rval)
 }
 

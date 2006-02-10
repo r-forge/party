@@ -13,7 +13,7 @@ ctree(formula, data, subset = NULL, weights = NULL,
 }
 \arguments{
   \item{formula}{ a symbolic description of the model to be fit. }
-  \item{data}{ an data frame containing the variables in the model. }
+  \item{data}{ a data frame containing the variables in the model. }
   \item{subset}{ an optional vector specifying a subset of observations to be
                  used in the fitting process.}
   \item{weights}{ an optional vector of weights to be used in the fitting

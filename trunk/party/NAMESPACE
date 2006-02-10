@@ -28,6 +28,7 @@ S3method(predict, RandomForest)
 
 S3method(coef, mob)
 S3method(fitted, mob)
+S3method(logLik, mob)
 S3method(plot, mob)
 S3method(predict, mob)
 S3method(print, mob)
