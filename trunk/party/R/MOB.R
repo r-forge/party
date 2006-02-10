@@ -8,10 +8,10 @@
 ## generic function mob creates objects of class "mob"
 setClass("mob", contains = "BinaryTree")
 
-mob <- function(object, weights, data = list(),
+mob <- function(formula, weights, data = list(),
   model = glinearModel, control = mob_control(), ...)
 {
-  if(inherits(object, "formula")) {
+  if(inherits(formula, "formula")) {
     ## convenience preprocessor for formula like
     ## y ~ x + z | a + b
     mobpp <- function(formula, data, model) {
@@ -19,13 +19,14 @@ mob <- function(object, weights, data = list(),
       ff$input[[3]] <- ff$input[[2]]
       ff$input[[2]] <- ff$response[[2]]
       dpp(model, as.formula(ff$input), other = list(part = as.formula(ff$blocks)), data = data)
+      ##FIXME## model@dpp?
     }
-    object <- mobpp(object, data, model)
+    formula <- mobpp(formula, data, model)
   }
 
   ## fit global model
-  if(missing(weights)) weights <- rep(1, dimension(object, "part")[1])
-  fm <- fit(model, object, ...)
+  if(missing(weights)) weights <- rep(1, dimension(formula, "part")[1])
+  fm <- fit(model, formula, ...)
 
 
   ## the main recursion function
@@ -69,12 +70,12 @@ mob <- function(object, weights, data = list(),
 
   ## recursive partitioning  
   nodeid <- 1
-  tr <- mob_fit(fm, object, weights = weights, control = control)
+  tr <- mob_fit(fm, formula, weights = weights, control = control)
 
   ## package into return object
   rval <- new("mob", tree = tr, 
-    responses = initVariableFrame(object@get("response"), trafo = NULL),
-    data = object)
+    responses = initVariableFrame(formula@get("response"), trafo = NULL),
+    data = formula)
   return(rval)
 }
 
