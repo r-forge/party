@@ -113,6 +113,9 @@ data("BostonHousing", package = "mlbench")
 ## and transform variables appropriately (for a linear regression)
 BostonHousing$lstat <- log(BostonHousing$lstat)
 BostonHousing$rm <- BostonHousing$rm^2
+## as well as partitioning variables (for fluctuation testing)
+BostonHousing$chas <- factor(BostonHousing$chas, levels = 0:1, labels = c("no", "yes"))
+BostonHousing$rad <- factor(BostonHousing$rad, ordered = TRUE)
 
 ## partition the linear regression model medv ~ lstat + rm
 ## with respect to all remaining variables:

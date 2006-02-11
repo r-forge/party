@@ -78,10 +78,11 @@ mob <- function(formula, weights, data = list(),
 }
 
 ## control splitting parameters
-mob_control <- function(alpha = 0.05, bonferroni = TRUE, minsplit = 20, objfun = deviance, verbose = FALSE)
+mob_control <- function(alpha = 0.05, bonferroni = TRUE, minsplit = 20, objfun = deviance,
+  breakties = FALSE, verbose = FALSE)
 {
   rval <- list(alpha = alpha, bonferroni = bonferroni, minsplit = minsplit,
-               objfun = objfun, verbose = verbose)
+               objfun = objfun, breakties = breakties, verbose = verbose)
   class(rval) <- "mob_control"
   return(rval)
 }

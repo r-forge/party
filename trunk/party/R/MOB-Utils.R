@@ -53,6 +53,7 @@ mob_fit_setupnode <- function(obj, mf, weights, control) {
     minsplit <- control$minsplit
     objfun <- control$objfun
     verbose <- control$verbose
+    breakties <- control$breakties
 
     ### if too few observations: no split = return terminal node
     if (sum(weights) < 2 * minsplit) {
@@ -64,7 +65,7 @@ mob_fit_setupnode <- function(obj, mf, weights, control) {
     }
 
     ### variable selection via fluctuation tests
-    test <- try(mob_fit_fluctests(obj, mf, minsplit = minsplit))
+    test <- try(mob_fit_fluctests(obj, mf, minsplit = minsplit, breakties = breakties))
 
     if(bonferroni) {
       pval1 <- pmin(1, sum(!is.na(test$pval)) * test$pval)
@@ -117,7 +118,11 @@ mob_fit_setupnode <- function(obj, mf, weights, control) {
                                           maxcriterion = na_max(1 - test$pval)),
                          terminal = TRUE, prediction = 0)
             class(node) <- "TerminalModelNode"  
-            return(node)
+            
+	    warning("no admissable split found", call. = FALSE)
+	    if(verbose)
+	      cat(paste("\nNo admissable split found in", sQuote(names(test$stat)[best]), "\n", sep = ""))	    
+	    return(node)
         }
 
         thissplit$variableID <- best
@@ -139,7 +144,6 @@ mob_fit_setupnode <- function(obj, mf, weights, control) {
         cat(paste("; criterion = ", round(node$criterion$maxcriterion, 3), 
               ", statistic = ", round(max(node$criterion$statistic), 3), "\n",
               collapse = "", sep = ""))
-        cat("\n")
     }
     node
 }
@@ -148,7 +152,7 @@ mob_fit_setupnode <- function(obj, mf, weights, control) {
 ### conduct all M-fluctuation tests of fitted obj 
 ### with respect to each variable from a set of
 ### potential partitioning variables in mf
-mob_fit_fluctests <- function(obj, mf, minsplit) {
+mob_fit_fluctests <- function(obj, mf, minsplit, breakties) {
   ## Cramer-von Mises statistic might be supported in future versions
   CvM <- FALSE
   
@@ -223,8 +227,8 @@ mob_fit_fluctests <- function(obj, mf, minsplit) {
   for(i in 1:m) {
     pvi <- partvar[,i]
     pvi <- pvi[ww1]
-    proci <- process[ORDER(pvi), , drop = FALSE]
     if(is.factor(pvi)) {
+      proci <- process[ORDER(pvi), , drop = FALSE]
       ifac[i] <- TRUE
 
       # re-apply factor() added to drop unused levels
@@ -241,6 +245,14 @@ mob_fit_fluctests <- function(obj, mf, minsplit) {
         pval[i] <- pchisq(stat[i], k*(length(levels(pvi))-1), log.p = TRUE, lower.tail = FALSE)
       }
     } else {
+      oi <- if(breakties) {
+        mm <- sort(unique(pvi))
+	mm <- ifelse(length(mm) > 1, min(diff(mm))/10, 1)
+	ORDER(pvi + runif(length(pvi), min = -mm, max = +mm))
+      } else {
+        ORDER(pvi)
+      }    
+      proci <- process[oi, , drop = FALSE]
       proci <- apply(proci, 2, cumsum)
       stat[i] <- if(CvM) sum((proci)^2)/n 
         else if(from < to) {
@@ -309,7 +321,7 @@ mob_fit_splitnode <- function(x, obj, mf, weights, minsplit, objfun, verbose = T
                })
 
         if (verbose) {
-            cat(paste("\n Splitting ", if(is.ordered(x)) "ordered ",
+            cat(paste("\nSplitting ", if(is.ordered(x)) "ordered ",
 	              "factor variable, objective function: \n", sep = ""))
             print(dev)
         }
