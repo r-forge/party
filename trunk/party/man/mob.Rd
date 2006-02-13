@@ -42,7 +42,7 @@ mob(formula, weights, data = list(), model = glinearModel,
   \item{control}{A list with control parameters as returned by
     \code{\link{mob_control}}.}
   \item{\dots}{Additional arguments passed to the \code{\link{fit}} call for
-    the \code{model}.
+    the \code{model}.}
   \item{object}{A fitted \code{mob} object.}
   \item{newdata}{A data frame with new inputs, by default the learning data
     is used.}
