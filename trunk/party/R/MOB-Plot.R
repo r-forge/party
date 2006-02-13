@@ -1,23 +1,27 @@
-plot.mob <- function(obj, terminal_panel = NULL, ...) {
+plot.mob <- function(obj, terminal_panel = NULL, tnex = NULL, ...) {
+  x <- try(obj@data@get("input"), silent = TRUE)
+  nox <- inherits(x, "try-error")
   if(is.null(terminal_panel))
-    terminal_panel <- if(is.factor(response(obj)[[1]])) node_spineplot else node_scatterplot
-  plot.BinaryTree(obj, terminal_panel = terminal_panel, ...)
+    terminal_panel <- if(!is.factor(response(obj)[[1]]) && !nox && all(sapply(x, is.numeric))) node_scatterplot
+      else node_bivplot
+  if(is.null(tnex)) {
+    tnex <- if(nox) 2 else 2 * NCOL(x)
+  }
+  plot.BinaryTree(obj, terminal_panel = terminal_panel, tnex = tnex, ...)
 }
 
-## FIXME plot.BinaryTree: grapcon_generator
-
-node_scatterplot <- function(ctreeobj, which = NULL, col = "black", linecol = "red",
+node_scatterplot <- function(mobobj, which = NULL, col = "black", linecol = "red",
   cex = 0.5, jitter = FALSE, xscale = NULL, yscale = NULL, ylines = 3, id = TRUE, labels = FALSE)
 {
     ## extract dependent variable
-    y <- response(ctreeobj)
+    y <- response(mobobj)
     ynam <- names(y)[1]
     y <- y[[1]]
     y <- if(is.factor(y)) as.numeric(y) - 1 else as.numeric(y)
     if(jitter) y <- jitter(y)
 
     ## extract regressor matrix
-    x <- model.matrix(ctreeobj@tree$model)
+    x <- model.matrix(mobobj@tree$model)
     if(is.null(which)) { which <- if(NCOL(x) > 1) 2:NCOL(x) else 1 }
     xnam <- colnames(x)[which]
     x <- x[,which,drop=FALSE]
@@ -82,73 +86,174 @@ node_scatterplot <- function(ctreeobj, which = NULL, col = "black", linecol = "r
 	    
     return(rval)
 }
+class(node_scatterplot) <- "grapcon_generator"
 
-node_spineplot <- function(ctreeobj, which = NULL, id = TRUE, ...)
+node_bivplot <- function(mobobj, which = NULL, id = TRUE, pop = TRUE,
+  pointcol = "black", pointcex = 0.5,
+  boxcol = "black", boxwidth = 0.5, boxfill = "lightgray",
+  fitmean = FALSE, linecol = "red",
+  cdplot = FALSE, fivenum = TRUE,
+  ...)
 {
-    ## re-use spine() from vcd package
-    if(!require("vcd")) stop("the `vcd' package is required for spine plots")
+    ## obtain dependent variable
+    y <- response(mobobj)[[1]]
 
-    y <- response(ctreeobj)[[1]]
+    ## obtain explanatory variables
+    X <- try(mobobj@data@get("input"), silent = TRUE)
+    
+    ## if no explanatory variables: behave like plot.BinaryTree
+    if(inherits(X, "try-error")) {
+      rval <- switch(class(y)[1],
+        "Surv" = node_surv(mobobj, id = id, ...),
+        "factor" = node_barplot(mobobj, id = id, ...),
+        "ordered" = node_barplot(mobobj, id = id, ...),
+        node_boxplot(mobobj, ...))
+      return(rval)
+    }
+    
+    ## reverse levels for spine/CD plot
     if(is.factor(y)) y <- factor(y, levels = rev(levels(y)))
 
-    x <- ctreeobj@data@get("input")
-    if(is.null(which)) which <- 1
-    which <- which[1] ## currently only a single regressor supported
-    x <- x[,which]
-    
-    ### panel function for spine plots in nodes
+    ## number of panels needed
+    if(is.null(which)) which <- 1:NCOL(X)
+    X <- X[,which,drop=FALSE]
+    k <- NCOL(X)
+  
+    ## set up appropriate panel functions
+    if(is.factor(y)) {
+      ## CD plots and spine plots
+      ## re-use implementation from vcd package
+      if(!require("vcd")) stop("the `vcd' package is required for CD plots")
+      if(cdplot) {
+        num_fun <- function(x, y, yfit, i, name, ...) {
+          cd_plot(x, y, xlab = "", ylab = "", name = name, newpage = FALSE,
+	    margins = rep(1.5, 4), pop = FALSE, ...)
+    	  if(fitmean) {
+	    #FIXME# downViewport(name = name)
+            grid.lines(x, yfit, default.units = "native", gp = gpar(col = linecol))
+	    if(pop) popViewport() else upViewport()
+	  } else {
+	    #FIXME#
+	    if(pop) popViewport() else upViewport()
+	  }
+        }
+      } else {
+        xscale <- if(fivenum) lapply(X, function(z) {if(is.factor(z)) 1 else fivenum(z) })
+          else lapply(X, function(z) {if(is.factor(z)) 1 else hist(z, plot = FALSE)$breaks })
+        num_fun <- function(x, y, yfit, i, name, ...) {
+          spine(x, y, xlab = "", ylab = "", name = name, newpage = FALSE,
+	    margins = rep(1.5, 4), pop = pop, breaks = xscale[[i]], ...)
+        }
+      }
+      cat_fun <- function(x, y, yfit, i, name, ...) {
+        spine(x, y, xlab = "", ylab = "", name = name, newpage = FALSE,
+	  margins = rep(1.5, 4), pop = pop, ...)
+      }
+    } else {
+      xscale <- sapply(X, function(z) {if(is.factor(z)) 1:length(levels(z)) else range(z) })
+      yscale <- range(y) + c(-0.1, 0.1) * diff(range(y))
+
+      ## scatter plots and box plots
+      num_fun <- function(x, y, yfit, i, name, ...) {
+        pushViewport(plotViewport(margins = rep(1.5, 4), name = name,
+	  yscale = yscale, xscale = xscale[,i] + c(-0.1, 0.1) * xscale[,i]))
+	grid.points(x, y, gp = gpar(col = pointcol, cex = pointcex))
+	if(fitmean) {	
+          grid.lines(x, yfit, default.units = "native", gp = gpar(col = linecol))
+	}
+        grid.xaxis(at = c(ceiling(xscale[1,i]*10), floor(xscale[2,i]*10))/10)
+        grid.yaxis(at = c(ceiling(yscale[1]), floor(yscale[2])))
+	grid.rect()
+        if(pop) popViewport() else upViewport()
+      }
+      cat_fun <- function(x, y, yfit, i, name, ...) {
+        xlab <- levels(x)
+        pushViewport(plotViewport(margins = rep(1.5, 4), name = name,
+	  yscale = yscale, xscale = c(0.3, xscale[2,i]+0.7)))
+
+        for(i in seq(along = xlab)) {
+	  by <- boxplot(y[x == xlab[i]], plot = FALSE)
+          xl <- i - boxwidth/4
+	  xr <- i + boxwidth/4
+
+          ## box & whiskers
+          grid.lines(unit(c(xl, xr), "native"), 
+                     unit(by$stats[1], "native"), gp = gpar(col = boxcol))
+          grid.lines(unit(i, "native"), 
+                     unit(by$stats[1:2], "native"), gp = gpar(col = boxcol, lty = 2))
+          grid.rect(unit(i, "native"), unit(by$stats[2], "native"), 
+                    width = unit(boxwidth, "native"), height = unit(diff(by$stats[2:3]), "native"),
+                    just = c("center", "bottom"), 
+                    gp = gpar(col = boxcol, fill = boxfill))
+          grid.rect(unit(i, "native"), unit(by$stats[3], "native"),
+                    width = unit(boxwidth, "native"), 
+                    height = unit(diff(by$stats[3:4]), "native"),
+                    just = c("center", "bottom"), 
+                    gp = gpar(col = boxcol, fill = boxfill))
+          grid.lines(unit(i, "native"), unit(by$stats[4:5], "native"), 
+                     gp = gpar(col = boxcol, lty = 2))
+          grid.lines(unit(c(xl, xr), "native"), unit(by$stats[5], "native"), 
+                     gp = gpar(col = boxcol))
+
+          ## outlier
+          n <- length(by$out)
+          if (n > 0) {
+            grid.points(unit(rep.int(i, n), "native"),  unit(by$out, "native"),
+                        size = unit(0.5, "char"), gp = gpar(col = boxcol))
+          }	  
+	}
+  	if(fitmean) {
+	  yfit <- unlist(tapply(yfit, x, mean))
+          grid.lines(seq(along = xlab), yfit, default.units = "native", gp = gpar(col = linecol))
+	}
+        grid.rect()
+        grid.xaxis(at = 1:length(xlab), label = xlab)
+        grid.yaxis(at = c(ceiling(yscale[1]), floor(yscale[2])))      
+        if(pop) popViewport() else upViewport()
+      }    
+    }    
+
     rval <- function(node) {
     
-        ## parameter setup
-	x <- rep(x, node$weights)
-	y <- rep(y, node$weights)
+      ## dependent variable
+      y <- rep(y, node$weights)
 
-	mainlab <- paste(ifelse(id, paste("Node", node$nodeID, "(n = "), ""),
-	                 sum(node$weights), ifelse(id, ")", ""), sep = "")
+      ## set up top viewport
+      top_vp <- viewport(layout = grid.layout(nrow = k, ncol = 1,
+    			 widths = unit(1, "null"), heights = unit(k, "null")),
+    			 width = unit(1, "npc"), height = unit(1, "npc") - unit(2, "lines"),
+        		 name = paste("node_mob", node$nodeID, sep = ""))
+      pushViewport(top_vp)
+      grid.rect(gp = gpar(fill = "white", col = NULL))
 
-        grid.rect(width = unit(1, "npc") - unit(2.5, "lines"),
-	          height = unit(1, "npc") - unit(0.5, "lines"),
-	          gp = gpar(fill = "white", col = "white"))
-        spine(x, y, xlab = "", ylab = "", 
-	      name = paste("node_spineplot", node$nodeID, sep = ""), newpage = FALSE,
-	      margins = rep(1.5, 4), ...)
-        grid.text(mainlab, y = unit(1, "npc") - unit(1, "lines"))
+      ## main title
+      top <- viewport(layout.pos.col = 1, layout.pos.row = 1)
+      pushViewport(top)
+      mainlab <- paste(ifelse(id, paste("Node", node$nodeID, "(n = "), ""),
+        	       sum(node$weights), ifelse(id, ")", ""), sep = "")
+      grid.text(mainlab, y = unit(1, "npc") - unit(0.75, "lines"))
+      popViewport()
+
+      for(i in 1:k) {
+        ## get x and y 
+    	xi <- rep(X[,i], node$weights)
+        o <- ORDER(xi)
+        yi <- y[o]
+        xi <- xi[o]
+        yfit <- rep(fitted(mobobj), node$weights)[o]
+
+        ## select panel
+    	plot_vpi <- viewport(layout.pos.col = 1, layout.pos.row = i)
+    	pushViewport(plot_vpi)
+
+    	## call panel function
+    	if(is.factor(xi)) cat_fun(xi, yi, yfit, i, paste("node_mob", node$nodeID, "-", i, sep = ""), ...)
+          else num_fun(xi, yi, yfit, i, paste("node_mob", node$nodeID, "-", i, sep = ""), ...)
+    	if(pop) popViewport() else upViewport()
+      }
+      if(pop) popViewport() else upViewport()
     }
     
     return(rval)
 }
-
-node_cdplot <- function(ctreeobj, which = NULL, id = TRUE, ...)
-{
-    ## re-use cd_plot() from vcd package
-    if(!require("vcd")) stop("the `vcd' package is required for CD plots")
-
-    y <- response(ctreeobj)[[1]]
-    if(is.factor(y)) y <- factor(y, levels = rev(levels(y)))
-
-    x <- ctreeobj@data@get("input")
-    if(is.null(which)) which <- 1
-    which <- which[1] ## currently only a single regressor supported
-    x <- as.numeric(x[,which])
-    
-    ### panel function for spine plots in nodes
-    rval <- function(node) {
-    
-        ## parameter setup
-	x <- rep(x, node$weights)
-	y <- rep(y, node$weights)
-
-	mainlab <- paste(ifelse(id, paste("Node", node$nodeID, "(n = "), ""),
-	                 sum(node$weights), ifelse(id, ")", ""), sep = "")
-
-        grid.rect(width = unit(1, "npc") - unit(2.5, "lines"),
-	          height = unit(1, "npc") - unit(0.5, "lines"),
-	          gp = gpar(fill = "white", col = "white"))
-        cd_plot(x, y, xlab = "", ylab = "", 
-	        name = paste("node_spineplot", node$nodeID, sep = ""), newpage = FALSE,
-	        margins = rep(1.5, 4), ...)
-        grid.text(mainlab, y = unit(1, "npc") - unit(1, "lines"))
-    }
-    
-    return(rval)
-}
+class(node_bivplot) <- "grapcon_generator"

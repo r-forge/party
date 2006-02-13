@@ -6,7 +6,7 @@ export(ctree, ctree_memory, ctree_control,
        node_inner, edge_simple, node_terminal,
        node_surv, node_barplot, node_boxplot,
        node_hist, node_density,
-       node_scatterplot, node_spineplot, node_cdplot,
+       node_scatterplot, node_bivplot,
        weights, where, nodes, conditionalTree,
        treeresponse, response, ptrafo, cforest,
        mob, mob_control)

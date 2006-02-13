@@ -450,7 +450,7 @@ significance level of $\alpha = 0.05$ and the nodes are split with a required mi
 segment size of $\ui = 40$.
 
 <<BostonHousing-preprocessing,echo=FALSE,results=hide>>=
-data(BostonHousing, package = "mlbench")
+data("BostonHousing", package = "mlbench")
 BostonHousing$lstat <- log(BostonHousing$lstat)
 BostonHousing$rm <- BostonHousing$rm^2
 @

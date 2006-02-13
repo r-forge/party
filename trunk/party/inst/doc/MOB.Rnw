@@ -198,7 +198,7 @@ library("party")
 The data set is available in package \pkg{mlbench} via
 
 <<>>=
-data(BostonHousing, package = "mlbench")
+data("BostonHousing", package = "mlbench")
 @
 
 and provides $n = \Sexpr{NROW(BostonHousing)}$ observations of the median value of owner-occupied
