@@ -2,10 +2,10 @@
 \encoding{latin1}
 
 \alias{mob}
+\alias{mob-class}
 \alias{coef.mob}
 \alias{fitted.mob}
 \alias{logLik.mob}
-\alias{plot.mob}
 \alias{predict.mob}
 \alias{print.mob}
 \alias{residuals.mob}
@@ -26,7 +26,7 @@ mob(formula, weights, data = list(), model = glinearModel,
 \method{predict}{mob}(object, newdata = NULL, type = c("response", "node"), \dots)
 \method{summary}{mob}(object, node = NULL, \dots)
 \method{coef}{mob}(object, node = NULL, \dots)
-\method{sctest}{mob}(object, node = NULL, \dots)
+\method{sctest}{mob}(x, node = NULL, \dots)
 }
 
 \arguments{
@@ -37,13 +37,13 @@ mob(formula, weights, data = list(), model = glinearModel,
   \item{weights}{An optional vector of weights to be used in the fitting
     process. Only non-negative integer valued weights are allowed (default = 1).}
   \item{data}{A data frame containing the variables in the model.}
-  \item{model}{A model of class \code{\link{StatModel-class}}. See details
+  \item{model}{A model of class \code{\link[modeltools]{StatModel-class}}. See details
     for requirements.}
   \item{control}{A list with control parameters as returned by
     \code{\link{mob_control}}.}
-  \item{\dots}{Additional arguments passed to the \code{\link{fit}} call for
+  \item{\dots}{Additional arguments passed to the \code{\link[modeltools]{fit}} call for
     the \code{model}.}
-  \item{object}{A fitted \code{mob} object.}
+  \item{object, x}{A fitted \code{mob} object.}
   \item{newdata}{A data frame with new inputs, by default the learning data
     is used.}
   \item{type}{A character string specifying whether the response should be
@@ -57,20 +57,20 @@ mob(formula, weights, data = list(), model = glinearModel,
 Model-based partitioning fits a model tree using the following algorithm:
   \enumerate{
     \item \code{fit} a \code{model} (default: a generalized linear model
-          \code{\link{glinearModel}} with formula \code{y ~ x1 + \dots + xk}
+          \code{\link[modeltools]{glinearModel}} with formula \code{y ~ x1 + \dots + xk}
 	  for the observations in the current node.
     \item Assess the stability of the model parameters with respect to each
           of the partitioning variables \code{z1}, \dots, \code{zl}. If
 	  there is some overall instability, choose the variable \code{z}
 	  associated with the smallest \eqn{p} value for partitioning, otherwise
 	  stop. For performing the parameter instability fluctuation test,
-	  a \code{\link{estfun}} method and a \code{\link{weights}} method is
+	  a \code{\link[sandwich]{estfun}} method and a \code{\link{weights}} method is
 	  needed.
     \item Search for the locally optimal split in \code{z} by minimizing the
           objective function of the \code{model}. Typically, this will be
 	  something like \code{\link{deviance}} or the negative \code{\link{logLik}}
 	  and can be specified in \code{\link{mob_control}}.
-    \item Re-fit the \code{model} in both children, using \code{\link{reweight}}
+    \item Re-fit the \code{model} in both children, using \code{\link[modeltools]{reweight}}
           and repeat from step 2.
   }
   
@@ -90,6 +90,7 @@ given below.
 
 \value{
   An object of class \code{mob} inheriting from \code{\link{BinaryTree-class}}.
+  Every node of the tree is additionally associated with a fitted model.
 }
 
 \references{ 
@@ -101,7 +102,7 @@ given below.
 
 }
 
-\seealso{\code{\link{mob_control}}}
+\seealso{\code{\link{plot.mob}}, \code{\link{mob_control}}}
 
 \examples{
 
@@ -125,14 +126,14 @@ fm <- mob(medv ~ lstat + rm | zn + indus + chas + nox + age + dis + rad + tax + 
 ## print the resulting tree
 fm
 ## or better visualize it
-plot(fm, tnex = 4)
+plot(fm)
 
 ## extract coefficients in all terminal nodes
 coef(fm)
 ## look at full summary, e.g., for node 7
 summary(fm, node = 7)
 ## results of parameter stability tests for that node
-sctest(fm, node = 7)
+#FIXME# sctest(fm, node = 7)
 ## -> no further significant instabilities (at 5\% level)
 
 ## compute mean squared error (on training data)
