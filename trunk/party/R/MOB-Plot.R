@@ -1,13 +1,13 @@
-plot.mob <- function(obj, terminal_panel = node_bivplot, tnex = NULL, ...) {
+plot.mob <- function(x, terminal_panel = node_bivplot, tnex = NULL, ...) {
   if(is.null(tnex)) {
-    x <- try(obj@data@get("input"), silent = TRUE)
-    tnex <- if(inherits(x, "try-error")) 2 else 2 * NCOL(x)
+    xdat <- try(x@data@get("input"), silent = TRUE)
+    tnex <- if(inherits(xdat, "try-error")) 2 else 2 * NCOL(xdat)
   }
-  plot.BinaryTree(obj, terminal_panel = terminal_panel, tnex = tnex, ...)
+  plot.BinaryTree(x, terminal_panel = terminal_panel, tnex = tnex, ...)
 }
 
 node_scatterplot <- function(mobobj, which = NULL, col = "black", linecol = "red",
-  cex = 0.5, jitter = FALSE, xscale = NULL, yscale = NULL, ylines = 3, id = TRUE, labels = FALSE)
+  cex = 0.5, jitter = FALSE, xscale = NULL, yscale = NULL, ylines = 1.5, id = TRUE, labels = FALSE)
 {
     ## extract dependent variable
     y <- response(mobobj)
@@ -157,12 +157,12 @@ node_bivplot <- function(mobobj, which = NULL, id = TRUE, pop = TRUE,
       }
       cat_fun <- function(x, y, yfit, i, name, ...) {
         spine(x, y, xlab = "", ylab = "", name = name, newpage = FALSE,
-	  margins = rep(1.5, 4), pop = FALSE, off = 20, ...)
+	  margins = rep(1.5, 4), pop = FALSE, ...)
     	if(fitmean) {
 	  #FIXME# downViewport(name = name)
 	  yfit <- unlist(tapply(yfit, x, mean))
 	  xaux <- prop.table(table(x))
-	  xaux <- cumsum(xaux + 0.2) - xaux/2 - 0.2
+	  xaux <- cumsum(xaux + 0.02) - xaux/2 - 0.02
           grid.lines(xaux, yfit, default.units = "native", gp = gpar(col = linecol))
           grid.points(xaux, yfit, default.units = "native",
 	    gp = gpar(col = linecol, cex = pointcex), pch = 19)
