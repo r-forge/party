@@ -156,7 +156,7 @@ residuals.mob <- function(object, ...)
 fitted.mob <- function(object, ...)
   predict(object, ...)
 
-coef.mob <- function(object, node = NULL) {
+coef.mob <- function(object, node = NULL, ...) {
   if(is.null(node)) node <- terminal_nodeIDs(object@tree)
   rval <- sapply(nodes(object, node), function(z) coef(z$model))
   if(!is.null(dim(rval))) {
@@ -166,7 +166,7 @@ coef.mob <- function(object, node = NULL) {
   return(rval)
 }
 
-summary.mob <- function(object, node = NULL) {
+summary.mob <- function(object, node = NULL, ...) {
   if(is.null(node)) node <- terminal_nodeIDs(object@tree)
   rval <- lapply(nodes(object, node), function(z) summary(z$model))
   if(length(rval) < 2) rval <- rval[[1]]
@@ -176,9 +176,9 @@ summary.mob <- function(object, node = NULL) {
   return(rval)
 }
 
-sctest.mob <- function(object, node = NULL) {
-  if(is.null(node)) node <- 1:max(terminal_nodeIDs(object@tree))
-  rval <- lapply(nodes(object, node),
+sctest.mob <- function(x, node = NULL, ...) {
+  if(is.null(node)) node <- 1:max(terminal_nodeIDs(x@tree))
+  rval <- lapply(nodes(x, node),
     function(z) rbind(statistic = z$criterion$statistic, p.value = 1-z$criterion$criterion))
   if(length(rval) < 2) rval <- rval[[1]]
     else {
@@ -187,7 +187,7 @@ sctest.mob <- function(object, node = NULL) {
   rval
 }
 
-logLik.mob <- function(object, node = NULL) {
+logLik.mob <- function(object, node = NULL, ...) {
   if(is.null(node)) node <- terminal_nodeIDs(object@tree)
   rval <- lapply(nodes(object, node), function(z) logLik(z$model))
   rval <- structure(sum(sapply(rval, head, 1)),

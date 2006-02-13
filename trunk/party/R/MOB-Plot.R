@@ -1,11 +1,7 @@
-plot.mob <- function(obj, terminal_panel = NULL, tnex = NULL, ...) {
-  x <- try(obj@data@get("input"), silent = TRUE)
-  nox <- inherits(x, "try-error")
-  if(is.null(terminal_panel))
-    terminal_panel <- if(!is.factor(response(obj)[[1]]) && !nox && all(sapply(x, is.numeric))) node_scatterplot
-      else node_bivplot
+plot.mob <- function(obj, terminal_panel = node_bivplot, tnex = NULL, ...) {
   if(is.null(tnex)) {
-    tnex <- if(nox) 2 else 2 * NCOL(x)
+    x <- try(obj@data@get("input"), silent = TRUE)
+    tnex <- if(inherits(x, "try-error")) 2 else 2 * NCOL(x)
   }
   plot.BinaryTree(obj, terminal_panel = terminal_panel, tnex = tnex, ...)
 }
@@ -91,7 +87,7 @@ class(node_scatterplot) <- "grapcon_generator"
 node_bivplot <- function(mobobj, which = NULL, id = TRUE, pop = TRUE,
   pointcol = "black", pointcex = 0.5,
   boxcol = "black", boxwidth = 0.5, boxfill = "lightgray",
-  fitmean = FALSE, linecol = "red",
+  fitmean = TRUE, linecol = "red",
   cdplot = FALSE, fivenum = TRUE,
   ...)
 {
@@ -142,12 +138,39 @@ node_bivplot <- function(mobobj, which = NULL, id = TRUE, pop = TRUE,
           else lapply(X, function(z) {if(is.factor(z)) 1 else hist(z, plot = FALSE)$breaks })
         num_fun <- function(x, y, yfit, i, name, ...) {
           spine(x, y, xlab = "", ylab = "", name = name, newpage = FALSE,
-	    margins = rep(1.5, 4), pop = pop, breaks = xscale[[i]], ...)
+	    margins = rep(1.5, 4), pop = FALSE, breaks = xscale[[i]], ...)
+    	  if(fitmean) {
+	    #FIXME# downViewport(name = name)
+	    xaux <- cut(x, breaks = xscale[[i]], include.lowest = TRUE)	    
+	    yfit <- unlist(tapply(yfit, xaux, mean))
+	    xaux <- prop.table(table(xaux))
+	    xaux <- cumsum(xaux) - xaux/2
+            grid.lines(xaux, yfit, default.units = "native", gp = gpar(col = linecol))
+            grid.points(xaux, yfit, default.units = "native",
+	      gp = gpar(col = linecol, cex = pointcex), pch = 19)
+	    if(pop) popViewport() else upViewport()
+	  } else {
+	    #FIXME#
+	    if(pop) popViewport() else upViewport()
+	  }
         }
       }
       cat_fun <- function(x, y, yfit, i, name, ...) {
         spine(x, y, xlab = "", ylab = "", name = name, newpage = FALSE,
-	  margins = rep(1.5, 4), pop = pop, ...)
+	  margins = rep(1.5, 4), pop = FALSE, off = 20, ...)
+    	if(fitmean) {
+	  #FIXME# downViewport(name = name)
+	  yfit <- unlist(tapply(yfit, x, mean))
+	  xaux <- prop.table(table(x))
+	  xaux <- cumsum(xaux + 0.2) - xaux/2 - 0.2
+          grid.lines(xaux, yfit, default.units = "native", gp = gpar(col = linecol))
+          grid.points(xaux, yfit, default.units = "native",
+	    gp = gpar(col = linecol, cex = pointcex), pch = 19)
+	  if(pop) popViewport() else upViewport()
+	} else {
+	  #FIXME#
+	  if(pop) popViewport() else upViewport()
+	}
       }
     } else {
       xscale <- sapply(X, function(z) {if(is.factor(z)) 1:length(levels(z)) else range(z) })
@@ -205,6 +228,8 @@ node_bivplot <- function(mobobj, which = NULL, id = TRUE, pop = TRUE,
   	if(fitmean) {
 	  yfit <- unlist(tapply(yfit, x, mean))
           grid.lines(seq(along = xlab), yfit, default.units = "native", gp = gpar(col = linecol))
+          grid.points(seq(along = xlab), yfit, default.units = "native",
+	    gp = gpar(col = linecol, cex = pointcex), pch = 19)
 	}
         grid.rect()
         grid.xaxis(at = 1:length(xlab), label = xlab)
