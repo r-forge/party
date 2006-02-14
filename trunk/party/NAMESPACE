@@ -7,7 +7,7 @@ export(ctree, ctree_memory, ctree_control,
        node_surv, node_barplot, node_boxplot,
        node_hist, node_density,
        node_scatterplot, node_bivplot,
-       weights, where, nodes, conditionalTree,
+       where, nodes, conditionalTree,
        treeresponse, response, ptrafo, cforest,
        mob, mob_control)
 
@@ -25,6 +25,8 @@ S3method(print, RandomForest)
 S3method(plot, BinaryTree)
 S3method(predict, BinaryTree)
 S3method(predict, RandomForest)
+S3method(weights, BinaryTree)
+S3method(weights, RandomForest)
 
 S3method(coef, mob)
 S3method(fitted, mob)
@@ -37,8 +39,3 @@ S3method(sctest, mob)
 S3method(summary, mob)
 
 useDynLib(party)
-
-## FIXME: mob_weights
-export(mob_weights)
-S3method(mob_weights, linearModel)
-S3method(mob_weights, glinearModel)

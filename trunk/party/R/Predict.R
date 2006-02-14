@@ -24,17 +24,24 @@ setMethod("treeresponse", signature = signature(object = "RandomForest"),
 )
 
 
-setGeneric("weights", function(object, ...) standardGeneric("weights"))
+### weights is an S3 generic
+###setGeneric("weights", function(object, ...) standardGeneric("weights"))
+###
+###setMethod("weights", signature = signature(object = "BinaryTree"),
+###    definition = function(object, newdata = NULL, ...)
+###        object@prediction_weights(newdata = newdata, ...)
+###)
+###
+###setMethod("weights", signature = signature(object = "RandomForest"),
+###    definition = function(object, newdata = NULL, OOB = FALSE, ...)
+###        object@prediction_weights(newdata = newdata, OOB = OOB, ...)
+###)
 
-setMethod("weights", signature = signature(object = "BinaryTree"),
-    definition = function(object, newdata = NULL, ...)
-        object@prediction_weights(newdata = newdata, ...)
-)
+weights.BinaryTree <- function(object, newdata = NULL, ...)
+    object@prediction_weights(newdata = newdata, ...)
 
-setMethod("weights", signature = signature(object = "RandomForest"),
-    definition = function(object, newdata = NULL, OOB = FALSE, ...)
-        object@prediction_weights(newdata = newdata, OOB = OOB, ...)
-)
+weights.RandomForest <- function(object, newdata = NULL, OOB = FALSE, ...)
+    object@prediction_weights(newdata = newdata, OOB = OOB, ...)
 
 
 setGeneric("where", function(object, ...) standardGeneric("where"))

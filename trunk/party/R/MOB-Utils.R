@@ -1,9 +1,6 @@
-## FIXME
-## Argh...party defines weights() differently so that
-## weights(obj) does not work as intended. woraround:
-mob_weights <- function(object, ...) UseMethod("mob_weights")
-mob_weights.glinearModel <- stats:::weights.glm
-mob_weights.linearModel <- modeltools:::weights.linearModel
+
+weights.glinearModel <- stats:::weights.glm
+weights.linearModel <- modeltools:::weights.linearModel
 
 ###########################
 ## convenience functions ##
@@ -168,7 +165,7 @@ mob_fit_fluctests <- function(obj, mf, minsplit, breakties) {
   k <- NCOL(process)
   
   ## extract weights
-  ww <- mob_weights(obj)
+  ww <- weights(obj)
   if(is.null(ww)) ww <- rep(1, NROW(process))
   n <- sum(ww)
   
