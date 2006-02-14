@@ -1,7 +1,3 @@
-
-weights.glinearModel <- stats:::weights.glm
-weights.linearModel <- modeltools:::weights.linearModel
-
 ###########################
 ## convenience functions ##
 ###########################
@@ -286,7 +282,7 @@ mob_fit_splitnode <- function(x, obj, mf, weights, minsplit, objfun, verbose = T
     if (is.numeric(x)) {
     ### for numerical variables
         ux <- sort(unique(x))
-        if (length(ux) == 0) error("cannot find admissible split point in x")
+        if (length(ux) == 0) stop("cannot find admissible split point in x")
         dev <- vector(mode = "numeric", length = length(ux))
 
         for (i in 1:length(ux)) {

@@ -60,10 +60,26 @@ plot(fm, tp_args = list(which = 2), tnex = 2)
 ## omit fitted mean lines
 plot(fm, tp_args = list(fitmean = FALSE))
 
-## mixed numerical and categorical regressors
+## mixed numerical and categorical regressors 
 fm2 <- mob(medv ~ lstat + rm + chas | zn + indus + nox + age + dis + rad,
   control = mob_control(minsplit = 100), data = BostonHousing, model = linearModel)
 plot(fm2)
+
+## recursive partitioning of a logistic regression model
+data("PimaIndiansDiabetes", package = "mlbench")
+fmPID <- mob(diabetes ~ glucose | pregnant + pressure + triceps + insulin + mass + pedigree + age,
+  data = PimaIndiansDiabetes, model = glinearModel, family = binomial())
+## default plot: spinograms with breaks from five point summary
+plot(fmPID)
+## use the breaks from hist() instead
+plot(fmPID, tp_args = list(fivenum = FALSE))
+## user-defined breaks
+plot(fmPID, tp_args = list(breaks = 0:4 * 50))
+## CD plots instead of spinograms
+plot(fmPID, tp_args = list(cdplot = TRUE))
+## different smoothing bandwidth
+plot(fmPID, tp_args = list(cdplot = TRUE, bw = 15))
+
 }
 }
 \keyword{hplot}

@@ -43,7 +43,7 @@ node_bivplot(mobobj, which = NULL, id = TRUE, pop = TRUE,
   pointcol = "black", pointcex = 0.5,
   boxcol = "black", boxwidth = 0.5, boxfill = "lightgray",
   fitmean = TRUE, linecol = "red",
-  cdplot = FALSE, fivenum = TRUE, \dots)
+  cdplot = FALSE, fivenum = TRUE, breaks = NULL, \dots)
 }
 \arguments{
   \item{ctreeobj}{ an object of class \code{BinaryTree}.}
@@ -81,6 +81,9 @@ node_bivplot(mobobj, which = NULL, id = TRUE, pop = TRUE,
     the dependence of a categorical on a numeric variable?}
   \item{fivenum}{logical. When using spinograms, should the five point summary
     of the explanatory variable be used for determining the breaks?}
+  item{breaks}{a (list of) numeric vector(s) of breaks for the spinograms. If set to \code{NULL}
+    (the default), the \code{breaks} are chosen according to the \code{fivenum}
+    argument.}
   \item{\dots}{ additional arguments passed to callies.}
 }
 

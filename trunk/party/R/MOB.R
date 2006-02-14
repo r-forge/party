@@ -191,8 +191,8 @@ logLik.mob <- function(object, node = NULL, ...) {
   if(is.null(node)) node <- terminal_nodeIDs(object@tree)
   rval <- lapply(nodes(object, node), function(z) logLik(z$model))
   rval <- structure(sum(sapply(rval, head, 1)),
-    nall = sum(sapply(rval, function(z) attr(z, "nall"))),
-    nobs = sum(sapply(rval, function(z) attr(z, "nobs"))),
+    #not supported by glinearModel# nall = sum(sapply(rval, function(z) attr(z, "nall"))),
+    ## nobs = sum(sapply(rval, function(z) attr(z, "nobs"))),
     df = sum(sapply(rval, function(z) attr(z, "df"))) + nterminal(object@tree) - 1,
     class = "logLik")
   return(rval)

@@ -88,7 +88,7 @@ node_bivplot <- function(mobobj, which = NULL, id = TRUE, pop = TRUE,
   pointcol = "black", pointcex = 0.5,
   boxcol = "black", boxwidth = 0.5, boxfill = "lightgray",
   fitmean = TRUE, linecol = "red",
-  cdplot = FALSE, fivenum = TRUE,
+  cdplot = FALSE, fivenum = TRUE, breaks = NULL,
   ...)
 {
     ## obtain dependent variable
@@ -133,9 +133,13 @@ node_bivplot <- function(mobobj, which = NULL, id = TRUE, pop = TRUE,
 	    if(pop) popViewport() else upViewport()
 	  }
         }
-      } else {
-        xscale <- if(fivenum) lapply(X, function(z) {if(is.factor(z)) 1 else fivenum(z) })
-          else lapply(X, function(z) {if(is.factor(z)) 1 else hist(z, plot = FALSE)$breaks })
+      } else {       
+        xscale <- if(is.null(breaks)) {
+ 	  if(fivenum) lapply(X, function(z) {if(is.factor(z)) 1 else fivenum(z) })
+            else lapply(X, function(z) {if(is.factor(z)) 1 else hist(z, plot = FALSE)$breaks })
+	} else {
+	  if(is.list(breaks)) breaks else list(breaks)
+	}
         num_fun <- function(x, y, yfit, i, name, ...) {
           spine(x, y, xlab = "", ylab = "", name = name, newpage = FALSE,
 	    margins = rep(1.5, 4), pop = FALSE, breaks = xscale[[i]], ...)
@@ -173,7 +177,7 @@ node_bivplot <- function(mobobj, which = NULL, id = TRUE, pop = TRUE,
 	}
       }
     } else {
-      xscale <- sapply(X, function(z) {if(is.factor(z)) 1:length(levels(z)) else range(z) })
+      xscale <- sapply(X, function(z) {if(is.factor(z)) c(1, length(levels(z))) else range(z) })
       yscale <- range(y) + c(-0.1, 0.1) * diff(range(y))
 
       ## scatter plots and box plots
