@@ -20,16 +20,21 @@
 */
 
 void C_TreeGrow(SEXP node, SEXP learnsample, SEXP fitmem, 
-                SEXP controls, int *where, int *nodenum) {
+                SEXP controls, int *where, int *nodenum, int depth) {
 
     SEXP weights;
-    int nobs, i;
+    int nobs, i, stop;
     double *dweights;
     
     weights = S3get_nodeweights(node);
     
-    if ((nodenum[0] == 2 || nodenum[0] == 3) && 
-        get_stump(get_tgctrl(controls)))
+    /* stop if either stumps have been requested or 
+       the maximum depth is exceeded */
+    stop = (nodenum[0] == 2 || nodenum[0] == 3) && 
+           get_stump(get_tgctrl(controls));
+    stop = stop || !check_depth(get_tgctrl(controls), depth);
+    
+    if (stop)
         C_Node(node, learnsample, weights, fitmem, controls, 1);
     else
         C_Node(node, learnsample, weights, fitmem, controls, 0);
@@ -48,11 +53,11 @@ void C_TreeGrow(SEXP node, SEXP learnsample, SEXP fitmem,
             
         nodenum[0] += 1;
         C_TreeGrow(S3get_leftnode(node), learnsample, fitmem, 
-                   controls, where, nodenum);
+                   controls, where, nodenum, depth + 1);
 
         nodenum[0] += 1;                                      
         C_TreeGrow(S3get_rightnode(node), learnsample, fitmem, 
-                   controls, where, nodenum);
+                   controls, where, nodenum, depth + 1);
     } else {
         dweights = REAL(weights);
         nobs = get_nobs(learnsample);
@@ -88,7 +93,7 @@ SEXP R_TreeGrow(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls, SEXP
      dweights = REAL(weights);
      for (i = 0; i < nobs; i++) dnweights[i] = dweights[i];
      
-     C_TreeGrow(ans, learnsample, fitmem, controls, INTEGER(where), &nodenum);
+     C_TreeGrow(ans, learnsample, fitmem, controls, INTEGER(where), &nodenum, 1);
      UNPROTECT(1);
      return(ans);
 }

@@ -16,6 +16,9 @@
 	 in. A new vignette "MOB" describes the implementation ideas and provides
 	 a few examples.
 
+    o    new argument `maxdepth' to `ctree_control' which allows for
+         growing trees of a fixed maximum depth.
+
 
 		CHANGES IN `party' VERSION 0.3-6 (2006-02-06)
 

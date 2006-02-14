@@ -58,7 +58,7 @@ SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls, SEXP
          dnweights = REAL(nweights);
          for (i = 0; i < nobs; i++) dnweights[i] = (double) iweights[i];
      
-         C_TreeGrow(tree, learnsample, fitmem, controls, iwhere, &nodenum);
+         C_TreeGrow(tree, learnsample, fitmem, controls, iwhere, &nodenum, 1);
          nodenum = 1;
      }
      Free(prob); Free(iweights);

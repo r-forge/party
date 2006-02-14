@@ -132,9 +132,10 @@ setClass(Class = "GlobalTestControl",
 setClass(Class = "TreeGrowControl",
     representation = representation(
         stump           = "logical",
+        maxdepth        = "integer",
         savesplitstats  = "logical"
     ),
-    prototype = list(stump = FALSE, savesplitstats = TRUE)
+    prototype = list(stump = FALSE, maxdepth = as.integer(0), savesplitstats = TRUE)
 )
 
 setClass(Class = "TreeControl",
