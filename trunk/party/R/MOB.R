@@ -198,3 +198,14 @@ logLik.mob <- function(object, node = NULL, ...) {
   return(rval)
 }
 
+deviance.mob <- function(object, node = NULL, ...) {
+  if(is.null(node)) node <- terminal_nodeIDs(object@tree)
+  rval <- sum(sapply(nodes(object, node), function(z) deviance(z$model)))
+  return(rval)
+}
+
+weights.mob <- function(object, node = NULL, ...) {
+  if(is.null(node)) node <- terminal_nodeIDs(object@tree)
+  rval <- rowSums(sapply(nodes(object, node), function(z) weights(z$model)))
+  return(rval)
+}

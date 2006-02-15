@@ -178,8 +178,10 @@ This concludes one iteration of the recursive partitioning algorithm and steps~1
 are carried out again in each of the $B$ daughter nodes until no significant 
 instability is detected in step~2.
 
-\section{Illustration}
+\section{Illustrations}
 \label{sec:illustration}
+
+\subsection{Boston housing data}
 
 Since the analysis by \cite{BreimanFriedman1985}, the Boston housing data are 
 a popular and well-investigated empirical basis for illustrating non-linear 
@@ -258,38 +260,36 @@ plus all partitioning variables, along with the \code{data} set, the \code{contr
 settings and the \code{model} to be used.
 
 <<>>=
-fm <- mob(medv ~ lstat + rm | zn + indus + chas + nox + age + dis + rad + tax + crim + b + ptratio,
+fmBH <- mob(medv ~ lstat + rm | zn + indus + chas + nox + age + dis + rad + tax + crim + b + ptratio,
   data = BostonHousing, control = ctrl, model = linearModel)
 @
 
-The result is the fitted model \code{fm} of class ``\code{mob}'' that contains
+The result is the fitted model \code{fmBH} of class ``\code{mob}'' that contains
 the tree with a fitted linear regression associated with every node. Printing
 this object will show the splits, their $p$ values and call the \code{print()} method
 for the model in each terminal node (i.e., this simply relies on a \code{print()}
 method being available for the fitted model and re-uses it).
 
 <<>>=
-fm
+fmBH
 @
 
 Looking at the printed output is typically rather tedious, a visualization via
 the \code{plot()} method
 
 <<eval=FALSE>>=
-plot(fm, tnex = 4)
+plot(fmBH)
 @
 
 is much easier to interpret. By default, this produces partial scatter plots of the
-variable $y$ against each of the regressors $x_i$ in the terminal nodes. As there
-are two regressors the \underline{t}erminal \underline{n}ode \underline{ex}tension
-\code{tnex} is increased to \code{4}. Each scatter plot also shows the fitted values,
-i.e., a project of the fitted hyperplane.
+variable $y$ against each of the regressors $x_i$ in the terminal nodes. Each scatter
+plot also shows the fitted values, i.e., a project of the fitted hyperplane.
 
 \setkeys{Gin}{width=\textwidth}
 \begin{figure}[p]
 \begin{center}
 <<BostonHousing-plot,echo=FALSE,results=hide,fig=TRUE,height=8,width=12,include=FALSE>>=
-plot(fm, tnex = 4)
+plot(fmBH)
 @
 \includegraphics[width=18cm,keepaspectratio,angle=90]{MOB-BostonHousing-plot}
 \caption{\label{fig:BostonHousing} Linear-regression-based tree for the Boston housing data.
@@ -312,14 +312,14 @@ As an example, the regression coefficients for the terminal node models can be e
 extracted by
 
 <<>>=
-coef(fm)
+coef(fmBH)
 @
 
 reflecting the differences of the models that can also be seen in the the associated
 \code{plot()}. Even more information is available in a \code{summary()}, e.g., for node 7:
 
 <<>>=
-summary(fm, node = 7)
+summary(fmBH, node = 7)
 @
 
 The test statistics and $p$~values computed in each node, can be extracted analogously
@@ -327,21 +327,21 @@ by using the method for the function \code{sctest()} (for performing \underline{
 \underline{c}hange \underline{test}s).
 
 <<>>=
-sctest(fm, node = 7)
+sctest(fmBH, node = 7)
 @
 
 For summarizing the quality of the fit, we could compute the mean squared error, log-likelihood
 or AIC:
 
 <<>>=
-mean(residuals(fm)^2)
-logLik(fm)
-AIC(fm)
+mean(residuals(fmBH)^2)
+logLik(fmBH)
+AIC(fmBH)
 @
 
 <<echo=FALSE>>=
-nt <- NROW(coef(fm))
-nk <- NCOL(coef(fm))
+nt <- NROW(coef(fmBH))
+nk <- NCOL(coef(fmBH))
 @
 
 As the \code{logLik()} method simply re-uses the method for \code{linearModel} objects,
@@ -352,11 +352,90 @@ variance estimate. However, for the fitting process, the variance was treated as
 parameter as we employed OLS estimation (rather than fully-specified ML estimation). 
 
 
+\subsection{Pima Indians diabetes data}
+
+Another popular benchmark data set for binary classifications is the Pima Indians
+diabetes database which is also available from \pkg{mlbench}:
+
+<<>>=
+data("PimaIndiansDiabetes", package = "mlbench")
+@
+
+It provides diabetes test results for $n = \Sexpr{NROW(PimaIndiansDiabetes)}$ women
+along with $\Sexpr{NCOL(PimaIndiansDiabetes)}$ covariates including in particular
+the plasma glucose concentration \code{glucose} as an important predictor for diabetes.
+Fitting a logistic regression model \verb:diabetes ~ glucose: seems to be straightforward,
+whereas the influence of the remaining variables should again be learned by recursive
+partitioning. This will yield a model tree with $k = 2$ regression coefficients in each terminal
+node, partitioned with respect to the remaining $\ell = 11$ remaining variables.
+
+The model is estimated by ML employing the \code{glinearModel}, 
+the instability is assessed using a Bonferroni-corrected
+significance level of $\alpha = 0.05$ and the nodes are split with a required minimal
+segment size of $20$ observations. Hence, all control parameters correspond to the
+default values in \verb:mob_control(): and do not have to be set explicitely in 
+the \code{mob()} call:
+
+<<>>=
+fmPID <- mob(diabetes ~ glucose | pregnant + pressure + triceps + insulin + mass + pedigree + age,
+  data = PimaIndiansDiabetes, model = glinearModel, family = binomial())
+@
+
+To visualize this, we simply call again:
+
+<<eval=FALSE>>=
+plot(fmPID)
+@
+
+\setkeys{Gin}{width=\textwidth}
+\begin{figure}[bth]
+\begin{center}
+<<PimaIndiansDiabetes-plot,echo=FALSE,results=hide,fig=TRUE,height=6,width=9>>=
+plot(fmPID)
+@
+\caption{\label{fig:PimaIndiansDiabetes} Logistic-regression-based tree for the Pima Indians
+diabetes data. The plots in the leaves give spinograms for \code{diabetes} versus 
+\code{glucose}.}
+\end{center}
+\end{figure}
+
+which produces again a plot of the dependent variable $y$ against the only regressors
+$x$ in the terminal nodes. As $y$ is \code{diabetes}, a binary variable, and $x$ is 
+\code{glucose}, a numeric variable, a spinogram is chosen for visualization. The breaks
+in the spinogram are the five-point summary of \code{glucose} on the full data set. The
+fitted lines are the mean predicted probabilities in each group.
+
+The model tree distinguishes three different groups:
+\begin{itemize}
+  \item[\#2] Women with low body mass index that have on average a low risk of
+    diabetes, however this increases clearly with glucose level.
+  \item[\#4] Women with average and high body mass index, younger than 30 years,
+    that have a higher avarage risk that also increases with glucose level.
+  \item[\#5] Women with average and high body mass index, older than 30 years,
+    that have a high avarage risk that increases only slowly with glucose level.
+\end{itemize}
+
+The same interpretation can also be drawn from the coefficient estimates
+and the corresponding odds ratios (with respect to glucose):
+
+<<>>=
+coef(fmPID)
+exp(coef(fmPID)[,2])
+@  
+
+<<echo=FALSE>>=
+risk <- round(100 * (exp(coef(fmPID)[,2])-1), digits = 1)
+@
+
+i.e., the odds increase by \Sexpr{risk[1]}\%, \Sexpr{risk[2]}\% and \Sexpr{risk[3]}\%
+with respect to glucose in the three groups.
+
+
 
 \section{Conclusion}
 \label{sec:conclusion}
 
-the function \code{mob()} in the \pkg{party} package provides a flexible and object-oriented
+The function \code{mob()} in the \pkg{party} package provides a flexible and object-oriented
 implementation of the general algorithm for model-based recursive partitioning.
 Models of class ``\code{StatModel}''---that employ a formula interface and are equipped with
 methods for the generic functions \code{reweight()}, \code{weights()}, \code{estfun()} plus

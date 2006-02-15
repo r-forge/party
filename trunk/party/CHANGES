@@ -7,8 +7,6 @@
          algorithm based on conditional inference trees (`ctree') has been
 	 added. It is somewhat experimental and thus for advanced users only.
 
-    o    LazyData: yes
-    
     o    `mob', an object-oriented implementation of a recently suggested
          algorithm for model-based recursive partitioning (Zeileis, Hothorn,
 	 Hornik, 2005) has been added. It works out of the box for partitioning
@@ -16,9 +14,14 @@
 	 in. A new vignette "MOB" describes the implementation ideas and provides
 	 a few examples.
 
+    o    new S3 generic reweight() with methods for (g)linearModel
+         for re-fitting a model with different weights.
+
     o    new argument `maxdepth' to `ctree_control' which allows for
          growing trees of a fixed maximum depth.
 
+    o    LazyData: yes
+    
 
 		CHANGES IN `party' VERSION 0.3-6 (2006-02-06)
 

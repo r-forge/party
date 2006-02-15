@@ -9,7 +9,8 @@ export(ctree, ctree_memory, ctree_control,
        node_scatterplot, node_bivplot,
        where, nodes, conditionalTree,
        treeresponse, response, ptrafo, cforest,
-       mob, mob_control)
+       mob, mob_control,
+       reweight)
 
 exportClasses("BinaryTree", "LearningSample", "SplittingNode",
               "TerminalNode", "TreeControl", "RandomForest", "mob")
@@ -29,6 +30,7 @@ S3method(weights, BinaryTree)
 S3method(weights, RandomForest)
 
 S3method(coef, mob)
+S3method(deviance, mob)
 S3method(fitted, mob)
 S3method(logLik, mob)
 S3method(plot, mob)
@@ -37,5 +39,9 @@ S3method(print, mob)
 S3method(residuals, mob)
 S3method(sctest, mob)
 S3method(summary, mob)
+S3method(weights, mob)
+
+S3method(reweight, glinearModel)
+S3method(reweight, linearModel)
 
 useDynLib(party)

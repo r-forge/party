@@ -4,6 +4,7 @@
 \alias{mob}
 \alias{mob-class}
 \alias{coef.mob}
+\alias{deviance.mob}
 \alias{fitted.mob}
 \alias{logLik.mob}
 \alias{predict.mob}
@@ -11,6 +12,7 @@
 \alias{residuals.mob}
 \alias{sctest.mob}
 \alias{summary.mob}
+\alias{weights.mob}
 
 \title{Model-based Recursive Partitioning}
 
@@ -70,7 +72,7 @@ Model-based partitioning fits a model tree using the following algorithm:
           objective function of the \code{model}. Typically, this will be
 	  something like \code{\link{deviance}} or the negative \code{\link{logLik}}
 	  and can be specified in \code{\link{mob_control}}.
-    \item Re-fit the \code{model} in both children, using \code{\link[modeltools]{reweight}}
+    \item Re-fit the \code{model} in both children, using \code{\link{reweight}}
           and repeat from step 2.
   }
   
@@ -80,12 +82,12 @@ Zeileis, Hothorn, Hornik (2005) and some illustrations are provided in
   
 For the fitted MOB tree, several standard methods are inherited if they are
 available for fitted \code{model}s, such as \code{print}, \code{predict},
-\code{residuals}, \code{logLik}, \code{coef} and \code{summary}. By default, the latter
-two return the coefficients and summary for all terminal nodes,
-but take a \code{node} argument that can be set to any node ID. The \code{sctest}
-method extracts the results of the parameter stability tests (aka structural 
-change tests) for any given node, by default for all nodes. Some examples are
-given below.
+\code{residuals}, \code{logLik}, \code{deviance}, \code{weights}, \code{coef} and
+\code{summary}. By default, the latter four return the result (deviance, weights,
+coefficients, summary) for all terminal nodes, but take a \code{node} argument
+that can be set to any node ID. The \code{sctest} method extracts the results
+of the parameter stability tests (aka structural change tests) for any given
+node, by default for all nodes. Some examples are given below.
 }
 
 \value{
@@ -139,8 +141,10 @@ summary(fmBH, node = 7)
 ## compute mean squared error (on training data)
 mean((BostonHousing$medv - fitted(fmBH))^2)
 mean(residuals(fmBH)^2)
+deviance(fmBH)/sum(weights(fmBH))
 
-## evaluate AIC
+## evaluate logLik and AIC
+logLik(fmBH)
 AIC(fmBH)
 ## (Note that this penalizes estimation of error variances, which
 ## were treated as nuisance parameters in the fitting process.)
