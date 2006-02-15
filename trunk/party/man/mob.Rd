@@ -135,7 +135,7 @@ coef(fmBH)
 ## look at full summary, e.g., for node 7
 summary(fmBH, node = 7)
 ## results of parameter stability tests for that node
-#FIXME# sctest(fmBH, node = 7)
+sctest(fmBH, node = 7)
 ## -> no further significant instabilities (at 5\% level)
 
 ## compute mean squared error (on training data)

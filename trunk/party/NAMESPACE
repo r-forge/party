@@ -10,7 +10,7 @@ export(ctree, ctree_memory, ctree_control,
        where, nodes, conditionalTree,
        treeresponse, response, ptrafo, cforest,
        mob, mob_control,
-       reweight)
+       reweight, sctest.mob)
 
 exportClasses("BinaryTree", "LearningSample", "SplittingNode",
               "TerminalNode", "TreeControl", "RandomForest", "mob")
@@ -37,7 +37,7 @@ S3method(plot, mob)
 S3method(predict, mob)
 S3method(print, mob)
 S3method(residuals, mob)
-S3method(sctest, mob)
+### S3method(sctest, mob)
 S3method(summary, mob)
 S3method(weights, mob)
 
