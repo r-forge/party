@@ -21,7 +21,7 @@
 }
 \usage{
 node_inner(ctreeobj, digits = 3, abbreviate = FALSE, 
-  fill = "white", id = TRUE)
+  fill = "white", pval = TRUE, id = TRUE)
 node_terminal(ctreeobj, digits = 3, abbreviate = FALSE, 
   fill = c("lightgray", "white"), id = TRUE)
 edge_simple(treeobj, digits = 3, abbreviate = FALSE)
@@ -54,6 +54,7 @@ node_bivplot(mobobj, which = NULL, id = TRUE, pop = TRUE,
                      abbreviated. }
   \item{col, pointcol}{ a color for points and lines. }
   \item{fill}{ a color to filling rectangles. }
+  \item{pval}{ logical. Should p values be plotted?}
   \item{id}{ logical. Should node IDs be plotted?}
   \item{ylines}{ number of lines for spaces in y-direction. }
   \item{widths}{ widths in barplots. }

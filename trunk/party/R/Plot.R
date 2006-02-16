@@ -25,6 +25,7 @@ node_inner <- function(ctreeobj,
                        digits = 3,
 		       abbreviate = FALSE,
 		       fill = "white",
+		       pval = TRUE,
 		       id = TRUE)
 {
     getLabel1 <- function(x) {
@@ -32,10 +33,14 @@ node_inner <- function(ctreeobj,
         varlab <- ifelse(abbreviate > 0,
             abbreviate(x$psplit$variableName, as.numeric(abbreviate)),
 	    x$psplit$variableName)
-        pval <- 1 - x$criterion$maxcriterion
-        plab <- ifelse(pval < 10^(-digits),
-                       paste("p <", 10^(-digits)),
-                       paste("p =", round(pval, digits = digits)))
+	if(pval) {
+            pvalue <- 1 - x$criterion$maxcriterion
+            plab <- ifelse(pvalue < 10^(-digits),
+                           paste("p <", 10^(-digits)),
+                           paste("p =", round(pvalue, digits = digits)))
+	} else {
+	    plab <- ""
+	}
         return(c(varlab, plab))
     }
 
@@ -70,13 +75,13 @@ node_inner <- function(ctreeobj,
         grid.polygon(x = unit(c(xell, rev(xell)), "npc"),
                      y = unit(c(yell, -yell)+0.5, "npc"),
                      gp = gpar(fill = fill[1]))
-        grid.text(lab[1], y = unit(2, "lines"))   
-        grid.text(lab[2], y = unit(1, "lines"))    
+        grid.text(lab[1], y = unit(1.5 + 0.5 * pval, "lines"))
+        if(pval) grid.text(lab[2], y = unit(1, "lines"))
 
         if (id) {
             nodeIDvp <- viewport(x = unit(0.5, "npc"), y = unit(1, "npc"),
-                                 width = unit(1, "lines"),
-                                 height = unit(1, "lines"))
+	        width = max(unit(1, "lines"), unit(1.3, "strwidth", as.character(node$nodeID))),
+	        height = max(unit(1, "lines"), unit(1.3, "strheight", as.character(node$nodeID))))
             pushViewport(nodeIDvp)
             grid.rect(gp = gpar(fill = fill[2]))
             grid.text(node$nodeID)
@@ -563,8 +568,8 @@ node_terminal <- function(ctreeobj,
 
         if (id) {
             nodeIDvp <- viewport(x = unit(0.5, "npc"), y = unit(1, "npc"),
-                                 width = unit(1, "lines"),
-                                 height = unit(1, "lines"))
+	        width = max(unit(1, "lines"), unit(1.3, "strwidth", as.character(node$nodeID))),
+	        height = max(unit(1, "lines"), unit(1.3, "strheight", as.character(node$nodeID))))
             pushViewport(nodeIDvp)
             grid.rect(gp = gpar(fill = fill[2], lty = "solid"))
             grid.text(node$nodeID)
@@ -819,17 +824,22 @@ plot.BinaryTree <- function(x, main = NULL, type = c("extended", "simple"),
     if(inherits(edge_panel, "grapcon_generator"))
       edge_panel <- do.call("edge_panel", c(list(x), as.list(ep_args)))
 
-    ## call the workhorse
-    plotTree(ptr,
-       xlim = c(0, nx), ylim = c(0, ny - 0.5 + (tnex - 1)),
-       nx = nx, ny = ny, 
-       terminal_panel = terminal_panel,
-       inner_panel = inner_panel,
-       edge_panel = edge_panel,
-       tnex = tnex,
-       drop_terminal = drop_terminal,
-       debug = FALSE)
 
+    if((nx <= 1 & ny <= 1)) {
+      pushViewport(plotViewport(margins = rep(1.5, 4), name = paste("Node", ptr$nodeID, sep = "")))
+      terminal_panel(ptr)    
+    } else {
+      ## call the workhorse
+      plotTree(ptr,
+        xlim = c(0, nx), ylim = c(0, ny - 0.5 + (tnex - 1)),
+        nx = nx, ny = ny, 
+        terminal_panel = terminal_panel,
+        inner_panel = inner_panel,
+        edge_panel = edge_panel,
+        tnex = tnex,
+        drop_terminal = drop_terminal,
+        debug = FALSE)
+    }
     upViewport()
     if (pop) popViewport() else upViewport()
 }
