@@ -284,7 +284,8 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
                     error("C_GlobalTest: aggregated global test not yet implemented");
                     break;
             /* raw */
-            case RAW: break;
+            case UNIVARIATE: break;
+            case TESTSTATISTIC: break;
             default: error("C_GlobalTest: undefined value for type argument");
                      break;
         }

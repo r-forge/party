@@ -17,6 +17,7 @@
     *\param controls an object of class `TreeControl'
     *\param where a pointer to an integer vector of n-elements
     *\param nodenum a pointer to a integer vector of length 1
+    *\param depth an integer giving the depth of the current node
 */
 
 void C_TreeGrow(SEXP node, SEXP learnsample, SEXP fitmem, 

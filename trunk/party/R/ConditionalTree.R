@@ -174,7 +174,7 @@ setMethod("fit", signature = signature(model = "StatModel",
 
 ### control the hyper parameters
 ctree_control <- function(teststattype = c("quadform", "maxabs"),
-                          testtype = c("Bonferroni", "MonteCarlo", "Raw"),
+                          testtype = c("Bonferroni", "MonteCarlo", "Univariate", "Teststatistic"),
                           mincriterion = 0.95, minsplit = 20, stump = FALSE,
                           nresample = 9999, maxsurrogate = 0, mtry = 0, 
                           savesplitstats = TRUE, maxdepth = 0) {
@@ -195,7 +195,9 @@ ctree_control <- function(teststattype = c("quadform", "maxabs"),
     else
         stop(testtype, " not defined")
 
-    if (RET@gtctrl@testtype == "MonteCarlo") RET@varctrl@pvalue <- FALSE
+    if (RET@gtctrl@testtype %in% c("MonteCarlo", "Teststatistic")) 
+        RET@varctrl@pvalue <- FALSE
+
     RET@gtctrl@nresample <- as.integer(nresample)
     RET@gtctrl@mincriterion <- mincriterion
     if (mtry > 0) {
