@@ -182,8 +182,9 @@ node_bivplot <- function(mobobj, which = NULL, id = TRUE, pop = TRUE,
 
       ## scatter plots and box plots
       num_fun <- function(x, y, yfit, i, name, ...) {
+        xscale[,i] <- xscale[,i] + c(-0.1, 0.1) * diff(xscale[,i])
         pushViewport(plotViewport(margins = rep(1.5, 4), name = name,
-	  yscale = yscale, xscale = xscale[,i] + c(-0.1, 0.1) * xscale[,i]))
+	  yscale = yscale, xscale = xscale[,i]))
 	grid.points(x, y, gp = gpar(col = pointcol, cex = pointcex))
 	if(fitmean) {	
           grid.lines(x, yfit, default.units = "native", gp = gpar(col = linecol))
