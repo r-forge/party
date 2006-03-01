@@ -74,7 +74,7 @@ node_scatterplot <- function(mobobj, which = NULL, col = "black", linecol = "red
                 grid.text(ynam, y = unit(0.5, "npc"), x = unit(-3, "lines"), rot = 90)
 	    }
 
-            grid.rect()
+            grid.rect(gp = gpar(fill = "transparent"))
             upViewport()
         }
 	upViewport()
@@ -191,7 +191,7 @@ node_bivplot <- function(mobobj, which = NULL, id = TRUE, pop = TRUE,
 	}
         grid.xaxis(at = c(ceiling(xscale[1,i]*10), floor(xscale[2,i]*10))/10)
         grid.yaxis(at = c(ceiling(yscale[1]), floor(yscale[2])))
-	grid.rect()
+	grid.rect(gp = gpar(fill = "transparent"))
         if(pop) popViewport() else upViewport()
       }
       cat_fun <- function(x, y, yfit, i, name, ...) {
@@ -236,7 +236,7 @@ node_bivplot <- function(mobobj, which = NULL, id = TRUE, pop = TRUE,
           grid.points(seq(along = xlab), yfit, default.units = "native",
 	    gp = gpar(col = linecol, cex = pointcex), pch = 19)
 	}
-        grid.rect()
+        grid.rect(gp = gpar(fill = "transparent"))
         grid.xaxis(at = 1:length(xlab), label = xlab)
         grid.yaxis(at = c(ceiling(yscale[1]), floor(yscale[2])))      
         if(pop) popViewport() else upViewport()

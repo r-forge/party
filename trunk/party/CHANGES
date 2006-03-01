@@ -1,3 +1,7 @@
+                CHANGES IN party VERSION 0.8-2 (2006-03-01)
+
+    o    plotting buglets fixed: improved axis in MOB plots,
+         correct (transparent) background on jpeg() and png() devices.
 
 
 		CHANGES IN `party' VERSION 0.8-1 (2006-02-23)

@@ -139,7 +139,7 @@ node_surv <- function(ctreeobj,
         grid.lines(a$x/max(a$x), a$y)
         grid.xaxis()
         grid.yaxis()
-        grid.rect()
+        grid.rect(gp = gpar(fill = "transparent"))
         upViewport(2)
     }
 
@@ -230,7 +230,7 @@ node_barplot <- function(ctreeobj,
                   just = c("center", "top"),
 	          default.units = "native", check.overlap = TRUE)
         grid.yaxis()
-        grid.rect()
+        grid.rect(gp = gpar(fill = "transparent"))
         upViewport(2)
     }
     
@@ -317,7 +317,7 @@ node_boxplot <- function(ctreeobj,
         }
 	
         grid.yaxis()
-        grid.rect()
+        grid.rect(gp = gpar(fill = "transparent"))
         upViewport(2)
     }
     
@@ -411,7 +411,7 @@ node_hist <- function(ctreeobj,
 	
         grid.xaxis()
         grid.yaxis()
-        grid.rect()
+        grid.rect(gp = gpar(fill = "transparent"))
         upViewport(2)
     }
     return(rval)
@@ -514,7 +514,7 @@ node_density <- function(ctreeobj,
 	
         grid.xaxis()
         grid.yaxis()
-        grid.rect()
+        grid.rect(gp = gpar(fill = "transparent"))
         upViewport(2)
     }
     
