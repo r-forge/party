@@ -15,7 +15,7 @@ for (b in 1:B) {
     tdata <- bdata$data[oob,]
 
     fm <- try(mob(bdata$mobfm, data = ldata, 
-                  control = mob_control(minsplit = 40, alpha = 0.01),
+                  control = mob_control(minsplit = 40),
                   family = binomial(), model = glinearModel))
     if (!inherits(fm, "try-error")) {
         yhat <- factor(predict(fm, newdata = tdata, type = "response") > 0.5,

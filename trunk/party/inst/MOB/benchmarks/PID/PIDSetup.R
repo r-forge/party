@@ -1,4 +1,6 @@
 
+set.seed(290875)
+
 data("PimaIndiansDiabetes", package = "mlbench")
 
 n <- nrow(PimaIndiansDiabetes)

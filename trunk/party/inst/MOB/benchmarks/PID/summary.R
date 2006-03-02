@@ -19,6 +19,8 @@ colnames(PIDmc) <- model
 
 summary(PIDmc)
 
+PIDmc <- PIDmc[complete.cases(PIDmc),]
+
 perfplot(PIDmc, file = "PID_MC.pdf", boxplot = TRUE, 
          ylab = "Misclass")
 
