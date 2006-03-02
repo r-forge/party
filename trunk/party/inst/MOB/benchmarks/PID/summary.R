@@ -27,7 +27,8 @@ tmp <- data.frame(error = unlist(PIDmc),
                                  rep(nrow(PIDmc), 
                                      ncol(PIDmc)))))
 
-si <- simint(error ~ model, data = tmp, type = "Dunnett", base = 4)
+si <- simint(error ~ model, data = tmp, type = "Dunnett", 
+             base = which(levels(tmp$model) == "mob"))
 
 pdf("PIDmc_CI.pdf")
 plot(si)

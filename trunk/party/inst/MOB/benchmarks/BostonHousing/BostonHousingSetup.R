@@ -1,4 +1,6 @@
 
+set.seed(290875)
+
 data("BostonHousing", package = "mlbench")
 
 BostonHousing$lstat <- log(BostonHousing$lstat)

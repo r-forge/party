@@ -29,7 +29,7 @@ tmp <- data.frame(error = unlist(BostonHousingMSE),
                                  rep(nrow(BostonHousingMSE), 
                                      ncol(BostonHousingMSE)))))
 
-si <- simint(error ~ model, data = tmp, type = "Dunnett", base = 4)
+si <- simint(error ~ model, data = tmp, type = "Dunnett", base = which(levels(tmp$model) == "mob"))
 
 pdf("BostonHousing_CI.pdf")
 plot(si, xlim = c(-0.1, 1.2))
