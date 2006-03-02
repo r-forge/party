@@ -24,17 +24,18 @@ summary(BostonHousingMSE)
 perfplot(BostonHousingMSE, file = "BostonHousing_MSE.pdf", boxplot = TRUE, 
          ylab = "RMSE")
 
-tmp <- data.frame(error = unlist(BostonHousingMSE),
-                  model = factor(rep(colnames(BostonHousingMSE), 
-                                 rep(nrow(BostonHousingMSE), 
-                                     ncol(BostonHousingMSE)))))
 
-si <- simint(error ~ model, data = tmp, type = "Dunnett", base = which(levels(tmp$model) == "mob"))
+### alignment
+tmp <- BostonHousingMSE - apply(BostonHousingMSE, 1, mean)
+
+tmp <- data.frame(error = unlist(tmp),
+                  model = factor(rep(colnames(tmp), 
+                                 rep(nrow(tmp), 
+                                     ncol(tmp)))))
+
+si <- simint(error ~ model, data = tmp, type = "Dunnett", 
+             base = which(levels(tmp$model) == "mob"))
 
 pdf("BostonHousing_CI.pdf")
 plot(si, xlim = c(-0.1, 1.2))
 dev.off()
-
-
-
-

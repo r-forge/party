@@ -16,9 +16,9 @@ for (b in 1:B) {
     ldata <- bdata$data[rep(1:n, bs),]
     tdata <- bdata$data[oob,]
 
-    try(fm <- mob(bdata$mobfm, data = ldata, control = mob_control(minsplit = 40), 
+    fm <- try(mob(bdata$mobfm, data = ldata, control = mob_control(minsplit = 40), 
               model = linearModel))
-    if (!inherits(try, "try-error")) {
+    if (!inherits(fm, "try-error")) {
         yhat <- predict(fm, newdata = tdata)
         error[b] <- mean((yhat  - tdata[,bdata$response])^2)
     } else {

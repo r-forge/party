@@ -14,9 +14,10 @@ for (b in 1:B) {
     ldata <- bdata$data[rep(1:n, bs),]
     tdata <- bdata$data[oob,]
 
-    try(fm <- mob(bdata$mobfm, data = ldata,
+    fm <- try(mob(bdata$mobfm, data = ldata, 
+                  control = mob_control(minsplit = 40, alpha = 0.01),
                   family = binomial(), model = glinearModel))
-    if (!inherits(try, "try-error")) {
+    if (!inherits(fm, "try-error")) {
         yhat <- factor(predict(fm, newdata = tdata, type = "response") > 0.5,
                        labels = levels(tdata[,bdata$response]))              
         error[b] <- mean(yhat != tdata[,bdata$response])
