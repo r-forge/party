@@ -1,0 +1,31 @@
+Benchmarking
+
+  1. Base model: linear regression
+     Data: Boston Housing
+           medv ~ lstat + rm | zn + indus + chas + nox + age + dis + rad + tax + crim + b + ptratio
+	   (minsplit = 40)
+     Competitors: LM, CTree, RPart, M5', GUIDE
+     Performance measure: MSE
+     
+  2. Base model: logistic regression
+     Data: Pima Indians Diabetes
+           diabetes ~ glucose | pregnant + pressure + triceps + insulin + mass + pedigree + age
+     Competitors: GLM, CTree, RPart, J4.8, LMT, QUEST, (LOTUS?)
+     Performance measure: misclassification, binomial deviance
+     
+  3. Base model: Weibull survival regression (Cox Proportional Hazards)
+     Data: Melanom survival
+     Competitors: [Survival regression (CoxPH), CTree, RPart]
+     Performance measure: [Brier score]
+
+Comparison via
+  o table: average performance for each
+  o figure: confidence intervals all vs. MOB (see Fig.5 in Benchmarking paper)
+  o explorative analysis of tree size (number of nodes)
+
+
+Survival regression
+  o survReg statmodel based on survreg() plus S3 methods
+  o CoxPH statmodel based on coxph() plus S3 methods
+  o scatterplot variant that visualizes censoring (pch = 1 vs = 19?)
+  
