@@ -21,6 +21,8 @@ colnames(BostonHousingMSE) <- model
 
 summary(BostonHousingMSE)
 
+### re-order and omit lm
+BostonHousingMSE <- BostonHousingMSE[,c(5, 1, 3, 2, 6)]
 perfplot(BostonHousingMSE, file = "BostonHousing_MSE.pdf", boxplot = TRUE, 
          ylab = "RMSE")
 
@@ -35,7 +37,8 @@ tmp <- data.frame(error = unlist(tmp),
 
 si <- simint(error ~ model, data = tmp, type = "Dunnett", 
              base = which(levels(tmp$model) == "mob"))
+rownames(si$estimate) <- c("M5'", "GUIDE", "ctree", "rpart")
 
 pdf("BostonHousing_CI.pdf")
-plot(si, xlim = c(-0.1, 1.2))
+plot(si, xlim = c(-0.1, 1.2), main = "", xlab = "RMSE difference")
 dev.off()
