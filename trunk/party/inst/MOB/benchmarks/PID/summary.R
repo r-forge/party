@@ -36,6 +36,6 @@ si <- simint(error ~ model, data = tmp, type = "Dunnett",
              base = which(levels(tmp$model) == "mob"))   
 
 pdf("PIDmc_CI.pdf")
-plot(si)
+plot(si, xlim = c(-0.01, 0.08))
 dev.off()
 
