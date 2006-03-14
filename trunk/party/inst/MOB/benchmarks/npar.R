@@ -2,6 +2,20 @@ npar <- function(obj) {
 
   switch(class(obj)[1],
 
+  "lm" = {
+    ## number of leaves
+    nl <- 1
+    ## number of coefficients
+    nc <- length(coef(obj))
+  },
+  
+  "glm" = {
+    ## number of leaves
+    nl <- 1
+    ## number of coefficients
+    nc <- length(coef(obj))
+  },
+  
   "mob" = {
     ## number of leaves
     nl <- party:::nterminal(obj@tree)
