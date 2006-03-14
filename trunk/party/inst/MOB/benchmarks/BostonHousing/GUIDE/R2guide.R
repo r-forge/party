@@ -36,7 +36,7 @@ complexity_guide <- function(file = "results.out") {
   nl <- as.numeric(strsplit(nl, ": ")[[1]][2]) 
   ## number of parameters
   if(nl > 1) {
-    nc <- diff(which(nc == " ----------------------------")) - 5
+    nc <- diff(tail(which(nc == " ----------------------------"), nl+1)) - 5
   } else {
     nc <- which(nc == " ----------------------------") - which(nc == " Node 1: Terminal node") - 4
   }
@@ -49,6 +49,7 @@ complexity_guide <- function(file = "results.out") {
 foo <- function(x, response, bs) {
 
     err <- rep(0, ncol(bs))
+    npar <- rep(0, ncol(bs))
     for (i in 1:ncol(bs)) {
 
         learn <- x
@@ -61,12 +62,13 @@ foo <- function(x, response, bs) {
 
         diff <- learn[[response]] - pred
         err[i] <- (mean(diff[bs[,i] == 0]^2))
-        cat(i, " ", err[i], "\n")
+        npar[i] <- sum(complexity_guide()) - 1
+        cat(i, " ", err[i], " ", npar[i], "\n")
 
         system("rm results.out")
         system("rm predict.txt")
 
     }
-    err
+    rval <- list(error = err, npar = npar)
+    return(rval)
 }
-

@@ -3,8 +3,10 @@ source("R2guide.R")
 
 load("../BostonHousingBootstrap.rda")
 
-error <- foo(bdata$data, bdata$response, bdata$boot)
-print(error)
+rval <- foo(bdata$data, bdata$response, bdata$boot)
+error <- rval$error
+np <- rval$npar
 summary(error)
+summary(np)
 
-save(error, file = "../BostonHousing_guide_error.rda")
+save(error, np, file = "../BostonHousing_guide_error.rda")

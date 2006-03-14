@@ -22,8 +22,8 @@ for (b in 1:B) {
 
     yhat <- predict(fm, newdata = tdata)
     error[b] <- mean((yhat  - tdata[,bdata$response])^2)
-    cat("b: ", b, " error: ", error[b], "\n")
     np[b] <- npar(fm)
+    cat("b: ", b, " error: ", error[b], " #par: ", np[b], "\n")
 }
 
 save(error, np, file = "BostonHousing_rpart_error.rda")

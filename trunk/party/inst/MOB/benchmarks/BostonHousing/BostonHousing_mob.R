@@ -26,8 +26,8 @@ for (b in 1:B) {
     } else {
         error[b] <- NA
     }
-    cat("b: ", b, " error: ", error[b], "\n")
     np[b] <- npar(fm)
+    cat("b: ", b, " error: ", error[b], " #par: ", np[b], "\n")
 }
 
 save(error, np, file = "BostonHousing_mob_error.rda")
