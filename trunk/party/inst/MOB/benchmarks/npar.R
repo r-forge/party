@@ -15,6 +15,11 @@ npar <- function(obj) {
     ## number of coefficients
     nc <- nl
   },
+
+  "rpart" = {
+    nl <- length(unique(obj$where))
+    nc <- nl
+  },
   
   "J48" = {
     ## number of leaves
