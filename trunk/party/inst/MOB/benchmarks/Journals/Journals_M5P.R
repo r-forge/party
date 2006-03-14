@@ -19,8 +19,8 @@ for (b in 1:B) {
     fm <- M5P(bdata$fm, data = ldata)
     yhat <- predict(fm, newdata = tdata)
     error[b] <- mean((yhat  - tdata[,bdata$response])^2)
-    cat("b: ", b, " error: ", error[b], "\n")
     np[b] <- npar(fm)
+    cat("b: ", b, " error: ", error[b], " #par: ", np[b], "\n")
 }
 
 save(error, np, file = "Journals_M5P_error.rda")

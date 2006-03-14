@@ -3,8 +3,10 @@ source("R2guide.R")
 
 load("../JournalsBootstrap.rda")
 
-error <- foo(bdata$data, bdata$response, bdata$boot)
-print(error)
+rval <- foo(bdata$data, bdata$response, bdata$boot)
+error <- rval$error
+np <- rval$npar
 summary(error)
+summary(np)
 
-save(error, file = "../Journals_guide_error.rda")
+save(error, np, file = "../Journals_guide_error.rda")

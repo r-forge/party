@@ -49,6 +49,7 @@ complexity_guide <- function(file = "results.out") {
 foo <- function(x, response, bs) {
 
     err <- rep(0, ncol(bs))
+    npar <- rep(0, ncol(bs))
     for (i in 1:ncol(bs)) {
 
         learn <- x
@@ -61,16 +62,14 @@ foo <- function(x, response, bs) {
 
         diff <- learn[[response]] - pred
         err[i] <- (mean(diff[bs[,i] == 0]^2))
-        cat(i, " ", err[i], "\n")
-
-        compl <- complexity_guide()
+        npar[i] <- sum(complexity_guide()) - 1
+        cat(i, " ", err[i], " ", npar[i], "\n")
 
         system("rm results.out")
         system("rm predict.txt")
 
     }
-    rval <- list(error = err, nleaves = compl["nl"], ncoef = compl["nc"])
-    class(rval) <- "guide"
+    rval <- list(error = err, npar = npar)
     return(rval)
 }
 

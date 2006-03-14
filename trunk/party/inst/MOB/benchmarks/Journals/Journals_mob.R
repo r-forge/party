@@ -21,12 +21,12 @@ for (b in 1:B) {
     if (!inherits(fm, "try-error")) {
         yhat <- predict(fm, newdata = tdata)
         error[b] <- mean((yhat  - tdata[,bdata$response])^2)
+        np[b] <- npar(fm)
     } else {
         error[b] <- NA
+        np[b] <- NA
     }
-    cat("b: ", b, " error: ", error[b], "\n")
-    np[b] <- npar(fm)
-   
+    cat("b: ", b, " error: ", error[b], " #par: ", np[b], "\n")
 }
 
 save(error, np, file = "Journals_mob_error.rda")
