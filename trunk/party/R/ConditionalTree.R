@@ -89,6 +89,12 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
         cdresp <- RET@cond_distr_response(newdata = newdata, 
                                           mincriterion = mincriterion, ...)
 
+        ### <FIXME> multivariate responses, we might want to return
+        ###         a data.frame
+        ### </FIXME>
+        if (object@responses@ninputs > 1) 
+            return(cdresp)        
+
         response <- object@responses
         ### classification: classes
         if (all(response@is_nominal || response@is_ordinal)) {
