@@ -1,48 +1,39 @@
-
 source("../perfplot.R")
 library("multcomp")
 
 rdafiles <- list.files(pattern = "error")
 
-PIDmc <- c()
+PID_MC <- c()
+PID_NPAR <- c()
 model <- c()
 
 for (f in rdafiles) {
-
-    load(f)
-    print(f)
-    PIDmc <- cbind(PIDmc, error)
+    load(f)    
+    PID_MC <- cbind(PID_MC, error)
+    PID_NPAR <- cbind(PID_NPAR, np)
     model <- c(model, strsplit(f, "_")[[1]][2])
-
-    if (exists("np")) {
-        print(summary(np))
-        rm(np)
-    }
-
 }
 
-PIDmc <- as.data.frame(PIDmc)
-colnames(PIDmc) <- model
+if(identical(model, c("J48", "LMT", "ctree", "glm", "mob", "quest", "rpart"))) {
+  model <- c("J4.8", "LMT", "CTree", "GLM", "MOB", "QUEST", "RPart")
+  o <- c(5, 2, 3, 6, 1, 7)
+} else {
+  o <- 1:length(model)
+}
 
-summary(PIDmc)
+colnames(PID_MC) <- model
+colnames(PID_NPAR) <- model
+PID_MC <- as.data.frame(PID_MC[,o])
+PID_NPAR <- as.data.frame(PID_NPAR[,o])
+PID_MC <- na.omit(PID_MC)
+PID_NPAR <- na.omit(PID_NPAR)
 
-PIDmc <- PIDmc[complete.cases(PIDmc),]
+## median performance
+sink(file = "PID_results.txt")
+print(round(cbind(Misclassification = sapply(PID_MC, median),
+  Complexity = sapply(PID_NPAR, median)), digits = 3))
+sink()
 
-perfplot(PIDmc, file = "PID_MC.pdf", boxplot = TRUE, 
-         ylab = "Misclass")
-
-### alignment
-tmp <- PIDmc - apply(PIDmc, 1, mean)
-
-tmp <- data.frame(error = unlist(tmp),
-                  model = factor(rep(colnames(tmp),
-                                 rep(nrow(tmp),    
-                                     ncol(tmp))))) 
-
-si <- simint(error ~ model, data = tmp, type = "Dunnett",
-             base = which(levels(tmp$model) == "mob"))   
-
-pdf("PIDmc_CI.pdf")
-plot(si, xlim = c(-0.01, 0.08))
-dev.off()
-
+### graphical comparison
+perfplot(PID_MC, file = "PID_MC.pdf", lab = "Misclassification")
+perfplot(PID_NPAR, file = "PID_NPAR.pdf", lab = "Complexity")

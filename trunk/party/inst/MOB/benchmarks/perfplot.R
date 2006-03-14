@@ -1,4 +1,4 @@
-perfplot <- function(x, file, boxplot = FALSE, alpha = NULL, border = 1,
+pcbplot <- function(x, file, boxplot = TRUE, alpha = NULL, border = 1,
   height = 5, width = 7, ylab = "Performance") {
   x <- as.matrix(x)
   nc <- NCOL(x)
@@ -23,5 +23,28 @@ perfplot <- function(x, file, boxplot = FALSE, alpha = NULL, border = 1,
   if(boxplot) boxplot(as.vector(x) ~ factor(rep(nam, rep(nr, nc)), levels = nam),
           add = TRUE, xlab = "", ylab = "", axes = FALSE, border = border)
 
+  if(pdf) dev.off()
+}
+
+ciplot <- function(x, file, height = 5, width = 7, xlab = "Performance difference") {
+  tmp <- x - apply(x, 1, mean)
+  tmp <- data.frame(error = unlist(tmp), model = factor(rep(colnames(tmp),
+    rep(nrow(tmp), ncol(tmp))), levels = names(x)))
+  si <- simint(error ~ model, data = tmp, type = "Dunnett")
+  rownames(si$estimate) <- names(x)[-1]
+
+  pdf <- !missing(file)
+  if(pdf) pdf(file = file, height = height, width = width, version = "1.4")
+  plot(si, main = "", xlab = xlab)
+  if(pdf) dev.off()
+  invisible(si)
+}
+
+perfplot <- function(x, file, height = 5, width = 11, lab = "Performance", ...) {
+  pdf <- !missing(file)
+  if(pdf) pdf(file = file, height = height, width = width, version = "1.4")
+  par(mfrow = c(1, 2))
+  pcbplot(x, ylab = lab, ...)
+  ciplot(x, xlab = paste(lab, "difference"))
   if(pdf) dev.off()
 }

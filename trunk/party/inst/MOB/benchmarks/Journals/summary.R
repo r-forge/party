@@ -1,48 +1,37 @@
-
 source("../perfplot.R")
 library("multcomp")
 
 rdafiles <- list.files(pattern = "error")
 
-JournalsMSE <- c()
+JournalsRMSE <- c()
+JournalsNPAR <- c()
 model <- c()
 
 for (f in rdafiles) {
-
-    load(f)
-    print(f)
-    print(summary(error))
-    JournalsMSE <- cbind(JournalsMSE, sqrt(error))
+    load(f)    
+    JournalsRMSE <- cbind(JournalsRMSE, sqrt(error))
+    JournalsNPAR <- cbind(JournalsNPAR, np)
     model <- c(model, strsplit(f, "_")[[1]][2])
-    if (exists("np")) {
-        print(summary(np))
-        rm(np)
-    }
 }
 
-JournalsMSE <- as.data.frame(JournalsMSE)
-colnames(JournalsMSE) <- model
+if(identical(model, c("M5P", "ctree", "guide", "lm", "mob", "rpart"))) {
+  model <- c("M5'", "CTree", "GUIDE", "lm", "MOB", "RPart")
+  o <- c(5, 3, 1, 2, 6)
+} else {
+  o <- 1:length(model)
+}
 
-summary(JournalsMSE)
+colnames(JournalsRMSE) <- model
+colnames(JournalsNPAR) <- model
+JournalsRMSE <- as.data.frame(JournalsRMSE[,o])
+JournalsNPAR <- as.data.frame(JournalsNPAR[,o])
 
-### re-order and omit lm
-JournalsMSE <- JournalsMSE[,c(5, 1, 3, 2, 6)]
-perfplot(JournalsMSE, file = "Journals_MSE.pdf", boxplot = TRUE, 
-         ylab = "RMSE")
+## median performance
+sink(file = "Journals_results.txt")
+print(round(cbind(MSE = sapply(JournalsRMSE, function(x) median(x^2)),
+  Complexity = sapply(JournalsNPAR, median)), digits = 3))
+sink()
 
-
-### alignment
-tmp <- JournalsMSE - apply(JournalsMSE, 1, mean)
-
-tmp <- data.frame(error = unlist(tmp),
-                  model = factor(rep(colnames(tmp), 
-                                 rep(nrow(tmp), 
-                                     ncol(tmp)))))
-
-si <- simint(error ~ model, data = tmp, type = "Dunnett", 
-             base = which(levels(tmp$model) == "mob"))
-rownames(si$estimate) <- c("M5'", "ctree", "GUIDE", "rpart")
-
-pdf("Journals_CI.pdf")
-plot(si, main = "", xlab = "RMSE difference")
-dev.off()
+### graphical comparison
+perfplot(JournalsRMSE, file = "Journals_RMSE.pdf", lab = "RMSE")
+perfplot(JournalsNPAR, file = "Journals_NPAR.pdf", lab = "Complexity")
