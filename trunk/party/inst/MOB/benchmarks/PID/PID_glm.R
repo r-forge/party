@@ -1,9 +1,11 @@
 
 load("PIDBootstrap.rda")
+source("../npar.R")
 n <- nrow(bdata$data)
 B <- ncol(bdata$boot)
 
 error <- numeric(B)
+np <- numeric(B)
 
 for (b in 1:B) {
 
@@ -16,8 +18,9 @@ for (b in 1:B) {
     yhat <- factor(predict(fm, newdata = tdata, type = "response") > 0.5, 
                    labels = levels(tdata[,bdata$response]))
     error[b] <- mean(yhat != tdata[,bdata$response])
-    cat("b: ", b, " error: ", error[b], "\n")
+    np[b] <- npar(fm)
+    cat("b: ", b, " error: ", error[b], " #par: ", np[b], "\n")
 }
 
-save(error, file = "PID_glm_error.rda")
+save(error, np, file = "PID_glm_error.rda")
 

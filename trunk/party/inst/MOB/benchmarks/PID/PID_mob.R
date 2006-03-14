@@ -28,7 +28,7 @@ for (b in 1:B) {
         error[b] <- NA
         np[b] <- NA
     }
-    cat("b: ", b, " error: ", error[b], "\n")
+    cat("b: ", b, " error: ", error[b], " #par: ", np[b], "\n")
 
 }
 

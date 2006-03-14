@@ -3,9 +3,11 @@ source("R2quest.R")
 
 load("../PIDBootstrap.rda")
 
-error <- foo(bdata$data, bdata$response, bdata$boot)
-print(error)
+rval <- foo(bdata$data, bdata$response, bdata$boot)
+error <- rval$error
+np <- rval$npar
 summary(error)
+summary(np)
 
-save(error, file = "../PID_quest_error.rda")
+save(error, np, file = "../PID_quest_error.rda")
      

@@ -35,6 +35,7 @@ complexity_quest <- function(file = "results.out") {
 foo <- function(x, response, bs) {
 
     err <- rep(0, ncol(bs))
+    npar <- rep(0, ncol(bs))
     for (i in 1:ncol(bs)) {
 
         learn <- x[rep(1:nrow(bs), bs[,i]),]
@@ -49,14 +50,14 @@ foo <- function(x, response, bs) {
         pred <- factor(pred, levels = levels(test[[response]]))
 
         err[i] <- mean(test[[response]] != pred)
-        cat(i, " ", err[i], "\n")
-
-        #Z# store also complexity_quest()
+        npar[i] <- sum(complexity_quest()) - 1
+        cat(i, " ", err[i], " ", npar[i], "\n")
 
         system("rm results.out")
         system("rm predict.txt")
 
     }
-    err
+    rval <- list(error = err, npar = npar)
+    return(rval)
 }
 

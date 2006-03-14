@@ -20,8 +20,8 @@ for (b in 1:B) {
     fm <- J48(bdata$fm, data = ldata)
     yhat <- predict(fm, newdata = tdata)
     error[b] <- mean(yhat != tdata[,bdata$response])
-    cat("b: ", b, " error: ", error[b], "\n")
     np[b] <- npar(fm)
+    cat("b: ", b, " error: ", error[b], " #par: ", np[b], "\n")
 }
 
 save(error, np, file = "PID_J48_error.rda")
