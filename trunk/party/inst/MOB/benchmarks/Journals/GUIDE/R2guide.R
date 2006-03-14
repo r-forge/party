@@ -36,7 +36,7 @@ complexity_guide <- function(file = "results.out") {
   nl <- as.numeric(strsplit(nl, ": ")[[1]][2]) 
   ## number of parameters
   if(nl > 1) {
-    nc <- diff(which(nc == " ----------------------------")) - 5
+    nc <- diff(tail(which(nc == " ----------------------------"), nl+1)) - 5
   } else {
     nc <- which(nc == " ----------------------------") - which(nc == " Node 1: Terminal node") - 4
   }

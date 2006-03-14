@@ -70,18 +70,8 @@ npar <- function(obj) {
     if(length(nc) != nl) warning("something went wrong in computing the number of leaves")
     nc <- sapply(nc, function(x) length(grep("\t", x, fixed = TRUE, extended = FALSE)))
     nc <- sum(nc)    
-  }
-  
-  "guide" = {
-    nl <- obj$nleaves
-    nc <- obj$ncoef
-  },
-  
-  "quest" = {
-    nl <- obj$nleaves
-    nc <- obj$ncoef
   })
-
+  
   ## number of coefficients + number of splits
   rval <- nc + (nl - 1)
   return(rval)
