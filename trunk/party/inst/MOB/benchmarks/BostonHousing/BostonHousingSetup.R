@@ -10,7 +10,7 @@ BostonHousing$rm <- BostonHousing$rm^2
 BostonHousing$chas <- factor(BostonHousing$chas, levels = 0:1, labels = c("no", "yes"))
 
 n <- nrow(BostonHousing)
-B <- 100
+B <- 250
 
 BostonHousing_bs <- rmultinom(B, n, rep(1, n) / n)
 

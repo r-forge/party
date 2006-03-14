@@ -13,4 +13,5 @@ R CMD BATCH Journals_mob.R &
 
 R CMD BATCH Journals_rpart.R &
 
-R CMD BATCH GUIDE/Journals_GUIDE.R &
+cd GUIDE
+R CMD BATCH Journals_GUIDE.R &

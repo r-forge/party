@@ -4,7 +4,7 @@ set.seed(290875)
 load("../../journals.rda")
 
 n <- nrow(journals)
-B <- 100
+B <- 250
 
 journals_bs <- rmultinom(B, n, rep(1, n) / n)
 

@@ -4,7 +4,7 @@ set.seed(290875)
 data("PimaIndiansDiabetes", package = "mlbench")
 
 n <- nrow(PimaIndiansDiabetes)
-B <- 100
+B <- 250
 
 PimaIndiansDiabetes_bs <- rmultinom(B, n, rep(1, n) / n)
 
