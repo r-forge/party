@@ -10,8 +10,15 @@ model <- c()
 for (f in rdafiles) {
 
     load(f)
+    print(f)
     PIDmc <- cbind(PIDmc, error)
     model <- c(model, strsplit(f, "_")[[1]][2])
+
+    if (exists("np")) {
+        print(summary(np))
+        rm(np)
+    }
+
 }
 
 PIDmc <- as.data.frame(PIDmc)

@@ -1,11 +1,13 @@
 
 library("rpart")
+source("../npar.R")
 
 load("PIDBootstrap.rda")
 n <- nrow(bdata$data)
 B <- ncol(bdata$boot)
 
 error <- numeric(B)
+np <- numeric(B)
 
 for (b in 1:B) {
 
@@ -23,7 +25,8 @@ for (b in 1:B) {
     yhat <- predict(fm, newdata = tdata, type = "class")
     error[b] <- mean(yhat != tdata[,bdata$response])
     cat("b: ", b, " error: ", error[b], "\n")
+    np[b] <- npar(fm)
 }
 
-save(error, file = "PID_rpart_error.rda")
+save(error, np, file = "PID_rpart_error.rda")
 
