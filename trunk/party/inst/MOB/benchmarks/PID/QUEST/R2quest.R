@@ -24,6 +24,14 @@ R2guide <- function(x, response, name) {
     write.table(x, sep = " ", file = datname, row.names = FALSE, col.names = FALSE)
 }
 
+complexity_quest <- function(file = "results.out") {
+  nl <- readLines(file)
+  nl <- nl[grep("Number of terminal nodes of final tree", nl)]
+  nl <- as.numeric(strsplit(nl, " = ")[[1]][2]) 
+  rval <- c(nl = nl, nc = nl)
+  return(rval)  
+}
+
 foo <- function(x, response, bs) {
 
     err <- rep(0, ncol(bs))
@@ -42,6 +50,8 @@ foo <- function(x, response, bs) {
 
         err[i] <- mean(test[[response]] != pred)
         cat(i, " ", err[i], "\n")
+
+        #Z# store also complexity_quest()
 
         system("rm results.out")
         system("rm predict.txt")

@@ -28,6 +28,24 @@ R2guide <- function(x, response, name) {
     write.table(x, sep = " ", file = datname, row.names = FALSE, col.names = FALSE)
 }
 
+complexity_guide <- function(file = "results.out") {
+  ## read output
+  nl <- nc <- readLines(file)
+  ## number of leaves
+  nl <- nl[grep("Number of terminal nodes of final tree", nl)]
+  nl <- as.numeric(strsplit(nl, ": ")[[1]][2]) 
+  ## number of parameters
+  if(nl > 1) {
+    nc <- diff(which(nc == " ----------------------------")) - 5
+  } else {
+    nc <- which(nc == " ----------------------------") - which(nc == " Node 1: Terminal node") - 4
+  }
+  if(length(nc) != nl) warning("something went wrong in computing the number of leaves")
+  nc <- sum(nc)
+  rval <- c(nl = nl, nc = nc)
+  return(rval)  
+}
+
 foo <- function(x, response, bs) {
 
     err <- rep(0, ncol(bs))
@@ -45,10 +63,14 @@ foo <- function(x, response, bs) {
         err[i] <- (mean(diff[bs[,i] == 0]^2))
         cat(i, " ", err[i], "\n")
 
+        compl <- complexity_guide()
+
         system("rm results.out")
         system("rm predict.txt")
 
     }
-    err
+    rval <- list(error = err, nleaves = compl["nl"], ncoef = compl["nc"])
+    class(rval) <- "guide"
+    return(rval)
 }
 
