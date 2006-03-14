@@ -1,5 +1,6 @@
 
 library("party")
+source("../npar.R")
 
 load("BostonHousingBootstrap.rda")
 n <- nrow(bdata$data)
@@ -8,6 +9,7 @@ B <- ncol(bdata$boot)
 bdata$data$rad <- factor(bdata$data$rad, ordered = TRUE)
 
 error <- numeric(B)
+np <- numeric(B)
 
 for (b in 1:B) {
 
@@ -25,6 +27,7 @@ for (b in 1:B) {
         error[b] <- NA
     }
     cat("b: ", b, " error: ", error[b], "\n")
+    np[b] <- npar(fm)
 }
 
-save(error, file = "BostonHousing_mob_error.rda")
+save(error, np, file = "BostonHousing_mob_error.rda")

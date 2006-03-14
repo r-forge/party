@@ -1,11 +1,13 @@
 
 library("rpart")
+source("../npar.R")
 
 load("BostonHousingBootstrap.rda")
 n <- nrow(bdata$data)
 B <- ncol(bdata$boot)
 
 error <- numeric(B)
+np <- numeric(B)
 
 for (b in 1:B) {
 
@@ -21,7 +23,8 @@ for (b in 1:B) {
     yhat <- predict(fm, newdata = tdata)
     error[b] <- mean((yhat  - tdata[,bdata$response])^2)
     cat("b: ", b, " error: ", error[b], "\n")
+    np[b] <- npar(fm)
 }
 
-save(error, file = "BostonHousing_rpart_error.rda")
+save(error, np, file = "BostonHousing_rpart_error.rda")
 

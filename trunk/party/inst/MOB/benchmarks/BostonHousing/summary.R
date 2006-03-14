@@ -14,6 +14,11 @@ for (f in rdafiles) {
     print(summary(error))
     BostonHousingMSE <- cbind(BostonHousingMSE, sqrt(error))
     model <- c(model, strsplit(f, "_")[[1]][2])
+    if (exists("np")) {
+        print(summary(np))
+        rm(np)
+    }
+
 }
 
 BostonHousingMSE <- as.data.frame(BostonHousingMSE)
@@ -37,7 +42,7 @@ tmp <- data.frame(error = unlist(tmp),
 
 si <- simint(error ~ model, data = tmp, type = "Dunnett", 
              base = which(levels(tmp$model) == "mob"))
-rownames(si$estimate) <- c("M5'", "GUIDE", "ctree", "rpart")
+rownames(si$estimate) <- c("M5'", "ctree", "GUIDE", "rpart")
 
 pdf("BostonHousing_CI.pdf")
 plot(si, xlim = c(-0.1, 1.2), main = "", xlab = "RMSE difference")
