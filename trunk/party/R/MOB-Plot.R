@@ -7,13 +7,25 @@ plot.mob <- function(x, terminal_panel = node_bivplot, tnex = NULL, ...) {
 }
 
 node_scatterplot <- function(mobobj, which = NULL, col = "black", linecol = "red",
-  cex = 0.5, jitter = FALSE, xscale = NULL, yscale = NULL, ylines = 1.5, id = TRUE, labels = FALSE)
+  cex = 0.5, pch = NULL, jitter = FALSE, xscale = NULL, yscale = NULL, ylines = 1.5,
+  id = TRUE, labels = FALSE)
 {
     ## extract dependent variable
     y <- response(mobobj)
     ynam <- names(y)[1]
     y <- y[[1]]
-    y <- if(is.factor(y)) as.numeric(y) - 1 else as.numeric(y)
+    if(is.factor(y)) y <- as.numeric(y) - 1 
+    if(is.Surv(y)) {
+      surv <- TRUE
+      if(is.null(pch)) pch <- abs(y[,2] - 1) * 18 + 1
+      y <- y[,1]
+    } else {
+      surv <- FALSE
+      if(is.null(pch)) pch <- 1
+    }
+    y <- as.numeric(y)
+    pch <- rep(pch, length.out = length(y))
+
     if(jitter) y <- jitter(y)
 
     ## extract regressor matrix
@@ -31,8 +43,10 @@ node_scatterplot <- function(mobobj, which = NULL, col = "black", linecol = "red
     rval <- function(node) {
     
         ## dependent variable setup
-	y <- rep.int(y, node$weights)
-	yhat <- rep.int(fitted(node$model), node$weights)
+	y <- rep.int(y, node$weights)	
+	yhat <- fitted(node$model)
+	if(!surv) yhat <- rep.int(yhat, node$weights)
+        pch <- rep.int(pch, node$weights)
 
         ## viewport setup
         top_vp <- viewport(layout = grid.layout(nrow = 2*k, ncol = 3,
@@ -63,7 +77,7 @@ node_scatterplot <- function(mobobj, which = NULL, col = "black", linecol = "red
 	    oi <- order(xi)
 
             ## scatterplot
-	    grid.points(xi, y, gp = gpar(col = col, cex = cex))
+	    grid.points(xi, y, gp = gpar(col = col, cex = cex), pch = pch)
             grid.lines(xi[oi], yhat[oi], default.units = "native", gp = gpar(col = linecol))
 
             grid.xaxis(at = c(ceiling(xscale[1,i]*10), floor(xscale[2,i]*10))/10)
