@@ -125,7 +125,7 @@ node_surv <- function(ctreeobj,
         ## main title
         top <- viewport(layout.pos.col=2, layout.pos.row=1)
         pushViewport(top)
-	mainlab <- paste(ifelse(id, paste("Node", node$nodeID, "(n = "), ""),
+	mainlab <- paste(ifelse(id, paste("Node", node$nodeID, "(n = "), "n = "),
 	                 sum(node$weights), ifelse(id, ")", ""), sep = "")
         grid.text(mainlab)
         popViewport()
@@ -185,7 +185,7 @@ node_barplot <- function(ctreeobj,
         widths <- rep(widths, length.out = np)
 	col <- rep(col, length.out = np)
 	fill <- rep(fill, length.out = np)
-	gap <- if (is.null(gap)) ifelse(np > 1, 0.1, 2)
+	if (is.null(gap)) gap <- ifelse(np > 1, 0.1, 2)
 	gap <- gap * sum(widths)	
 	if (is.null(ymax)) ymax <- 1
         yscale <- c(0, ymax)
@@ -205,7 +205,7 @@ node_barplot <- function(ctreeobj,
         ## main title
         top <- viewport(layout.pos.col=2, layout.pos.row=1)
         pushViewport(top)
-	mainlab <- paste(ifelse(id, paste("Node", node$nodeID, "(n = "), ""),
+	mainlab <- paste(ifelse(id, paste("Node", node$nodeID, "(n = "), "n = "),
 	                 sum(node$weights), ifelse(id, ")", ""), sep = "")
         grid.text(mainlab)
         popViewport()
@@ -244,6 +244,7 @@ node_boxplot <- function(ctreeobj,
 		         width = 0.5,
 		         yscale = NULL,
 		         ylines = 3,
+			 cex = 0.5,
 		         id = TRUE)
 {
     y <- response(ctreeobj)[[1]]
@@ -272,7 +273,7 @@ node_boxplot <- function(ctreeobj,
         ## main title
         top <- viewport(layout.pos.col=2, layout.pos.row=1)
         pushViewport(top)
-	mainlab <- paste(ifelse(id, paste("Node", node$nodeID, "(n = "), ""),
+	mainlab <- paste(ifelse(id, paste("Node", node$nodeID, "(n = "), "n = "),
 	                 sum(node$weights), ifelse(id, ")", ""), sep = "")
         grid.text(mainlab)
         popViewport()
@@ -313,7 +314,7 @@ node_boxplot <- function(ctreeobj,
             if (length(index) > 0)
                 grid.points(unit(rep.int(0.5, length(index)), "npc"), 
                             unit(x$out[index], "native"),
-                            size = unit(0.5, "char"), gp = gpar(col = col))
+                            size = unit(cex, "char"), gp = gpar(col = col))
         }
 	
         grid.yaxis()
@@ -377,7 +378,7 @@ node_hist <- function(ctreeobj,
         ## main title
         top <- viewport(layout.pos.col=2, layout.pos.row=1)
         pushViewport(top)
-	mainlab <- paste(ifelse(id, paste("Node", node$nodeID, "(n = "), ""),
+	mainlab <- paste(ifelse(id, paste("Node", node$nodeID, "(n = "), "n = "),
 	                 sum(node$weights), ifelse(id, ")", ""), sep = "")
         grid.text(mainlab)
         popViewport()
@@ -467,7 +468,7 @@ node_density <- function(ctreeobj,
         ## main title
         top <- viewport(layout.pos.col=2, layout.pos.row=1)
         pushViewport(top)
-	mainlab <- paste(ifelse(id, paste("Node", node$nodeID, "(n = "), ""),
+	mainlab <- paste(ifelse(id, paste("Node", node$nodeID, "(n = "), "n = "),
 	                 sum(node$weights), ifelse(id, ")", ""), sep = "")
         grid.text(mainlab)
         popViewport()
