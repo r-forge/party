@@ -1,11 +1,11 @@
 %PDF-1.4
-%Å‚Å„ÅœÅ”
+%Å‚Å„ÅœÅ”\r
 1 0 obj
 <<
-/CreationDate (D:20060315122622)
-/ModDate (D:20060315122622)
+/CreationDate (D:20060315123345)
+/ModDate (D:20060315123345)
 /Title (R Graphics Output)
-/Producer (R 2.2.1)
+/Producer (R 2.3.0)
 /Creator (R)
 >>
 endobj
@@ -64,7 +64,7 @@ BT
 /F2 1 Tf 12.00 0.00 -0.00 12.00 76.32 47.52 Tm (MOB) Tj
 /F2 1 Tf 12.00 0.00 -0.00 12.00 126.95 47.52 Tm (LMT) Tj
 /F2 1 Tf 12.00 0.00 -0.00 12.00 171.97 47.52 Tm (CTree) Tj
-/F2 1 Tf 12.00 0.00 -0.00 12.00 216.21 47.52 Tm (QUEST) Tj
+/F2 1 Tf 12.00 0.00 -0.00 12.00 216.27 47.52 Tm (QUEST) Tj
 /F2 1 Tf 12.00 0.00 -0.00 12.00 274.51 47.52 Tm (J4.8) Tj
 /F2 1 Tf 12.00 0.00 -0.00 12.00 319.48 47.52 Tm (RPart) Tj
 ET
@@ -2002,11 +2002,11 @@ Q q
 1 J
 1 j
 10.00 M
-515.29 73.44 m 723.53 73.44 l S
-515.29 73.44 m 515.29 66.24 l S
+515.30 73.44 m 723.52 73.44 l S
+515.30 73.44 m 515.30 66.24 l S
 584.70 73.44 m 584.70 66.24 l S
-654.12 73.44 m 654.12 66.24 l S
-723.53 73.44 m 723.53 66.24 l S
+654.11 73.44 m 654.11 66.24 l S
+723.52 73.44 m 723.52 66.24 l S
 BT
 /GS257 gs
 0.000 0.000 0.000 rg
@@ -2024,7 +2024,7 @@ ET
 BT
 /F2 1 Tf 12.00 0.00 -0.00 12.00 409.97 77.56 Tm (RPart) Tj
 /F2 1 Tf 12.00 0.00 -0.00 12.00 417.96 130.23 Tm (J4.8) Tj
-/F2 1 Tf 12.00 0.00 -0.00 12.00 399.30 182.89 Tm (QUEST) Tj
+/F2 1 Tf 12.00 0.00 -0.00 12.00 399.42 182.89 Tm (QUEST) Tj
 /F2 1 Tf 12.00 0.00 -0.00 12.00 408.74 235.56 Tm (CTree) Tj
 /F2 1 Tf 12.00 0.00 -0.00 12.00 416.64 288.23 Tm (LMT) Tj
 ET
@@ -2067,14 +2067,14 @@ ET
 493.71 187.20 m 551.95 187.20 l S
 BT
 /F2 1 Tf 12.00 0.00 -0.00 12.00 491.71 184.04 Tm (\() Tj
-/F2 1 Tf 12.00 0.00 -0.00 12.00 549.95 184.04 Tm (\)) Tj
+/F2 1 Tf 12.00 0.00 -0.00 12.00 549.96 184.04 Tm (\)) Tj
 0.75 w
 [] 0 d
 /F1 1 Tf 2 Tr 7.48 0 0 7.48 519.87 184.60 Tm (l) Tj 0 Tr
 0.75 w
 [ 3.00 5.00] 0 d
 ET
-489.51 239.87 m 547.75 239.87 l S
+489.51 239.87 m 547.76 239.87 l S
 BT
 /F2 1 Tf 12.00 0.00 -0.00 12.00 487.51 236.71 Tm (\() Tj
 /F2 1 Tf 12.00 0.00 -0.00 12.00 545.76 236.71 Tm (\)) Tj
@@ -2084,7 +2084,7 @@ BT
 0.75 w
 [ 3.00 5.00] 0 d
 ET
-654.99 292.53 m 713.23 292.53 l S
+654.98 292.53 m 713.23 292.53 l S
 BT
 /F2 1 Tf 12.00 0.00 -0.00 12.00 652.99 289.38 Tm (\() Tj
 /F2 1 Tf 12.00 0.00 -0.00 12.00 711.23 289.38 Tm (\)) Tj
@@ -2094,7 +2094,7 @@ BT
 0.75 w
 [ 0.00 4.00] 0 d
 ET
-445.88 73.44 m 445.88 300.96 l S
+445.89 73.44 m 445.89 300.96 l S
 Q
 endstream
 endobj
@@ -2114,8 +2114,8 @@ endobj
 4 0 obj
 <<
 /ProcSet [/PDF /Text]
-/Font << /F1 5 0 R /F2 10 0 R /F3 11 0 R /F4 12 0 R /F5 13 0 R /F6 14 0 R >>
-/ExtGState << /GS1 15 0 R /GS2 16 0 R /GS257 17 0 R >>
+/Font << /F1 5 0 R /F2 10 0 R >>
+/ExtGState << /GS1 11 0 R /GS2 12 0 R /GS257 13 0 R >>
 >>
 endobj
 9 0 obj
@@ -2127,92 +2127,51 @@ endobj
 /dieresis /.notdef /ring /cedilla /.notdef /hungarumlaut /ogonek /caron /space]
 >>
 endobj
-10 0 obj
-<<
+10 0 obj <<
 /Type /Font
 /Subtype /Type1
 /Name /F2
 /BaseFont /Helvetica
 /Encoding 9 0 R
->>
-endobj
+>> endobj
 11 0 obj
-<<
-/Type /Font
-/Subtype /Type1
-/Name /F3
-/BaseFont /Helvetica-Bold
-/Encoding 9 0 R
->>
-endobj
-12 0 obj
-<<
-/Type /Font
-/Subtype /Type1
-/Name /F4
-/BaseFont /Helvetica-Oblique
-/Encoding 9 0 R
->>
-endobj
-13 0 obj
-<<
-/Type /Font
-/Subtype /Type1
-/Name /F5
-/BaseFont /Helvetica-BoldOblique
-/Encoding 9 0 R
->>
-endobj
-14 0 obj
-<<
-/Type /Font
-/Subtype /Type1
-/Name /F6
-/BaseFont /Symbol
->>
-endobj
-15 0 obj
 <<
 /Type /ExtGState
 /CA 1.000 >>
 endobj
-16 0 obj
+12 0 obj
 <<
 /Type /ExtGState
 /CA 0.122 >>
 endobj
-17 0 obj
+13 0 obj
 <<
 /Type /ExtGState
 /ca 1.000
 >>
 endobj
 xref
-0 18
+0 14
 0000000000 65535 f 
-0000000020 00000 n 
-0000000162 00000 n 
-0000032694 00000 n 
-0000032777 00000 n 
-0000000211 00000 n 
-0000000294 00000 n 
-0000000374 00000 n 
-0000032673 00000 n 
-0000032952 00000 n 
-0000033209 00000 n 
-0000033306 00000 n 
-0000033408 00000 n 
-0000033513 00000 n 
-0000033622 00000 n 
-0000033700 00000 n 
-0000033749 00000 n 
-0000033798 00000 n 
+0000000021 00000 n 
+0000000163 00000 n 
+0000032695 00000 n 
+0000032778 00000 n 
+0000000212 00000 n 
+0000000295 00000 n 
+0000000375 00000 n 
+0000032674 00000 n 
+0000032909 00000 n 
+0000033166 00000 n 
+0000033263 00000 n 
+0000033312 00000 n 
+0000033361 00000 n 
 trailer
 <<
-/Size 18
+/Size 14
 /Info 1 0 R
 /Root 2 0 R
 >>
 startxref
-33847
+33410
 %%EOF
