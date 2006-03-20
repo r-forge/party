@@ -32,14 +32,14 @@ complexity_quest <- function(file = "results.out") {
   return(rval)  
 }
 
-foo <- function(x, response, bs) {
+foo <- function(x, response, bs, obvious = FALSE) {
 
     err <- rep(0, ncol(bs))
     npar <- rep(0, ncol(bs))
     for (i in 1:ncol(bs)) {
 
         learn <- x[rep(1:nrow(bs), bs[,i]),]
-        test <- x[bs[,i] == 0,]
+        test <- if(obvious) x[bs[,i] > 0,] else x[bs[,i] == 0,]
 
         R2guide(learn, response, "learn")
         R2guide(test, response, "test")

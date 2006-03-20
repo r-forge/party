@@ -46,7 +46,7 @@ complexity_guide <- function(file = "results.out") {
   return(rval)  
 }
 
-foo <- function(x, response, bs) {
+foo <- function(x, response, bs, obvious = FALSE) {
 
     err <- rep(0, ncol(bs))
     npar <- rep(0, ncol(bs))
@@ -61,7 +61,7 @@ foo <- function(x, response, bs) {
         pred <- read.table("predict.txt", header = TRUE)$fitted
 
         diff <- learn[[response]] - pred
-        err[i] <- (mean(diff[bs[,i] == 0]^2))
+        err[i] <- if(obvious) (mean(diff[bs[,i] > 0]^2)) else (mean(diff[bs[,i] == 0]^2))
         npar[i] <- sum(complexity_guide()) - 1
         cat(i, " ", err[i], " ", npar[i], "\n")
 

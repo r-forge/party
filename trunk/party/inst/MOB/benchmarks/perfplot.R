@@ -26,7 +26,7 @@ pcbplot <- function(x, file, boxplot = TRUE, alpha = NULL, border = 1,
   if(pdf) dev.off()
 }
 
-ciplot <- function(x, file, height = 5, width = 7, xlab = "Performance difference") {
+ciplot <- function(x, file, height = 5, width = 7, xlab = "Performance difference", ...) {
   tmp <- x - apply(x, 1, mean)
   tmp <- data.frame(error = unlist(tmp), model = factor(rep(colnames(tmp),
     rep(nrow(tmp), ncol(tmp))), levels = names(x)))
@@ -35,7 +35,7 @@ ciplot <- function(x, file, height = 5, width = 7, xlab = "Performance differenc
 
   pdf <- !missing(file)
   if(pdf) pdf(file = file, height = height, width = width, version = "1.4")
-  plot(si, main = "", xlab = xlab)
+  plot(si, main = "", xlab = xlab, ...)
   if(pdf) dev.off()
   invisible(si)
 }
