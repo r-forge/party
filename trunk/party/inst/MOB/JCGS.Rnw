@@ -30,7 +30,7 @@
   (3)~if there is some overall parameter instability, split the model with
   respect to the variable associated with the highest instability, (4)~repeat
   the procedure in each of the daughter nodes. The algorithm yields a
-  partitioned (or segmented) parametric model that can effectively be 
+  partitioned (or segmented) parametric model that can be effectively 
   visualized and that subject-matter scientists are used to analyze and interpret.
 }
 
@@ -51,7 +51,7 @@ Pval <- function(p, digits = 3)
 \label{sec:intro}
 
 Since the appearance of the first tree-structured regression analysis 
-\citep[`Automated Interaction Detection',][]{MorganSonquist1963},
+\citep[Automated Interaction Detection,][]{MorganSonquist1963},
 virtually every publication in this field highlights two features of trees: 
 1.~interpretability---enhanced by visualizations of the fitted decision trees---and
 2.~predictive power in non-linear regression relationships.
@@ -72,13 +72,12 @@ both in the statistical and machine learning communities that attach
 parametric models to terminal nodes or employ linear combinations to obtain
 splits in inner nodes. In machine learning, such approaches are known as 
 \textit{hybrid}, \textit{model} or \textit{functional trees} \citep{Gama2004} with 
-`M5' \citep{Quinlan1993} being the most prominent representative of such
-algorithms.
+M5 \citep{Quinlan1993} being the most prominent representative.
 The key developments in statistics are due to Wei-Yin Loh and his
-coworkers. `GUIDE' \citep{Loh2002}, `CRUISE' \citep{KimLoh2001} and
-`LOTUS' \citep{ChanLoh2004} attach parametric models to terminal nodes,
+coworkers. GUIDE \citep{Loh2002}, CRUISE \citep{KimLoh2001} and
+LOTUS \citep{ChanLoh2004} attach parametric models to terminal nodes,
 and \cite{Choietal2005} suggest an extension to count data.
-Some of these algorithms \citep[in particular `CRUISE' or `QUEST',][]{LohShih1997}
+Some of these algorithms \citep[in particular CRUISE or QUEST,][]{LohShih1997}
 additionally allow to employ parametric
 models to obtain splits in inner nodes. Furthermore, maximum likelihood
 trees \citep{Suetal2004} embed regression trees with a constant fit
@@ -97,7 +96,8 @@ are tested for parameter instability in each node to assess
 which variable should be used for partitioning.
 The benefits of employing this approach are: The
 objective function used for parameter estimation is also used for
-partitioning. The recursive partitioning allows for modeling of
+partitioning (testing \textit{and} split point estimation).
+The recursive partitioning allows for modeling of
 non-linear relationships and automated detection of interactions among
 the explanatory variables. The statistical formulation of the algorithm
 ensures the validity of interpretations drawn from the depicted model.
@@ -108,8 +108,9 @@ analyze and interpret.
 The remainder of the paper is organized as follows: Section~\ref{sec:segmented}
 establishes the class of models the framework is based on, before Section~\ref{sec:algorithm} describes
 the suggested model-based recursive partitioning algorithm in detail. Section~\ref{sec:illustration}
-provides a brief illustration of the model and Section~\ref{sec:conclusion} concludes
-the paper with a summary and some final remarks.
+provides a set of illustrations and applications along with benchmark
+comparisons with other tree-based algorithms.
+Section~\ref{sec:conclusion} concludes the paper with a summary and some final remarks.
 
 \section{Segmented models}
 \label{sec:segmented}
@@ -186,7 +187,7 @@ are the regressors considered for partitioning.
 In change point or structural change analysis, typically a linear regression
 model with $Y_i = (y_i, x_i)^\top$ and regression coefficients $\theta$
 is segmented with respect to only a single variable $Z_1$ (i.e., $\ell = 1$)
-which is typically time.
+which is usually time.
 
 %% \dotfill
 
@@ -367,7 +368,7 @@ To capture the instability with respect to a categorical variable $Z_j$ with $C$
 levels or categories, a different statistic is required because, by definition, $Z_j$
 has ties and hence a total ordering of the observations is not possible.
 The most natural statistic, which is insensitive to the ordering of the $C$ levels and
-of the ordering of observations within each level, is given by
+the ordering of observations within each level, is given by
 
 \begin{equation} \label{eq:Chisq}
 \lambda_{\chi^2} (W_j) \quad = \quad
@@ -410,7 +411,7 @@ respectively.
 Exhaustive search for a split into $B = 2$ segments is usually easy because it is
 of order $O(n)$. For $B > 2$, when an exhaustive search
 would be of order $O(n^{B-1})$, the optimal partition can be found using a dynamic
-programming approach. This is an application of Bellman's principle and has been
+programming approach of order $O(n^2)$. This is an application of Bellman's principle and has been
 discussed in several places in the statistics and econometrics literature on
 change point and structural change analysis
 \citep[see e.g.,][among others]{Hawkins2001,BaiPerron2003,ZeileisKleiberKraemer2003}.
@@ -488,7 +489,8 @@ npPID <- ntPID * nkPID + ntPID - 1
 
 To illustrate how model-based recursive partitioning can be used in practice,
 the general framework from the previous section is applied to various data sets
-and models (linear regression, logistic regression, survival regression). In a first
+and models (linear regression, logistic regression, survival regression). The following
+subsection are all organized in the same way: In a first
 step, the recursively partitioned model is fitted to the data and visualized for
 explanatory analysis, emphasizing that the algorithm can be used to build intelligible
 local models by automated interaction detection.
@@ -513,7 +515,7 @@ with logistic model trees \citep[LMT,][]{Landwehretal2005} as well as various tr
 with constant models in the nodes: QUEST \citep{LohShih1997}, the J4.8 implementation of
 C4.5 \citep{Quinlan1993}, CART and CTree.
 
-All comparisons were carried out in the framework of \cite{HothornLeischZeileis2005}
+All comparisons are carried out in the framework of \cite{HothornLeischZeileis2005}
 based on 250 bootstrap replications and employing the root mean squared error (RMSE)
 and misclassification rate on the out-of-bag (OOB) samples as predictive
 performance measure and the number of estimated parameters (splits and coefficients) as
@@ -530,7 +532,7 @@ reference information (although the obvious prediction measures obviously repres
 Most computations have been carried out in the \proglang{R} system for statistical computing
 \citep{R2005}, in particular using the packages \pkg{party} \citep{HothornZeileisHornik2006a},
 providing implementations of MOB and CTree, \pkg{rpart} \citep{TherneauAtkinson1997}, implementing
-CART, and \pkg{RWeka} \citep{HornikZeileisHothorn2006}, the \proglang{R} interfacing to \pkg{Weka}
+CART, and \pkg{RWeka} \citep{HornikZeileisHothorn2006}, the \proglang{R} interface to \pkg{Weka}
 \citep{WittenFrank2005} containing implementations of M5', LMT and J4.8. For GUIDE and QUEST,
 the binaries available from  \url{http://www.stat.wisc.edu/~loh/} were used.
 
@@ -555,7 +557,8 @@ journal is associated with a society or not. Thus, we use a standard model whose
 is driven by economic knowledge and try to partition it with respect to further variables
 whose influence is not clear in advance. Note that whereas the selection of appropriate transformations
 is crucial for the modeling variables, monotonous transformations of the partitioning
-variables have no influence on the fitting process.
+variables have no influence on the fitting process. For testing, a Bonferroni-adjusted
+significance level of $\alpha = 0.05$ and a minimal segment size of $\ui = 10$ is used.
 
 The resulting linear regression-based tree for the economic journals data is depicted in
 Figure~\ref{fig:Journals} employing scatter plots with fitted regression lines in the leaves.
@@ -566,12 +569,12 @@ instability tests. A highly significant instability is found only with respect t
 which is subsequently used for splitting, 
 leading to an optimal split at age 18. For the \Sexpr{sum(weights(fmJ@tree$left$model))}
 young journals a much higher price elasticity of \Sexpr{round(coef(fmJ, node = 2)[2], digits = 2)}
-is found than for the \Sexpr{sum(weights(fmJ@tree$right$model))} with a price elasticity
+is found than for the \Sexpr{sum(weights(fmJ@tree$right$model))} older journals with a price elasticity
 of \Sexpr{round(coef(fmJ, node = 3)[2], digits = 2)}. No further parameter instabilities
 with respect to the partitioning variables can be detected (all $p$ values are greater than
 90\%) and hence the algorithm stops. Table~\ref{tab:Journals} reports the RMSE on the original
 data and the model complexity of \Sexpr{npJ} (\Sexpr{ntJ} times $k = \Sexpr{nkJ}$ coefficients plus
-\Sexpr{npJ - ntJ*nkJ} splits).
+$\Sexpr{ntJ} - 1$ splits).
 
 Table~\ref{tab:Journals} and Figure~\ref{fig:Journals-performance} provide the results
 of the benchmark comparison on 250 bootstrap samples. The MOB trees have the lowest median
@@ -655,17 +658,17 @@ shows partial scatter plots along with the fitted values in the terminal nodes. 
 be seen that in the nodes~3, 6 and 7 the increase of value with the number of rooms
 dominates the picture (lower panel) whereas in node~9 the decrease with
 the lower status population percentage (upper panel) is more pronounced. Splits are performed
-in the variables  `tax' (poperty-tax rate) and `ptratio' (pupil-teacher ratio).
+in the variables  tax (poperty-tax rate) and ptratio (pupil-teacher ratio).
 As reported in Table~\ref{tab:BostonHousing},
 the model has $\Sexpr{ntBH} \cdot \Sexpr{nkBH}$ regression coefficients after estimating 
 $\Sexpr{ntBH}-1$ splits, giving
 a total of $\Sexpr{(nkBH+1)*ntBH - 1}$ estimated parameters.
 
 The results of the benchmark comparison in Table~\ref{tab:BostonHousing} and
-Figure~\ref{fig:BostonHousing-performance} show that the MOB tree performs significantly better
+Figure~\ref{fig:BostonHousing-performance} show that the MOB trees perform significantly better
 on this data set than the other tree-based algorithms. The algorithm with the most
 comparable predictive performance, M5', is here clearly inferior concerning its interpretability,
-requiring on average more than 10 times as many parameters.
+requiring on average more than 12 times as many parameters.
 
 \begin{table}[h]
 \begin{center}
@@ -717,8 +720,40 @@ estimated parameters.}
 
 
 \subsection{Pima Indians diabetes data}
+ 
+Another popular data set for comparing new classifiers is the Pima Indians diabetes
+data which is---just as the Boston Housing data---available from the 
+UCI machine learning repository \citep{Newmanetal1998}. The data comprises 
+observations for $n = 768$ Pima Indian women of 8 prognostic variables
+and the outcome (positive/negative) of a diabetes test. It is rather clear
+that the diabetes diagnosis depends on the plasma glucose concentration such that
+using a logistic regression model for diabetes explained by glucose
+(corresponding to $k = 2$ parameters) is intuitive. This model is partitioned with
+respect to the remaining $\ell = 7$ variables, using a minimal segment size of
+$\ui = 40$ and again a Bonferroni-corrected significance level of $\alpha = 0.05$.
 
-UCI machine learning repository \citep{Newmanetal1998}
+Figure~\ref{fig:PID} displays the resulting logistic regression-based tree. The
+data is first split at a body mass index of 26.3 (corresponding roughly to the lower 
+quartile of this variable), those observations with a higher body mass index are
+partinioned into age groups below or above 30 years. The leaves of the tree visualize
+the data and the fitted logistic regression model using spinograms \citep{HofmannTheus2005} 
+of diabetes by glucose (where the bins are chosen via the five point summary of
+glucose on the full data set). It can be seen that for the women with a low body mass 
+index the average risk of diabetes is low, but increases clearly with age (corresponding
+to an odds ratio of $\Sexpr{format(round(exp(coef(fmPID)[1,2]), digits = 3), nsmall = 3)}$ per year).
+For the young women with a high body mass index, the average risk is higher and increases
+less quickly with respect to age (with an odds raio of
+$\Sexpr{format(round(exp(coef(fmPID)[2,2]), digits = 3), nsmall = 3)}$). Finally, the older
+women with a high body mass index have the highest average risk but with a lower
+odds ratio of only $\Sexpr{format(round(exp(coef(fmPID)[3,2]), digits = 3), nsmall = 3)}$.
+The model uses $\Sexpr{npPID}$ parameters ($\Sexpr{ntPID} \cdot \Sexpr{nkPID}$ coefficients
+and $\Sexpr{ntPID} - 1$ splits).
+
+The results of the benchmark comparison in Table~\ref{tab:PID} and
+Figure~\ref{fig:PID-performance} show that the MOB trees perform slightly (and significantly) better
+on this data set than the other tree-based algorithms included. In particular, it performs
+considerably better than the other model-based algorithm (LMT) both with respect to prediction
+and model complexity.
 
 
 \begin{table}[h]
@@ -774,12 +809,12 @@ A powerful, flexible and unified framework for model-based recursive
 partitioning has been suggested. It builds on parametric models which are
 well-established in the statistical theory and whose parameters can be
 easily interpreted by subject-matter scientists. Thus, it can not only
-model the mean but also other moments of a parameterized
-distribution (such as variance or correlation). Furthermore, it can be
+model the mean but also other properties of a parameterized
+distribution. Furthermore, it can be
 employed to partition regression relationships, such as GLMs or survival regression.
 It aims at minimizing a clearly defined objective function (and not certain
 heuristics) by a greedy forward search and is unbiased due to separation of
-variable and cutpoint selection.
+variable and split point selection.
 
 The algorithm as discussed in this paper relies on a statistically motivated
 internal stopping criterion (sometimes called \textit{pre-pruning}), but, of
@@ -806,12 +841,13 @@ should be included in $Y$ as a regressor or in $Z$ as a partitioning variable.
 For categorical variables, this amounts to knowing/assuming the interactions or
 trying to find them adaptively---for numerical variables, it amounts to knowing/assuming
 a segment-wise linear relationship vs. approximating a possibly non-linear influence
-by a step function. The separation can usually be made based on subject knowledge:
+by a step function. The separation can usually be made based on subject knowledge
+as in the economic journals example. Other scenarios of this kind are conceivable:
 e.g., in biostatistics it would be natural to fit a dose-response relationship and partition
 it with respect to further experiment-specific covariables, or in business applications
-a market segmentation could be carried out based on a standard demand function. %FIXME%
-Finally, the variables entering the explanatory part of $Y$ and $Z$ could also be
-overlapping, but then a trend-resistant fluctuation test should be conducted during
+a market segmentation could be carried out based on a standard demand function.
+Finally, the variables entering the explanatory part of $Y$ and $Z$ can also be
+overlapping, however, a trend-resistant fluctuation test should be conducted for
 partitioning.
 
 Within the genuine statistical framework proposed in this paper, practitioners
