@@ -37,7 +37,7 @@ code given in Appendix B.
 <<glaucoma, echo = FALSE, results = hide>>=
 data(GlaucomaM, package = "ipred")
 x <- ctree(Class ~ ., data = GlaucomaM, 
-           control = ctree_control(teststattype = "quadform"))@tree
+           control = ctree_control(teststat = "quad"))@tree
 @
 \setkeys{Gin}{width=\textwidth}
 \begin{figure}[h]
