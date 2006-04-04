@@ -174,7 +174,7 @@ as.factor(GBSG2tree@where)=7 166     77   1701    1174    2018
  [7] "progrec"  "estrec"   "time"     "cens"    
 > 
 > tr <- ctree(Surv(time, cens) ~ ., data = GBSG2, 
-+             control = ctree_control(teststattype = "maxabs", 
++             control = ctree_control(teststat = "max", 
 +                                     testtype = "Univariate"))
 > tr
 

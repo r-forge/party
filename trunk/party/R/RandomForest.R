@@ -117,7 +117,7 @@ RandomForest <- new("StatModel",
 
 ### the top-level convenience function
 cforest <- function(formula, data = list(), subset = NULL, weights = NULL, 
-                    controls = ctree_control(teststattype = "maxabs", 
+                    controls = ctree_control(teststat = "max", 
                                              testtype = "Teststatistic", 
                                              mincriterion = qnorm(0.9), mtry = 5, 
                                              savesplitstats = FALSE),

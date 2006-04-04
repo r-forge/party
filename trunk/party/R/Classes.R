@@ -81,20 +81,20 @@ setClassUnion("df_OR_list", c("data.frame", "list"))
 
 setClass(Class = "VariableControl",
     representation = representation(
-        teststattype = "factor",
-        pvalue       = "logical",
-        tol          = "numeric",
-        maxpts       = "integer",
-        abseps       = "numeric",
-        releps       = "numeric"
+        teststat = "factor",
+        pvalue   = "logical",
+        tol      = "numeric",
+        maxpts   = "integer",
+        abseps   = "numeric",
+        releps   = "numeric"
     ),
     prototype = list(
-        teststattype = factor("maxabs", levels = c("maxabs", "quadform")),
-        pvalue       = TRUE,
-        tol          = 1e-10,
-        maxpts       = as.integer(25000),
-        abseps       = 1e-4,
-        releps       = 0.0
+        teststat = factor("max", levels = c("max", "quad")),
+        pvalue   = TRUE,
+        tol      = 1e-10,
+        maxpts   = as.integer(25000),
+        abseps   = 1e-4,
+        releps   = 0.0
     )
 )
 

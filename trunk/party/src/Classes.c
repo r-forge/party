@@ -27,7 +27,7 @@ SEXP
     PL2_vSym,
     PL2_sSym,
     PL2_pSym,
-    PL2_teststattypeSym,
+    PL2_teststatSym,
     PL2_pvalueSym,
     PL2_tolSym,
     PL2_maxptsSym,
@@ -92,7 +92,7 @@ SEXP party_init(void) {
     PL2_vSym = install("v");
     PL2_sSym = install("s");
     PL2_pSym = install("p"); 
-    PL2_teststattypeSym = install("teststattype");
+    PL2_teststatSym = install("teststat");
     PL2_pvalueSym = install("pvalue");
     PL2_tolSym = install("tol");
     PL2_maxptsSym = install("maxpts");
@@ -146,8 +146,8 @@ int get_dimension(SEXP object) {
     return(INTEGER(GET_SLOT(object, PL2_dimensionSym))[0]);
 }
 
-int get_teststattype(SEXP object) {
-    return(INTEGER(GET_SLOT(object, PL2_teststattypeSym))[0]);
+int get_teststat(SEXP object) {
+    return(INTEGER(GET_SLOT(object, PL2_teststatSym))[0]);
 }
 
 int get_pvalue(SEXP object) {

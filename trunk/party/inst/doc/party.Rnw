@@ -342,14 +342,14 @@ The type of test statistic to be used can be specified by means of the
 \begin{Schunk}
 \begin{Sinput}
 R> ctree(y ~ x1 + x2, data = ls, 
-      control = ctree_control(teststattype = "maxabs"))
+      control = ctree_control(teststat = "max"))
 \end{Sinput}
 \end{Schunk}
 uses $c_\text{max}$ and 
 \begin{Schunk}
 \begin{Sinput}
 R> ctree(y ~ x1 + x2, data = ls, 
-      control = ctree_control(teststattype = "quadform"))
+      control = ctree_control(teststat = "quad"))
 \end{Sinput}
 \end{Schunk}
 takes $c_\text{quad}$ (the default).
