@@ -485,6 +485,10 @@ int ncol(SEXP x) {
     return(INTEGER(getAttrib(x, R_DimSymbol))[1]);
 }
 
+/* compute index of variable with smallest p-value 
+   (and largest test statistic in case two or more p-values coincide -- 
+    should not happen anymore since we use 1 - (1 - p)^k for Bonferroni adjustment)
+*/
 int C_whichmax(double *pvalue, double *teststat, int ninputs) {
 
     int ans = -1, j;

@@ -262,13 +262,10 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
 
         type = get_testtype(gtctrl);
         switch(type) {
-            /* Bonferroni */
+            /* Bonferroni: p_adj = 1 - (1 - p)^k */
             case BONFERRONI: 
-                    for (j = 0; j < ninputs; j++) {
-                        ans_criterion[j] = 1 - (1 - ans_criterion[j])*ninputs;
-                        if (ans_criterion[j] < 0) 
-                            ans_criterion[j] = 0.0;
-                    }
+                    for (j = 0; j < ninputs; j++)
+                        ans_criterion[j] = R_pow_di(ans_criterion[j], ninputs);
                     break;
             /* Monte-Carlo */
             case MONTECARLO: 
