@@ -488,9 +488,12 @@ npPID <- ntPID * nkPID + ntPID - 1
 %FIXME% justification for median: skewness (in some distributions), many bindings in GUIDE/M5'
 
 To illustrate how model-based recursive partitioning can be used in practice,
-the general framework from the previous section is applied to various data sets
-and models (linear regression, logistic regression, survival regression). The following
-subsection are all organized in the same way: In a first
+the general framework from the previous section is applied to various 
+%% <TH>: data sets klingt immer so nach: haben wir irgendwo gefunden und benutzt
+regression problems 
+%% </TH>
+and models (linear regression, logistic regression, survival regression). In
+the following, each data analysis is organized in the same way: In a first
 step, the recursively partitioned model is fitted to the data and visualized for
 explanatory analysis, emphasizing that the algorithm can be used to build intelligible
 local models by automated interaction detection.
@@ -501,7 +504,7 @@ practice---for (model-based) recursive partitioning comparing the model complexi
 the number of splits and estimated coefficients) is equally important. As argued
 above, the strength of single tree-based classifiers is not so much predictive
 power alone, but that the algorithms are able to build interpretable models. Clearly,
-more parsimonious are easier to interpret and hence are to be preferred (among those
+more parsimonious models are easier to interpret and hence are to be preferred (among those
 with comparable predictive performance).
 
 For the linear regression applications, the \underline{mo}del-\underline{b}ased (MOB)
@@ -515,7 +518,7 @@ with logistic model trees \citep[LMT,][]{Landwehretal2005} as well as various tr
 with constant models in the nodes: QUEST \citep{LohShih1997}, the J4.8 implementation of
 C4.5 \citep{Quinlan1993}, CART and CTree.
 
-All comparisons are carried out in the framework of \cite{HothornLeischZeileis2005}
+All benchmark comparisons are carried out in the framework of \cite{HothornLeischZeileis2005}
 based on 250 bootstrap replications and employing the root mean squared error (RMSE)
 and misclassification rate on the out-of-bag (OOB) samples as predictive
 performance measure and the number of estimated parameters (splits and coefficients) as
@@ -524,7 +527,8 @@ The median performances\footnote{The median rather than the mean is used for two
 account for the skewness of the performance distributions, and second due to the many bindings
 in the complexity measure for the model-based tree algorithms (MOB, GUIDE, M5', LMT).}
 on the bootstrap replications are reported in tabular form, simultaneous confidence intervals
-for performance differences (obtained by treatment contrasts with MOB as the reference level)
+for performance differences (obtained by treatment contrasts with MOB as the reference
+category)
 are visualized. In addition, the tables contain the obvious complexity and prediction
 performance measures (RMSE or misclassification) on the original data set as an additional
 reference information (although the obvious prediction measures obviously represent no honest estimators).
@@ -534,15 +538,20 @@ Most computations have been carried out in the \proglang{R} system for statistic
 providing implementations of MOB and CTree, \pkg{rpart} \citep{TherneauAtkinson1997}, implementing
 CART, and \pkg{RWeka} \citep{HornikZeileisHothorn2006}, the \proglang{R} interface to \pkg{Weka}
 \citep{WittenFrank2005} containing implementations of M5', LMT and J4.8. For GUIDE and QUEST,
-the binaries available from  \url{http://www.stat.wisc.edu/~loh/} were used.
+the binaries distributed at \url{http://www.stat.wisc.edu/~loh/} were used.
 
 \subsection{Demand for economic journals}
 
 Journal pricing is a topic that stirred considerable interest in the economics literature in
 recent years, see \cite{Bergstrom2001} and his journal pricing Web page
 \url{http://www.econ.ucsb.edu/~tedb/Journals/jpricing.html} for further informations on this 
-discussion. Using data for $n = 180$ economic journals collected by T.~Bergstrom,
-\cite{StockWatson2003} fit a demand equation by OLS
+discussion. Using data for $n = 180$ economic journals collected by 
+%% <TH> das schaut aus wie eine Referenz Bergstrom, Stock and Watson, da
+%% muss man irgendwie trennen
+T.~Bergstrom,
+\cite{StockWatson2003} 
+%% </TH>
+fit a demand equation by OLS
 for the number of library subscriptions explained by the price per citation (both in logs).
 In their analysis, they find that this simple linear regression can be improved by including
 further variables such as age, number of characters and interactions of age and price into 
@@ -658,7 +667,9 @@ shows partial scatter plots along with the fitted values in the terminal nodes. 
 be seen that in the nodes~3, 6 and 7 the increase of value with the number of rooms
 dominates the picture (lower panel) whereas in node~9 the decrease with
 the lower status population percentage (upper panel) is more pronounced. Splits are performed
-in the variables  tax (poperty-tax rate) and ptratio (pupil-teacher ratio).
+%% <TH> variablennamen serifenlos wie im plot
+in the variables  \textsf{tax} (poperty-tax rate) and \textsf{ptratio} (pupil-teacher ratio).
+%% </TH>
 As reported in Table~\ref{tab:BostonHousing},
 the model has $\Sexpr{ntBH} \cdot \Sexpr{nkBH}$ regression coefficients after estimating 
 $\Sexpr{ntBH}-1$ splits, giving
@@ -886,6 +897,8 @@ are valid in a statistical sense.
 %%     But when there are several variables \textbf{with} association/shifts, does
 %%     this procedure select the variable with the strongest association/shift?
 %% \end{itemize}
+
+%% <TH> address missing in Stock & Watson reference </TH>
 
 \bibliography{mob}
 
