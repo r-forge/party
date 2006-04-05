@@ -489,9 +489,7 @@ npPID <- ntPID * nkPID + ntPID - 1
 
 To illustrate how model-based recursive partitioning can be used in practice,
 the general framework from the previous section is applied to various 
-%% <TH>: data sets klingt immer so nach: haben wir irgendwo gefunden und benutzt
 regression problems 
-%% </TH>
 and models (linear regression, logistic regression, survival regression). In
 the following, each data analysis is organized in the same way: In a first
 step, the recursively partitioned model is fitted to the data and visualized for
@@ -545,13 +543,8 @@ the binaries distributed at \url{http://www.stat.wisc.edu/~loh/} were used.
 Journal pricing is a topic that stirred considerable interest in the economics literature in
 recent years, see \cite{Bergstrom2001} and his journal pricing Web page
 \url{http://www.econ.ucsb.edu/~tedb/Journals/jpricing.html} for further informations on this 
-discussion. Using data for $n = 180$ economic journals collected by 
-%% <TH> das schaut aus wie eine Referenz Bergstrom, Stock and Watson, da
-%% muss man irgendwie trennen
-T.~Bergstrom,
-\cite{StockWatson2003} 
-%% </TH>
-fit a demand equation by OLS
+discussion. Using data for $n = 180$ economic journals collected by T.~Bergstrom,
+\cite{StockWatson2003} fit a demand equation by OLS
 for the number of library subscriptions explained by the price per citation (both in logs).
 In their analysis, they find that this simple linear regression can be improved by including
 further variables such as age, number of characters and interactions of age and price into 
@@ -667,9 +660,7 @@ shows partial scatter plots along with the fitted values in the terminal nodes. 
 be seen that in the nodes~3, 6 and 7 the increase of value with the number of rooms
 dominates the picture (lower panel) whereas in node~9 the decrease with
 the lower status population percentage (upper panel) is more pronounced. Splits are performed
-%% <TH> variablennamen serifenlos wie im plot
-in the variables  \textsf{tax} (poperty-tax rate) and \textsf{ptratio} (pupil-teacher ratio).
-%% </TH>
+in the variables  tax (poperty-tax rate) and ptratio (pupil-teacher ratio).
 As reported in Table~\ref{tab:BostonHousing},
 the model has $\Sexpr{ntBH} \cdot \Sexpr{nkBH}$ regression coefficients after estimating 
 $\Sexpr{ntBH}-1$ splits, giving
