@@ -803,7 +803,7 @@ complexity by difference in number of estimated parameters.}
 
 
 
-\section{German breast cancer study}
+\subsection{German breast cancer study}
 
 The same ideas used for recursive partitioning in (generalized) linear regression
 models can straightforwardly be applied to other parametric regression models
@@ -823,7 +823,7 @@ the number of positive lymph nodes is chosen as explanatory variable with differ
 intercepts depending on whether a hormonal therapy was performed or not. Together
 with the scale parameter of the Weibull distribution, this gives a total of
 $k = \Sexpr{NCOL(vcov(fmGBSG2@tree$model))}$ parameters in the model, using the 
-remaining $\ell = 6$ prognostiv variables for partitioning.
+remaining $\ell = 6$ prognostic variables for partitioning.
 The model is estimated by ML, the instability is assessed using a Bonferroni-corrected
 significance level of $\alpha = 0.05$ and the nodes are split with a required minimal
 segment size of $\ui = 40$.
