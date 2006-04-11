@@ -851,10 +851,11 @@ that it is not clear which predictive perfomance measure should be used in such 
 comparison: Whereas RMSE and misclassification are usually regarded to be acceptable (albeit not the
 only meaningful) performance measures for regression and classification tasks, the
 situation is not as well understood for censored regression models. Although various
-measures, such as the Brier score, are used in the literature (FIXME), they are are
-often pointed out to be prone to give misleading results (FIXME). As resolving these
-discussions is beyond the scope of this paper, we content ourselves with the empirical
-analysis for this regression problem.
+measures, such as the Brier score \citep{Grafetal1999}, 
+are used in the literature their usefulness still remains a matter of debate
+\citep{Henderson1995,AltmanRoyston2000,Schemper2003}. As resolving these
+discussions is beyond the scope of this paper, we content ourselves 
+with the empirical analysis for this regression problem.
 
 
 \setkeys{Gin}{width=.75\textwidth}
