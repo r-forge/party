@@ -489,9 +489,8 @@ npPID <- ntPID * nkPID + ntPID - 1
 
 To illustrate how model-based recursive partitioning can be used in practice,
 the general framework from the previous section is applied to various 
-regression problems 
-and models (linear regression, logistic regression, survival regression). In
-the following, each data analysis is organized in the same way: In a first
+regression problems (linear regression, logistic regression, survival regression).
+Four different data sets are analyzed in the following way: In a first
 step, the recursively partitioned model is fitted to the data and visualized for
 explanatory analysis, emphasizing that the algorithm can be used to build intelligible
 local models by automated interaction detection.
@@ -609,7 +608,7 @@ is compared by (median) number of estimated parameters.}
 \begin{figure}[p]
 \begin{center}
 <<Journals-plot,echo=FALSE,results=hide,fig=TRUE,height=5,width=8>>=
-plot(fmJ, terminal_panel = node_scatterplot(fmJ, col = grey(0.7), linecol = "black"))
+plot(fmJ, terminal_panel = node_scatterplot(fmJ, col = grey(0.5), linecol = "black"))
 @
 \caption{\label{fig:Journals} Linear-regression-based tree for the economic journals data.
 The plots in the leaves depict library subsriptions by price per citation (both in logs).}
@@ -695,7 +694,7 @@ the original data set; complexity is compared by (median) number of estimated pa
 \begin{figure}[p]
 \begin{center}
 <<BostonHousing-plot,echo=FALSE,results=hide,fig=TRUE,height=8,width=12>>=
-plot(fmBH, terminal_panel = node_scatterplot(fmBH, col = grey(0.7), linecol = "black"), tnex = 4)
+plot(fmBH, terminal_panel = node_scatterplot(fmBH, col = grey(0.5), linecol = "black"), tnex = 4)
 @
 \caption{\label{fig:BostonHousing} Linear-regression-based tree for the Boston housing data.
 The plots in the leaves give partial scatter plots for $\log(\mbox{lstat})$ (upper panel) and 
@@ -782,7 +781,7 @@ estimated parameters.}
 \begin{figure}[p]
 \begin{center}
 <<PID-plot,echo=FALSE,results=hide,fig=TRUE,height=6,width=9>>=
-plot(fmPID, terminal_panel = node_bivplot(fmPID, gp = gpar(fill = grey(c(0.6, 0.8))), linecol = "black"))
+plot(fmPID, terminal_panel = node_bivplot(fmPID, gp = gpar(fill = grey(c(0.5, 0.8))), linecol = "black"))
 @
 \caption{\label{fig:PID} Logistic-regression-based tree for the Pima Indians data.
 The spinograms in the leaves depict diabetes by plasma glucose concentration.}
@@ -799,6 +798,152 @@ ciplot(PID_NPAR, xlab = "Complexity difference")
 \caption{\label{fig:PID-performance} Performance comparison for Pima Indians data: 
 prediction error is compared by misclassification rate differences, 
 complexity by difference in number of estimated parameters.}
+\end{center}
+\end{figure}
+
+
+
+\section{German breast cancer study}
+
+The same ideas used for recursive partitioning in (generalized) linear regression
+models can straightforwardly be applied to other parametric regression models
+without further modification. Here, we apply the generic model-based recursive
+partitioning algorithm to a Weibull regression for modeling censored survival
+times. We follow the analysis of \cite{Schumacheretal2001} and
+\cite{HothornHornikZeileis2006} %FIXME% mention this?
+who use constant fit survival trees to analyze survival times of $n = 686$ women
+from positive node breast cancer in Germany. Along with the survival time (in years)
+and the censoring information, there are 8 covariates available as prognostic factors:
+number of positive lymph nodes, age, tumor size and grade, progesterone and
+estrogen receptor, and factors indicating menopausal status and whether the patient
+received a hormonal therapy.
+
+For explaining survival from positive node breast cancer in a regression model,
+the number of positive lymph nodes is chosen as explanatory variable with differing
+intercepts depending on whether a hormonal therapy was performed or not. Together
+with the scale parameter of the Weibull distribution, this gives a total of
+$k = \Sexpr{NCOL(vcov(fmGBSG2@tree$model))}$ parameters in the model, using the 
+remaining $\ell = 6$ prognostiv variables for partitioning.
+The model is estimated by ML, the instability is assessed using a Bonferroni-corrected
+significance level of $\alpha = 0.05$ and the nodes are split with a required minimal
+segment size of $\ui = 40$.
+
+The resulting model-based tree is depicted in Figure~\ref{fig:GBSG2} employing
+scatter plots for survival time by number of positive nodes in the leaves. Based on
+the ideas of \cite{GentlemanCrowley1991}, circles with different shadings of gray 
+(hollow and solid) are used for censored and uncensored observations, respectively.
+Fitted median survival times from the Weibul regression model are visualized by
+dashed and solid lines for patients with and with hormonal therapy. The data are 
+partitioned once with respect to progesterone receptor splitting the observations
+into a group with marked influence of positive nodes and neglegible influence
+of hormonal therapy and a group with less pronounced influence of positive nodes but
+clear hormonal therapy effect. A fair amount of censored observations remains in
+both groups, no further significant instabilities can be detected (all $p$ values
+are above $50\%$). The resulting model has 
+$\Sexpr{ncol(vcov(fmGBSG2@tree$model)) * nrow(coef(fmGBSG2)) + nrow(coef(fmGBSG2)) - 1}$ parameters
+($\Sexpr{nrow(coef(fmGBSG2))} \cdot \Sexpr{ncol(vcov(fmGBSG2@tree$model))}$ coefficients
+and $\Sexpr{nrow(coef(fmGBSG2))} - 1$ splits), yielding a log-likelihood of
+\Sexpr{round(as.vector(logLik(fmGBSG2)), digits = 4)}.
+
+For this survival regression problem, we refrain from conducting a benchmark comparison
+of performance as carried out in the previous section. The main reason for this is
+that it is not clear which predictive perfomance measure should be used in such a 
+comparison: Whereas RMSE and misclassification are usually regarded to be acceptable (albeit not the
+only meaningful) performance measures for regression and classification tasks, the
+situation is not as well understood for censored regression models. Although various
+measures, such as the Brier score, are used in the literature (FIXME), they are are
+often pointed out to be prone to give misleading results (FIXME). As resolving these
+discussions is beyond the scope of this paper, we content ourselves with the empirical
+analysis for this regression problem.
+
+
+\setkeys{Gin}{width=.75\textwidth}
+\begin{figure}[bth]
+\begin{center}
+<<GBSG2-plot,echo=FALSE,results=hide,fig=TRUE,height=5,width=8>>=
+node_gbsg2plot <- function(mobobj, col = "black", linecol = "red",
+  cex = 0.5, pch = NULL, jitter = FALSE, xscale = NULL, yscale = NULL, ylines = 1.5,
+  id = TRUE, labels = FALSE)
+{
+    ## extract dependent variable
+    y <- response(mobobj)
+    ynam <- names(y)[1]
+    y <- y[[1]]
+    if(is.null(pch)) pch <- y[,2] * 18 + 1 #reverse:# abs(y[,2] - 1) * 7 + 1
+    y <- y[,1]
+    y <- as.numeric(y)
+    pch <- rep(pch, length.out = length(y))
+
+    if(jitter) y <- jitter(y)
+
+    ## extract regressor matrix
+    x <- mobobj@data@get("input")
+    z <- seq(from = min(x[,2]), to = max(x[,2]), length = 51)
+    z <- data.frame(a = rep(sort(x[,1])[c(1, NROW(x))], c(51, 51)), b = z)
+    names(z) <- names(x)
+        
+    if(is.null(xscale)) xscale <- range(x[,2]) + c(-0.1, 0.1) * diff(range(x[,2]))
+    if(is.null(yscale)) yscale <- range(y) + c(-0.1, 0.1) * diff(range(y))
+         
+    ## panel function for scatter plots in nodes
+    rval <- function(node) {
+    
+        ## dependent variable setup
+	y <- rep.int(y, node$weights)	
+	yhat <- predict(node$model, newdata = z, type = "quantile", p = 0.5)
+        pch <- rep.int(pch, node$weights)
+
+        ## viewport setup
+        top_vp <- viewport(layout = grid.layout(nrow = 2, ncol = 3,
+                           widths = unit(c(ylines, 1, 1), c("lines", "null", "lines")),  
+			   heights = unit(c(1, 1), c("lines", "null"))),
+                           width = unit(1, "npc"), 
+                           height = unit(1, "npc") - unit(2, "lines"),
+			   name = paste("node_scatterplot", node$nodeID, sep = ""))
+        pushViewport(top_vp)
+        grid.rect(gp = gpar(fill = "white", col = 0))
+
+        ## main title
+        top <- viewport(layout.pos.col = 2, layout.pos.row = 1)
+        pushViewport(top)
+	mainlab <- paste(ifelse(id, paste("Node", node$nodeID, "(n = "), ""),
+	                 sum(node$weights), ifelse(id, ")", ""), sep = "")
+        grid.text(mainlab)
+        popViewport()
+	
+        plot_vp <- viewport(layout.pos.col = 2, layout.pos.row = 2, xscale = xscale,
+	    yscale = yscale, name = paste("node_scatterplot", node$nodeID, "plot", sep = ""))
+        pushViewport(plot_vp)
+	
+        ## scatterplot
+	grid.points(rep.int(x[,2], node$weights), y, gp = gpar(col = col, cex = cex), pch = pch)
+        grid.lines(z[1:51,2], yhat[1:51], default.units = "native", gp = gpar(col = linecol))
+        grid.lines(z[52:102,2], yhat[52:102], default.units = "native", gp = gpar(col = linecol, lty = 2))
+
+        grid.xaxis(at = c(ceiling(xscale[1]*10), floor(xscale[2]*10))/10)
+        grid.yaxis(at = c(ceiling(yscale[1]), floor(yscale[2])))
+
+        if(labels) {
+            grid.text(xnam[2], x = unit(0.5, "npc"), y = unit(-2, "lines"))
+            grid.text(ynam, y = unit(0.5, "npc"), x = unit(-3, "lines"), rot = 90)
+	}
+
+        grid.rect(gp = gpar(fill = "transparent"))
+        upViewport()
+
+	upViewport()
+    }
+	    
+    return(rval)
+}
+class(node_gbsg2plot) <- "grapcon_generator"
+
+plot(fmGBSG2, term = node_gbsg2plot(fmGBSG2, yscale = c(-0.15, 8.7), ylines = 1.5, xscale = c(0, 52), col = grey(0.5), linecol = "black"))
+@
+\caption{\label{fig:GBSG2} Weibull-regression-based tree for the German breast cancer study.
+The plots in the leaves depict censored (hollow) and uncensored (solid) survival time by number
+of positive lymph nodes along with fitted median survival for patients with (dashed line) and without
+(solid line) hormonal therapy.}
 \end{center}
 \end{figure}
 
