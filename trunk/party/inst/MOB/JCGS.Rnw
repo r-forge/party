@@ -1044,8 +1044,9 @@ are valid in a statistical sense.
 
 \section[R code]{\proglang{R} code}
 
-The following \proglang{R} code is sufficient for reproducing the recursively
-partitioned model trees from Section~\ref{sec:illustration} as well as their visualizations.
+The following \proglang{R} code is sufficient for reproducing the empirical
+examples from Section~\ref{sec:illustration} including data pre-processing, 
+model fitting and visualization.
 
 \begin{verbatim}
 library("party")
@@ -1082,7 +1083,7 @@ GBSG2$time <- GBSG2$time/365
 mobGBSG2 <- mob(Surv(time, cens) ~ horTh + pnodes | progrec + menostat +
   estrec + menostat + age + tsize + tgrade, data = GBSG2, model = survReg,
   control = mob_control(objfun = nloglik, minsplit = 40))
-plot(mobGBSG2, terminal = node_scatterplot, tp_args = list(yscale = c(-0.1, 11))
+plot(mobGBSG2, terminal = node_scatterplot, tp_args = list(yscale = c(-0.1, 11)))
 \end{verbatim}
 
 \end{appendix}
