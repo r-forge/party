@@ -56,7 +56,7 @@ virtually every publication in this field highlights two features of trees:
 1.~interpretability---enhanced by visualizations of the fitted decision trees---and
 2.~predictive power in non-linear regression relationships.
 The latter is of diminishing importance because modern approaches to
-predictive modeling such as boosting \citep[e.g. simple $L_2$ boosting by][]{BuehlmannYu2003},
+predictive modeling such as boosting \citep[e.g., simple $L_2$ boosting by][]{BuehlmannYu2003},
 random forests \citep{Breiman2001} or support vector machines \citep{Vapnik1996}
 are often found to be superior to trees in purely predictive settings
 \citep[e.g.,][]{Meyeretal2003}.
@@ -106,7 +106,7 @@ subject-matter scientists with a segmented model that they are used to
 analyze and interpret.
 
 The remainder of the paper is organized as follows: Section~\ref{sec:segmented}
-establishes the class of models the framework is based on, before Section~\ref{sec:algorithm} describes
+establishes the class of models the framework is based on before Section~\ref{sec:algorithm} describes
 the suggested model-based recursive partitioning algorithm in detail. Section~\ref{sec:illustration}
 provides a set of illustrations and applications along with benchmark
 comparisons with other tree-based algorithms.
@@ -208,7 +208,7 @@ some means should be taken to avoid overfitting by increasing $B$.
 
 In short, determining the optimal partition (with respect to $\Psi$) is difficult,
 even for fixed $B$. However, if there is only $\ell = 1$ partitioning variable,
-the optimal split(s) can be found easily: both, the statistics and econometrics
+the optimal split(s) can be found easily: both the statistics and econometrics
 literature on change point and structural change analysis discuss various algorithms
 for segmenting models over a single variable, typically time.
 To exploit this methodology for finding a partition close to the optimal one in
@@ -292,7 +292,8 @@ the variable $Z_j$, scaled by the number of observations $n$ and a
 suitable estimate
 $\hat J$ of the covariance matrix $\COV(\psi(Y, \hat \theta))$, e.g.,
 $\hat J = n^{-1} \sum_{i = 1}^n \psi(Y_i, \hat \theta) \psi(Y_i, \hat \theta)^\top$,
-but other robust estimators such as HC and HAC estimators are also applicable.
+but other robust estimators such as HC (heteroskedasticity consistent) and HAC
+(heteroskedasticity and autocorrelation consistent) estimators are also applicable.
 %% \citep[see e.g.,][]{Z:Andrews:1991,Z:Lumley+Heagerty:1999,Z:Cribari-Neto:2004}.
 %% If the estimator is order-dependent it would have to be re-computed for each
 %% ordering.
@@ -311,7 +312,7 @@ generalized M-fluctuation test and has been established by
 of structural change tests suggested both in the econometrics and
 statistics literature, including OLS-based CUSUM and MOSUM tests
 \citep{PlobergerKraemer1992,ChuHornikKuan1995}, score-based tests
-\citep{Nyblom1989,HjortKoning2002} and statistics based on $LM$
+\citep{Nyblom1989,HjortKoning2002} and statistics based on lagrange multiplier
 statistics \citep{Andrews1993,AndrewsPloberger1994}---an overview is
 given in \cite{Zeileis2005}. In principle, any of the tests from this
 framework could be used in the recursive partitioning algorithm, but two
@@ -332,13 +333,13 @@ scaled by its variance function. This is the sup$LM$ statistic of \cite{Andrews1
 which can be interpreted as the supremum of $LM$ statistics against a single change point alternative
 where the potential change point is shifted over the interval $[\ui, \oi]$ that
 is typically defined by requiring some minimal segment size $\ui$ and then $\oi = n - \ui$.
-This test statistic is asymptotically equivalent to the supremum of LR (or Chow)
+This test statistic is asymptotically equivalent to the supremum of likelihood-ratio (or Chow)
 statistics \citep{Chow1960} but has the advantage that the model has to be fitted
 only once under the null hypothesis of parameter stability and not under the 
 alternative for each conceivable change point.
 The limiting distribution of the sup$LM$ statistic is given by the supremum of a
 squared, $k$-dimensional tied-down Bessel process $\sup_t (t (1-t))^{-1} ||W^0(t)||_2^2$
-from which the corresponding $p$ value $p_j$ can be computed \citep{Hansen1997}.
+from which the corresponding $p$~value $p_j$ can be computed \citep{Hansen1997}.
 
 Recently, \cite{PottsSammut2005} have also pointed out that parameter instability tests
 can be employed for growing linear regression trees. However, our approach makes the
@@ -359,7 +360,7 @@ approximation) and can be applied to a more general class of models.
 %% 
 %% The asymptotic distribution of
 %% $\lambda_{\mbox{CvM}} (W_j)$ is given by $\int_0^1 \left| \left| W^0(t) \right| \right|^2_2 \mbox{ d} t$
-%% from which the corresponding $p$ value $p_j$ can be computed
+%% from which the corresponding $p$~value $p_j$ can be computed
 %% \citep{ZeileisHornik2003}.
 
 
@@ -381,7 +382,7 @@ over the observations in category $c = 1, \dots, C$ (i.e., essentially the sum o
 the scores in category $c$). The test statistic is then
 the weighted sum of the squared $L_2$ norm of the increments
 which has an asymptotic $\chi^2$ distribution with $k \cdot (C-1)$ degrees of freedom from
-which the corresponding $p$ value $p_j$ can be computed \citep{HjortKoning2002}.
+which the corresponding $p$~value $p_j$ can be computed \citep{HjortKoning2002}.
 
 The advantage of using this approach based on the empirical fluctuation processes
 from Equation~\ref{eq:Wj} with the functionals from Equations~\ref{eq:supLM} and
@@ -390,9 +391,9 @@ just have to be computed once in a node. For performing the parameter instabilit
 the scores just have to be reordered and aggregated to a scalar test statistic each time. 
 
 To test whether there is some overall instability in the current node, it just has
-to be checked whether the minimal $p$ value $\min_{j = 1, \dots, \ell} p_j$ falls below
+to be checked whether the minimal $p$~value $\min_{j = 1, \dots, \ell} p_j$ falls below
 a pre-specified significance level $\alpha$, that is typically corrected for multiple
-testing. If this is the case, the variable $Z_{j^*}$ associated with the minimal $p$ value
+testing. If this is the case, the variable $Z_{j^*}$ associated with the minimal $p$~value
 is chosen for splitting the model in the next step of the algorithm.
 
 \subsection{Splitting}
@@ -408,8 +409,8 @@ methods are briefly discussed for numerical and categorical partitioning variabl
 respectively.
 
 \textbf{Splitting numerical variables:}
-Exhaustive search for a split into $B = 2$ segments is usually easy because it is
-of order $O(n)$. For $B > 2$, when an exhaustive search
+Exhaustive search for a split into $B = 2$ segments is feasible in
+$O(n)$ operations. For $B > 2$, when an exhaustive search
 would be of order $O(n^{B-1})$, the optimal partition can be found using a dynamic
 programming approach of order $O(n^2)$. This is an application of Bellman's principle and has been
 discussed in several places in the statistics and econometrics literature on
@@ -489,7 +490,7 @@ npPID <- ntPID * nkPID + ntPID - 1
 
 To illustrate how model-based recursive partitioning can be used in practice,
 the general framework from the previous section is applied to various 
-regression problems (linear regression, logistic regression, survival regression).
+regression problems (linear regression, logistic regression, and survival regression).
 Four different data sets are analyzed in the following way: In a first
 step, the recursively partitioned model is fitted to the data and visualized for
 explanatory analysis, emphasizing that the algorithm can be used to build intelligible
@@ -507,8 +508,8 @@ with comparable predictive performance).
 For the linear regression applications, the \underline{mo}del-\underline{b}ased (MOB)
 recursive partitioning algorithm introduced here is compared to other algorithms 
 previously suggested in the literature: GUIDE \citep{Loh2002} and
-M5' \citep{WangWitten1997}, wich is a rational reconstruction of M5 \citep{Quinlan1992},
-as linear model trees and CART \citep[classification and regression trees,][]{Breimanetal1984}
+M5' \citep{WangWitten1997}, which is a rational reconstruction of M5 \citep{Quinlan1992},
+as linear model trees; as well as CART \citep[classification and regression trees,][]{Breimanetal1984}
 and conditional inference trees \citep[CTree,][]{HothornHornikZeileis2006} as trees with
 constant models in the nodes. The logistic regression-based MOB trees are compared
 with logistic model trees \citep[LMT,][]{Landwehretal2005} as well as various tree-based algorithms
@@ -542,7 +543,7 @@ the binaries distributed at \url{http://www.stat.wisc.edu/~loh/} were used.
 Journal pricing is a topic that stirred considerable interest in the economics literature in
 recent years, see \cite{Bergstrom2001} and his journal pricing Web page
 \url{http://www.econ.ucsb.edu/~tedb/Journals/jpricing.html} for further informations on this 
-discussion. Using data for $n = 180$ economic journals collected by T.~Bergstrom,
+discussion. Using data collected by T.~Bergstrom for $n = 180$ economic journals,
 \cite{StockWatson2003} fit a demand equation by OLS
 for the number of library subscriptions explained by the price per citation (both in logs).
 In their analysis, they find that this simple linear regression can be improved by including
@@ -558,7 +559,7 @@ journal is associated with a society or not. Thus, we use a standard model whose
 is driven by economic knowledge and try to partition it with respect to further variables
 whose influence is not clear in advance. Note that whereas the selection of appropriate transformations
 is crucial for the modeling variables, monotonous transformations of the partitioning
-variables have no influence on the fitting process. For testing, a Bonferroni-adjusted
+variables have no influence on the fitting process. For testing, a Bonferroni-corrected
 significance level of $\alpha = 0.05$ and a minimal segment size of $\ui = 10$ is used.
 
 The resulting linear regression-based tree for the economic journals data is depicted in
@@ -566,13 +567,13 @@ Figure~\ref{fig:Journals} employing scatter plots with fitted regression lines i
 In the fitting process, a global model for all observations is estimated (yielding a price
 elasticity of \Sexpr{round(coef(fmJ, node = 1)[2], digits = 2)}) and assessed by the parameter
 instability tests. A highly significant instability is found only with respect to age
-(with a Bonferroni-adjusted $p$ value of $\Sexpr{Pval(sctest(fmJ, node = 1)[2,3])}$)
+(with a Bonferroni-adjusted $p$~value of $\Sexpr{Pval(sctest(fmJ, node = 1)[2,3])}$)
 which is subsequently used for splitting, 
 leading to an optimal split at age 18. For the \Sexpr{sum(weights(fmJ@tree$left$model))}
 young journals a much higher price elasticity of \Sexpr{round(coef(fmJ, node = 2)[2], digits = 2)}
 is found than for the \Sexpr{sum(weights(fmJ@tree$right$model))} older journals with a price elasticity
 of \Sexpr{round(coef(fmJ, node = 3)[2], digits = 2)}. No further parameter instabilities
-with respect to the partitioning variables can be detected (all $p$ values are greater than
+with respect to the partitioning variables can be detected (all $p$~values are greater than
 90\%) and hence the algorithm stops. Table~\ref{tab:Journals} reports the RMSE on the original
 data and the model complexity of \Sexpr{npJ} (\Sexpr{ntJ} times $k = \Sexpr{nkJ}$ coefficients plus
 $\Sexpr{ntJ} - 1$ splits).
@@ -659,7 +660,7 @@ shows partial scatter plots along with the fitted values in the terminal nodes. 
 be seen that in the nodes~3, 6 and 7 the increase of value with the number of rooms
 dominates the picture (lower panel) whereas in node~9 the decrease with
 the lower status population percentage (upper panel) is more pronounced. Splits are performed
-in the variables  tax (poperty-tax rate) and ptratio (pupil-teacher ratio).
+in the variables  tax (property-tax rate) and ptratio (pupil-teacher ratio).
 As reported in Table~\ref{tab:BostonHousing},
 the model has $\Sexpr{ntBH} \cdot \Sexpr{nkBH}$ regression coefficients after estimating 
 $\Sexpr{ntBH}-1$ splits, giving
@@ -736,14 +737,14 @@ $\ui = 40$ and again a Bonferroni-corrected significance level of $\alpha = 0.05
 Figure~\ref{fig:PID} displays the resulting logistic regression-based tree. The
 data is first split at a body mass index of 26.3 (corresponding roughly to the lower 
 quartile of this variable), those observations with a higher body mass index are
-partinioned into age groups below or above 30 years. The leaves of the tree visualize
+partitioned into age groups below or above 30 years. The leaves of the tree visualize
 the data and the fitted logistic regression model using spinograms \citep{HofmannTheus2005} 
 of diabetes by glucose (where the bins are chosen via the five point summary of
-glucose on the full data set). It can be seen that for the women with a low body mass 
+glucose on the full data set). It can be seen that for women with a low body mass 
 index the average risk of diabetes is low, but increases clearly with age (corresponding
 to an odds ratio of $\Sexpr{format(round(exp(coef(fmPID)[1,2]), digits = 3), nsmall = 3)}$ per year).
 For the young women with a high body mass index, the average risk is higher and increases
-less quickly with respect to age (with an odds raio of
+less quickly with respect to age (with an odds ratio of
 $\Sexpr{format(round(exp(coef(fmPID)[2,2]), digits = 3), nsmall = 3)}$). Finally, the older
 women with a high body mass index have the highest average risk but with a lower
 odds ratio of only $\Sexpr{format(round(exp(coef(fmPID)[3,2]), digits = 3), nsmall = 3)}$.
@@ -832,13 +833,13 @@ The resulting model-based tree is depicted in Figure~\ref{fig:GBSG2} employing
 scatter plots for survival time by number of positive nodes in the leaves. Based on
 the ideas of \cite{GentlemanCrowley1991}, circles with different shadings of gray 
 (hollow and solid) are used for censored and uncensored observations, respectively.
-Fitted median survival times from the Weibul regression model are visualized by
+Fitted median survival times from the Weibull regression model are visualized by
 dashed and solid lines for patients with and with hormonal therapy. The data are 
 partitioned once with respect to progesterone receptor splitting the observations
 into a group with marked influence of positive nodes and neglegible influence
 of hormonal therapy and a group with less pronounced influence of positive nodes but
 clear hormonal therapy effect. A fair amount of censored observations remains in
-both groups, no further significant instabilities can be detected (all $p$ values
+both groups, no further significant instabilities can be detected (all $p$~values
 are above $50\%$). The resulting model has 
 $\Sexpr{ncol(vcov(fmGBSG2@tree$model)) * nrow(coef(fmGBSG2)) + nrow(coef(fmGBSG2)) - 1}$ parameters
 ($\Sexpr{nrow(coef(fmGBSG2))} \cdot \Sexpr{ncol(vcov(fmGBSG2@tree$model))}$ coefficients
@@ -967,7 +968,7 @@ variable and split point selection.
 The algorithm as discussed in this paper relies on a statistically motivated
 internal stopping criterion (sometimes called \textit{pre-pruning}), but, of
 course, it could also be combined with cross-validation-based \textit{post-pruning}
-although the statistical interpretation of the $p$ values would then be lost.
+although the statistical interpretation of the $p$~values would then be lost.
 As every node of the tree is associated with a fitted model with a certain number
 of parameters, another attractive option is to grow the tree with a large $\alpha$
 and then prune based on information criteria.
@@ -1038,5 +1039,52 @@ are valid in a statistical sense.
 %% <TH> address missing in Stock & Watson reference </TH>
 
 \bibliography{mob}
+
+\begin{appendix}
+
+\section[R code]{\proglang{R} code}
+
+The following \proglang{R} code is sufficient for reproducing the recursively
+partitioned model trees from Section~\ref{sec:illustration} as well as their visualizations.
+
+\begin{verbatim}
+library("party")
+
+data("Journals", package = "Ecdat")
+journals <- Journals[, c("libprice", "society", "citestot")]
+journals$oclc <- log(Journals$oclc)
+journals$citeprice <- log(Journals$libprice/Journals$citestot)
+journals$age <- 2000 - Journals$date1
+journals$chars <- Journals$charpp*Journals$pages/10^6
+mobJ <- mob(oclc ~ citeprice | society + citestot + age + chars + libprice,
+  data = journals, model = linearModel, control = mob_control(minsplit = 10))
+plot(mobJ)
+
+data("BostonHousing", package = "mlbench")
+BostonHousing$lstat <- log(BostonHousing$lstat)
+BostonHousing$rm <- BostonHousing$rm^2
+BostonHousing$chas <- factor(BostonHousing$chas)
+BostonHousing$rad <- factor(BostonHousing$rad, ordered = TRUE)
+mobBH <- mob(medv ~ lstat + rm | zn + indus + chas + nox + age + dis + rad +
+  tax + crim + b + ptratio, data = BostonHousing,
+  control = mob_control(minsplit = 40), model = linearModel)
+plot(mobBH)
+
+data("PimaIndiansDiabetes", package = "mlbench")
+mobPID <- mob(diabetes ~ glucose | pregnant + pressure + triceps + insulin +
+  mass + pedigree + age, data = PimaIndiansDiabetes, model = glinearModel,
+  control = mob_control(minsplit = 40), family = binomial())
+plot(mobPID)
+
+data("GBSG2", package = "ipred")
+nloglik <- function(x) -logLik(x)
+GBSG2$time <- GBSG2$time/365
+mobGBSG2 <- mob(Surv(time, cens) ~ horTh + pnodes | progrec + menostat +
+  estrec + menostat + age + tsize + tgrade, data = GBSG2, model = survReg,
+  control = mob_control(objfun = nloglik, minsplit = 40))
+plot(mobGBSG2, terminal = node_scatterplot, tp_args = list(yscale = c(-0.1, 11))
+\end{verbatim}
+
+\end{appendix}
 
 \end{document}
