@@ -153,6 +153,13 @@ setClass(Class = "TreeControl",
     )
 )
 
+setClass(Class = "ForestControl",
+    representation = representation(
+        ntree    = "integer",
+        replace  = "logical",
+        fraction = "numeric"),
+    contains = "TreeControl")
+
 setClass(Class = "VariableFrame",
     representation = representation(
         variables       = "df_OR_list", 

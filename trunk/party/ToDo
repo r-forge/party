@@ -1,4 +1,6 @@
 
+o       check GetRNGstate() and PutRNGstate() calls in C code
+
 o       simplify handling of ordered factors, in a way similar to coin
 
 o	we can re-compute prediction weights from the weights in the root
