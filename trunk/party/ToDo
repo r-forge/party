@@ -1,4 +1,9 @@
 
+o  milestones for 0.9-0:
+   -  docu for mob (incl. journal + survreg)
+   -  cite new TR
+   -  vignette for cforest
+
 o       check GetRNGstate() and PutRNGstate() calls in C code
 
 o       simplify handling of ordered factors, in a way similar to coin
@@ -8,10 +13,8 @@ o	we can re-compute prediction weights from the weights in the root
 
 o	more checks for MonteCarlo
 
-
 o	check categorical splits more carefully (and add an example)
 
-
-o	check `rforest' and convenience functions (`treepredict' seems the
+o	check `cforest' and convenience functions (`treepredict' seems the
         wrong name)
 

@@ -1,5 +1,5 @@
 
-                CHANGES IN party VERSION 0.9-0 (2006-04-xx)
+                CHANGES IN party VERSION 0.8-5 (2006-04-25)
 
     o    all hyper parameters to `cforest' are now controlled using
          objects of a new class `ForestControl' which can be created using
