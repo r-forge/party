@@ -127,9 +127,8 @@ cforest_control <- function(teststat = "max",
     class(RET) <- "ForestControl"
     RET@ntree <- as.integer(ntree)
     RET@replace <- replace
-    if (fraction > 0.99 || fraction < 0.01)
-        stop(sQuote("fraction"), " is not in between (0.01, 0.99)")
     RET@fraction <- as.double(fraction)
+    val <- validObject(RET)
     RET
 }
     

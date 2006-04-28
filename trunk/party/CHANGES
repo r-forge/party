@@ -1,4 +1,9 @@
 
+                CHANGES IN party VERSION 0.8-6 (2006-xx-xx)
+
+    o    add some validity checks for hyper parameters
+
+
                 CHANGES IN party VERSION 0.8-5 (2006-04-25)
 
     o    all hyper parameters to `cforest' are now controlled using

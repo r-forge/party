@@ -216,6 +216,7 @@ ctree_control <- function(teststat = c("quad", "max"),
     RET@tgctrl@stump <- stump
     RET@tgctrl@maxdepth <- as.integer(maxdepth)
     RET@tgctrl@savesplitstats <- savesplitstats
+    val <- validObject(RET)
     RET
 }
 
