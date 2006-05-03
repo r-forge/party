@@ -518,11 +518,11 @@ C4.5 \citep{Quinlan1993}, CART and CTree.
 
 All benchmark comparisons are carried out in the framework of \cite{HothornLeischZeileis2005}
 based on 250 bootstrap replications and employing the root mean squared error (RMSE)
-and misclassification rate on the out-of-bag (OOB) samples as predictive
+or misclassification rate on the out-of-bag (OOB) samples as predictive
 performance measure and the number of estimated parameters (splits and coefficients) as
 complexity measure.
 The median performances\footnote{The median rather than the mean is used for two reasons: First, to
-account for the skewness of the performance distributions, and second due to the many bindings
+account for the skewness of the performance distributions, and second due to the many ties
 in the complexity measure for the model-based tree algorithms (MOB, GUIDE, M5', LMT).}
 on the bootstrap replications are reported in tabular form, simultaneous confidence intervals
 for performance differences (obtained by treatment contrasts with MOB as the reference
@@ -565,14 +565,14 @@ significance level of $\alpha = 0.05$ and a minimal segment size of $\ui = 10$ i
 The resulting linear regression-based tree for the economic journals data is depicted in
 Figure~\ref{fig:Journals} employing scatter plots with fitted regression lines in the leaves.
 In the fitting process, a global model for all observations is estimated (yielding a price
-elasticity of \Sexpr{round(coef(fmJ, node = 1)[2], digits = 2)}) and assessed by the parameter
+elasticity of $\Sexpr{round(coef(fmJ, node = 1)[2], digits = 2)}$) and assessed by the parameter
 instability tests. A highly significant instability is found only with respect to age
 (with a Bonferroni-adjusted $p$~value of $\Sexpr{Pval(sctest(fmJ, node = 1)[2,3])}$)
 which is subsequently used for splitting, 
 leading to an optimal split at age 18. For the \Sexpr{sum(weights(fmJ@tree$left$model))}
-young journals a much higher price elasticity of \Sexpr{round(coef(fmJ, node = 2)[2], digits = 2)}
+young journals a much higher price elasticity of $\Sexpr{round(coef(fmJ, node = 2)[2], digits = 2)}$
 is found than for the \Sexpr{sum(weights(fmJ@tree$right$model))} older journals with a price elasticity
-of \Sexpr{round(coef(fmJ, node = 3)[2], digits = 2)}. No further parameter instabilities
+of $\Sexpr{round(coef(fmJ, node = 3)[2], digits = 2)}$. No further parameter instabilities
 with respect to the partitioning variables can be detected (all $p$~values are greater than
 90\%) and hence the algorithm stops. Table~\ref{tab:Journals} reports the RMSE on the original
 data and the model complexity of \Sexpr{npJ} (\Sexpr{ntJ} times $k = \Sexpr{nkJ}$ coefficients plus
@@ -844,7 +844,7 @@ are above $50\%$). The resulting model has
 $\Sexpr{ncol(vcov(fmGBSG2@tree$model)) * nrow(coef(fmGBSG2)) + nrow(coef(fmGBSG2)) - 1}$ parameters
 ($\Sexpr{nrow(coef(fmGBSG2))} \cdot \Sexpr{ncol(vcov(fmGBSG2@tree$model))}$ coefficients
 and $\Sexpr{nrow(coef(fmGBSG2))} - 1$ splits), yielding a log-likelihood of
-\Sexpr{round(as.vector(logLik(fmGBSG2)), digits = 4)}.
+$\Sexpr{round(as.vector(logLik(fmGBSG2)), digits = 4)}$.
 
 For this survival regression problem, we refrain from conducting a benchmark comparison
 of performance as carried out in the previous section. The main reason for this is
