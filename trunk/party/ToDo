@@ -20,3 +20,4 @@ o	check categorical splits more carefully (and add an example)
 o	check `cforest' and convenience functions (`treepredict' seems the
         wrong name)
 
+o       allow missing values in factors
