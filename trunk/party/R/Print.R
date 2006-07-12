@@ -145,3 +145,7 @@ print.RandomForest <- function(x, ...) {
     cat("Number of observations: ", x@responses@nobs, "\n\n")
     invisible(x)
 }
+
+setMethod("show", "BinaryTree", function(object) print(object))
+setMethod("show", "RandomForest", function(object) print(object))
+
