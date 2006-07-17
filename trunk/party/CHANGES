@@ -1,5 +1,5 @@
 
-                CHANGES IN party VERSION 0.8-7 (2006-07-12)
+                CHANGES IN party VERSION 0.8-7 (2006-07-17)
 
     o    REAL(NULL) now gives an error in C code and scores could be 
          potentially NULL: fixed for the time being.
