@@ -1,3 +1,4 @@
+
 p. 1, affiliations:
        Torsten Hothorn is Lecturer of Statistics, ...
        no comma between `Biometrie' and `und'
@@ -14,13 +15,34 @@ p. 5, line 5: is it possible to avoid the line break between \in and
 p. 6, number (3.2): can the number be centered vertically in order to
        make clear that both \mu and \Sigma are numbered with (3.2)?
 
-p. 7, FIXME: Bonferroni-adjusted P values $m P_j$ is not really true (anymore?)
+p. 7, line 20: remove $mP_j$ such that it reads
+      ... Bonferroni-adjusted P values or a min-P value ...
+
+p. 7, line -12: please add a citation: 
+      ... several different ways (see Hothorn, Hornik, van de Wiel, and Zeileis
+      2006 for an overview).
+
+      The reference is our TAS paper:
+
+      @Article{Z-papers:Hothorn+Hornik+VanDeWiel:2006,
+          author        = {Torsten Hothorn and Kurt Hornik and
+                           Mark A. van de Wiel and Achim Zeileis},
+          title         = {A {L}ego System for Conditional Inference},
+          journal       = {The American Statistician},
+          year          = {2006},
+          volume        = {60},
+          issue         = {3},
+          pages         = {257--263},
+          doi           = {10.1198/000313006X118430}
+      }
+
+      (new bbl-file is attached)
 
 p. 7, line -13: Monte Carlo procedures can _always_ be used
 
 p. 7, line -5: `a asymptotic' -> `an asymptotic'
 
-p. 9, line -3: the definition of w_i(\x) is missing. Please change to:
+p. 9, line -3: the definition of w_i(\x) was missing. Please change to:
        ... an estimate can be obtained by 
        \begin{eqnarray*}
        \hat{\E}(\Y | \X = \x) = \left(\sum_{i=1}^n w_i(\x)\right)^{-1} \sum_{i=1}^n
@@ -53,5 +75,3 @@ p. 21, before appendix: Acknowledgements section is missing, please add:
 p. 34, in the Strasser & Weber reference, please add:
        Preprint available online at
        http://epub.wu-wien.ac.at/dyn/openURL?id=oai:epub.wu-wien.ac.at:epub-wu-01_94c
-
-FIXME include Lego paper in references?

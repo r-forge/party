@@ -200,8 +200,7 @@ g_m(X_{mi})^\top\right)^\top h(\Y_i, (\Y_1, \dots, \Y_n))^\top \right).
 However, this approach is less attractive for learning samples with
 missing values. Universally applicable approaches are multiple test 
 procedures based on $P_1, \dots, P_m$. 
-Simple Bonferroni-adjusted $P$-values $m
-P_j$ or a min-$P$-value resampling approach are just examples and we refer
+Simple Bonferroni-adjusted $P$-values or a min-$P$-value resampling approach are just examples and we refer
 to the multiple testing literature \citep[e.g.,][]{WestfallYoung1993}
 for more advanced methods. We reject $H_0$ when the minimum 
 of the adjusted $P$-values is less than a pre-specified nominal level $\alpha$
@@ -210,9 +209,10 @@ may be seen as a unique parameter determining the size of the resulting trees.
 
 The conditional distribution and thus the $P$-value 
 of the statistic $c(\t, \mu, \Sigma)$ can be
-computed in several different ways. For some special forms of the
+computed in several different ways \citep[see][for an overview]{Z-papers:Hothorn+Hornik+VanDeWiel:2006}.
+For some special forms of the
 linear statistic, the exact distribution of the test statistic is tractable;
-conditional Monte-Carlo procedures can be used to approximate the exact
+conditional Monte-Carlo procedures can always be used to approximate the exact
 distribution. \cite{StrasserWeber1999} proved (Theorem 2.3) that the
 conditional distribution of linear statistics $\T$ with conditional
 expectation $\mu$ and covariance $\Sigma$ tends to a multivariate normal
@@ -360,7 +360,7 @@ and zero otherwise.
 
 \paragraph{Censored Regression.}
 The influence function $h$ may be chosen as 
-Logrank or Savage scores taking censoring into
+logrank or Savage scores taking censoring into
 account and one can proceed as for univariate continuous regression. This is
 essentially the approach first published by \cite{regression:1988}. 
 An alternative is the weighting scheme suggested by
@@ -454,7 +454,7 @@ test \citep{Agresti2002}.
 For multivariate responses, the influence function is a combination of
 influence functions appropriate for any of the univariate response variables
 discussed in the previous paragraphs, e.g., indicators for multiple binary
-responses \citep{Zhang1998,NohSongPark2004}, Logrank or Savage scores
+responses \citep{Zhang1998,NohSongPark2004}, logrank or Savage scores
 for multiple failure times 
 %%\citep[for example tooth loss times, ][]{SuFan2004}
 and the original observations or a rank transformation for multivariate regression 

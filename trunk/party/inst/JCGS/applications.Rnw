@@ -83,12 +83,12 @@ temporal part of the optic nerve head (\texttt{vart}).
 
 Recursive partitioning for censored responses has attracted a lot of interest
 \citep[e.g.,][]{regression:1988,relative-r:1992}. 
-Survival trees using $P$-value adjusted Logrank statistics
+Survival trees using $P$-value adjusted logrank statistics
 are used by \cite{statistics:2001a} 
 for the evaluation of prognostic factors for the German Breast
 Cancer Study Group (GBSG2) data,  a prospective controlled clinical trial on the
 treatment of node positive breast cancer patients. Here, we use
-Logrank scores as well. Complete data of seven prognostic factors of $686$
+logrank scores as well. Complete data of seven prognostic factors of $686$
 women are used for prognostic modeling, the
 dataset is available within the 
 \texttt{ipred} package.
