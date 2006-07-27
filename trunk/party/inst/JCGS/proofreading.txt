@@ -1,27 +1,39 @@
-
 p. 1, affiliations:
-    Torsten Hothorn is Lecturer of Statistics, ...
-    no comma between `Biometrie' and `und'
-    email: Torsten.Hothorn@R-project.org
+       Torsten Hothorn is Lecturer of Statistics, ...
+       no comma between `Biometrie' and `und'
+       email: Torsten.Hothorn@R-project.org
+       for KH and AZ: please change affiliation to `Department of Statistics and Mathematics'
+    
+p. 3, `F-ratio' -> `F ratio'
+
+p. 4, `partition based' -> `partition-based'
 
 p. 5, line 5: is it possible to avoid the line break between \in and
-    A^\star?
+       A^\star?
 
 p. 6, number (3.2): can the number be centered vertically in order to
-    make clear that both \mu and \Sigma are numbered with (3.2)?
+       make clear that both \mu and \Sigma are numbered with (3.2)?
+
+p. 7, FIXME: Bonferroni-adjusted P values $m P_j$ is not really true (anymore?)
 
 p. 7, line -13: Monte Carlo procedures can _always_ be used
 
+p. 7, line -5: `a asymptotic' -> `an asymptotic'
+
 p. 9, line -3: the definition of w_i(\x) is missing. Please change to:
+       ... an estimate can be obtained by 
+       \begin{eqnarray*}
+       \hat{\E}(\Y | \X = \x) = \left(\sum_{i=1}^n w_i(\x)\right)^{-1} \sum_{i=1}^n
+       w_i(\x) \Y_i,
+       \end{eqnarray*}
+       where $w_i(\x) = w_i$ when $\x$ is element of the same terminal node as the
+       $i$th observation and zero otherwise.
 
-... an estimate can be obtained by 
-\begin{eqnarray*}
-\hat{\E}(\Y | \X = \x) = \left(\sum_{i=1}^n w_i(\x)\right)^{-1} \sum_{i=1}^n
-w_i(\x) \Y_i,
-\end{eqnarray*}
-where $w_i(\x) = w_i$ when $\x$ is element of the same terminal node as the
-$i$th observation and zero otherwise.
+p. 11, why is the resolution (or graphic type) of Figure 1 and 3 different from
+       Figure 2?
 
+p. 11, caption Figure 1: `the fraction of glaucomateous eyes' -> `the fraction
+       of glaucomateous and normal eyes, respectively,'
 
 p. 11, line -5: The dataset is part (not: data is part)
 
@@ -31,12 +43,15 @@ p. 12, lines 5 and 9: please use logrank, not Logrank
 
 p. 16, Table 2: missing period at end of caption.
 
-p. 21 before appendix: Acknowledgements section is missing, please add:
+p. 21, before appendix: Acknowledgements section is missing, please add:
+       \section*{ACKNOWLEDGEMENTS}
+       We would like to thank three anonymous referees, one associate editor and
+       the editor of JCGS for their valuable comments which lead to substantial
+       improvements. The work of T. Hothorn was supported by Deutsche
+       Forschungsgemeinschaft (DFG) under grant HO 3242/1-1.
 
-\section*{ACKNOWLEDGEMENTS}
+p. 34, in the Strasser & Weber reference, please add:
+       Preprint available online at
+       http://epub.wu-wien.ac.at/dyn/openURL?id=oai:epub.wu-wien.ac.at:epub-wu-01_94c
 
-We would like to thank three anonymous referees, one associate editor and
-the editor of JCGS for their valuable comments which lead to substantial
-improvements. The work of T. Hothorn was supported by Deutsche
-Forschungsgemeinschaft (DFG) under grant HO 3242/1-1.
-
+FIXME include Lego paper in references?
