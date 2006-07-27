@@ -353,8 +353,10 @@ the response $\E(\Y | \X = \x)$ in each cell; an estimate
 can be obtained by 
 \begin{eqnarray*}
 \hat{\E}(\Y | \X = \x) = \left(\sum_{i=1}^n w_i(\x)\right)^{-1} \sum_{i=1}^n
-w_i(\x) \Y_i.
+w_i(\x) \Y_i,
 \end{eqnarray*}
+where $w_i(\x) = w_i$ when $\x$ is element of the same terminal node as the $i$th observation
+and zero otherwise.
 
 \paragraph{Censored Regression.}
 The influence function $h$ may be chosen as 
