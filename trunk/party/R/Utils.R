@@ -9,6 +9,7 @@ qsvd <- function(x) {
 
     svdmem <- new("svd_mem", ncol(x)) 
     dummy <- .Call("CR_svd", x, svdmem, PACKAGE = "party")
+    rm(dummy)
     return(svdmem@svd)
 }
 

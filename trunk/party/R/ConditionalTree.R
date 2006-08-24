@@ -216,7 +216,8 @@ ctree_control <- function(teststat = c("quad", "max"),
     RET@tgctrl@stump <- stump
     RET@tgctrl@maxdepth <- as.integer(maxdepth)
     RET@tgctrl@savesplitstats <- savesplitstats
-    val <- validObject(RET)
+    if (!validObject(RET))
+        stop("RET is not a valid object of class", class(RET))
     RET
 }
 
