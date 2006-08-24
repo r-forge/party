@@ -1,4 +1,10 @@
 
+                CHANGES IN party VERSION x.y-z (yyyy-mm-dd)
+
+    o    node_barplot() can now also draw stacked barplots.
+
+
+
                 CHANGES IN party VERSION 0.8-8 (2006-08-23)
 
     o    export `varimp' (variable importance measures for cforest())
