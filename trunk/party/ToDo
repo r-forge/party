@@ -11,7 +11,5 @@ o	we can re-compute prediction weights from the weights in the root
 
 o	more checks for MonteCarlo
 
-o	check categorical splits more carefully (and add an example)
-
 o	check `cforest' and convenience functions (`treepredict' seems the
         wrong name)
