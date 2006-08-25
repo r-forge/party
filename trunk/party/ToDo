@@ -6,10 +6,6 @@ o  milestones for 0.9-0:
 
 o       check GetRNGstate() and PutRNGstate() calls in C code
 
-o       simplify handling of ordered factors, in a way similar to coin
-
-        -> simply use scores as transformations, what about splitting???
-
 o	we can re-compute prediction weights from the weights in the root
 	node, the terminal node number and where.
 
@@ -19,5 +15,3 @@ o	check categorical splits more carefully (and add an example)
 
 o	check `cforest' and convenience functions (`treepredict' seems the
         wrong name)
-
-o       allow missing values in factors

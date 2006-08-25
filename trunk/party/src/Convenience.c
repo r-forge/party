@@ -50,38 +50,6 @@ void C_LinStatExpCovMPinv(SEXP linexpcov, double tol) {
 
 
 /**
-    Linear combination of a linear statistic, expectation and covariance
-    *\param linexpcov an object of class `LinStatExpectCovar'
-    *\param ScoreMatrix matrix of coefficients
-    *\param ans return value; an object of class `LinStatExpectCovar' 
-*/
-
-void C_MLinearStatistic(SEXP linexpcov, SEXP ScoreMatrix, SEXP ans) {
-    
-    int nr, nc, pq;
-    double *dummy;
-    
-    nr = nrow(ScoreMatrix);
-    nc = ncol(ScoreMatrix);
-    pq = get_dimension(linexpcov);
-    dummy = Calloc(nr * pq, double);
-    
-    C_matprod(REAL(ScoreMatrix), nrow(ScoreMatrix), ncol(ScoreMatrix), 
-              REAL(GET_SLOT(linexpcov, PL2_linearstatisticSym)), pq, 1, 
-              REAL(GET_SLOT(ans, PL2_linearstatisticSym)));
-    C_matprod(REAL(ScoreMatrix), nr, nc, 
-              REAL(GET_SLOT(linexpcov, PL2_expectationSym)), pq, 1, 
-              REAL(GET_SLOT(ans, PL2_expectationSym)));
-    C_matprod(REAL(ScoreMatrix), nr, nc, 
-              REAL(GET_SLOT(linexpcov, PL2_covarianceSym)), pq, pq, 
-              dummy);
-    C_matprodT(dummy, nr, pq, REAL(ScoreMatrix), nr, nc, 
-               REAL(GET_SLOT(ans, PL2_covarianceSym)));
-    Free(dummy);
-}
-
-
-/**
     Compute test statistic
     *\param linexpcov an object of class `LinStatExpectCovar'
     *\param type integer, 1 (maxabs) or 2 (quadform)
