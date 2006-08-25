@@ -117,5 +117,10 @@ ctree(formula, data, subset = NULL, weights = NULL,
         treeresponse(GBSG2ct, newdata = GBSG2[1:2,])        
     }
 
+    ### if you are interested in the internals:
+    \dontrun{
+        browseURL(system.file("documentation/html/index.html", 
+                              package = "party"))
+    }
 }
 \keyword{tree}
