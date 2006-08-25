@@ -18,7 +18,7 @@ Description: A computational toolbox for recursive partitioning.
   cforest() provides an implementation of Breiman's random forests
   based on conditional inference trees. Extensible functionality for
   visualizing tree-structured regression models is available.
-Depends: R (>= 2.0.1), survival, grid, modeltools (>= 0.2-3), coin (>= 0.4-10),
+Depends: R (>= 2.0.1), survival, grid, modeltools (>= 0.2-6), coin (>= 0.4-10),
   zoo, sandwich (>= 1.1-1), strucchange
 Suggests: ipred, mlbench, vcd
 LazyLoad: yes

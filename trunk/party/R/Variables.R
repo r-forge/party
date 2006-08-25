@@ -1,9 +1,22 @@
 
 # $Id$
 
+### factor handling
+ff_trafo <- function(x) {
+    ### temporarily define `na.pass' as na.action
+    opt <- options()
+    on.exit(options(opt))
+    options(na.action = na.pass)
+    ### construct design matrix _without_ intercept
+    mm <- model.matrix(~ x - 1)
+    colnames(mm) <- levels(x)  
+    ### remove unused levels   
+    mm <- mm[,colSums(mm, na.rm = TRUE) > 0,drop = FALSE]
+    return(mm)
+}
+
 ptrafo <- function(data, numeric_trafo = id_trafo, 
-   factor_trafo = function(x) model.matrix(~ x - 1), 
-   surv_trafo = logrank_trafo, var_trafo = NULL)
+   factor_trafo = ff_trafo, surv_trafo = logrank_trafo, var_trafo = NULL)
 
     trafo(data = data, numeric_trafo = numeric_trafo, factor_trafo =
           factor_trafo, surv_trafo = surv_trafo, var_trafo = var_trafo)
