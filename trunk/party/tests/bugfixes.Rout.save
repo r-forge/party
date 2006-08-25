@@ -95,3 +95,20 @@ Error in validObject(object@gtctrl) : invalid class "GlobalTestControl" object: 
 In addition: Warning message:
 ‘nresample’ must be larger than 100 in: validityMethod(object) 
 > 
+> ### NA handling for factors and in random forest
+> ### more than one (ordinal) response variable
+> xo <- ordered(x)
+> x[sample(1:length(x), 10)] <- NA
+> cforest(y + xo ~ x + z, data = df, 
++         control = cforest_control(ntree = 50))
+
+	 Random Forest using Conditional Inference Trees
+
+Number of trees:  50 
+
+Responses: y, xo 
+Inputs:  x, z 
+Number of observations:  250 
+
+There were 50 or more warnings (use warnings() to see the first 50)
+> 
