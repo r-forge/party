@@ -28,3 +28,10 @@ try(cforest_control(minsplit = -1))
 try(cforest_control(ntree = -1))
 try(cforest_control(maxdepth = -1))
 try(cforest_control(nresample = 10))
+
+### NA handling for factors and in random forest
+### more than one (ordinal) response variable
+xo <- ordered(x)
+x[sample(1:length(x), 10)] <- NA
+cforest(y + xo ~ x + z, data = df, 
+        control = cforest_control(ntree = 50))
