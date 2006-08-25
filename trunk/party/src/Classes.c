@@ -52,8 +52,6 @@ SEXP
     PL2_linexpcov2sampleSym, 
     PL2_weightsSym, 
     PL2_varmemorySym,
-    PL2_varMmemorySym, 
-    PL2_MscorematricesSym,
     PL2_splitstatisticsSym,
     PL2_savesplitstatsSym,
     PL2_responsesSym, 
@@ -120,8 +118,6 @@ SEXP party_init(void) {
     PL2_linexpcov2sampleSym = install("linexpcov2sample"); 
     PL2_weightsSym = install("weights"); 
     PL2_varmemorySym = install("varmemory"); 
-    PL2_varMmemorySym = install("varMmemory"); 
-    PL2_MscorematricesSym = install("Mscorematrices"); 
     PL2_splitstatisticsSym = install("splitstatistics");
     PL2_savesplitstatsSym = install("savesplitstats");
     PL2_responsesSym = install("responses"); 
@@ -267,16 +263,6 @@ SEXP get_missings(SEXP object, int variable) {
 
 SEXP get_varmemory(SEXP object, int variable) {
     return(VECTOR_ELT(GET_SLOT(object, PL2_varmemorySym), 
-                      variable - 1));
-}
-
-SEXP get_varMmemory(SEXP object, int variable) {
-    return(VECTOR_ELT(GET_SLOT(object, PL2_varMmemorySym), 
-                      variable - 1));
-}
-
-SEXP get_Mscorematrix(SEXP object, int variable) {
-    return(VECTOR_ELT(GET_SLOT(object, PL2_MscorematricesSym), 
                       variable - 1));
 }
 

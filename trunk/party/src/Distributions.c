@@ -169,8 +169,8 @@ SEXP R_maxabsConditionalPvalue(SEXP tstat, SEXP Sigma, SEXP maxpts,
 void C_MonteCarlo(double *criterion, SEXP learnsample, SEXP weights, 
                   SEXP fitmem, SEXP varctrl, SEXP gtctrl, double *ans_pvalues) {
 
-    int ninputs, nobs, yORDERED, xORDERED, j, i, k;
-    SEXP responses, inputs, y, x, xmem, Mxmem, expcovinf;
+    int ninputs, nobs, j, i, k;
+    SEXP responses, inputs, y, x, xmem, expcovinf;
     double sweights, *stats, tmp = 0.0, smax, *dweights; 
     int m, *counts, b, B, *dummy, *permindex, *index, *permute;
     
@@ -183,7 +183,6 @@ void C_MonteCarlo(double *criterion, SEXP learnsample, SEXP weights,
     /* number of Monte-Carlo replications */
     B = get_nresample(gtctrl);
     
-    yORDERED = is_ordinal(responses, 1);
     y = get_transformation(responses, 1);
     
     expcovinf = GET_SLOT(fitmem, PL2_expcovinfSym);
@@ -220,7 +219,6 @@ void C_MonteCarlo(double *criterion, SEXP learnsample, SEXP weights,
         /* for all input variables */
         for (j = 1; j <= ninputs; j++) {
             x = get_transformation(inputs, j);
-            xORDERED = is_ordinal(inputs, j);
 
             /* compute test statistic or pvalue for the permuted data */
             xmem = get_varmemory(fitmem, j);
@@ -233,13 +231,7 @@ void C_MonteCarlo(double *criterion, SEXP learnsample, SEXP weights,
             }
             
             /* compute the criterion, i.e. something to be MAXIMISED */
-            if (yORDERED || xORDERED) {
-                Mxmem = get_varMmemory(fitmem, j);
-                C_MLinearStatistic(xmem, get_Mscorematrix(fitmem, j), Mxmem);
-                C_TeststatCriterion(Mxmem, varctrl, &tmp, &stats[j - 1]);
-            } else {
-                C_TeststatCriterion(xmem, varctrl, &tmp, &stats[j - 1]);
-            }
+            C_TeststatCriterion(xmem, varctrl, &tmp, &stats[j - 1]);
         }
         
         /* the maximum of the permuted test statistics / 1 - pvalues */

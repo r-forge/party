@@ -3,6 +3,8 @@
 
     o    node_barplot() can now also draw stacked barplots.
 
+    o    simplify handling of ordinal variables. It is now possible
+         to have multiple ordinal response variables.
 
 
                 CHANGES IN party VERSION 0.8-8 (2006-08-23)

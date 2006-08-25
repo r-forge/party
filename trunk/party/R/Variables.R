@@ -27,14 +27,13 @@ initVariableFrame.df <- function(obj, trafo = ptrafo, scores = NULL, ...) {
             if (!(is.factor(obj[[n]]) && is.ordered(obj[[n]])) || 
                 nlevels(obj[[n]]) != length(scores[[n]]))
                 stop("cannot assign scores to variable ", sQuote(n))
+            if (any(order(scores[[n]]) != 1:length(scores[[n]])))
+                stop("scores are not increasingly ordered")
             attr(obj[[n]], "scores") <- scores[[n]]
         }
     }
 
     RET@scores <- lapply(obj, function(x) {
-        ### <FIXME> REAL(NULL) now gives an error in C code
-        ###         handle scores more intelligently 
-        ### </FIXME>
         sc <- 0
         if (is.ordered(x)) {
             sc <- attr(x, "scores")
@@ -73,15 +72,14 @@ initVariableFrame.df <- function(obj, trafo = ptrafo, scores = NULL, ...) {
             ordering[[j]] <- as.integer(order(xt[[j]]))
 
         if (is.factor(x)) {
-
-            ### <FIXME> storage mode of nominal and ordered 
-            ### factors are different!!!       
-            if (!is_ordinal[j]) {
-                storage.mode(obj[[j]]) <- "integer"
-            } else {
+            ### replace ordinal factors by their numeric scores
+            if (is_ordinal[j]) {
+                xt[[j]] <- matrix(RET@scores[[j]][obj[[j]]], ncol = 1)
+                storage.mode(xt[[j]]) <- "double"
                 storage.mode(obj[[j]]) <- "double"
+            } else {
+                storage.mode(obj[[j]]) <- "integer"
             }
-            ### </FIXME>
         } else {
             storage.mode(obj[[j]]) <- "double"
         }

@@ -61,16 +61,13 @@ setClass(Class = "TreeFitMemory",
         linexpcov2sample  = "LinStatExpectCovar",
         weights           = "list",
         varmemory         = "list",
-        varMmemory        = "list",
-        Mscorematrices    = "list",
         dontuse           = "logical",
         dontusetmp        = "logical",
         splitstatistics   = "numeric"
     ), 
     validity = function(object) {
         ni <- length(dontuse)
-        all(sapply(object@Mscorematrices, class) == "matrix") &&
-        (length(varmemory) == ni && length(dontusetmp) == ni)
+        length(varmemory) == ni && length(dontusetmp) == ni
     }
 )
 

@@ -1,7 +1,7 @@
 Package: party
 Title: A Laboratory for Recursive Part(y)itioning
 Date: $Date$
-Version: 0.8-8
+Version: 0.9-0
 Author: Torsten Hothorn, Kurt Hornik and Achim Zeileis
 Maintainer: Torsten Hothorn <Torsten.Hothorn@R-project.org>
 Description: A computational toolbox for recursive partitioning.
@@ -18,7 +18,7 @@ Description: A computational toolbox for recursive partitioning.
   cforest() provides an implementation of Breiman's random forests
   based on conditional inference trees. Extensible functionality for
   visualizing tree-structured regression models is available.
-Depends: R (>= 2.0.1), survival, grid, modeltools (>= 0.2-3), coin (>= 0.3-8),
+Depends: R (>= 2.0.1), survival, grid, modeltools (>= 0.2-3), coin (>= 0.4-10),
   zoo, sandwich (>= 1.1-1), strucchange
 Suggests: ipred, mlbench, vcd
 LazyLoad: yes
