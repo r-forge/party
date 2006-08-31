@@ -134,7 +134,7 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
     int ninputs, nobs, j, i, k, RECALC = 1, type;
     SEXP responses, inputs, y, x, xmem, expcovinf;
     SEXP thiswhichNA;
-    double *thisweights, *dweights, *pvaltmp;
+    double *thisweights, *dweights, *pvaltmp, stweights = 0.0;
     int *ithiswhichNA, RANDOM, mtry, *randomvar, *index;
     int *dontuse, *dontusetmp;
     
@@ -210,6 +210,20 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
                 for (i = 0; i < nobs; i++) thisweights[i] = dweights[i];
                 for (k = 0; k < LENGTH(thiswhichNA); k++)
                     thisweights[ithiswhichNA[k] - 1] = 0.0;
+
+                /* check if minsplit criterion is still met 
+                   in the presence of missing values
+                   bug spotted by Han Lee <Han.Lee@geodecapital.com>
+                       fixed 2006-08-31
+                */
+                stweights = 0.0;
+                for (i = 0; i < nobs; i++) stweights += thisweights[i];
+                if (stweights < minsplit) {
+                    ans_teststat[j - 1] = 0.0;
+                    ans_criterion[j - 1] = 0.0;
+                    continue; 
+                }
+
                 C_LinStatExpCov(REAL(x), ncol(x), REAL(y), ncol(y),
                                 thisweights, nrow(x), RECALC, 
                                 GET_SLOT(xmem, PL2_expcovinfSym),

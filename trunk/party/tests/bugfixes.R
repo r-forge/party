@@ -38,3 +38,9 @@ xo <- ordered(x)
 x[sample(1:length(x), 10)] <- NA
 cforest(y + xo ~ x + z, data = df, 
         control = cforest_control(ntree = 50))
+
+### make sure minsplit is OK in the presence of missing values
+### spotted by Han Lee <Han.Lee@GeodeCapital.com>
+load("t1.RData")
+tr <- try(ctree(p ~., data = t1))
+stopifnot(!inherits(tr, "try-error"))

@@ -11,6 +11,9 @@
 
     o    fix problems with NA handling for factors
 
+    o    make sure minsplit criterion applies in the presence of missing
+         values. Bug spotted by Han Lee <Han.Lee@geodecapital.com>.
+
 
                 CHANGES IN party VERSION 0.8-8 (2006-08-23)
 
