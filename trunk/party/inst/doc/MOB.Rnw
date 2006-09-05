@@ -1,7 +1,7 @@
 \documentclass{Z}
 
 %%\VignetteIndexEntry{party with the mob}
-%%\VignetteDepends{mlbench}
+%%\VignetteDepends{mlbench,colorspace}
 
 %% packages
 \usepackage{amsmath}
