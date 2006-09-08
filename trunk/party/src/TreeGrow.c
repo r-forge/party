@@ -82,6 +82,8 @@ SEXP R_TreeGrow(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls, SEXP
      SEXP ans, nweights;
      double *dnweights, *dweights;
      int nobs, i, nodenum = 1;
+
+     GetRNGstate();
      
      nobs = get_nobs(learnsample);
      PROTECT(ans = allocVector(VECSXP, NODE_LENGTH));
@@ -95,6 +97,9 @@ SEXP R_TreeGrow(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls, SEXP
      for (i = 0; i < nobs; i++) dnweights[i] = dweights[i];
      
      C_TreeGrow(ans, learnsample, fitmem, controls, INTEGER(where), &nodenum, 1);
+     
+     PutRNGstate();
+     
      UNPROTECT(1);
      return(ans);
 }

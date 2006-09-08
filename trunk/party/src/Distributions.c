@@ -208,8 +208,6 @@ void C_MonteCarlo(double *criterion, SEXP learnsample, SEXP weights,
         }
     }
 
-    GetRNGstate();
-                
     for (b = 0; b < B; b++) {
 
         /* generate a admissible permutation */
@@ -243,8 +241,6 @@ void C_MonteCarlo(double *criterion, SEXP learnsample, SEXP weights,
         }
     }
     
-    PutRNGstate();
-                                                        
     /* return adjusted pvalues */
     for (j = 0; j < ninputs; j++)
         ans_pvalues[j] = (double) counts[j] / B;
@@ -283,9 +279,14 @@ SEXP R_MonteCarlo(SEXP criterion, SEXP learnsample, SEXP weights,
                   
      SEXP ans;
      
+     GetRNGstate();
+     
      PROTECT(ans = allocVector(REALSXP, get_ninputs(learnsample)));
      C_MonteCarlo(REAL(criterion), learnsample, weights, fitmem, varctrl, 
                   gtctrl, REAL(ans));
+                  
+     PutRNGstate();
+                  
      UNPROTECT(1);
      return(ans);
 }

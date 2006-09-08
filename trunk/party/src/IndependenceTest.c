@@ -173,9 +173,7 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
         if (RANDOM) {
             index = Calloc(ninputs, int);
             randomvar = Calloc(mtry, int);
-            GetRNGstate();
             C_SampleNoReplace(index, ninputs, mtry, randomvar);
-            PutRNGstate();
             j = 0;
             for (k = 0; k < mtry; k++) {
                 j = randomvar[k];
@@ -279,7 +277,9 @@ SEXP R_GlobalTest(SEXP learnsample, SEXP weights, SEXP fitmem,
                   SEXP varctrl, SEXP gtctrl) {
 
     SEXP ans, teststat, criterion;
-    
+
+    GetRNGstate();
+
     PROTECT(ans = allocVector(VECSXP, 2));
     SET_VECTOR_ELT(ans, 0, 
         teststat = allocVector(REALSXP, get_ninputs(learnsample)));
@@ -288,6 +288,8 @@ SEXP R_GlobalTest(SEXP learnsample, SEXP weights, SEXP fitmem,
 
     C_GlobalTest(learnsample, weights, fitmem, varctrl, gtctrl, 0, 
                  REAL(teststat), REAL(criterion));
+                 
+    PutRNGstate();
     
     UNPROTECT(1);
     return(ans);

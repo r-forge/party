@@ -47,6 +47,10 @@ SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls) {
          if (fraction < 10)
              error("fraction of %f is too small", fraction);
      }
+
+     /* <FIXME> can we call those guys ONCE? what about the deeper
+         calls??? </FIXME> */
+     GetRNGstate();
   
      for (b  = 0; b < B; b++) {
          SET_VECTOR_ELT(ans, b, tree = allocVector(VECSXP, NODE_LENGTH + 1));
@@ -59,9 +63,6 @@ SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls) {
                      ncol(GET_SLOT(GET_SLOT(learnsample, PL2_responsesSym), 
                           PL2_jointtransfSym)));
                           
-         /* <FIXME> can we call those guys ONCE? what about the deeper
-            calls??? </FIXME> */
-         GetRNGstate();
 
          /* generate altered weights for perturbation */
          if (replace) {
@@ -78,7 +79,6 @@ SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls) {
                  } 
              }
          }
-         PutRNGstate();
 
          nweights = S3get_nodeweights(tree);
          dnweights = REAL(nweights);
@@ -88,6 +88,7 @@ SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls) {
          nodenum = 1;
      }
 
+     PutRNGstate();
 
      Free(prob); Free(iweights); Free(iweightstmp);
      UNPROTECT(1);
