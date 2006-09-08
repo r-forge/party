@@ -1,7 +1,5 @@
 
 importFrom(coin, logrank_trafo)
-importFrom(vcd, spine)
-importFrom(vcd, cd_plot)
 
 export(ctree, ctree_memory, ctree_control, 
        node_inner, edge_simple, node_terminal,
