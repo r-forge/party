@@ -59,7 +59,7 @@
       COMMON /PTBLCK/IVLS
       IVLS = 0
       
-*      CALL rndstart()
+      CALL rndstart()
       
       IF ( N .GT. 1000 .OR. N .LT. 1 ) THEN
          VALUE = 0
@@ -79,7 +79,7 @@
          ENDIF
       ENDIF
       
-*      CALL rndend()
+      CALL rndend()
       
       END
 *
@@ -1255,6 +1255,13 @@
       INFORM = 1
       INTVLS = 0
       VARPRD = 0
+
+*     begin valgrind fix: 
+*     ==21597== Conditional jump or move depends on uninitialised value(s)
+*     ==21597==    at 0x6577265: mvkbrv_ (mvt.f:1294) 
+      ABSERR = 0
+*     end
+
       IF ( MINVLS .GE. 0 ) THEN
          DO K = 1, NF
             FINEST(K) = 0

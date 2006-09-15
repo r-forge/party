@@ -35,7 +35,10 @@ void C_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls,
     maxsurr = get_maxsurrogate(splitctrl);
 
     if (maxsurr != LENGTH(S3get_surrogatesplits(node)))
-        error("nodes does not have %s surrogate splits", maxsurr);
+        error("nodes does not have %d surrogate splits", maxsurr);
+    if ((ninputs - 1 - maxsurr) < 1)
+        error("cannot set up %d surrogate splits with only %d input variable(s)", 
+              maxsurr, ninputs);
 
     inputs = GET_SLOT(learnsample, PL2_inputsSym);
     jselect = S3get_variableID(S3get_primarysplit(node));
