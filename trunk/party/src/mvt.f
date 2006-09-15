@@ -59,7 +59,7 @@
       COMMON /PTBLCK/IVLS
       IVLS = 0
       
-      CALL rndstart()
+*      CALL rndstart()
       
       IF ( N .GT. 1000 .OR. N .LT. 1 ) THEN
          VALUE = 0
@@ -79,7 +79,7 @@
          ENDIF
       ENDIF
       
-      CALL rndend()
+*      CALL rndend()
       
       END
 *
