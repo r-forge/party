@@ -8,7 +8,7 @@ citEntry(entry="Article",
          year         = "2006",
          volume       = "15",
          number       = "3",
-         pages        = "651--674"
+         pages        = "651--674",
 
          textVersion =
          paste("Torsten Hothorn, Kurt Hornik and Achim Zeileis (2006).",

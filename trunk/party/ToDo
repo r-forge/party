@@ -3,6 +3,7 @@ o  milestones for 0.9-0:
    -  docu for mob (incl. journal + survreg)
    -  cite new TR
    -  vignette for cforest
+   -  update CITATION: package and papers
 
 o       check GetRNGstate() and PutRNGstate() calls in C code
 

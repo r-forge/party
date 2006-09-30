@@ -201,7 +201,7 @@ ctree_control <- function(teststat = c("quad", "max"),
     else
         stop(testtype, " not defined")
 
-    if (RET@gtctrl@testtype %in% c("MonteCarlo", "Teststatistic")) 
+    if (RET@gtctrl@testtype == "Teststatistic")
         RET@varctrl@pvalue <- FALSE
 
     RET@gtctrl@nresample <- as.integer(nresample)
