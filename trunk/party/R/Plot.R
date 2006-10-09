@@ -632,8 +632,8 @@ edge_simple <- function(treeobj, digits = 3, abbreviate = FALSE)
 
         if (!ordered) {
             if (length(split) > 1) 
-                split <- paste("\{", paste(split, collapse = ", "), 
-    	                       "\}", sep="")
+                split <- paste("{", paste(split, collapse = ", "), 
+    	                       "}", sep="")
         } else {
             ### <FIXME> phantom and . functions cannot be found by
             ###         codetools

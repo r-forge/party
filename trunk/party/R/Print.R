@@ -94,7 +94,7 @@ print.nominalSplit <- function(x, left = TRUE, ...) {
         lev <- levels[!as.logical(x$splitpoint) & (tab > 0)]
     }
 
-    txt <- paste("\{", paste(lev, collapse = ", "), "\}", collapse = "", sep = "")
+    txt <- paste("{", paste(lev, collapse = ", "), "}", collapse = "", sep = "")
     cat(x$variableName, "==", txt)
 }
 
