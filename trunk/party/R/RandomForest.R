@@ -16,6 +16,7 @@ cforestfit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
 
     if (is.null(weights))
         weights <- object@weights
+    storage.mode(weights) <- "double"
     if (length(weights) != object@nobs || storage.mode(weights) != "double")
         stop(sQuote("weights"), " are not a double vector of ", 
              object@nobs, " elements")
