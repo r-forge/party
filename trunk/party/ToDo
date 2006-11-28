@@ -14,3 +14,5 @@ o	more checks for MonteCarlo
 
 o	check `cforest' and convenience functions (`treepredict' seems the
         wrong name)
+
+o   unbiased defaults for cforest_control

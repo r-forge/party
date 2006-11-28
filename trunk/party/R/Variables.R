@@ -89,6 +89,8 @@ initVariableFrame.df <- function(obj, trafo = ptrafo, scores = NULL, ...) {
             if (is_ordinal[j]) {
                 xt[[j]] <- matrix(RET@scores[[j]][obj[[j]]], ncol = 1)
                 storage.mode(xt[[j]]) <- "double"
+                ### R 2.5.0 does not allow to change the storage mode of factors
+                class(obj[[j]]) <- "was_ordered"
                 storage.mode(obj[[j]]) <- "double"
             } else {
                 storage.mode(obj[[j]]) <- "integer"
