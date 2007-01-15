@@ -88,8 +88,7 @@ SEXP R_TreeGrow(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls, SEXP
      nobs = get_nobs(learnsample);
      PROTECT(ans = allocVector(VECSXP, NODE_LENGTH));
      C_init_node(ans, nobs, get_ninputs(learnsample), get_maxsurrogate(get_splitctrl(controls)),
-                 ncol(GET_SLOT(GET_SLOT(learnsample, PL2_responsesSym), 
-                      PL2_jointtransfSym)));
+                 ncol(get_jointtransf(GET_SLOT(learnsample, PL2_responsesSym))));
 
      nweights = S3get_nodeweights(ans);
      dnweights = REAL(nweights);
