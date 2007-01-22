@@ -31,7 +31,7 @@
   respect to the variable associated with the highest instability, (4)~repeat
   the procedure in each of the daughter nodes. The algorithm yields a
   partitioned (or segmented) parametric model that can be effectively 
-  visualized and that subject-matter scientists are used to analyze and interpret.
+  visualized and that subject-matter scientists are used to analyze and interpret. %FIXME?%
 }
 
 \begin{document}
@@ -91,7 +91,7 @@ and variable selection. Within this framework, a segmented
 parametric model is fitted by computing a tree in which every leaf is associated
 with a fitted model such as, e.g., a maximum likelihood model or a
 linear regression. The model's objective function is used for estimating
-the parameters and the split points, the corresponding model scores
+the parameters and the split points; the corresponding model scores
 are tested for parameter instability in each node to assess
 which variable should be used for partitioning.
 The benefits of employing this approach are: The
@@ -103,14 +103,15 @@ the explanatory variables. The statistical formulation of the algorithm
 ensures the validity of interpretations drawn from the depicted model.
 Moreover, the use of well-known parametric models provides
 subject-matter scientists with a segmented model that they are used to
-analyze and interpret.
+analyze and interpret. %FIXME?%
 
 The remainder of the paper is organized as follows: Section~\ref{sec:segmented}
 establishes the class of models the framework is based on before Section~\ref{sec:algorithm} describes
 the suggested model-based recursive partitioning algorithm in detail. Section~\ref{sec:illustration}
 provides a set of illustrations and applications along with benchmark
-comparisons with other tree-based algorithms.
-Section~\ref{sec:conclusion} concludes the paper with a summary and some final remarks.
+comparisons with other tree-based algorithms. Section~\ref{sec:discussion}
+provides a short discussion of some further details of the algorithm before
+Section~\ref{sec:summary} concludes the paper with a summary.
 
 \section{Segmented models}
 \label{sec:segmented}
@@ -187,22 +188,23 @@ are the regressors considered for partitioning.
 In change point or structural change analysis, typically a linear regression
 model with $Y_i = (y_i, x_i)^\top$ and regression coefficients $\theta$
 is segmented with respect to only a single variable $Z_1$ (i.e., $\ell = 1$)
-which is usually time.
+which is usually time \citep{BaiPerron2003,ZeileisKleiberKraemer2003}.
 
 %% \dotfill
 
 Given the correct partition $\{\mathcal{B}_b\}$ the estimation of the parameters $\theta$
-that minimize the corresponding global objective function
-$\sum_{b = 1}^B \sum_{i \in I_b} \Psi(Y_i, \theta_b)$
-can be easily achieved by computing the locally optimal parameter estimates
-$\hat \theta_b$ in each segment $\mathcal{B}_b$ (with corresponding indexes
-$I_b$).
-But if the partition $\{\mathcal{B}_b\}$ is unknown, minimization of
-$\Psi$ is more complicated, even if the number of segments $B$ is fixed:
+that minimize the global objective function can be easily achieved by computing the locally
+optimal parameter estimates $\hat \theta_b$ in each segment $\mathcal{B}_b$. However,
+if $\{\mathcal{B}_b\}$ is unknown, minimization of the global objective function
+\begin{equation} \label{eq:PsiB}
+\sum_{b = 1}^B \sum_{i \in I_b} \Psi(Y_i, \theta_b) \quad \rightarrow \quad \min,
+\end{equation}
+over all conceivable partitions $\{\mathcal{B}_b\}$ (with corresponding indexes
+$I_b$, $b = 1, \dots, B$) is more complicated, even if the number of segments $B$ is fixed:
 If there is more than one partitioning variable ($\ell > 1$), the number of potential 
 partitions quickly becomes too large for an exhaustive search. If, in addition,
-the number of segments $B$ is unknown, the problem becomes even more severe---at least
-if trivial partitions such as the partition, where each observation is its own segment,
+the number of segments $B$ is unknown, the problem becomes even more severe---at least,
+if trivial partitions, such as the partition, where each observation is its own segment,
 are excluded, e.g.,  by requiring some minimum segment size. Furthermore, in this case,
 some means should be taken to avoid overfitting by increasing $B$.
 
@@ -261,9 +263,11 @@ where
 \psi(Y, \theta) \quad = \quad \frac{\partial \Psi(Y, \theta)}{\partial \theta}
 \end{equation}
 is the score function or estimating function corresponding to $\Psi(Y, \theta)$.
-Analytical closed form solutions are available only in certain special cases,
+Analytical closed form solutions for $\hat \theta$ are available only in certain special cases,
 but for many models of interest well-established fitting algorithms for computing
-$\hat \theta$ are available. The score function evaluated at the estimated parameters
+$\hat \theta$ are available (e.g., OLS estimation via QR decomposition for linear regression
+or ML via iterative weighted least squares for GLMs).
+The score function evaluated at the estimated parameters
 $\hat \psi_i = \psi(Y_i, \hat \theta)$ is then inspected for systematic deviations
 from its mean $0$ in the next section.
 
@@ -312,7 +316,7 @@ generalized M-fluctuation test and has been established by
 of structural change tests suggested both in the econometrics and
 statistics literature, including OLS-based CUSUM and MOSUM tests
 \citep{PlobergerKraemer1992,ChuHornikKuan1995}, score-based tests
-\citep{Nyblom1989,HjortKoning2002} and statistics based on lagrange multiplier
+\citep{Nyblom1989,HjortKoning2002} and statistics based on Lagrange multiplier
 statistics \citep{Andrews1993,AndrewsPloberger1994}---an overview is
 given in \cite{Zeileis2005}. In principle, any of the tests from this
 framework could be used in the recursive partitioning algorithm, but two
@@ -332,7 +336,11 @@ which is the maximum of the squared $L_2$ norm of the empirical fluctuation proc
 scaled by its variance function. This is the sup$LM$ statistic of \cite{Andrews1993}
 which can be interpreted as the supremum of $LM$ statistics against a single change point alternative
 where the potential change point is shifted over the interval $[\ui, \oi]$ that
-is typically defined by requiring some minimal segment size $\ui$ and then $\oi = n - \ui$.
+is typically defined by requiring some minimal segment size $\ui$ and then
+$\oi = n - \ui$.\footnote{To avoid that the test becomes liberal, it can additionally be imposed
+that in each node at least a certain fraction of the current observations are trimmed on each end. 
+Typically, 10\% are used for this \citep{Andrews1993}. The trimming affects only the tests
+not the subsequent splitting.}
 This test statistic is asymptotically equivalent to the supremum of likelihood-ratio (or Chow)
 statistics \citep{Chow1960} but has the advantage that the model has to be fitted
 only once under the null hypothesis of parameter stability and not under the 
@@ -378,15 +386,15 @@ the ordering of observations within each level, is given by
 \end{equation}
 
 where $\Delta_{I_c} W_j$ is the increment of the empirical fluctuation process
-over the observations in category $c = 1, \dots, C$ (i.e., essentially the sum of
-the scores in category $c$). The test statistic is then
+over the observations in category $c = 1, \dots, C$ (with associated indexes $I_c$),
+i.e., essentially the sum of the scores in category $c$. The test statistic is then
 the weighted sum of the squared $L_2$ norm of the increments
 which has an asymptotic $\chi^2$ distribution with $k \cdot (C-1)$ degrees of freedom from
 which the corresponding $p$~value $p_j$ can be computed \citep{HjortKoning2002}.
 
-The advantage of using this approach based on the empirical fluctuation processes
+The advantage of using this approach, based on the empirical fluctuation processes
 from Equation~\ref{eq:Wj} with the functionals from Equations~\ref{eq:supLM} and
-\ref{eq:Chisq} is that the parameter estimates and corresponding score functions
+\ref{eq:Chisq}, is that the parameter estimates and corresponding score functions
 just have to be computed once in a node. For performing the parameter instability tests,
 the scores just have to be reordered and aggregated to a scalar test statistic each time. 
 
@@ -410,8 +418,8 @@ respectively.
 
 \textbf{Splitting numerical variables:}
 Exhaustive search for a split into $B = 2$ segments is feasible in
-$O(n)$ operations. For $B > 2$, when an exhaustive search
-would be of order $O(n^{B-1})$, the optimal partition can be found using a dynamic
+$O(n)$ operations. For $B > 2$, an exhaustive search would be of order
+$O(n^{B-1})$---however, the optimal partition can be found using a dynamic
 programming approach of order $O(n^2)$. This is an application of Bellman's principle and has been
 discussed in several places in the statistics and econometrics literature on
 change point and structural change analysis
@@ -426,7 +434,7 @@ criteria can be used if the parameters are estimated by ML.
 For categorical variables, the number of segments can not be larger than
 the number of categories $B \le C$. Two simple approaches would be either to always
 split into all $B = C$ possible levels or alternatively to always split into
-the minimal number of $B = 2$ segments. In this case, the search for the optimal
+the minimal number of $B = 2$ segments. In the latter case, the search for the optimal
 partition is of order $O(2^{C-1})$. For ordinal variables, it also makes sense
 to just split in the ordering of the levels, so that the search for a binary
 split is only of order $O(C)$. Again, information criteria could be an option
@@ -486,7 +494,6 @@ ntPID <- NROW(coef(fmPID))
 nkPID <- NCOL(coef(fmPID))
 npPID <- ntPID * nkPID + ntPID - 1
 @
-%FIXME% justification for median: skewness (in some distributions), many bindings in GUIDE/M5'
 
 To illustrate how model-based recursive partitioning can be used in practice,
 the general framework from the previous section is applied to various 
@@ -588,6 +595,33 @@ to achieve this predictive performance.
 
 \begin{table}[h]
 \begin{center}
+\begin{tabular}{|r|rr||rrrrr|} \hline
+Node & \multicolumn{2}{|c|}{Regressors} & \multicolumn{5}{|c|}{Partitioning variables} \\
+ & (Intercept) & log(price/citation) & price & citations & age & chars & society \\ \hline
+<<Journals-algorithm,echo=FALSE,results=tex>>=
+stable <- function(i) {
+  x <- cbind(t(summary(fmJ, node = i)$coefficients[,c(1, 4)]), sctest(fmJ, node = i)[,c(5, 2:4, 1)])
+  paste(i, "&", paste(format(c(0.001, round(x[1,], digits = 3)))[-1], collapse = " & "),
+    "\\\\", "\n", "&", paste(sapply(x[2,],  function(p, digits = 3) ifelse(p <= 10^(-digits),
+    paste("< 0.", paste(rep("0", digits-1), collapse = "") , "1", sep = ""),
+    format(c(round(p, digits = digits), 0.001))[1])), collapse = " & "), "\\\\", "\\hline", "\n")
+}
+cat(stable(1))
+cat(stable(2))
+cat(stable(3))
+@
+\end{tabular}
+\caption{\label{tab:Journals-algorithm} Summary of the fitting process for the linear-regression-based
+tree for the economic journals data. The first two column summarize the regressors in the linear
+regression by means of estimated coefficients and associated $p$~values. The remaining five columns
+summarize the partitioning variables by means of parameter instability statistics and associated
+$p$~values.}
+\end{center}
+\end{table}
+
+
+\begin{table}[h]
+\begin{center}
 \begin{tabular}{|r|rr|rr|} \hline
  & \multicolumn{2}{|c|}{RMSE} & \multicolumn{2}{|c|}{Number of parameters} \\
  & Bootstrap & Original & Bootstrap & Original \\ \hline
@@ -612,7 +646,7 @@ is compared by (median) number of estimated parameters.}
 plot(fmJ, terminal_panel = node_scatterplot(fmJ, col = grey(0.5), linecol = "black"))
 @
 \caption{\label{fig:Journals} Linear-regression-based tree for the economic journals data.
-The plots in the leaves depict library subsriptions by price per citation (both in logs).}
+The plots in the leaves depict library subscriptions by price per citation (both in logs).}
 \end{center}
 \end{figure}
 
@@ -811,7 +845,7 @@ models can straightforwardly be applied to other parametric regression models
 without further modification. Here, we apply the generic model-based recursive
 partitioning algorithm to a Weibull regression for modeling censored survival
 times. We follow the analysis of \cite{Schumacheretal2001} and
-\cite{HothornHornikZeileis2006} %FIXME% mention this?
+\cite{HothornHornikZeileis2006}
 who use constant fit survival trees to analyze survival times of $n = 686$ women
 from positive node breast cancer in Germany. Along with the survival time (in years)
 and the censoring information, there are 8 covariates available as prognostic factors:
@@ -820,7 +854,7 @@ estrogen receptor, and factors indicating menopausal status and whether the pati
 received a hormonal therapy.
 
 For explaining survival from positive node breast cancer in a regression model,
-the number of positive lymph nodes is chosen as explanatory variable with differing
+the number of positive lymph nodes is chosen as the explanatory variable with differing
 intercepts depending on whether a hormonal therapy was performed or not. Together
 with the scale parameter of the Weibull distribution, this gives a total of
 $k = \Sexpr{NCOL(vcov(fmGBSG2@tree$model))}$ parameters in the model, using the 
@@ -834,12 +868,12 @@ scatter plots for survival time by number of positive nodes in the leaves. Based
 the ideas of \cite{GentlemanCrowley1991}, circles with different shadings of gray 
 (hollow and solid) are used for censored and uncensored observations, respectively.
 Fitted median survival times from the Weibull regression model are visualized by
-dashed and solid lines for patients with and with hormonal therapy. The data are 
-partitioned once with respect to progesterone receptor splitting the observations
-into a group with marked influence of positive nodes and neglegible influence
+dashed and solid lines for patients with and without hormonal therapy. The data are 
+partitioned once with respect to progesterone receptor, splitting the observations
+into a group with marked influence of positive nodes and negligible influence
 of hormonal therapy and a group with less pronounced influence of positive nodes but
 clear hormonal therapy effect. A fair amount of censored observations remains in
-both groups, no further significant instabilities can be detected (all $p$~values
+both groups; no further significant instabilities can be detected (all $p$~values
 are above $50\%$). The resulting model has 
 $\Sexpr{ncol(vcov(fmGBSG2@tree$model)) * nrow(coef(fmGBSG2)) + nrow(coef(fmGBSG2)) - 1}$ parameters
 ($\Sexpr{nrow(coef(fmGBSG2))} \cdot \Sexpr{ncol(vcov(fmGBSG2@tree$model))}$ coefficients
@@ -949,22 +983,15 @@ of positive lymph nodes along with fitted median survival for patients with (das
 \end{center}
 \end{figure}
 
+\section{Discussion} \label{sec:discussion}
 
+\textbf{Score-based parameter instability tests:}
+discuss type II error rates/power
 
-\section{Further remarks and conclusion}
-\label{sec:conclusion}
+\textbf{Unbiasedness:}
+consistency of tests, adjusted for multiple testing
 
-A powerful, flexible and unified framework for model-based recursive
-partitioning has been suggested. It builds on parametric models which are
-well-established in the statistical theory and whose parameters can be
-easily interpreted by subject-matter scientists. Thus, it can not only
-model the mean but also other properties of a parameterized
-distribution. Furthermore, it can be
-employed to partition regression relationships, such as GLMs or survival regression.
-It aims at minimizing a clearly defined objective function (and not certain
-heuristics) by a greedy forward search and is unbiased due to separation of
-variable and split point selection.
-
+\textbf{Pruning:}
 The algorithm as discussed in this paper relies on a statistically motivated
 internal stopping criterion (sometimes called \textit{pre-pruning}), but, of
 course, it could also be combined with cross-validation-based \textit{post-pruning}
@@ -973,6 +1000,7 @@ As every node of the tree is associated with a fitted model with a certain numbe
 of parameters, another attractive option is to grow the tree with a large $\alpha$
 and then prune based on information criteria.
 
+\textbf{Objective function:}
 For some statistical models, there is a clearly defined estimating function
 $\psi(Y, \theta)$ but the antiderivate $\Psi(Y, \theta)$ does not necessarily exist.
 Such models can also be recursively partitioned: the parameter instability
@@ -980,16 +1008,18 @@ tests work in the same way, only the selection of the splits has to be
 adapted. Instead of minimizing an objective function, the corresponding $B$-sample
 split statistics have to be maximized.
 
+\textbf{Interactions:}
 Typically, recursive partitioning algorithms use perpendicular splits, i.e., the
 partitioning variables $Z_j$ just include `main effects'. To prevent that the algorithm
 fails to pick up `interaction effects' such as the XOR problem, interactions
 could also be added to the list of partitioning variables.
 
+\textbf{Regressors vs.\ partitioning variables:}
 If regression models are partitioned, the question arises whether a certain covariate
 should be included in $Y$ as a regressor or in $Z$ as a partitioning variable.
 For categorical variables, this amounts to knowing/assuming the interactions or
 trying to find them adaptively---for numerical variables, it amounts to knowing/assuming
-a segment-wise linear relationship vs. approximating a possibly non-linear influence
+a segment-wise linear relationship vs.\ approximating a possibly non-linear influence
 by a step function. The separation can usually be made based on subject knowledge
 as in the economic journals example. Other scenarios of this kind are conceivable:
 e.g., in biostatistics it would be natural to fit a dose-response relationship and partition
@@ -998,6 +1028,23 @@ a market segmentation could be carried out based on a standard demand function.
 Finally, the variables entering the explanatory part of $Y$ and $Z$ can also be
 overlapping, however, a trend-resistant fluctuation test should be conducted for
 partitioning.
+
+\textbf{Large datasets:}
+trade-off between complexity and predictive power
+global vs.\ local models
+
+\section{Summary} \label{sec:summary}
+
+A powerful, flexible and unified framework for model-based recursive
+partitioning is suggested. It builds on parametric models which are
+well-established in the statistical theory and whose parameters can be
+easily interpreted by subject-matter scientists. Thus, it can not only
+model the mean but also other properties of a parameterized
+distribution. Furthermore, it can be
+employed to partition regression relationships, such as GLMs or survival regression.
+It aims at minimizing a clearly defined objective function (and not certain
+heuristics) by a greedy forward search and is unbiased due to separation of
+variable and split point selection.
 
 Within the genuine statistical framework proposed in this paper, practitioners
 can assess whether one (standard) global parametric model fits their data or whether
@@ -1071,9 +1118,10 @@ mobBH <- mob(medv ~ lstat + rm | zn + indus + chas + nox + age + dis + rad +
   control = mob_control(minsplit = 40), model = linearModel)
 plot(mobBH)
 
-data("PimaIndiansDiabetes", package = "mlbench")
-mobPID <- mob(diabetes ~ glucose | pregnant + pressure + triceps + insulin +
-  mass + pedigree + age, data = PimaIndiansDiabetes, model = glinearModel,
+data("PimaIndiansDiabetes2", package = "mlbench")
+PimaIndiansDiabetes <- na.omit(PimaIndiansDiabetes2[,-c(4, 5)])
+mobPID <- mob(diabetes ~ glucose | pregnant + pressure + mass + pedigree + age,
+  data = PimaIndiansDiabetes, model = glinearModel,
   control = mob_control(minsplit = 40), family = binomial())
 plot(mobPID)
 
