@@ -16,7 +16,7 @@ for (b in 1:B) {
     ldata <- bdata$data[rep(1:n, bs),]
     tdata <- bdata$data[oob,]
 
-    fm <- try(mob(bdata$mobfm, data = ldata, control = mob_control(minsplit = 10), 
+    fm <- try(mob(bdata$mobfm, data = ldata, control = mob_control(minsplit = 20, alpha = 0.05), 
               model = linearModel))
     if (!inherits(fm, "try-error")) {
         yhat <- predict(fm, newdata = tdata)

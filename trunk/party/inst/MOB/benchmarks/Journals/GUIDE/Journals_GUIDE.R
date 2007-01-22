@@ -9,4 +9,4 @@ np <- rval$npar
 summary(error)
 summary(np)
 
-save(error, np, file = "../Journals_guide_error.rda")
+save(error, np, file = "../Journals_guide_error2.rda")

@@ -643,7 +643,8 @@ is compared by (median) number of estimated parameters.}
 \begin{figure}[p]
 \begin{center}
 <<Journals-plot,echo=FALSE,results=hide,fig=TRUE,height=5,width=8>>=
-plot(fmJ, terminal_panel = node_scatterplot(fmJ, col = grey(0.5), linecol = "black"))
+plot(fmJ, terminal_panel = node_scatterplot(fmJ, col = grey(0.5), linecol = "black", 
+  xlab = "log(price/citation)", ylab = "log(subscriptions)"))
 @
 \caption{\label{fig:Journals} Linear-regression-based tree for the economic journals data.
 The plots in the leaves depict library subscriptions by price per citation (both in logs).}
@@ -816,7 +817,8 @@ estimated parameters.}
 \begin{figure}[p]
 \begin{center}
 <<PID-plot,echo=FALSE,results=hide,fig=TRUE,height=6,width=9>>=
-plot(fmPID, terminal_panel = node_bivplot(fmPID, gp = gpar(fill = grey(c(0.5, 0.8))), linecol = "black"))
+plot(fmPID, terminal_panel = node_bivplot(fmPID, gp = gpar(fill = grey(c(0.5, 0.8))),
+  linecol = "black", ylines = 1.5, ylab_tol = 1))
 @
 \caption{\label{fig:PID} Logistic-regression-based tree for the Pima Indians data.
 The spinograms in the leaves depict diabetes by plasma glucose concentration.}
@@ -899,7 +901,7 @@ with the empirical analysis for this regression problem.
 <<GBSG2-plot,echo=FALSE,results=hide,fig=TRUE,height=5,width=8>>=
 node_gbsg2plot <- function(mobobj, col = "black", linecol = "red",
   cex = 0.5, pch = NULL, jitter = FALSE, xscale = NULL, yscale = NULL, ylines = 1.5,
-  id = TRUE, labels = FALSE)
+  id = TRUE, xlab = FALSE, ylab = FALSE)
 {
     ## extract dependent variable
     y <- response(mobobj)
@@ -914,6 +916,7 @@ node_gbsg2plot <- function(mobobj, col = "black", linecol = "red",
 
     ## extract regressor matrix
     x <- mobobj@data@get("input")
+    xnam <- colnames(x)
     z <- seq(from = min(x[,2]), to = max(x[,2]), length = 51)
     z <- data.frame(a = rep(sort(x[,1])[c(1, NROW(x))], c(51, 51)), b = z)
     names(z) <- names(x)
@@ -959,10 +962,10 @@ node_gbsg2plot <- function(mobobj, col = "black", linecol = "red",
         grid.xaxis(at = c(ceiling(xscale[1]*10), floor(xscale[2]*10))/10)
         grid.yaxis(at = c(ceiling(yscale[1]), floor(yscale[2])))
 
-        if(labels) {
-            grid.text(xnam[2], x = unit(0.5, "npc"), y = unit(-2, "lines"))
-            grid.text(ynam, y = unit(0.5, "npc"), x = unit(-3, "lines"), rot = 90)
-	}
+        if(isTRUE(xlab)) xlab <- xnam[2]
+	if(isTRUE(ylab)) ylab <- ynam
+        if(!identical(xlab, FALSE)) grid.text(xlab, x = unit(0.5, "npc"), y = unit(-2, "lines"))
+        if(!identical(ylab, FALSE)) grid.text(ylab, y = unit(0.5, "npc"), x = unit(-2, "lines"), rot = 90)
 
         grid.rect(gp = gpar(fill = "transparent"))
         upViewport()
@@ -974,7 +977,9 @@ node_gbsg2plot <- function(mobobj, col = "black", linecol = "red",
 }
 class(node_gbsg2plot) <- "grapcon_generator"
 
-plot(fmGBSG2, term = node_gbsg2plot(fmGBSG2, yscale = c(-0.15, 8.7), ylines = 1.5, xscale = c(0, 52), col = grey(0.5), linecol = "black"))
+plot(fmGBSG2, terminal_panel = node_gbsg2plot, tp_args = list(yscale = c(-0.15, 8.7),
+  ylines = 2.5, xscale = c(0, 52), col = grey(0.5), linecol = "black",
+  xlab = "Number of positive lymph nodes", ylab = "Survival time"))
 @
 \caption{\label{fig:GBSG2} Weibull-regression-based tree for the German breast cancer study.
 The plots in the leaves depict censored (hollow) and uncensored (solid) survival time by number

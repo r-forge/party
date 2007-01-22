@@ -1,8 +1,11 @@
 
 R2guide <- function(x, response, name) {
 
-    dscname <- paste(name, ".dsc", sep = "")
     datname <- paste(name, ".dat", sep = "")
+    write.table(x, sep = " ", file = datname, row.names = FALSE, col.names = FALSE)
+    return()
+    
+    dscname <- paste(name, ".dsc", sep = "")
 
     cat(datname, "\n", file = dscname, append = FALSE)
     cat("NA\n", file = dscname, append = TRUE)
@@ -25,7 +28,6 @@ R2guide <- function(x, response, name) {
 
     }
 
-    write.table(x, sep = " ", file = datname, row.names = FALSE, col.names = FALSE)
 }
 
 complexity_guide <- function(file = "results.out") {
