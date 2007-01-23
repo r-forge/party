@@ -349,11 +349,21 @@ The limiting distribution of the sup$LM$ statistic is given by the supremum of a
 squared, $k$-dimensional tied-down Bessel process $\sup_t (t (1-t))^{-1} ||W^0(t)||_2^2$
 from which the corresponding $p$~value $p_j$ can be computed \citep{Hansen1997}.
 
-Recently, \cite{PottsSammut2005} have also pointed out that parameter instability tests
-can be employed for growing linear regression trees. However, our approach makes the
-evaluation of all conceivable change points feasible (and not only a fixed number,
-such as 5), uses the correct limiting distribution (rather than a crude Bonferroni
-approximation) and can be applied to a more general class of models.
+This approach of assessing (numeric) partitioning variables combines the ideas from
+(linear) model tree algorithms, such as GUIDE \citep{Loh2002} or the RD and RA trees of
+\cite{PottsSammut2005}, with state-of-the-art methodology for testing parameter
+instability \citep{Andrews1993,Zeileis2005}. Both, GUIDE and RD/RA trees assess
+the parameter instability along numerical partitioning variables; however, the tests
+employed in these algorithms make some ad-hoc approximations:
+GUIDE and RD trees evaluate only a fixed number of conceivable change points, such as
+3 (for GUIDE) or 5 (for RD trees). Furthermore, GUIDE and RA trees assess only the
+sign of the residuals, not the full model scores (which can lead to poor power for
+certain types of parameter changes, see Section~\ref{sec:discussion}). Finally, RD
+trees employ a crude Bonferroni approximation for computing the $p$~values instead
+of the correct limiting distribution. Thus, we start from the same ideas but embed
+them into a modern framework for testing structural stability in general parametric
+models. This approach makes the evaluation of all conceivable change points feasible,
+uses the correct limiting distribution and can be applied to wider class of models.
 
 %% Cramer-von Mises statistic
 %% To assess the instability with respect to a numerical variable $Z_j$, we suggest
@@ -569,34 +579,22 @@ is crucial for the modeling variables, monotonous transformations of the partiti
 variables have no influence on the fitting process. For testing, a Bonferroni-corrected
 significance level of $\alpha = 0.05$ and a minimal segment size of $\ui = 10$ is used.
 
-The resulting linear regression-based tree for the economic journals data is depicted in
-Figure~\ref{fig:Journals} employing scatter plots with fitted regression lines in the leaves.
-In the fitting process, a global model for all observations is estimated (yielding a price
-elasticity of $\Sexpr{round(coef(fmJ, node = 1)[2], digits = 2)}$) and assessed by the parameter
-instability tests. A highly significant instability is found only with respect to age
-(with a Bonferroni-adjusted $p$~value of $\Sexpr{Pval(sctest(fmJ, node = 1)[2,3])}$)
-which is subsequently used for splitting, 
-leading to an optimal split at age 18. For the \Sexpr{sum(weights(fmJ@tree$left$model))}
-young journals a much higher price elasticity of $\Sexpr{round(coef(fmJ, node = 2)[2], digits = 2)}$
-is found than for the \Sexpr{sum(weights(fmJ@tree$right$model))} older journals with a price elasticity
-of $\Sexpr{round(coef(fmJ, node = 3)[2], digits = 2)}$. No further parameter instabilities
-with respect to the partitioning variables can be detected (all $p$~values are greater than
-90\%) and hence the algorithm stops. Table~\ref{tab:Journals} reports the RMSE on the original
-data and the model complexity of \Sexpr{npJ} (\Sexpr{ntJ} times $k = \Sexpr{nkJ}$ coefficients plus
-$\Sexpr{ntJ} - 1$ splits).
+\setkeys{Gin}{width=.78\textwidth}
+\begin{figure}[p]
+\begin{center}
+<<Journals-plot,echo=FALSE,results=hide,fig=TRUE,height=5,width=8.2>>=
+plot(fmJ, tp_args = list(col = grey(0.5), linecol = "black", xlab = "log(price/citation)",
+  ylab = "log(subscriptions)"))
+@
+\caption{\label{fig:Journals} Linear-regression-based tree for the economic journals data.
+The plots in the leaves depict library subscriptions by price per citation (both in logs).}
+\end{center}
+\end{figure}
 
-Table~\ref{tab:Journals} and Figure~\ref{fig:Journals-performance} provide the results
-of the benchmark comparison on 250 bootstrap samples. The MOB trees have the lowest median
-RMSE and complexity, the simultaneous confidence intervals show that the differences compared
-to GUIDE are non-significant in both cases and significant compared to all other models.
-While the trees with constant fits are clearly outperformed with respect to RMSE, M5' is
-still quite close in terms of RMSE but requires a substantially larger number of parameters
-to achieve this predictive performance.
-
-\begin{table}[h]
+\begin{table}[p]
 \begin{center}
 \begin{tabular}{|r|rr||rrrrr|} \hline
-Node & \multicolumn{2}{|c|}{Regressors} & \multicolumn{5}{|c|}{Partitioning variables} \\
+Node & \multicolumn{2}{|c||}{Regressors} & \multicolumn{5}{|c|}{Partitioning variables} \\
  & (Intercept) & log(price/citation) & price & citations & age & chars & society \\ \hline
 <<Journals-algorithm,echo=FALSE,results=tex>>=
 stable <- function(i) {
@@ -604,7 +602,8 @@ stable <- function(i) {
   paste(i, "&", paste(format(c(0.001, round(x[1,], digits = 3)))[-1], collapse = " & "),
     "\\\\", "\n", "&", paste(sapply(x[2,],  function(p, digits = 3) ifelse(p <= 10^(-digits),
     paste("< 0.", paste(rep("0", digits-1), collapse = "") , "1", sep = ""),
-    format(c(round(p, digits = digits), 0.001))[1])), collapse = " & "), "\\\\", "\\hline", "\n")
+    paste("", format(c(round(p, digits = digits), 0.001)), "", sep = "")[1])), collapse = " & "),
+    "\\\\", "\\hline", "\n")
 }
 cat(stable(1))
 cat(stable(2))
@@ -613,14 +612,14 @@ cat(stable(3))
 \end{tabular}
 \caption{\label{tab:Journals-algorithm} Summary of the fitting process for the linear-regression-based
 tree for the economic journals data. The first two column summarize the regressors in the linear
-regression by means of estimated coefficients and associated $p$~values. The remaining five columns
-summarize the partitioning variables by means of parameter instability statistics and associated
+regression by means of estimated coefficients and associated Wald test $p$~values. The remaining
+five columns summarize the partitioning variables by means of parameter instability statistics and
+associated
 $p$~values.}
 \end{center}
 \end{table}
 
-
-\begin{table}[h]
+\begin{table}[p]
 \begin{center}
 \begin{tabular}{|r|rr|rr|} \hline
  & \multicolumn{2}{|c|}{RMSE} & \multicolumn{2}{|c|}{Number of parameters} \\
@@ -639,20 +638,37 @@ is compared by (median) number of estimated parameters.}
 \end{table}
 
 
-\setkeys{Gin}{width=.75\textwidth}
-\begin{figure}[p]
-\begin{center}
-<<Journals-plot,echo=FALSE,results=hide,fig=TRUE,height=5,width=8>>=
-plot(fmJ, terminal_panel = node_scatterplot(fmJ, col = grey(0.5), linecol = "black", 
-  xlab = "log(price/citation)", ylab = "log(subscriptions)"))
-@
-\caption{\label{fig:Journals} Linear-regression-based tree for the economic journals data.
-The plots in the leaves depict library subscriptions by price per citation (both in logs).}
-\end{center}
-\end{figure}
+The resulting linear regression-based tree for the economic journals data is depicted in
+Figure~\ref{fig:Journals} employing scatter plots with fitted regression lines in the leaves;
+some more details are provided in Table~\ref{tab:Journals-algorithm}.
+In the fitting process, a global model for all observations is estimated in node~1 yielding a price
+elasticity of $\Sexpr{round(coef(fmJ, node = 1)[2], digits = 2)}$. Its stability is
+assessed with respect to all $\ell = 5$ partitioning variables, the corresponding
+parameter instability test statistics (as defined in Equation~\label{eq:supLM} and
+\label{eq:Chisq}, respectively) are provided in Table~\ref{tab:Journals-algorithm}
+along with their Bonferroni-adjusted $p$~values. A highly significant instability is
+found only with respect to age (with a Bonferroni-adjusted $p$~value of
+$\Sexpr{Pval(sctest(fmJ, node = 1)[2,3])}$) which is subsequently used for splitting, 
+leading to an optimal split at age 18.
+For the \Sexpr{sum(weights(fmJ@tree$left$model))} young journals in node~2
+a much higher price elasticity of $\Sexpr{round(coef(fmJ, node = 2)[2], digits = 2)}$
+is found than for the \Sexpr{sum(weights(fmJ@tree$right$model))} older journals in node~3
+with a price elasticity of $\Sexpr{round(coef(fmJ, node = 3)[2], digits = 2)}$.
+No further parameter instabilities with respect to the partitioning variables can be detected:
+all $p$~values are greater than 89\% and hence the algorithm stops.
+Table~\ref{tab:Journals} reports the RMSE on the original data and the model complexity of
+\Sexpr{npJ} (\Sexpr{ntJ} times $k = \Sexpr{nkJ}$ coefficients plus $\Sexpr{ntJ} - 1$ splits).
+
+Table~\ref{tab:Journals} and Figure~\ref{fig:Journals-performance} provide the results
+of the benchmark comparison on 250 bootstrap samples. The MOB trees have the lowest median
+RMSE and complexity, the simultaneous confidence intervals show that the differences compared
+to GUIDE are non-significant in both cases and significant compared to all other models.
+While the trees with constant fits are clearly outperformed with respect to RMSE, M5' is
+still quite close in terms of RMSE but requires a substantially larger number of parameters
+to achieve this predictive performance.
 
 \setkeys{Gin}{width=\textwidth}
-\begin{figure}[p]
+\begin{figure}[t!]
 \begin{center}
 <<Journals-performance,echo=FALSE,results=hide,fig=TRUE,height=5,width=10,twofig=TRUE>>=
 ciplot(JournalsRMSE, xlab = "RMSE difference")
@@ -663,7 +679,6 @@ prediction error is compared by RMSE differences,
 complexity by difference in number of estimated parameters (coefficients and split points).}
 \end{center}
 \end{figure}
-
 
 \subsection{Boston housing data}
 
@@ -690,42 +705,6 @@ The model is estimated by OLS, the instability is assessed using a Bonferroni-co
 significance level of $\alpha = 0.05$ and the nodes are split with a required minimal
 segment size of $\ui = 40$.
 
-The resulting model-based tree is depicted in Figure~\ref{fig:BostonHousing} which
-shows partial scatter plots along with the fitted values in the terminal nodes. It can
-be seen that in the nodes~3, 6 and 7 the increase of value with the number of rooms
-dominates the picture (lower panel) whereas in node~9 the decrease with
-the lower status population percentage (upper panel) is more pronounced. Splits are performed
-in the variables  tax (property-tax rate) and ptratio (pupil-teacher ratio).
-As reported in Table~\ref{tab:BostonHousing},
-the model has $\Sexpr{ntBH} \cdot \Sexpr{nkBH}$ regression coefficients after estimating 
-$\Sexpr{ntBH}-1$ splits, giving
-a total of $\Sexpr{(nkBH+1)*ntBH - 1}$ estimated parameters.
-
-The results of the benchmark comparison in Table~\ref{tab:BostonHousing} and
-Figure~\ref{fig:BostonHousing-performance} show that the MOB trees perform significantly better
-on this data set than the other tree-based algorithms. The algorithm with the most
-comparable predictive performance, M5', is here clearly inferior concerning its interpretability,
-requiring on average more than 12 times as many parameters.
-
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{|r|rr|rr|} \hline
- & \multicolumn{2}{|c|}{RMSE} & \multicolumn{2}{|c|}{Number of parameters} \\
- & Bootstrap & Original & Bootstrap & Original \\ \hline
-<<BostonHousing-results,echo=FALSE,results=tex>>=
-cat(paste(apply(BostonHousingResults, 1, function(x) paste(paste(x, collapse = " & "), "\\\\")), collapse = "\n"))
-@
-
-\hline
-\end{tabular}
-\caption{\label{tab:BostonHousing} Performance comparison for Boston housing data:
-prediction error is compared by RMSE on 250 bootstrap samples and obvious RMSE on
-the original data set; complexity is compared by (median) number of estimated parameters.}
-\end{center}
-\end{table}
-
-
-
 \setkeys{Gin}{width=\textwidth}
 \begin{figure}[p]
 \begin{center}
@@ -751,13 +730,62 @@ estimated parameters.}
 \end{center}
 \end{figure}
 
+The resulting model-based tree is depicted in Figure~\ref{fig:BostonHousing} which
+shows partial scatter plots along with the fitted values in the terminal nodes. It can
+be seen that in the nodes~3, 6 and 7 the increase of value with the number of rooms
+dominates the picture (lower panel) whereas in node~9 the decrease with
+the lower status population percentage (upper panel) is more pronounced. Splits are performed
+in the variables  tax (property-tax rate) and ptratio (pupil-teacher ratio).
+As reported in Table~\ref{tab:BostonHousing},
+the model has $\Sexpr{ntBH} \cdot \Sexpr{nkBH}$ regression coefficients after estimating 
+$\Sexpr{ntBH}-1$ splits, giving
+a total of $\Sexpr{(nkBH+1)*ntBH - 1}$ estimated parameters.
 
+The results of the benchmark comparison in Table~\ref{tab:BostonHousing} and
+Figure~\ref{fig:BostonHousing-performance} show that the MOB trees perform significantly better
+on this data set than the other tree-based algorithms. The algorithm with the most
+comparable predictive performance, M5', is here clearly inferior concerning its interpretability,
+requiring on average more than 12 times as many parameters.
 
+\begin{table}[t!]
+\begin{center}
+\begin{tabular}{|r|rr|rr|} \hline
+ & \multicolumn{2}{|c|}{RMSE} & \multicolumn{2}{|c|}{Number of parameters} \\
+ & Bootstrap & Original & Bootstrap & Original \\ \hline
+<<BostonHousing-results,echo=FALSE,results=tex>>=
+cat(paste(apply(BostonHousingResults, 1, function(x) paste(paste(x, collapse = " & "), "\\\\")), collapse = "\n"))
+@
+
+\hline
+\end{tabular}
+\caption{\label{tab:BostonHousing} Performance comparison for Boston housing data:
+prediction error is compared by RMSE on 250 bootstrap samples and obvious RMSE on
+the original data set; complexity is compared by (median) number of estimated parameters.}
+\end{center}
+\end{table}
 
 
 
 \subsection{Pima Indians diabetes data}
  
+\begin{table}[b!]
+\begin{center}
+\begin{tabular}{|r|rr|rr|} \hline
+ & \multicolumn{2}{|c|}{Misclassification} & \multicolumn{2}{|c|}{Number of parameters} \\
+ & Bootstrap & Original & Bootstrap & Original \\ \hline
+<<PID-results,echo=FALSE,results=tex>>=
+cat(paste(apply(PID_Results, 1, function(x) paste(paste(x, collapse = " & "), "\\\\")), collapse = "\n"))
+@
+
+\hline
+\end{tabular}
+\caption{\label{tab:PID} Performance comparison for Pima Indians data:
+prediction error is compared by misclassification rate on 250 bootstrap samples and obvious
+misclassification on the original data set; complexity is compared by (median) number of
+estimated parameters.}
+\end{center}
+\end{table}
+
 Another popular data set for comparing new classifiers is the Pima Indians diabetes
 data which is---just as the Boston Housing data---available from the 
 UCI machine learning repository \citep{Newmanetal1998}. The data comprises 
@@ -768,6 +796,31 @@ using a logistic regression model for diabetes explained by glucose
 (corresponding to $k = 2$ parameters) is intuitive. This model is partitioned with
 respect to the remaining $\ell = 7$ variables, using a minimal segment size of
 $\ui = 40$ and again a Bonferroni-corrected significance level of $\alpha = 0.05$.
+
+\setkeys{Gin}{width=.95\textwidth}
+\begin{figure}[p]
+\begin{center}
+<<PID-plot,echo=FALSE,results=hide,fig=TRUE,height=6,width=10>>=
+plot(fmPID, terminal_panel = node_bivplot(fmPID, gp = gpar(fill = grey(c(0.5, 0.8))),
+  linecol = "black", ylines = 1.5, ylab_tol = 1))
+@
+\caption{\label{fig:PID} Logistic-regression-based tree for the Pima Indians data.
+The spinograms in the leaves depict diabetes by plasma glucose concentration.}
+\end{center}
+\end{figure}
+
+\setkeys{Gin}{width=\textwidth}
+\begin{figure}[p]
+\begin{center}
+<<PID-performance,echo=FALSE,results=hide,fig=TRUE,height=5,width=10,twofig=TRUE>>=
+ciplot(PID_MC, xlab = "Misclassification difference", xlim = c(-0.005, 0.05))
+ciplot(PID_NPAR, xlab = "Complexity difference")
+@
+\caption{\label{fig:PID-performance} Performance comparison for Pima Indians data: 
+prediction error is compared by misclassification rate differences, 
+complexity by difference in number of estimated parameters.}
+\end{center}
+\end{figure}
 
 Figure~\ref{fig:PID} displays the resulting logistic regression-based tree. The
 data is first split at a body mass index of 26.3 (corresponding roughly to the lower 
@@ -791,52 +844,6 @@ Figure~\ref{fig:PID-performance} show that the MOB trees perform slightly (and s
 on this data set than the other tree-based algorithms included. In particular, it performs
 considerably better than the other model-based algorithm (LMT) both with respect to prediction
 and model complexity.
-
-
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{|r|rr|rr|} \hline
- & \multicolumn{2}{|c|}{Misclassification} & \multicolumn{2}{|c|}{Number of parameters} \\
- & Bootstrap & Original & Bootstrap & Original \\ \hline
-<<PID-results,echo=FALSE,results=tex>>=
-cat(paste(apply(PID_Results, 1, function(x) paste(paste(x, collapse = " & "), "\\\\")), collapse = "\n"))
-@
-
-\hline
-\end{tabular}
-\caption{\label{tab:PID} Performance comparison for Pima Indians data:
-prediction error is compared by misclassification rate on 250 bootstrap samples and obvious
-misclassification on the original data set; complexity is compared by (median) number of
-estimated parameters.}
-\end{center}
-\end{table}
-
-
-
-\setkeys{Gin}{width=.85\textwidth}
-\begin{figure}[p]
-\begin{center}
-<<PID-plot,echo=FALSE,results=hide,fig=TRUE,height=6,width=9>>=
-plot(fmPID, terminal_panel = node_bivplot(fmPID, gp = gpar(fill = grey(c(0.5, 0.8))),
-  linecol = "black", ylines = 1.5, ylab_tol = 1))
-@
-\caption{\label{fig:PID} Logistic-regression-based tree for the Pima Indians data.
-The spinograms in the leaves depict diabetes by plasma glucose concentration.}
-\end{center}
-\end{figure}
-
-\setkeys{Gin}{width=\textwidth}
-\begin{figure}[p]
-\begin{center}
-<<PID-performance,echo=FALSE,results=hide,fig=TRUE,height=5,width=10,twofig=TRUE>>=
-ciplot(PID_MC, xlab = "Misclassification difference", xlim = c(-0.005, 0.05))
-ciplot(PID_NPAR, xlab = "Complexity difference")
-@
-\caption{\label{fig:PID-performance} Performance comparison for Pima Indians data: 
-prediction error is compared by misclassification rate differences, 
-complexity by difference in number of estimated parameters.}
-\end{center}
-\end{figure}
 
 
 
@@ -865,40 +872,10 @@ The model is estimated by ML, the instability is assessed using a Bonferroni-cor
 significance level of $\alpha = 0.05$ and the nodes are split with a required minimal
 segment size of $\ui = 40$.
 
-The resulting model-based tree is depicted in Figure~\ref{fig:GBSG2} employing
-scatter plots for survival time by number of positive nodes in the leaves. Based on
-the ideas of \cite{GentlemanCrowley1991}, circles with different shadings of gray 
-(hollow and solid) are used for censored and uncensored observations, respectively.
-Fitted median survival times from the Weibull regression model are visualized by
-dashed and solid lines for patients with and without hormonal therapy. The data are 
-partitioned once with respect to progesterone receptor, splitting the observations
-into a group with marked influence of positive nodes and negligible influence
-of hormonal therapy and a group with less pronounced influence of positive nodes but
-clear hormonal therapy effect. A fair amount of censored observations remains in
-both groups; no further significant instabilities can be detected (all $p$~values
-are above $50\%$). The resulting model has 
-$\Sexpr{ncol(vcov(fmGBSG2@tree$model)) * nrow(coef(fmGBSG2)) + nrow(coef(fmGBSG2)) - 1}$ parameters
-($\Sexpr{nrow(coef(fmGBSG2))} \cdot \Sexpr{ncol(vcov(fmGBSG2@tree$model))}$ coefficients
-and $\Sexpr{nrow(coef(fmGBSG2))} - 1$ splits), yielding a log-likelihood of
-$\Sexpr{round(as.vector(logLik(fmGBSG2)), digits = 4)}$.
-
-For this survival regression problem, we refrain from conducting a benchmark comparison
-of performance as carried out in the previous section. The main reason for this is
-that it is not clear which predictive perfomance measure should be used in such a 
-comparison: Whereas RMSE and misclassification are usually regarded to be acceptable (albeit not the
-only meaningful) performance measures for regression and classification tasks, the
-situation is not as well understood for censored regression models. Although various
-measures, such as the Brier score \citep{Grafetal1999}, 
-are used in the literature their usefulness still remains a matter of debate
-\citep{Henderson1995,AltmanRoyston2000,Schemper2003}. As resolving these
-discussions is beyond the scope of this paper, we content ourselves 
-with the empirical analysis for this regression problem.
-
-
-\setkeys{Gin}{width=.75\textwidth}
-\begin{figure}[bth]
+\setkeys{Gin}{width=.8\textwidth}
+\begin{figure}[b!]
 \begin{center}
-<<GBSG2-plot,echo=FALSE,results=hide,fig=TRUE,height=5,width=8>>=
+<<GBSG2-plot,echo=FALSE,results=hide,fig=TRUE,height=5,width=8.5>>=
 node_gbsg2plot <- function(mobobj, col = "black", linecol = "red",
   cex = 0.5, pch = NULL, jitter = FALSE, xscale = NULL, yscale = NULL, ylines = 1.5,
   id = TRUE, xlab = FALSE, ylab = FALSE)
@@ -988,13 +965,47 @@ of positive lymph nodes along with fitted median survival for patients with (das
 \end{center}
 \end{figure}
 
+The resulting model-based tree is depicted in Figure~\ref{fig:GBSG2} employing
+scatter plots for survival time by number of positive nodes in the leaves. Based on
+the ideas of \cite{GentlemanCrowley1991}, circles with different shadings of gray 
+(hollow and solid) are used for censored and uncensored observations, respectively.
+Fitted median survival times from the Weibull regression model are visualized by
+dashed and solid lines for patients with and without hormonal therapy. The data are 
+partitioned once with respect to progesterone receptor, splitting the observations
+into a group with marked influence of positive nodes and negligible influence
+of hormonal therapy and a group with less pronounced influence of positive nodes but
+clear hormonal therapy effect. A fair amount of censored observations remains in
+both groups; no further significant instabilities can be detected (all $p$~values
+are above $50\%$). The resulting model has 
+$\Sexpr{ncol(vcov(fmGBSG2@tree$model)) * nrow(coef(fmGBSG2)) + nrow(coef(fmGBSG2)) - 1}$ parameters
+($\Sexpr{nrow(coef(fmGBSG2))} \cdot \Sexpr{ncol(vcov(fmGBSG2@tree$model))}$ coefficients
+and $\Sexpr{nrow(coef(fmGBSG2))} - 1$ splits), yielding a log-likelihood of
+$\Sexpr{round(as.vector(logLik(fmGBSG2)), digits = 4)}$.
+
+For this survival regression problem, we refrain from conducting a benchmark comparison
+of performance as carried out in the previous section. The main reason for this is
+that it is not clear which predictive perfomance measure should be used in such a 
+comparison: Whereas RMSE and misclassification are usually regarded to be acceptable (albeit not the
+only meaningful) performance measures for regression and classification tasks, the
+situation is not as well understood for censored regression models. Although various
+measures, such as the Brier score \citep{Grafetal1999}, 
+are used in the literature their usefulness still remains a matter of debate
+\citep{Henderson1995,AltmanRoyston2000,Schemper2003}. As resolving these
+discussions is beyond the scope of this paper, we content ourselves 
+with the empirical analysis for this regression problem.
+
+
 \section{Discussion} \label{sec:discussion}
 
+In this section, some aspects of the model-based recursive partitioning are discussed
+in more detail or compared with previous approaches---also, some ideas for extensions
+are given.
+
 \textbf{Score-based parameter instability tests:}
-discuss type II error rates/power
+discuss type II error rates/power (omnibus, not only shift)
 
 \textbf{Unbiasedness:}
-consistency of tests, adjusted for multiple testing
+size $\alpha$ tests, adjusted for multiple testing, consistent
 
 \textbf{Pruning:}
 The algorithm as discussed in this paper relies on a statistically motivated
@@ -1003,7 +1014,7 @@ course, it could also be combined with cross-validation-based \textit{post-pruni
 although the statistical interpretation of the $p$~values would then be lost.
 As every node of the tree is associated with a fitted model with a certain number
 of parameters, another attractive option is to grow the tree with a large $\alpha$
-and then prune based on information criteria.
+(leading to a large tree) and then prune based on information criteria.
 
 \textbf{Objective function:}
 For some statistical models, there is a clearly defined estimating function

@@ -3,7 +3,6 @@ R2guide <- function(x, response, name) {
 
     datname <- paste(name, ".dat", sep = "")
     write.table(x, sep = " ", file = datname, row.names = FALSE, col.names = FALSE)
-    return()
     
     dscname <- paste(name, ".dsc", sep = "")
 

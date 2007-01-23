@@ -30,8 +30,8 @@ ciplot <- function(x, file, height = 5, width = 7, xlab = "Performance differenc
   tmp <- x - apply(x, 1, mean)
   tmp <- data.frame(error = unlist(tmp), model = factor(rep(colnames(tmp),
     rep(nrow(tmp), ncol(tmp))), levels = names(x)))
-  si <- simint(error ~ model, data = tmp, type = "Dunnett")
-  rownames(si$estimate) <- names(x)[-1]
+  si <- glht(lm(error ~ model, data = tmp), linfct = mcp(model = "Dunnett"))
+  rownames(si$linfct) <- names(x)[-1]
 
   pdf <- !missing(file)
   if(pdf) pdf(file = file, height = height, width = width, version = "1.4")
