@@ -31,7 +31,8 @@
   respect to the variable associated with the highest instability, (4)~repeat
   the procedure in each of the daughter nodes. The algorithm yields a
   partitioned (or segmented) parametric model that can be effectively 
-  visualized and that subject-matter scientists are used to analyze and interpret. %FIXME?%
+  visualized and that subject-matter scientists are used to analyzing and
+  interpreting.
 }
 
 \begin{document}
@@ -53,8 +54,8 @@ Pval <- function(p, digits = 3)
 Since the appearance of the first tree-structured regression analysis 
 \citep[Automated Interaction Detection,][]{MorganSonquist1963},
 virtually every publication in this field highlights two features of trees: 
-1.~interpretability---enhanced by visualizations of the fitted decision trees---and
-2.~predictive power in non-linear regression relationships.
+(1)~interpretability---enhanced by visualizations of the fitted decision trees---and
+(2)~predictive power in non-linear regression relationships.
 The latter is of diminishing importance because modern approaches to
 predictive modeling such as boosting \citep[e.g., simple $L_2$ boosting by][]{BuehlmannYu2003},
 random forests \citep{Breiman2001} or support vector machines \citep{Vapnik1996}
@@ -103,7 +104,7 @@ the explanatory variables. The statistical formulation of the algorithm
 ensures the validity of interpretations drawn from the depicted model.
 Moreover, the use of well-known parametric models provides
 subject-matter scientists with a segmented model that they are used to
-analyze and interpret. %FIXME?%
+analyzing and interpreting.
 
 The remainder of the paper is organized as follows: Section~\ref{sec:segmented}
 establishes the class of models the framework is based on before Section~\ref{sec:algorithm} describes
@@ -193,7 +194,7 @@ which is usually time \citep{BaiPerron2003,ZeileisKleiberKraemer2003}.
 %% \dotfill
 
 Given the correct partition $\{\mathcal{B}_b\}$ the estimation of the parameters $\theta$
-that minimize the global objective function can be easily achieved by computing the locally
+that minimize the global objective function can easily be achieved by computing the locally
 optimal parameter estimates $\hat \theta_b$ in each segment $\mathcal{B}_b$. However,
 if $\{\mathcal{B}_b\}$ is unknown, minimization of the global objective function
 \begin{equation} \label{eq:PsiB}
@@ -203,7 +204,7 @@ over all conceivable partitions $\{\mathcal{B}_b\}$ (with corresponding indexes
 $I_b$, $b = 1, \dots, B$) is more complicated, even if the number of segments $B$ is fixed:
 If there is more than one partitioning variable ($\ell > 1$), the number of potential 
 partitions quickly becomes too large for an exhaustive search. If, in addition,
-the number of segments $B$ is unknown, the problem becomes even more severe---at least,
+the number of segments $B$ is unknown, the challenges become even more severe---at least,
 if trivial partitions, such as the partition, where each observation is its own segment,
 are excluded, e.g.,  by requiring some minimum segment size. Furthermore, in this case,
 some means should be taken to avoid overfitting by increasing $B$.
@@ -347,14 +348,15 @@ only once under the null hypothesis of parameter stability and not under the
 alternative for each conceivable change point.
 The limiting distribution of the sup$LM$ statistic is given by the supremum of a
 squared, $k$-dimensional tied-down Bessel process $\sup_t (t (1-t))^{-1} ||W^0(t)||_2^2$
-from which the corresponding $p$~value $p_j$ can be computed \citep{Hansen1997}.
+from which the corresponding $p$~value $p_j$ can be computed \citep{Hansen1997}
+for the ordering $Z_j$ ($j = 1, \dots, \ell$).
 
 This approach of assessing numeric partitioning variables combines the ideas from
 (linear) model tree algorithms, such as GUIDE \citep{Loh2002} or the RD and RA trees of
 \cite{PottsSammut2005}, with state-of-the-art methodology for testing parameter
-instability \citep{Andrews1993,Zeileis2005}. Both, GUIDE and RD/RA trees assess
-the parameter instability along numerical partitioning variables. However, the tests
-employed in these algorithms make some ad-hoc approximations:
+instability \citep{Andrews1993,Zeileis2005}. Both GUIDE and RD/RA trees assess
+the parameter instability along numerical partitioning variables. The tests
+employed in these algorithms are based on some ad-hoc approximations:
 GUIDE and RD trees evaluate only a fixed number of conceivable change points, such as
 3 (for GUIDE) or 5 (for RD trees) points at sample quantiles. Furthermore, GUIDE and RA trees
 assess only the sign of the residuals, not the full model scores. Finally, RD
@@ -368,7 +370,7 @@ functional $\lambda$ could be used, because these always lead to omnibus tests
 that are not uniformly dominated by any other functional over all conceivable patterns
 of parameter changes. However, the $\lambda_{\sup LM}$ is particularly
 attractive for fitting tree models because it has high power against abrupt changes
-\citep[as captured by partitioning,][]{AndrewsPloberger:1994}, evaluates all
+\citep[as captured by partitioning,][]{AndrewsPloberger1994}, evaluates all
 conceivable change points, and is sensitive to changes in all elements of the parameter
 vector $\theta$. The latter is not true for residual-based tests as employed by GUIDE;
 this is illustrated in Section~\ref{sec:discussion}.
@@ -419,7 +421,7 @@ the scores just have to be reordered and aggregated to a scalar test statistic e
 
 To test whether there is some overall instability in the current node, it just has
 to be checked whether the minimal $p$~value $\min_{j = 1, \dots, \ell} p_j$ falls below
-a pre-specified significance level $\alpha$, that is typically corrected for multiple
+a pre-specified significance level $\alpha$, which is typically corrected for multiple
 testing. If this is the case, the variable $Z_{j^*}$ associated with the minimal $p$~value
 is chosen for splitting the model in the next step of the algorithm.
 
@@ -539,8 +541,8 @@ as linear model trees; as well as CART \citep[classification and regression tree
 and conditional inference trees \citep[CTree,][]{HothornHornikZeileis2006} as trees with
 constant models in the nodes. The logistic regression-based MOB trees are compared
 with logistic model trees \citep[LMT,][]{Landwehretal2005} as well as various tree-based algorithms
-with constant models in the nodes: QUEST \citep{LohShih1997}, the J4.8 implementation of
-C4.5 \citep{Quinlan1993}, CART and CTree.
+with constant models in the nodes: QUEST \citep{LohShih1997}, the J4.8 implementation 
+\citep{WittenFrank2005} of C4.5 \citep{Quinlan1993}, CART and CTree.
 
 All benchmark comparisons are carried out in the framework of \cite{HothornLeischZeileis2005}
 based on 250 bootstrap replications and employing the root mean squared error (RMSE)
@@ -558,7 +560,7 @@ performance measures (RMSE or misclassification) on the original data set as an 
 reference information (although the obvious prediction measures obviously represent no honest estimators).
 
 Most computations have been carried out in the \proglang{R} system for statistical computing
-\citep{R2005}, in particular using the packages \pkg{party} \citep{HothornZeileisHornik2006a},
+\citep{R2006}, in particular using the packages \pkg{party} \citep{HothornZeileisHornik2006a},
 providing implementations of MOB and CTree, \pkg{rpart} \citep{TherneauAtkinson1997}, implementing
 CART, and \pkg{RWeka} \citep{HornikZeileisHothorn2006}, the \proglang{R} interface to \pkg{Weka}
 \citep{WittenFrank2005} containing implementations of M5', LMT and J4.8. For GUIDE and QUEST,
@@ -577,16 +579,16 @@ further variables such as age, number of characters and interactions of age and 
 the model with no clear solution what is the best way of incorporating these further variables.
 
 This is where we set out with an analysis by means of model-based recursive partitioning.
-The model to be partitioned is a linear regression for number of library subscriptions by
+The model to be partitioned is a linear regression for the number of library subscriptions by
 price per citation in log-log specification (i.e., with $k = 2$ coefficients).
 The $\ell = 5$ partitioning variables are the raw price
-and number of citations, the age, number of characters and a factor indicating whether the
+and number of citations, the age of the journal, number of characters and a factor indicating whether the
 journal is associated with a society or not. Thus, we use a standard model whose specification
 is driven by economic knowledge and try to partition it with respect to further variables
 whose influence is not clear in advance. Note that whereas the selection of appropriate transformations
 is crucial for the modeling variables, monotonous transformations of the partitioning
 variables have no influence on the fitting process. For testing, a Bonferroni-corrected
-significance level of $\alpha = 0.05$ and a minimal segment size of $\ui = 10$ is used.
+significance level of $\alpha = 0.05$ and a minimal segment size of $\ui = 10$ are used.
 
 \setkeys{Gin}{width=.78\textwidth}
 \begin{figure}[p]
@@ -608,9 +610,9 @@ Node & \multicolumn{2}{|c||}{Regressors} & \multicolumn{5}{|c|}{Partitioning var
 <<Journals-algorithm,echo=FALSE,results=tex>>=
 stable <- function(i) {
   x <- cbind(t(summary(fmJ, node = i)$coefficients[,c(1, 4)]), sctest(fmJ, node = i)[,c(5, 2:4, 1)])
-  paste(i, "&", paste(format(c(0.001, round(x[1,], digits = 3)))[-1], collapse = " & "),
-    "\\\\", "\n", "&", paste(sapply(x[2,],  function(p, digits = 3) ifelse(p <= 10^(-digits),
-    paste("< 0.", paste(rep("0", digits-1), collapse = "") , "1", sep = ""),
+  paste(i, "&", paste(paste("$", format(c(0.001, round(x[1,], digits = 3)))[-1], "$", sep = ""),
+    collapse = " & "), "\\\\", "\n", "&", paste(sapply(x[2,],  function(p, digits = 3)
+    ifelse(p <= 10^(-digits), paste("< 0.", paste(rep("0", digits-1), collapse = "") , "1", sep = ""),
     paste("", format(c(round(p, digits = digits), 0.001)), "", sep = "")[1])), collapse = " & "),
     "\\\\", "\\hline", "\n")
 }
@@ -651,18 +653,18 @@ The resulting linear regression-based tree for the economic journals data is dep
 Figure~\ref{fig:Journals} employing scatter plots with fitted regression lines in the leaves;
 some more details are provided in Table~\ref{tab:Journals-algorithm}.
 In the fitting process, a global model for all observations is estimated in node~1 yielding a price
-elasticity of $\Sexpr{round(coef(fmJ, node = 1)[2], digits = 2)}$. Its stability is
+elasticity of about $\Sexpr{round(coef(fmJ, node = 1)[2], digits = 2)}$. Its stability is
 assessed with respect to all $\ell = 5$ partitioning variables, the corresponding
-parameter instability test statistics (as defined in Equation~\label{eq:supLM} and
-\label{eq:Chisq}, respectively) are provided in Table~\ref{tab:Journals-algorithm}
+parameter instability test statistics (as defined in Equation~\ref{eq:supLM} and
+\ref{eq:Chisq}, respectively) are provided in Table~\ref{tab:Journals-algorithm}
 along with their Bonferroni-adjusted $p$~values. A highly significant instability is
 found only with respect to age (with a Bonferroni-adjusted $p$~value of
 $\Sexpr{Pval(sctest(fmJ, node = 1)[2,3])}$) which is subsequently used for splitting, 
 leading to an optimal split at age 18.
 For the \Sexpr{sum(weights(fmJ@tree$left$model))} young journals in node~2
-a much higher price elasticity of $\Sexpr{round(coef(fmJ, node = 2)[2], digits = 2)}$
+a much higher price elasticity of about $\Sexpr{round(coef(fmJ, node = 2)[2], digits = 2)}$
 is found than for the \Sexpr{sum(weights(fmJ@tree$right$model))} older journals in node~3
-with a price elasticity of $\Sexpr{round(coef(fmJ, node = 3)[2], digits = 2)}$.
+with a price elasticity of about $\Sexpr{round(coef(fmJ, node = 3)[2], digits = 2)}$.
 No further parameter instabilities with respect to the partitioning variables can be detected:
 all $p$~values are greater than 89\% and hence the algorithm stops.
 Table~\ref{tab:Journals} reports the RMSE on the original data and the model complexity of
@@ -1014,7 +1016,7 @@ are given.
 score-based fluctuation tests employed in the MOB algorithm, we present a simple simulation study.
 The results are compared to those from GUIDE which uses residual-based tests to determine
 the partitioning variable in each node. A simple linear regression $y = x^\top \beta + \varepsilon$
-is used where both the regressor $x$ and the error $\varepsilon$ are standard normal. There
+is used where both the regressor~$x$ and the error~$\varepsilon$ are standard normal. There
 are six splitting variables: three standard normal variables $Z_1$, $Z_2$, $Z_3$, one uniform
 variable $Z_4$ on $[0,1]$ (rounded to 1 digit to yield many ties), one discrete uniform categorical
 variable $Z_5$ with 2 categories and another variable $Z_6$ with 5 categories. We draw $n = 500$
@@ -1069,7 +1071,8 @@ writeLines(tab)
 @
 \end{tabular}
 \caption{\label{tab:size-power} Number of splits and first partitioning variable chosen for splitting
-(if any) for three artificial types of parameter changes: no/intercept/slope change.}
+(if any) in $500$~replications for three artificial types of parameter changes:
+no/intercept/slope change. }
 \end{center}
 \end{table}
 
@@ -1077,7 +1080,7 @@ writeLines(tab)
 \textbf{Unbiasedness:}
 A desirable property which has been emphasized for many of the more
 recent tree algorithms---such as QUEST \citep{LohShih1997}, GUIDE
-\citep{Loh2002} or CTree \cite{HothornHornikZeileis2006}---is \emph{unbiasedness}. While
+\citep{Loh2002} or CTree \citep{HothornHornikZeileis2006}---is \emph{unbiasedness}. While
 exhaustive search algorithms (such as CART or C4.5) have a variable
 selection bias (e.g., towards partitioning variables with many potential change
 points), this problem can be overcome by separating variable and split
@@ -1143,10 +1146,11 @@ The same is not necessarily true in very large data sets (both with many observa
 and many partitioning variables), where there is usually a stronger trade-off
 between complexity and predictive power. For large data sets, the same ideas can be
 employed for approximating a global model by recursive partitioning and fitting local
-models in the resulting segments---however, there is typically no simple partition
-based model for large data sets. The algorithm will try to address this
+models in the resulting segments---however, there is typically no simple
+partition-based model (both with a simple partition and simple local models)
+for large data sets.  The algorithm will try to address this
 by finding a more complex partition; alternatively, the practitioner can often reduce
-the complexity of the partition to some by making the model $\mathcal{M}(Y, \theta)$ more
+the complexity of the partition by making the model $\mathcal{M}(Y, \theta)$ more
 complex. In contrast, if the primary focus is model-based data exploration (rather than
 prediction), a smaller tree can be grown, e.g., by decreasing $\alpha$ or by limiting
 the maximal depth of the tree.

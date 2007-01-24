@@ -5,16 +5,16 @@ we prepared a revision of our manuscript
 addressing the points raised by the referees. In particular, we
 made the following enhancements:
 
-  o The description of the algorithm in Section 3 and and its
-    first application within the paper to a real data set in
-    Section 4.1 are given in more detail now, showing more clearly
-    what exactly is the optimization problem and how we aim the
-    algorithm tries to solve it by forward search.
+  o The description of the algorithm in Section 3 and its first
+    application within the paper to a real data set in Section 4.1
+    are given in more detail now, showing more clearly what
+    exactly is the optimization problem and how the algorithm
+    tries to solve it by forward search.
     
   o More insights for the parameter instability tests are provided,
-    both, by theoretical arguments and empirical evaluation on
+    both by theoretical arguments and empirical evaluation on
     simulated data. In Section 3.2, we compare the theoretical
-    properties of the tests to those employed by other (linear)
+    properties of the tests with those employed by other (linear)
     model trees such as GUIDE and RD/RA trees. In Section 5, we
     also illustrate that the theoretical properties can be confirmed
     in a simulation setup.
@@ -61,12 +61,12 @@ the algorithm are omnibus tests that are consistent against arbitrary patterns
 of parameter changes. Additionally, their power is directed specifically
 against abrupt parameter changes (as can be captured by partitioning). This
 is now pointed out more clearly in Section 3 and 5, and is also backed by
-an empirical comparison with residual-based tests such as employed by GUIDE.
+an empirical comparison with residual-based tests as employed by GUIDE.
 
 Although these are good reasons for using the specific testing functionals
-from Equation (6) and (7), respectively, there no testing functional will
-uniformly dominate all others over all conceivable patterns of parameter
-change. This is also pointed out within the paper in Sections 3 and 5.
+from Equation (6) and (7), respectively, no testing functional will uniformly
+dominate all others over all conceivable patterns of parameter change. This
+is also pointed out within the paper in Sections 3 and 5.
 
 > 18. Performance estimates are given for the Splitting step, but 
 > performance comments for the other steps would have been useful (e.g., 
@@ -78,7 +78,7 @@ We have added a paragraph in the new Section 5 "Discussion" that highlights
 several issues and strategies when practitioners want to apply the algorithm
 to large(r) data sets.
 
-> Actionable Comments 1.-15
+> Actionable Comments 1.-15.
 
 These have all been included in the revised paper.
 
@@ -98,8 +98,8 @@ The model is a linear regression model
 which is the same in all nodes of the trees, only with different coefficients b0
 and b1. age <= 18 is the best split (in terms of error-sum-of-squares reduction)
 of the model above when segmented into two sub-samples. Thus, the objective 
-function (sum of squares) that is minimized by the estimator for (b0, b1) is
-also (locally) optimized in the splitting step.
+function (Psi = sum of squares) that is minimized by the estimator for (b0, b1)
+is also (locally) optimized in the splitting step.
 
 Section 4.1 provides now a more detailed discussion of how the algorithm is
 applied to the journals data set.
@@ -127,7 +127,7 @@ ourselves to the regression framework.
 > available?
 
 The algorithm as suggested and illustrated by us does certainly not provide a
-black-box procedure: all steps of the algorithm can intuitively understood
+black-box procedure: all steps of the algorithm can be intuitively understood
 and the resulting model effectively visualized and interpreted. To emphasize
 this point, we have extended Section 4.1, providing more details on the 
 fitting process of the algorithm to the journals data. This should help to
@@ -149,8 +149,8 @@ algorithm over all conceivable data sets. Part of the explanation that MOB
 performs well on the data sets in Section 4 is that for these data sets 
 plausible models were available that could be employed for recursive partioning.
 The reason for not including further standard benchmark data sets (e.g., from
-the UCI repository) was that there were no plausible models were available that
-could be recursively partitioned.
+the UCI repository) was that no plausible models were available that could be
+recursively partitioned.
 
 > On the other hand, the proposed method is not only made to achieve better
 > prediction accuracy, but also meaningful interpretation of the final model.
@@ -175,7 +175,7 @@ could be recursively partitioned.
 
 We have extended the discussion of the parameter instability tests (and the
 resulting unbiasedness of the recursive partitioning algorithm) both by
-theoretical and empirical justifications. The reason's for using Andrews'
+theoretical and empirical justifications. The reasons for using Andrews'
 supLM test are: (1) it has a natural interpretation because it assesses
 all potential change points by means of the corresponding LM statistic,
 (2) it appropriately corrects for selecting the maximal LM statistc
@@ -228,7 +228,7 @@ criterion.
 >   the null model (i.e., without any predictor included) is fit here. If it
 >   is so, please indicate it specifically. It seems to me that
 
-As also pointed out above, the model itself does not change during the
+As already pointed out above, the model itself does not change during the
 partitioning process, only the fitted parameters vary across different
 segments. We have extended both the theoretical description in Section 3
 and the first application in Section 4 to bring this out more clearly.
