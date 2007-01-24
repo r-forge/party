@@ -1022,9 +1022,10 @@ observations from this data-generating process in three scenarios: (1)~no change
 on the full sample, (2)~intercept change, $\beta$ switches to $(1, 0)^\top$ for $Z_1 > 0$, (3)~slope
 change, $\beta$ switches to $(0, 1)^\top$ for $Z_1 > 0$. The outcome from both MOB (with $\alpha = 0.05$)
 and GUIDE applied to $500$ samples drawn from these models are summarized in Table~\ref{tab:size-power}.
-In the size case (no change), both algorithms select almost always the right model without 
+Under the null hypothesis of no change, both algorithms select almost always the right model without 
 any splits. GUIDE's model search performs somewhat better---however, MOB selects splits only in
-roughly 5\% of all replications, i.e., works as expected and advertised. In the power case for an
+roughly 5\% of all replications, i.e., maintains its nominal size and 
+works as expected and advertised. In the power case for an
 intercept change, both algorithms again perform very similar and always find the correct partitioning
 variable. Again, MOB selects a larger model somewhat more often, in roughly 5\% of the replications.
 In the power case for a slope change, however, the GUIDE procedure breaks down while MOB performs
@@ -1035,7 +1036,7 @@ wrong partitioning variable. Although this is an extreme scenario, similar situa
 occur in practice when the variables are standardized prior to modeling (as commonly done
 for many statistical and machine learning algorithms). Therefore, employing the full model
 scores for assessing parameter stability seems to be a beneficial strategy. For abrupt changes,
-the tests advocated by us enjoy some weak optimality properties \citep{AndrewsPloberger1994}
+the tests advocated in the paper enjoy some weak optimality properties \citep{AndrewsPloberger1994}
 but are generally also consistent for other patterns of parameter change.
 
 <<size-power-simulation,echo=FALSE,results=hide>>=
@@ -1075,8 +1076,8 @@ writeLines(tab)
 
 \textbf{Unbiasedness:}
 A desirable property which has been emphasized for many of the more
-recent tree algorithms---such as QUEST \citep{LohShih1997} or GUIDE
-\citep{Loh2002} as prominent examples---is \emph{uniasedness}. While
+recent tree algorithms---such as QUEST \citep{LohShih1997}, GUIDE
+\citep{Loh2002} or CTree \cite{HothornHornikZeileis2006}---is \emph{unbiasedness}. While
 exhaustive search algorithms (such as CART or C4.5) have a variable
 selection bias (e.g., towards partitioning variables with many potential change
 points), this problem can be overcome by separating variable and split
@@ -1095,7 +1096,7 @@ consistent \citep[at rate $\sqrt{n}$, see][]{ZeileisHornik2003}.
 The algorithm as discussed in this paper relies on a statistically motivated
 internal stopping criterion (sometimes called \textit{pre-pruning}). This has the
 advantage that it is very easy to understand and interpret the tree-growing algorithm
-as it simply relies on significance tests. By construction, this splits in irrelevant partitioning
+as it simply relies on significance tests. By construction, the procedure splits in irrelevant partitioning
 variables only with probability $\alpha$ (as also illustrated in Table~\ref{tab:size-power}).
 If the focus of its application is predicitve performance, the algorithm could
 also be combined with a refined model-selection strategy, such as
@@ -1136,14 +1137,14 @@ partitioning.
 
 \textbf{Large datasets:}
 In Section~\ref{sec:illustration}, we have applied the suggested MOB algorithm
-to several small to medium-sized data analysis tasks, showing that both, satisfactory
-predictive performance and interpretability, can be achieved simultaneously.
+to several small to medium-sized data analysis tasks, showing that both satisfactory
+predictive performance and interpretability can be achieved simultaneously.
 The same is not necessarily true in very large data sets (both with many observations
 and many partitioning variables), where there is usually a stronger trade-off
 between complexity and predictive power. For large data sets, the same ideas can be
 employed for approximating a global model by recursive partitioning and fitting local
 models in the resulting segments---however, there is typically no simple partition
-based in simple models for large data sets. The algorithm will try to address this
+based model for large data sets. The algorithm will try to address this
 by finding a more complex partition; alternatively, the practitioner can often reduce
 the complexity of the partition to some by making the model $\mathcal{M}(Y, \theta)$ more
 complex. In contrast, if the primary focus is model-based data exploration (rather than
