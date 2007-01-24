@@ -349,21 +349,30 @@ The limiting distribution of the sup$LM$ statistic is given by the supremum of a
 squared, $k$-dimensional tied-down Bessel process $\sup_t (t (1-t))^{-1} ||W^0(t)||_2^2$
 from which the corresponding $p$~value $p_j$ can be computed \citep{Hansen1997}.
 
-This approach of assessing (numeric) partitioning variables combines the ideas from
+This approach of assessing numeric partitioning variables combines the ideas from
 (linear) model tree algorithms, such as GUIDE \citep{Loh2002} or the RD and RA trees of
 \cite{PottsSammut2005}, with state-of-the-art methodology for testing parameter
 instability \citep{Andrews1993,Zeileis2005}. Both, GUIDE and RD/RA trees assess
-the parameter instability along numerical partitioning variables; however, the tests
+the parameter instability along numerical partitioning variables. However, the tests
 employed in these algorithms make some ad-hoc approximations:
 GUIDE and RD trees evaluate only a fixed number of conceivable change points, such as
-3 (for GUIDE) or 5 (for RD trees). Furthermore, GUIDE and RA trees assess only the
-sign of the residuals, not the full model scores (which can lead to poor power for
-certain types of parameter changes, see Section~\ref{sec:discussion}). Finally, RD
+3 (for GUIDE) or 5 (for RD trees) points at sample quantiles. Furthermore, GUIDE and RA trees
+assess only the sign of the residuals, not the full model scores. Finally, RD
 trees employ a crude Bonferroni approximation for computing the $p$~values instead
 of the correct limiting distribution. Thus, we start from the same ideas but embed
-them into a modern framework for testing structural stability in general parametric
-models. This approach makes the evaluation of all conceivable change points feasible,
-uses the correct limiting distribution and can be applied to wider class of models.
+them into a state-of-the-art framework for testing structural stability in general
+parametric models. For the linear regression model, the tests employed by GUIDE and
+the RD/RA trees are contained in our framework as special cases via the choise of
+a different aggregation functional $\lambda(\cdot)$. As mentioned above, any (reasonable)
+functional $\lambda$ could be used, because these always lead to omnibus tests
+that are not uniformly dominated by any other functional over all conceivable patterns
+of parameter changes. However, the $\lambda_{\sup LM}$ is particularly
+attractive for fitting tree models because it has high power against abrupt changes
+\citep[as captured by partitioning,][]{AndrewsPloberger:1994}, evaluates all
+conceivable change points, and is sensitive to changes in all elements of the parameter
+vector $\theta$. The latter is not true for residual-based tests as employed by GUIDE;
+this is illustrated in Section~\ref{sec:discussion}.
+
 
 %% Cramer-von Mises statistic
 %% To assess the instability with respect to a numerical variable $Z_j$, we suggest
@@ -689,22 +698,6 @@ regression methods both in machine learning and statistics
 these examples by segmenting a bivariate linear regression model for the house
 values.
 
-The data set provides $n = 506$ observations of the median value of owner-occupied
-homes in Boston (in USD~1000) along with $14$ covariates including in particular
-the number of rooms per dwelling (rm) and the percentage
-of lower status of the population (lstat). A segment-wise linear relationship between
-the value and these two variables is very intuitive, whereas the shape of the influence
-of the remaining covariates is rather unclear and hence should be learned from the data.
-Therefore, a linear regression model for median value explained by $(\mathrm{rm})^2$
-and $\log(\mbox{lstat})$ with $k = 3$ regression coefficients is employed and
-partitioned with respect to all $\ell = 11$ remaining variables. As argued above,
-choosing appropriate transformations of the modeling variables
-is important to obtain a well-fitting model in each segment and
-we follow in our choice the recommendations of \cite{BreimanFriedman1985}.
-The model is estimated by OLS, the instability is assessed using a Bonferroni-corrected
-significance level of $\alpha = 0.05$ and the nodes are split with a required minimal
-segment size of $\ui = 40$.
-
 \setkeys{Gin}{width=\textwidth}
 \begin{figure}[p]
 \begin{center}
@@ -729,6 +722,22 @@ prediction error is compared by RMSE differences, complexity by difference in nu
 estimated parameters.}
 \end{center}
 \end{figure}
+
+The data set provides $n = 506$ observations of the median value of owner-occupied
+homes in Boston (in USD~1000) along with $14$ covariates including in particular
+the number of rooms per dwelling (rm) and the percentage
+of lower status of the population (lstat). A segment-wise linear relationship between
+the value and these two variables is very intuitive, whereas the shape of the influence
+of the remaining covariates is rather unclear and hence should be learned from the data.
+Therefore, a linear regression model for median value explained by $(\mathrm{rm})^2$
+and $\log(\mbox{lstat})$ with $k = 3$ regression coefficients is employed and
+partitioned with respect to all $\ell = 11$ remaining variables. As argued above,
+choosing appropriate transformations of the modeling variables
+is important to obtain a well-fitting model in each segment and
+we follow in our choice the recommendations of \cite{BreimanFriedman1985}.
+The model is estimated by OLS, the instability is assessed using a Bonferroni-corrected
+significance level of $\alpha = 0.05$ and the nodes are split with a required minimal
+segment size of $\ui = 40$.
 
 The resulting model-based tree is depicted in Figure~\ref{fig:BostonHousing} which
 shows partial scatter plots along with the fitted values in the terminal nodes. It can
@@ -873,7 +882,7 @@ significance level of $\alpha = 0.05$ and the nodes are split with a required mi
 segment size of $\ui = 40$.
 
 \setkeys{Gin}{width=.8\textwidth}
-\begin{figure}[b!]
+\begin{figure}[t!]
 \begin{center}
 <<GBSG2-plot,echo=FALSE,results=hide,fig=TRUE,height=5,width=8.5>>=
 node_gbsg2plot <- function(mobobj, col = "black", linecol = "red",
@@ -1001,17 +1010,97 @@ In this section, some aspects of the model-based recursive partitioning are disc
 in more detail or compared with previous approaches---also, some ideas for extensions
 are given.
 
-\textbf{Score-based parameter instability tests:}
-discuss type II error rates/power (omnibus, not only shift)
+\textbf{Parameter instability tests:} To illustrate size and power properties of the
+score-based fluctuation tests employed in the MOB algorithm, we present a simple simulation study.
+The results are compared to those from GUIDE which uses residual-based tests to determine
+the partitioning variable in each node. A simple linear regression $y = x^\top \beta + \varepsilon$
+is used where both the regressor $x$ and the error $\varepsilon$ are standard normal. There
+are six splitting variables: three standard normal variables $Z_1$, $Z_2$, $Z_3$, one uniform
+variable $Z_4$ on $[0,1]$ (rounded to 1 digit to yield many ties), one discrete uniform categorical
+variable $Z_5$ with 2 categories and another variable $Z_6$ with 5 categories. We draw $n = 500$
+observations from this data-generating process in three scenarios: (1)~no change, $\beta = (0, 0)^\top$
+on the full sample, (2)~intercept change, $\beta$ switches to $(1, 0)^\top$ for $Z_1 > 0$, (3)~slope
+change, $\beta$ switches to $(0, 1)^\top$ for $Z_1 > 0$. The outcome from both MOB (with $\alpha = 0.05$)
+and GUIDE applied to $500$ samples drawn from these models are summarized in Table~\ref{tab:size-power}.
+In the size case (no change), both algorithms select almost always the right model without 
+any splits. GUIDE's model search performs somewhat better---however, MOB selects splits only in
+roughly 5\% of all replications, i.e., works as expected and advertised. In the power case for an
+intercept change, both algorithms again perform very similar and always find the correct partitioning
+variable. Again, MOB selects a larger model somewhat more often, in roughly 5\% of the replications.
+In the power case for a slope change, however, the GUIDE procedure breaks down while MOB performs
+as for the intercept change. The reason for GUIDE's behaviour is that residual-based tests
+are insensitive to parameter changes orthogonal to the mean regressor \citep{PlobergerKraemer1992}.
+This results in too few or too many (up to 12) splits selected, more often than not in the 
+wrong partitioning variable. Although this is an extreme scenario, similar situations can
+occur in practice when the variables are standardized prior to modeling (as commonly done
+for many statistical and machine learning algorithms). Therefore, employing the full model
+scores for assessing parameter stability seems to be a beneficial strategy. For abrupt changes,
+the tests advocated by us enjoy some weak optimality properties \citep{AndrewsPloberger1994}
+but are generally also consistent for other patterns of parameter change.
+
+<<size-power-simulation,echo=FALSE,results=hide>>=
+if(file.exists("benchmarks/size-power.rda")) {
+  load("benchmarks/size-power.rda")
+} else {
+  setwd("benchmarks/")
+  source("size-power.R")
+  setwd("../")
+}
+@
+
+\begin{table}[t!]
+\begin{center}
+\begin{tabular}{|r|r|rrrrr|rrrrrr|} \hline
+Change & Algorithm & \multicolumn{5}{|c|}{Number of splits} & \multicolumn{6}{|c|}{First split (if any) in} \\
+       &      & 0 & 1 & 2 & 3 & 4+ & $Z_1$ & $Z_2$ & $Z_3$ & $Z_4$ & $Z_5$ & $Z_6$ \\ \hline
+<<size-power,echo=FALSE,results=tex>>=
+tab <- cbind(
+  c("     none", "         ", "intercept", "         ", "    slope", "         "),
+  rep(c("  MOB", "GUIDE"), 3),
+  t(sapply(c(sim00, sim10, sim01),
+           function(x) table(cut(as.numeric(as.character(x$nsplit)), c(0:4 - 0.5, 20))))),
+  t(sapply(c(sim00, sim10, sim01),
+           function(x) table(cut(as.numeric(as.character(x$firstvar)), 1:7 - 0.5))))
+)
+tab <- apply(tab, 1, function(x) paste(x, collapse = " & "))
+tab <- paste(as.vector(tab), rep(c("\\\\", "\\\\ \\hline"), 3))
+writeLines(tab)
+@
+\end{tabular}
+\caption{\label{tab:size-power} Number of splits and first partitioning variable chosen for splitting
+(if any) for three artificial types of parameter changes: no/intercept/slope change.}
+\end{center}
+\end{table}
+
 
 \textbf{Unbiasedness:}
-size $\alpha$ tests, adjusted for multiple testing, consistent
+A desirable property which has been emphasized for many of the more
+recent tree algorithms---such as QUEST \citep{LohShih1997} or GUIDE
+\citep{Loh2002} as prominent examples---is \emph{uniasedness}. While
+exhaustive search algorithms (such as CART or C4.5) have a variable
+selection bias (e.g., towards partitioning variables with many potential change
+points), this problem can be overcome by separating variable and split
+point selection (or assessing the significance of a selected split
+appropriately). As MOB is based on formal parameter instability tests,
+unbiasedness is also be achieved: If the model fitted in a certain node
+is stable, any of the partitioning variables will only be selected
+with (approximate) probability $\alpha$ because the overall test
+is constructed by Bonferroni-adjusting asymptotic $p$~values from the
+individual parameter instability tests for each partitioning variable.
+If there is parameter instability with respect to one partitioning variable,
+it will be picked up (for large enough $n$) because all tests used are
+consistent \citep[at rate $\sqrt{n}$, see][]{ZeileisHornik2003}.
 
 \textbf{Pruning:}
 The algorithm as discussed in this paper relies on a statistically motivated
-internal stopping criterion (sometimes called \textit{pre-pruning}), but, of
-course, it could also be combined with cross-validation-based \textit{post-pruning}
-although the statistical interpretation of the $p$~values would then be lost.
+internal stopping criterion (sometimes called \textit{pre-pruning}). This has the
+advantage that it is very easy to understand and interpret the tree-growing algorithm
+as it simply relies on significance tests. By construction, this splits in irrelevant partitioning
+variables only with probability $\alpha$ (as also illustrated in Table~\ref{tab:size-power}).
+If the focus of its application is predicitve performance, the algorithm could
+also be combined with a refined model-selection strategy, such as
+cross-validation-based \textit{post-pruning}. However, this has the disadvantage
+that statistical interpretation of the $p$~values is then be lost.
 As every node of the tree is associated with a fitted model with a certain number
 of parameters, another attractive option is to grow the tree with a large $\alpha$
 (leading to a large tree) and then prune based on information criteria.
@@ -1046,8 +1135,21 @@ overlapping, however, a trend-resistant fluctuation test should be conducted for
 partitioning.
 
 \textbf{Large datasets:}
-trade-off between complexity and predictive power
-global vs.\ local models
+In Section~\ref{sec:illustration}, we have applied the suggested MOB algorithm
+to several small to medium-sized data analysis tasks, showing that both, satisfactory
+predictive performance and interpretability, can be achieved simultaneously.
+The same is not necessarily true in very large data sets (both with many observations
+and many partitioning variables), where there is usually a stronger trade-off
+between complexity and predictive power. For large data sets, the same ideas can be
+employed for approximating a global model by recursive partitioning and fitting local
+models in the resulting segments---however, there is typically no simple partition
+based in simple models for large data sets. The algorithm will try to address this
+by finding a more complex partition; alternatively, the practitioner can often reduce
+the complexity of the partition to some by making the model $\mathcal{M}(Y, \theta)$ more
+complex. In contrast, if the primary focus is model-based data exploration (rather than
+prediction), a smaller tree can be grown, e.g., by decreasing $\alpha$ or by limiting
+the maximal depth of the tree.
+
 
 \section{Summary} \label{sec:summary}
 
