@@ -1,0 +1,253 @@
+Dear Luke,
+
+we prepared a revision of our manuscript
+  "Model-based Recursive Partitioning"
+addressing the points raised by the referees. In particular, we
+made the following enhancements:
+
+  o The description of the algorithm in Section 3 and and its
+    first application within the paper to a real data set in
+    Section 4.1 are given in more detail now, showing more clearly
+    what exactly is the optimization problem and how we aim the
+    algorithm tries to solve it by forward search.
+    
+  o More insights for the parameter instability tests are provided,
+    both, by theoretical arguments and empirical evaluation on
+    simulated data. In Section 3.2, we compare the theoretical
+    properties of the tests to those employed by other (linear)
+    model trees such as GUIDE and RD/RA trees. In Section 5, we
+    also illustrate that the theoretical properties can be confirmed
+    in a simulation setup.
+    
+  o A new "Discussion" section has been added (Section 5) that
+    discusses several details or potential extensions of the
+    algorithm such as unbiasedness, pruning or applicability to
+    large data sets.
+    
+A detailed point-to-point reply to the referees is included below.
+
+I've put up a ZIP archive containing an unblinded and blinded version
+of the paper at
+  http://statmath.wu-wien.ac.at/~zeileis/JCGS-FIXMEr1.zip
+
+Best wishes,
+Z
+
+
+POINT-TO-POINT REPLY
+********************
+
+REFEREE 1
+*********
+
+> 16. Section 5: The authors conclude that their approach is unbiased due to 
+> the separation of variable and split point detection. This feature should 
+> be introduced prior to the conclusions section, and this claim should be 
+> discussed and justified. Section 3 seems to be a reasonable place for such 
+> a discussion.
+
+We have included such a discussion in the new Section 5 "Discussion". In
+short, unbiasedness is achieved because all parameter instability tests
+employed are level-alpha tests (i.e., control type I error when there is
+no association with the partitioning variables) that are consistent for
+arbitrary patterns of parameter change (i.e., are consistent at rate
+sqrt(n)).
+
+> 17. Section 5: The authors detail how their approach controls the type-I 
+> error rates. Is there any concern with type-II error and their approach?
+
+As already pointed out above, the parameter instability tests employed in
+the algorithm are omnibus tests that are consistent against arbitrary patterns
+of parameter changes. Additionally, their power is directed specifically
+against abrupt parameter changes (as can be captured by partitioning). This
+is now pointed out more clearly in Section 3 and 5, and is also backed by
+an empirical comparison with residual-based tests such as employed by GUIDE.
+
+Although these are good reasons for using the specific testing functionals
+from Equation (6) and (7), respectively, there no testing functional will
+uniformly dominate all others over all conceivable patterns of parameter
+change. This is also pointed out within the paper in Sections 3 and 5.
+
+> 18. Performance estimates are given for the Splitting step, but 
+> performance comments for the other steps would have been useful (e.g., 
+> OLS). What is the overall performance of the algorithm? The datasets used 
+> in the study are small (n < 1000, # features < 10) - how would the 
+> approach work on large datasets?
+
+We have added a paragraph in the new Section 5 "Discussion" that highlights
+several issues and strategies when practitioners want to apply the algorithm
+to large(r) data sets.
+
+> Actionable Comments 1.-15
+
+These have all been included in the revised paper.
+
+
+REFEREE 2
+*********
+
+> 1. First of all, it is unclear to me how the final (generalized) linear model
+> fit to each terminal nodes is related to the way of selecting the best split.
+> Take Section 4.1 for example. The split age <= 18 is not necessarily the best
+> split that shows greatest differences in terms of the relationship between
+> library subscriptions and price per citation. I was expecting a simple linear
+> regression model with age was fit to either node.
+
+The model is a linear regression model
+  subscriptions = b0 + b1 * log(price/citation)
+which is the same in all nodes of the trees, only with different coefficients b0
+and b1. age <= 18 is the best split (in terms of error-sum-of-squares reduction)
+of the model above when segmented into two sub-samples. Thus, the objective 
+function (sum of squares) that is minimized by the estimator for (b0, b1) is
+also (locally) optimized in the splitting step.
+
+Section 4.1 provides now a more detailed discussion of how the algorithm is
+applied to the journals data set.
+
+> Also, the procedure is proposed as a general modelling method. But in their
+> examples, the focus is shifted to exploring the relationship between response
+> and a couple of predictors that are of major interest.
+
+Our motivation to start work on this algorithm was to be able to build local
+regression models based on recursive partitioning algorithms. Hence, the focus
+in the illustrations section is on partitioning three different types of
+regression models: linear, logistic, censored Weibull.
+
+As there is nothing in the formulation of the algorithm that would prevent its
+application to other parametric models, we have introduced it without confining
+ourselves to the regression framework.
+
+> 2. My second concern is that no simulation studies are provided. I found
+> simulation somewhat important in this paper as there are several issues that
+> are otherwise hard to address. For example, the advantage of using
+> M-estimation in splitting on one single variable, comparison with GUIDE in
+> terms of selecting the splitting variables. It is important to demonstrate the
+> specialty and advantages of the proposed method. Otherwise, why bothers to
+> implement another black-box procedures while there have been so many ones
+> available?
+
+The algorithm as suggested and illustrated by us does certainly not provide a
+black-box procedure: all steps of the algorithm can intuitively understood
+and the resulting model effectively visualized and interpreted. To emphasize
+this point, we have extended Section 4.1, providing more details on the 
+fitting process of the algorithm to the journals data. This should help to
+bring out more clearly how the general theoretical algorithm from Section 3
+can be applied to a particular model class.
+
+As for the comparison between MOB and GUIDE in terms of selecting the splitting
+variable, we have included both theoretical and empirical comparisons, see
+below.
+
+> Also, in terms of comparison with other procedures in terms of the overall
+> RMSE or misclassification rate, it appears that the proposed method won out
+> in all the examples when using the bootstrap samples. But whether or not this
+> conclusion can be extended needs more confirmation from simulated experiments.
+> If it is so, it would be interesting to contemplate on why.
+
+Of course, we do not believe that MOB will uniformly dominate any other learning
+algorithm over all conceivable data sets. Part of the explanation that MOB
+performs well on the data sets in Section 4 is that for these data sets 
+plausible models were available that could be employed for recursive partioning.
+The reason for not including further standard benchmark data sets (e.g., from
+the UCI repository) was that there were no plausible models were available that
+could be recursively partitioned.
+
+> On the other hand, the proposed method is not only made to achieve better
+> prediction accuracy, but also meaningful interpretation of the final model.
+> But somehow the first aim is more emphasized in the given examples. The
+> natural question is why other procedures, such as MARS, Neural Networks, SVM,
+> and etc., were not included in the comparison. It seems that the closest
+> competitor for the proposed procedure is GUIDE, or CRUISE, and a number of
+> procedure studied by Loh and his workers. The authors might want to focus
+> more on the comparisons with them, not only in terms of prediction accuracy,
+> but also the model interpretation and the performance in selecting the best
+> splitting variable and M-estimator-based splitting itself. For example, one
+> special contribution of this paper is the use of the fluctuation process, as
+> given by Equation (4), to aid in selecting the splitting variable. The
+> motivation for doing so is to avoid the bias in selection of splitting
+> variables, as also argued in Loh and Shih (1997). The proposed method seems
+> to be a feasible and reasonable approach. However, no justification was
+> provided to show whether this goal is achieved, and if so, by what amount.
+> Loh (2002) also had studied to a residual-based process for the same purpose.
+> How the proposed method compares to Loh's (2002) is not addressed in the
+> current version. These again need be addressed by carefully-designed
+> simulation studies.
+
+We have extended the discussion of the parameter instability tests (and the
+resulting unbiasedness of the recursive partitioning algorithm) both by
+theoretical and empirical justifications. The reason's for using Andrews'
+supLM test are: (1) it has a natural interpretation because it assesses
+all potential change points by means of the corresponding LM statistic,
+(2) it appropriately corrects for selecting the maximal LM statistc
+(by employing a functional central limit theorem), (3) directs its power
+against abrupt changes in parameters (as captured by the partitioning
+algorithm). This is explained more thoroughly in Section 3 and compared
+to the tests used by GUIDE by theoretical arguments. These are complemented
+in Section 5 by a simulation study that highlights why using the full
+model scores instead of the residuals only (i.e., the first element of the
+scores in linear regression models) has power against a wider class of
+parameter changes.
+
+> 3. I like the idea of introducing M-estimators into recursive partitioning,
+> which would be a good addition to the recursive partitioning literature.
+> The initial motivation for M-estimators is to facilitate robust estimation
+> w.r.t. outliers or irregularly distributed data. Although CART allows for
+> LAD (as contrast to LS) splitting, introduction of robust M-type estimation
+> would certainly improve the splitting performance.
+> I think that this would be particularly useful in economic applications where
+> data with (generalized) extreme value distributions are often found. And the
+> paper would be enhanced if the authors could find an appropriate illustrating
+> example in this regard. But please consider this suggestion optional.
+
+This is a very good suggestion: both the application to models estimated
+by robust M-estimators as well as application to economic data sets are very
+interesting. We definitely plan to investigate both ideas; however, as both
+are beyond the scope of the manuscript under review, we refrain from including
+them here.
+
+> 4. I also have some reservation about using stopping rules to determine the
+> final tree size. Since the development of CART, pruning has somehow become
+> the standard when constructing trees in an automatic way. It really works
+> better in my experience. The paper would be enhanced if this standard is
+> retained. It should be straightforward to adopt, e.g., the cost-complexity
+> pruning algorithm.
+
+We have included a paragraph in the new Section 5 "Discussion" about different
+pruning strategies that can be employed for model-based recursive partitioning
+(specifically cross-validation and information criteria). However, as such
+pruning would compromise the intuitive interpretation of the p values
+associated with the selected partitioning variables, we do not employ pruning
+in the empirical examples. Furthermore, the adopted pre-pruning strategy
+seems to work sufficiently well (outperforming the other tree-based algorithms
+on the presented data sets) confirming the results from the CTree benchmark
+of Hothorn et al. (2006) who also used a statistically motivated stopping
+criterion.
+
+> 5. Some minor issues:
+> - Section 3: in the first step of the algorithm, my understanding is that
+>   the null model (i.e., without any predictor included) is fit here. If it
+>   is so, please indicate it specifically. It seems to me that
+
+As also pointed out above, the model itself does not change during the
+partitioning process, only the fitted parameters vary across different
+segments. We have extended both the theoretical description in Section 3
+and the first application in Section 4 to bring this out more clearly.
+
+> - Section 4: it is still unclear to me how the number of parameters are
+>   obtained in the bootstrap column of the tables. Is it an average? 
+
+It is the median number of parameters (over the bootstrap replications).
+This ist stated now in the first paragraph of Section 4 and the table
+captions.
+
+> - There are a couple of places where the authors used some notation without
+>   introducing them. For example, I_c in Equation (6); also, Section 3.3,
+>   line 4, definition of I_b is missing.
+
+The notation in Section 3 is explained more carefully, the index sets I_b
+and I_c are defined separately when they occur for the first time.
+
+> - Page 2: line 7 from the bottom, one or two references for structural break
+>   models are needed.
+
+Added.
