@@ -147,7 +147,7 @@ below.
 Of course, we do not believe that MOB will uniformly dominate any other learning
 algorithm over all conceivable data sets. Part of the explanation that MOB
 performs well on the data sets in Section 4 is that for these data sets 
-plausible models were available that could be employed for recursive partioning.
+plausible models were available that could be employed for recursive partitioning.
 The reason for not including further standard benchmark data sets (e.g., from
 the UCI repository) was that no plausible models were available that could be
 recursively partitioned.
@@ -178,7 +178,7 @@ resulting unbiasedness of the recursive partitioning algorithm) both by
 theoretical and empirical justifications. The reasons for using Andrews'
 supLM test are: (1) it has a natural interpretation because it assesses
 all potential change points by means of the corresponding LM statistic,
-(2) it appropriately corrects for selecting the maximal LM statistc
+(2) it appropriately corrects for selecting the maximal LM statistic
 (by employing a functional central limit theorem), (3) directs its power
 against abrupt changes in parameters (as captured by the partitioning
 algorithm). This is explained more thoroughly in Section 3 and compared
@@ -237,7 +237,7 @@ and the first application in Section 4 to bring this out more clearly.
 >   obtained in the bootstrap column of the tables. Is it an average? 
 
 It is the median number of parameters (over the bootstrap replications).
-This ist stated now in the first paragraph of Section 4 and the table
+This is stated now in the first paragraph of Section 4 and the table
 captions.
 
 > - There are a couple of places where the authors used some notation without
