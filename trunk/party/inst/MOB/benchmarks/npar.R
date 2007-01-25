@@ -70,6 +70,35 @@ npar <- function(obj) {
     if(length(nc) != nl) warning("something went wrong in computing the number of leaves")
     nc <- sapply(nc, function(x) length(grep("\t", x, fixed = TRUE, extended = FALSE)))
     nc <- sum(nc)    
+  },
+
+  "GUIDE" = {
+    ## read output
+    nl <- nc <- obj$tree
+    ## number of leaves
+    nl <- nl[grep("Number of terminal nodes of final tree", nl)]
+    nl <- as.numeric(strsplit(nl, ": ")[[1]][2]) 
+    ## number of parameters
+    if(nl > 1) {
+      nc <- diff(tail(which(nc == " ----------------------------"), nl+1)) - 5
+    } else {
+      nc <- which(nc == " ----------------------------") - which(nc == " Node 1: Terminal node") - 4
+    }
+    if(length(nc) != nl) warning("something went wrong in computing the number of leaves")
+    nc <- sum(nc)
+  },
+  
+  "CRUISE" = {
+    nl <- obj$tree[grep("Number of terminal nodes in final tree", obj$tree)]
+    nl <- as.numeric(strsplit(nl, " = ")[[1]][2])
+    nc <- nl  
+  },
+  
+  "QUEST" = {
+    nl <- obj$tree
+    nl <- nl[grep("Number of terminal nodes of final tree", nl)]
+    nl <- as.numeric(strsplit(nl, " = ")[[1]][2]) 
+    nc <- nl
   })
   
   ## number of coefficients + number of splits

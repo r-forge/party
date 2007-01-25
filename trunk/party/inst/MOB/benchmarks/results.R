@@ -56,9 +56,9 @@ for (f in rdafiles) {
     PID_NPAR <- cbind(PID_NPAR, np)
     model <- c(model, strsplit(f, "_")[[1]][2])
 }
-if(identical(model, c("J48", "LMT", "ctree", "glm", "mob", "quest", "rpart"))) {
-  model <- c("J4.8", "LMT", "CTree", "GLM", "MOB", "QUEST", "RPart")
-  o <- c(5, 2, 3, 6, 1, 7)
+if(identical(model, c("J48", "LMT", "cruise", "ctree", "glm", "mob", "quest", "rpart"))) {
+  model <- c("J4.8", "LMT", "CRUISE", "CTree", "GLM", "MOB", "QUEST", "RPart")
+  o <- c(6, 2, 4, 7, 3, 1, 8)
 } else {
   o <- 1:length(model)
 }
@@ -78,15 +78,13 @@ setwd("../")
 library("party")
 library("RWeka")
 library("rpart")
+library("LohTools")
 load("../journals.rda")
 fmJ_M5P <- M5P(subs ~ citeprice + society + citations + age + chars + price, data = journals)
 fmJ_CTree <- ctree(subs ~ citeprice + society + citations + age + chars + price, data = journals)
 fmJ_RPart <- rpart(subs ~ citeprice + society + citations + age + chars + price, data = journals)
 fmJ_RPart <- prune(fmJ_RPart, cp = fmJ_RPart$cptable[which.min(fmJ_RPart$cptable[,"xerror"]), 1])
-setwd("Journals/GUIDE/")
-source("R2guide.R")
-fmJ_GUIDE <- foo(journals, "subs", matrix(1, ncol = 1, nrow = NROW(journals)), obvious = TRUE)
-setwd("../../")
+fmJ_GUIDE <- GUIDE(subs ~ citeprice + society + citations + age + chars + price, data = journals)
 fmJ <- mob(subs ~ citeprice | society + citations + age + chars + price, data = journals,
   control = mob_control(minsplit = 10), model = linearModel)
 
@@ -98,25 +96,24 @@ fmBH_M5P <- M5P(medv ~ lstat + rm + zn + indus + chas + nox + age + dis + rad + 
 fmBH_CTree <- ctree(medv ~ lstat + rm + zn + indus + chas + nox + age + dis + rad + tax + crim + b + ptratio, data = BostonHousing)
 fmBH_RPart <- rpart(medv ~ lstat + rm + zn + indus + chas + nox + age + dis + rad + tax + crim + b + ptratio, data = BostonHousing)
 fmBH_RPart <- prune(fmBH_RPart, cp = fmBH_RPart$cptable[which.min(fmBH_RPart$cptable[,"xerror"]), 1])
-setwd("BostonHousing/GUIDE/")
-source("R2guide.R")
-fmBH_GUIDE <- foo(BostonHousing, "medv", matrix(1, ncol = 1, nrow = NROW(BostonHousing)), obvious = TRUE)
-setwd("../../")
+fmBH_GUIDE <- GUIDE(medv ~ lstat + rm + zn + indus + chas + nox + age + dis + rad + tax + crim + b + ptratio, data = BostonHousing)
 BostonHousing$rad <- factor(BostonHousing$rad, ordered = TRUE)
 fmBH <- mob(medv ~ lstat + rm | zn + indus + chas + nox + age + dis + rad + tax + crim + b + ptratio,
   data = BostonHousing, control = mob_control(minsplit = 40), model = linearModel)
 
-data("PimaIndiansDiabetes", package = "mlbench")
-fmPID_J48 <- J48(diabetes ~ glucose + pregnant + pressure + triceps + insulin + mass + pedigree + age, data = PimaIndiansDiabetes)
-fmPID_LMT <- LMT(diabetes ~ glucose + pregnant + pressure + triceps + insulin + mass + pedigree + age, data = PimaIndiansDiabetes)
-fmPID_CTree <- ctree(diabetes ~ glucose + pregnant + pressure + triceps + insulin + mass + pedigree + age, data = PimaIndiansDiabetes)
-fmPID_RPart <- rpart(diabetes ~ glucose + pregnant + pressure + triceps + insulin + mass + pedigree + age, data = PimaIndiansDiabetes)
+data("PimaIndiansDiabetes2", package = "mlbench")
+PimaIndiansDiabetes <- na.omit(PimaIndiansDiabetes2[,-c(4, 5)])
+fmPID_J48 <- J48(diabetes ~ glucose + pregnant + pressure + mass + pedigree + age, data = PimaIndiansDiabetes)
+fmPID_LMT <- LMT(diabetes ~ glucose + pregnant + pressure + mass + pedigree + age, data = PimaIndiansDiabetes)
+fmPID_CTree <- ctree(diabetes ~ glucose + pregnant + pressure + mass + pedigree + age, data = PimaIndiansDiabetes)
+fmPID_RPart <- rpart(diabetes ~ glucose + pregnant + pressure + mass + pedigree + age, data = PimaIndiansDiabetes)
 fmPID_RPart <- prune(fmPID_RPart, cp = fmPID_RPart$cptable[which.min(fmPID_RPart$cptable[,"xerror"]), 1])
 setwd("PID/QUEST/")
 source("R2quest.R")
 fmPID_QUEST <- foo(PimaIndiansDiabetes, "diabetes", matrix(1, ncol = 1, nrow = NROW(PimaIndiansDiabetes)), obvious = TRUE)
 setwd("../../")
-fmPID <- mob(diabetes ~ glucose | pregnant + pressure + triceps + insulin + mass + pedigree + age,
+fmPID_CRUISE <- CRUISE(diabetes ~ glucose + pregnant + pressure + mass + pedigree + age, data = PimaIndiansDiabetes)
+fmPID <- mob(diabetes ~ glucose | pregnant + pressure + mass + pedigree + age,
   data = PimaIndiansDiabetes, control = mob_control(minsplit = 40),
   family = binomial(), model = glinearModel)
 
@@ -134,22 +131,6 @@ fmGBSG2 <- mob(Surv(time, cens) ~ horTh + pnodes | progrec + menostat + estrec +
 
 source("npar.R")
 rmse <- function(obj, obs) sqrt(mean((obs - predict(obj))^2))
-JournalsObvious <- rbind(c(rmse(fmJ, journals$subs), 
-  sqrt(fmJ_GUIDE$error),
-  rmse(fmJ_M5P, journals$subs), 
-  rmse(fmJ_CTree, journals$subs), 
-  rmse(fmJ_RPart, journals$subs)),
-  c(npar(fmJ), fmJ_GUIDE$npar, npar(fmJ_M5P), npar(fmJ_CTree), npar(fmJ_RPart)))
-colnames(JournalsObvious) <- names(JournalsRMSE)
-
-BostonHousingObvious <- rbind(c(rmse(fmBH, BostonHousing$medv), 
-  sqrt(fmBH_GUIDE$error),
-  rmse(fmBH_M5P, BostonHousing$medv), 
-  rmse(fmBH_CTree, BostonHousing$medv), 
-  rmse(fmBH_RPart, BostonHousing$medv)),
-  c(npar(fmBH), fmBH_GUIDE$npar, npar(fmBH_M5P), npar(fmBH_CTree), npar(fmBH_RPart)))
-colnames(BostonHousingObvious) <- names(BostonHousingRMSE)
-
 mc <- function(obj, obs, type = "response") {
   yhat <- predict(obj, data = PimaIndiansDiabetes, type = type)
   if(is.numeric(yhat)) yhat <- yhat > 0.5
@@ -157,13 +138,23 @@ mc <- function(obj, obs, type = "response") {
   mean(yhat != obs)
 }
 
+JournalsObvious <- sapply(list(fmJ, fmJ_GUIDE, fmJ_M5P, fmJ_CTree, fmJ_RPart),
+  function(obj) c(rmse(obj, journals$subs), npar(obj)))
+colnames(JournalsObvious) <- names(JournalsRMSE)
+
+BostonHousingObvious <- sapply(list(fmBH, fmBH_GUIDE, fmBH_M5P, fmBH_CTree, fmBH_RPart),
+  function(obj) c(rmse(obj, BostonHousing$medv), npar(obj)))
+colnames(BostonHousingObvious) <- names(BostonHousingRMSE)
+
 PID_Obvious <- rbind(c(mc(fmPID, PimaIndiansDiabetes$diabetes),
   mc(fmPID_LMT, PimaIndiansDiabetes$diabetes, type = "class"),
   mc(fmPID_CTree, PimaIndiansDiabetes$diabetes),
   fmPID_QUEST$error,
+  mean(predict(fmPID_CRUISE) != PimaIndiansDiabetes$diabetes),
   mc(fmPID_J48, PimaIndiansDiabetes$diabetes, type = "class"),
   mc(fmPID_RPart, PimaIndiansDiabetes$diabetes, type = "class")),
-  c(npar(fmPID), npar(fmPID_LMT), npar(fmPID_CTree), fmPID_QUEST$npar, npar(fmPID_J48), npar(fmPID_RPart)))
+  c(npar(fmPID), npar(fmPID_LMT), npar(fmPID_CTree), fmPID_QUEST$npar, npar(fmPID_CRUISE), 
+    npar(fmPID_J48), npar(fmPID_RPart)))
 colnames(PID_Obvious) <- names(PID_MC)
 
 

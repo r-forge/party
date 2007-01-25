@@ -20,7 +20,7 @@ for (b in 1:B) {
 
     yhat <- fm$predict
     error[b] <- mean(yhat != tdata[,bdata$response])
-    np[b] <- fm$complexity
+    np[b] <- npar(fm)
     cat("b: ", b, " error: ", error[b], " #par: ", np[b], "\n")
 }
 

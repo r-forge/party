@@ -541,8 +541,8 @@ as linear model trees; as well as CART \citep[classification and regression tree
 and conditional inference trees \citep[CTree,][]{HothornHornikZeileis2006} as trees with
 constant models in the nodes. The logistic regression-based MOB trees are compared
 with logistic model trees \citep[LMT,][]{Landwehretal2005} as well as various tree-based algorithms
-with constant models in the nodes: QUEST \citep{LohShih1997}, the J4.8 implementation 
-\citep{WittenFrank2005} of C4.5 \citep{Quinlan1993}, CART and CTree.
+with constant models in the nodes: QUEST \citep{LohShih1997}, CRUISE \citep{KimLoh2001},
+the J4.8 implementation \citep{WittenFrank2005} of C4.5 \citep{Quinlan1993}, CART and CTree.
 
 All benchmark comparisons are carried out in the framework of \cite{HothornLeischZeileis2005}
 based on 250 bootstrap replications and employing the root mean squared error (RMSE)
@@ -563,7 +563,7 @@ Most computations have been carried out in the \proglang{R} system for statistic
 \citep{R2006}, in particular using the packages \pkg{party} \citep{HothornZeileisHornik2006a},
 providing implementations of MOB and CTree, \pkg{rpart} \citep{TherneauAtkinson1997}, implementing
 CART, and \pkg{RWeka} \citep{HornikZeileisHothorn2006}, the \proglang{R} interface to \pkg{Weka}
-\citep{WittenFrank2005} containing implementations of M5', LMT and J4.8. For GUIDE and QUEST,
+\citep{WittenFrank2005} containing implementations of M5', LMT and J4.8. For GUIDE, QUEST and CRUISE,
 the binaries distributed at \url{http://www.stat.wisc.edu/~loh/} were used.
 
 \subsection{Demand for economic journals}
@@ -797,17 +797,6 @@ estimated parameters.}
 \end{center}
 \end{table}
 
-Another popular data set for comparing new classifiers is the Pima Indians diabetes
-data which is---just as the Boston Housing data---available from the 
-UCI machine learning repository \citep{Newmanetal1998}. The data comprises 
-observations for $n = 768$ Pima Indian women of 8 prognostic variables
-and the outcome (positive/negative) of a diabetes test. It is rather clear
-that the diabetes diagnosis depends on the plasma glucose concentration such that
-using a logistic regression model for diabetes explained by glucose
-(corresponding to $k = 2$ parameters) is intuitive. This model is partitioned with
-respect to the remaining $\ell = 7$ variables, using a minimal segment size of
-$\ui = 40$ and again a Bonferroni-corrected significance level of $\alpha = 0.05$.
-
 \setkeys{Gin}{width=.95\textwidth}
 \begin{figure}[p]
 \begin{center}
@@ -832,6 +821,21 @@ prediction error is compared by misclassification rate differences,
 complexity by difference in number of estimated parameters.}
 \end{center}
 \end{figure}
+
+Another popular data set for comparing new classifiers is the Pima Indians diabetes
+data which is---just as the Boston Housing data---available from the 
+UCI machine learning repository \citep{Newmanetal1998}. The data set contains
+many missing values---usually falsely coded as zero values (which are physically impossible)---which
+are most prevalent in the variables serum insulin and triceps skin fold thickness
+\citep{Ripley1996}. Hence, these two variables and the missing values in the remaining
+data are omitted, so that the data comprises 
+observations for $n = 724$ Pima Indian women of 6 prognostic variables
+and the outcome (positive/negative) of a diabetes test. It is rather clear
+that the diabetes diagnosis depends on the plasma glucose concentration such that
+using a logistic regression model for diabetes explained by glucose
+(corresponding to $k = 2$ parameters) is intuitive. This model is partitioned with
+respect to the remaining $\ell = 5$ variables, using a minimal segment size of
+$\ui = 40$ and again a Bonferroni-corrected significance level of $\alpha = 0.05$.
 
 Figure~\ref{fig:PID} displays the resulting logistic regression-based tree. The
 data is first split at a body mass index of 26.3 (corresponding roughly to the lower 

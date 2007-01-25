@@ -158,7 +158,11 @@ recursively partitioned.
 > natural question is why other procedures, such as MARS, Neural Networks, SVM,
 > and etc., were not included in the comparison. It seems that the closest
 > competitor for the proposed procedure is GUIDE, or CRUISE, and a number of
-> procedure studied by Loh and his workers. The authors might want to focus
+> procedure studied by Loh and his workers.
+
+CRUISE has been added to the benchmark comparisons in Section 4.
+
+> The authors might want to focus
 > more on the comparisons with them, not only in terms of prediction accuracy,
 > but also the model interpretation and the performance in selecting the best
 > splitting variable and M-estimator-based splitting itself. For example, one
