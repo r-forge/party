@@ -1,9 +1,8 @@
        Misclassification Complexity
-J48                0.280         89
+MOB                0.249         17
 LMT                0.282        239
-cruise             0.283         64
-ctree              0.259         19
-glm                0.231          7
-mob                0.249         17
-quest              0.258         11
-rpart              0.259         27
+CTree              0.259         19
+QUEST              0.258         11
+CRUISE             0.283         64
+J4.8               0.280         89
+RPart              0.259         27

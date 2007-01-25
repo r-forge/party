@@ -14,9 +14,9 @@ for (f in rdafiles) {
     model <- c(model, strsplit(f, "_")[[1]][2])
 }
 
-if(identical(model, c("J48", "LMT", "ctree", "glm", "mob", "quest", "rpart"))) {
-  model <- c("J4.8", "LMT", "CTree", "GLM", "MOB", "QUEST", "RPart")
-  o <- c(5, 2, 3, 6, 1, 7)
+if(identical(model, c("J48", "LMT", "cruise", "ctree", "glm", "mob", "quest", "rpart"))) {
+  model <- c("J4.8", "LMT", "CRUISE", "CTree", "GLM", "MOB", "QUEST", "RPart")
+  o <- c(6, 2, 4, 7, 3, 1, 8)
 } else {
   o <- 1:length(model)
 }
