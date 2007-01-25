@@ -1,7 +1,8 @@
 
 set.seed(290875)
 
-data("PimaIndiansDiabetes", package = "mlbench")
+data("PimaIndiansDiabetes2", package = "mlbench")
+PimaIndiansDiabetes <- na.omit(PimaIndiansDiabetes2[,-c(4, 5)])
 
 n <- nrow(PimaIndiansDiabetes)
 B <- 250
@@ -9,10 +10,8 @@ B <- 250
 PimaIndiansDiabetes_bs <- rmultinom(B, n, rep(1, n) / n)
 
 bdata <- list(data = PimaIndiansDiabetes,
-              mobfm = diabetes ~ glucose | pregnant + pressure + triceps + 
-                      insulin + mass + pedigree + age,
-              fm = diabetes ~ glucose + pregnant + pressure + triceps +
-                   insulin + mass + pedigree + age,
+              mobfm = diabetes ~ glucose | pregnant + pressure + mass + pedigree + age,
+              fm = diabetes ~ glucose + pregnant + pressure + mass + pedigree + age,
               boot = PimaIndiansDiabetes_bs,
               response = "diabetes")
 
