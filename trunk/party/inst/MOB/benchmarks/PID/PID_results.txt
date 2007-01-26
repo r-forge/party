@@ -2,7 +2,7 @@
 MOB                0.249         17
 LMT                0.282        239
 CTree              0.259         19
-QUEST              0.258         11
-CRUISE             0.283         64
+QUEST              0.258         21
+CRUISE             0.283        127
 J4.8               0.280         89
 RPart              0.259         27
