@@ -108,10 +108,7 @@ fmPID_LMT <- LMT(diabetes ~ glucose + pregnant + pressure + mass + pedigree + ag
 fmPID_CTree <- ctree(diabetes ~ glucose + pregnant + pressure + mass + pedigree + age, data = PimaIndiansDiabetes)
 fmPID_RPart <- rpart(diabetes ~ glucose + pregnant + pressure + mass + pedigree + age, data = PimaIndiansDiabetes)
 fmPID_RPart <- prune(fmPID_RPart, cp = fmPID_RPart$cptable[which.min(fmPID_RPart$cptable[,"xerror"]), 1])
-setwd("PID/QUEST/")
-source("R2quest.R")
-fmPID_QUEST <- foo(PimaIndiansDiabetes, "diabetes", matrix(1, ncol = 1, nrow = NROW(PimaIndiansDiabetes)), obvious = TRUE)
-setwd("../../")
+fmPID_QUEST <- QUEST(diabetes ~ glucose + pregnant + pressure + mass + pedigree + age, data = PimaIndiansDiabetes)
 fmPID_CRUISE <- CRUISE(diabetes ~ glucose + pregnant + pressure + mass + pedigree + age, data = PimaIndiansDiabetes)
 fmPID <- mob(diabetes ~ glucose | pregnant + pressure + mass + pedigree + age,
   data = PimaIndiansDiabetes, control = mob_control(minsplit = 40),
@@ -149,12 +146,11 @@ colnames(BostonHousingObvious) <- names(BostonHousingRMSE)
 PID_Obvious <- rbind(c(mc(fmPID, PimaIndiansDiabetes$diabetes),
   mc(fmPID_LMT, PimaIndiansDiabetes$diabetes, type = "class"),
   mc(fmPID_CTree, PimaIndiansDiabetes$diabetes),
-  fmPID_QUEST$error,
+  mean(predict(fmPID_QUEST) != PimaIndiansDiabetes$diabetes),
   mean(predict(fmPID_CRUISE) != PimaIndiansDiabetes$diabetes),
   mc(fmPID_J48, PimaIndiansDiabetes$diabetes, type = "class"),
   mc(fmPID_RPart, PimaIndiansDiabetes$diabetes, type = "class")),
-  c(npar(fmPID), npar(fmPID_LMT), npar(fmPID_CTree), fmPID_QUEST$npar, npar(fmPID_CRUISE), 
-    npar(fmPID_J48), npar(fmPID_RPart)))
+  sapply(list(fmPID, fmPID_LMT, fmPID_CTree, fmPID_QUEST, fmPID_CRUISE, fmPID_J48, fmPID_RPart), npar))
 colnames(PID_Obvious) <- names(PID_MC)
 
 
