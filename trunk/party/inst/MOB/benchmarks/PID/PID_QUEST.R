@@ -18,7 +18,7 @@ for (b in 1:B) {
 
     fm <- QUEST(bdata$fm, data = ldata, newdata = tdata)
 
-    yhat <- fm$predict
+    yhat <- predict(fm)
     error[b] <- mean(yhat != tdata[,bdata$response])
     np[b] <- npar(fm)
     cat("b: ", b, " error: ", error[b], " #par: ", np[b], "\n")
