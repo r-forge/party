@@ -226,7 +226,6 @@ setClass(Class = "VariableFrame",
         ninputs         = "integer")
 )
 
-### joint handling of variables only necessary for responses
 setClass(Class = "ResponseFrame",
     representation = representation(
         test_trafo = "matrix",
@@ -250,6 +249,7 @@ setClass(Class = "LearningSample",
 ### the S3 classes. 
 setClass(Class = "SplittingNode", contains = "list")
 setClass(Class = "TerminalNode", contains = "list")
+setClass(Class = "TerminalModelNode", contains = "list")
 setClass(Class = "orderedSplit", contains = "list")
 setClass(Class = "nominalSplit", contains = "list")
 
