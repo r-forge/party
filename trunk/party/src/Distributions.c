@@ -184,7 +184,7 @@ void C_MonteCarlo(double *criterion, SEXP learnsample, SEXP weights,
     B = get_nresample(gtctrl);
     
     /* y = get_transformation(responses, 1); */
-    y = get_jointtransf(responses);
+    y = get_test_trafo(responses);
     
     expcovinf = GET_SLOT(fitmem, PL2_expcovinfSym);
 

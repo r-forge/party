@@ -53,7 +53,7 @@ cforestfit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
 
         ### classification: estimated class probabilities
         ### regression: the means, not really a distribution
-        RET <- lapply(pw, function(w) w %*% response@jointtransf / sum(w))
+        RET <- lapply(pw, function(w) w %*% response@predict_trafo / sum(w))
         return(RET)
     }
 

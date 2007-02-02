@@ -154,7 +154,7 @@ ctreedpp <- function(formula, data = list(), subset = NULL,
     if (any(is.na(response)))
         stop("missing values in response variable not allowed")
 
-    resp <- initVariableFrame(response, trafo = ytrafo)
+    resp <- initVariableFrame(response, trafo = ytrafo, response = TRUE)
 
     RET <- new("LearningSample", inputs = inp, responses = resp,
                weights = rep(1, inp@nobs), nobs = inp@nobs,

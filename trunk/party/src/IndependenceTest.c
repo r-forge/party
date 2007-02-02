@@ -145,7 +145,7 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
     dweights = REAL(weights);
     
     /* y = get_transformation(responses, 1); */
-    y = get_jointtransf(responses);
+    y = get_test_trafo(responses);
     
     expcovinf = GET_SLOT(fitmem, PL2_expcovinfSym);
     C_ExpectCovarInfluence(REAL(y), ncol(y), REAL(weights), 

@@ -60,7 +60,7 @@ SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls) {
      
          C_init_node(tree, nobs, get_ninputs(learnsample), 
                      get_maxsurrogate(get_splitctrl(controls)),
-                     ncol(get_jointtransf(GET_SLOT(learnsample, 
+                     ncol(get_predict_trafo(GET_SLOT(learnsample, 
                                                    PL2_responsesSym))));
 
          /* generate altered weights for perturbation */

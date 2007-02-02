@@ -80,7 +80,7 @@ mob <- function(formula, weights, data = list(),
 
   ## package into return object
   rval <- new("mob", tree = tr, 
-    responses = initVariableFrame(formula@get("response"), trafo = NULL),
+    responses = initVariableFrame(formula@get("response"), trafo = NULL, response = TRUE),
     data = formula)
   return(rval)
 }

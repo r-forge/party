@@ -5,7 +5,7 @@ ctree_memory <- function(object, MPinv = FALSE) {
 
     inputs <- object@inputs
     responses <- object@responses
-    q <- ncol(responses@jointtransf)
+    q <- ncol(responses@test_trafo)
     nobs <- inputs@nobs
     ninputs <- inputs@ninputs
     RET <- new("TreeFitMemory")

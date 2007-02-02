@@ -568,7 +568,11 @@ SEXP R_modify_response(SEXP x, SEXP vf) {
     for (i = 0; i < n; i++)
         tar[i] = src[i];
 
-    tar = REAL(get_jointtransf(vf));
+    tar = REAL(get_test_trafo(vf));
+    for (i = 0; i < n; i++)
+        tar[i] = src[i];
+
+    tar = REAL(get_predict_trafo(vf));
     for (i = 0; i < n; i++)
         tar[i] = src[i];
 
