@@ -16,3 +16,7 @@ o	check `cforest' and convenience functions (`treepredict' seems the
         wrong name)
 
 o   unbiased defaults for cforest_control
+
+o   optimize initVariableFrame for numeric inputs
+    don't duplicate data (get_transformation may call get_variable)
+
