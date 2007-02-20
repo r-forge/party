@@ -67,4 +67,4 @@ ctree(y ~ x1 + x2, data = dat)
 
 ### one factor with only one level
 dat$x2 <- factor(rep(0, 100))
-ctree(y ~ x1 + x2, data = dat)
+try(ctree(y ~ x1 + x2, data = dat))

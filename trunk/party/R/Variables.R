@@ -11,7 +11,7 @@ ff_trafo <- function(x) {
     x <- x[, drop = TRUE]
     ### if only one level remains
     if (nlevels(x) == 1) {
-        mm <- matrix(1, nrow = length(x))
+        stop("Can't fit trees to factors with only one level")
     } else {
         ### construct design matrix _without_ intercept
         mm <- model.matrix(~ x - 1)

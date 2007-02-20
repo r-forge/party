@@ -156,13 +156,6 @@ Number of observations:  100
 > 
 > ### one factor with only one level
 > dat$x2 <- factor(rep(0, 100))
-> ctree(y ~ x1 + x2, data = dat)
-
-	 Conditional inference tree with 1 terminal nodes
-
-Response:  y 
-Inputs:  x1, x2 
-Number of observations:  100 
-
-1)*  weights = 100 
+> try(ctree(y ~ x1 + x2, data = dat))
+Error in factor_trafo(x) : Can't fit trees to factors with only one level
 > 
