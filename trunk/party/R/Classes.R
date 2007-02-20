@@ -239,9 +239,14 @@ setClass(Class = "LearningSample",
         inputs    = "VariableFrame",
         weights   = "numeric",
         nobs      = "integer",
-        ninputs   = "integer",
-        menv      = "ModelEnv"
+        ninputs   = "integer"
     )
+)
+
+setClass(Class = "LearningSampleFormula",
+    representation = representation(
+        menv      = "ModelEnv"
+    ), contains = "LearningSample"
 )
 
 ### the tree structure itself is a list, 

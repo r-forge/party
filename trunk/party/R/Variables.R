@@ -7,11 +7,16 @@ ff_trafo <- function(x) {
     opt <- options()
     on.exit(options(opt))
     options(na.action = na.pass)
-    ### construct design matrix _without_ intercept
-    mm <- model.matrix(~ x - 1)
+    ### remove unused levels
+    x <- x[, drop = TRUE]
+    ### if only one level remains
+    if (nlevels(x) == 1) {
+        mm <- matrix(1, nrow = length(x))
+    } else {
+        ### construct design matrix _without_ intercept
+        mm <- model.matrix(~ x - 1)
+    }
     colnames(mm) <- levels(x)  
-    ### remove unused levels   
-    mm <- mm[,colSums(mm, na.rm = TRUE) > 0,drop = FALSE]
     return(mm)
 }
 
@@ -112,7 +117,7 @@ initVariableFrame.df <- function(obj, trafo = ptrafo, scores = NULL, response = 
             storage.mode(obj[[j]]) <- "double"
         }
         nas <- is.na(x)
-        xt[[j]][nas] <- 0
+        xt[[j]][nas, drop = FALSE] <- 0
     }            
 
     RET@transformations <- xt
@@ -132,6 +137,48 @@ initVariableFrame.df <- function(obj, trafo = ptrafo, scores = NULL, response = 
     RET
 }
 
+initVariableFrame.matrix <- function(obj, response = FALSE, ...) {
+
+    if (response)
+        return(initVariableFrame(as.data.frame(obj, ..., response = TRUE)))
+
+    storage.mode(obj) <- "double"
+    n <- nrow(obj)
+    p <- ncol(obj)
+    RET <- new("VariableFrame", n, p)
+    is_ordinal <- rep(FALSE, p)
+    is_nominal <- rep(FALSE, p)
+
+    RET@scores <- vector(mode = "list", length = p)
+
+    lobj <- vector(mode = "list", length = p)
+    for (i in 1:p) lobj[[i]] <- obj[,i,drop = FALSE]
+    obj <- lobj
+
+    ### ordering
+    ordering <- lapply(obj, function(x) {
+        as.integer(order(x))
+    })
+
+    ### div.
+    levels <- vector(mode = "list", length = p)
+    whichNA <- lapply(obj, function(x) which(is.na(x)))
+    has_missings <- sapply(obj, function(x) any(is.na(x)))
+    censored <- rep(FALSE, p)
+
+    RET@transformations <- obj
+    RET@is_nominal <- is_nominal
+    RET@is_ordinal <- is_ordinal
+    RET@is_censored <- censored
+    RET@variables <- RET@transformations
+    RET@levels <- levels
+    RET@ordering <- ordering
+    RET@has_missings <- has_missings
+    RET@whichNA <- whichNA
+
+    RET
+}
+
 setGeneric(name = "initVariableFrame",
            def = function(obj, ...)
                standardGeneric("initVariableFrame")
@@ -140,6 +187,11 @@ setGeneric(name = "initVariableFrame",
 setMethod("initVariableFrame", 
     signature = "data.frame",
     definition = initVariableFrame.df
+)
+
+setMethod("initVariableFrame", 
+    signature = "matrix",
+    definition = initVariableFrame.matrix
 )
 
 setGeneric(name = "response",
@@ -155,4 +207,56 @@ setMethod("response",
 get_variables <- function(x)
     x@variables
 
-    
+setGeneric(name = "LearningSample",
+           def = function(object, ...)
+               standardGeneric("LearningSample")
+)
+
+LearningSample.matrix <- function(object, response, ...) {
+
+    new("LearningSample", inputs = inp <- initVariableFrame(object), 
+        responses = initVariableFrame(as.data.frame(response), response = TRUE, ...),
+        weights = rep(1, inp@nobs), nobs = inp@nobs,
+        ninputs = inp@ninputs)
+}
+
+setMethod("LearningSample",
+    signature = "matrix",
+    definition = LearningSample.matrix
+)
+
+LearningSample.ModelEnv <- function(object, ...) {
+
+    inp <- initVariableFrame(object@get("input"), ...)
+
+    response <- object@get("response")
+
+    if (any(is.na(response)))
+        stop("missing values in response variable not allowed")
+
+    resp <- initVariableFrame(response, ..., response = TRUE)
+
+    RET <- new("LearningSampleFormula", inputs = inp, responses = resp,
+               weights = rep(1, inp@nobs), nobs = inp@nobs,
+               ninputs = inp@ninputs, menv = object)
+    return(RET)
+}
+
+setMethod("LearningSample",
+    signature = "ModelEnv",
+    definition = LearningSample.ModelEnv
+)
+
+newinputs <- function(object, newdata = NULL) {
+
+    if (is.null(newdata)) return(object@inputs)
+    if (inherits(object, "LearningSampleFormula"))
+        newdata <- object@menv@get("input", data = newdata)
+
+    if (inherits(newdata, "VariableFrame"))
+        return(newdata)
+    if (inherits(newdata, "LearningSample"))
+        return(newdata@inputs)
+
+    return(initVariableFrame(newdata, trafo = NULL))
+}
