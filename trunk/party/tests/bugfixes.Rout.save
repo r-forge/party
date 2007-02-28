@@ -1,5 +1,5 @@
 
-R version 2.5.0 Under development (unstable) (2007-02-04 r40641)
+R version 2.5.0 Under development (unstable) (2007-02-26 r40806)
 Copyright (C) 2007 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -157,5 +157,14 @@ Number of observations:  100
 > ### one factor with only one level
 > dat$x2 <- factor(rep(0, 100))
 > try(ctree(y ~ x1 + x2, data = dat))
-Error in factor_trafo(x) : Can't fit trees to factors with only one level
+
+	 Conditional inference tree with 1 terminal nodes
+
+Response:  y 
+Inputs:  x1, x2 
+Number of observations:  100 
+
+1)*  weights = 100 
+Warning message:
+factors at only one level may lead to problems in: factor_trafo(x) 
 > 

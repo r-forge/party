@@ -7,11 +7,9 @@ ff_trafo <- function(x) {
     opt <- options()
     on.exit(options(opt))
     options(na.action = na.pass)
-    ### remove unused levels
-    x <- x[, drop = TRUE]
-    ### if only one level remains
     if (nlevels(x) == 1) {
-        stop("Can't fit trees to factors with only one level")
+        warning("factors at only one level may lead to problems")
+        mm <- matrix(1, nrow = length(x))
     } else {
         ### construct design matrix _without_ intercept
         mm <- model.matrix(~ x - 1)
@@ -29,6 +27,7 @@ ptrafo <- function(data, numeric_trafo = id_trafo,
 
 initVariableFrame.df <- function(obj, trafo = ptrafo, scores = NULL, response = FALSE, ...) {
 
+    if (is.null(trafo)) trafo <- ptrafo
     if (response) {
         RET <- new("ResponseFrame", nrow(obj), ncol(obj))
         tmp <- lapply(obj, function(x) {
@@ -258,5 +257,5 @@ newinputs <- function(object, newdata = NULL) {
     if (inherits(newdata, "LearningSample"))
         return(newdata@inputs)
 
-    return(initVariableFrame(newdata, trafo = NULL))
+    return(initVariableFrame(newdata, trafo = ptrafo))
 }
