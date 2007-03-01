@@ -1,0 +1,12 @@
+%% we might need some letters of support one day...
+%% those people asked for help on ctree(), cforest() or mob()
+"Edgar, Marc T (GE, Research)" <edgarm@crd.ge.com>
+Daniele Medri <daniele.medri2@unibo.it>
+Jonathan Williams <jonathan.williams@pharmacology.oxford.ac.uk>
+Regina Hampel <reginahampel@web.de>
+"Lee, Han" <Han.Lee@GeodeCapital.com>
+"Fridlyand, Jane" <jfridlyand@cc.ucsf.edu>
+"Nilsson, Henric" <henric.nilsson@phadia.com>
+Stephen Z Levine <szlevine@netvision.net.il>
+kaldape@mdanderson.org
+"Kuhn, Max" <Max.Kuhn@pfizer.com>
