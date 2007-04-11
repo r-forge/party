@@ -11,3 +11,4 @@ Stephen Z Levine <szlevine@netvision.net.il>
 kaldape@mdanderson.org
 "Kuhn, Max" <Max.Kuhn@pfizer.com>
 Stacey Buckelew <buckelew@biology.ucsc.edu>
+"Hu, Peter H." <peter_hu@merck.com>
