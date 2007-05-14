@@ -20,3 +20,9 @@ o   unbiased defaults for cforest_control
 o   optimize initVariableFrame for numeric inputs
     don't duplicate data (get_transformation may call get_variable)
 
+
+> Umgekehrt ist es so, dass fuer
+>     "mob" Objekte auch
+>       predict(obj, newdata, type = "node")
+>     funktioniert. Vielleicht kann man das auch fuer die "BinaryTree"
+>     Objekte dazugeben?
