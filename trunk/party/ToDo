@@ -26,3 +26,6 @@ o   optimize initVariableFrame for numeric inputs
 >       predict(obj, newdata, type = "node")
 >     funktioniert. Vielleicht kann man das auch fuer die "BinaryTree"
 >     Objekte dazugeben?
+
+o  ctree(, na.action = na.pass, ...) ?
+
