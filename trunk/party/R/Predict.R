@@ -47,7 +47,8 @@ weights.RandomForest <- function(object, newdata = NULL, OOB = FALSE, ...)
 setGeneric("where", function(object, ...) standardGeneric("where"))
 
 setMethod("where", signature = signature(object = "BinaryTree"),
-    definition = function(object, newdata = NULL, ...)
+    definition = function(object, newdata = NULL, ...) {
+        if (is.null(newdata)) object@where
         object@get_where(newdata = newdata, ...)
 )
 
