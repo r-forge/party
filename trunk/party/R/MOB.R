@@ -7,7 +7,7 @@
 ## generic function mob creates objects of class "mob"
 setClass("mob", contains = "BinaryTree")
 
-mob <- function(formula, weights, data = list(),
+mob <- function(formula, weights, data = list(), na.action = na.omit,
   model = glinearModel, control = mob_control(), ...)
 {
   if(inherits(formula, "formula")) {
@@ -18,7 +18,7 @@ mob <- function(formula, weights, data = list(),
       ff$input[[3]] <- ff$input[[2]]
       ff$input[[2]] <- ff$response[[2]]
       dpp(model, as.formula(ff$input), other = list(part = as.formula(ff$blocks)), 
-          data = data, na.action = control$na.action)
+          data = data, na.action = na.action)
     }
     formula <- mobpp(formula, data, model)
   }
@@ -83,12 +83,11 @@ mob <- function(formula, weights, data = list(),
 
 ## control splitting parameters
 mob_control <- function(alpha = 0.05, bonferroni = TRUE, minsplit = 20, trim = 0.1,
-  objfun = deviance, breakties = FALSE, verbose = FALSE, na.action = na.omit)
+  objfun = deviance, breakties = FALSE, verbose = FALSE)
 {
   rval <- list(alpha = alpha, bonferroni = bonferroni, minsplit = minsplit,
                trim = ifelse(is.null(trim), minsplit, trim),
-               objfun = objfun, breakties = breakties, verbose = verbose, 
-               na.action = na.action)
+               objfun = objfun, breakties = breakties, verbose = verbose)
   class(rval) <- "mob_control"
   return(rval)
 }
