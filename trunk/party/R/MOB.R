@@ -83,11 +83,11 @@ mob <- function(formula, weights, data = list(), na.action = na.omit,
 
 ## control splitting parameters
 mob_control <- function(alpha = 0.05, bonferroni = TRUE, minsplit = 20, trim = 0.1,
-  objfun = deviance, breakties = FALSE, verbose = FALSE)
+  objfun = deviance, breakties = FALSE, parm = NULL, verbose = FALSE)
 {
   rval <- list(alpha = alpha, bonferroni = bonferroni, minsplit = minsplit,
                trim = ifelse(is.null(trim), minsplit, trim),
-               objfun = objfun, breakties = breakties, verbose = verbose)
+               objfun = objfun, breakties = breakties, parm = parm, verbose = verbose)
   class(rval) <- "mob_control"
   return(rval)
 }

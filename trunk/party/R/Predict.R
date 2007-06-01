@@ -48,8 +48,9 @@ setGeneric("where", function(object, ...) standardGeneric("where"))
 
 setMethod("where", signature = signature(object = "BinaryTree"),
     definition = function(object, newdata = NULL, ...) {
-        if (is.null(newdata)) object@where
-        object@get_where(newdata = newdata, ...)
+        if(is.null(newdata)) object@where
+	    else object@get_where(newdata = newdata, ...)
+    }
 )
 
 
