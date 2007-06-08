@@ -51,6 +51,7 @@ setMethod("where", signature = signature(object = "BinaryTree"),
         if(is.null(newdata)) object@where
 	    else object@get_where(newdata = newdata, ...)
     }
+    }
 )
 
 
