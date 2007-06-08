@@ -447,6 +447,41 @@ SEXP R_rsubset(SEXP m, SEXP k) {
     return(ans);
 }
 
+/* Unequal probability sampling; without-replacement case */
+
+void C_ProbSampleNoReplace(int n, double *p, int *perm,
+                           int nans, int *ans)
+{
+    double rT, mass, totalmass;
+    int i, j, k, n1;
+
+    /* Record element identities */
+    for (i = 0; i < n; i++)
+	perm[i] = i + 1;
+
+    /* Sort probabilities into descending order */
+    /* Order element identities in parallel */
+    revsort(p, perm, n);
+
+    /* Compute the sample */
+    totalmass = 1;
+    for (i = 0, n1 = n-1; i < nans; i++, n1--) {
+	rT = totalmass * unif_rand();
+	mass = 0;
+	for (j = 0; j < n1; j++) {
+	    mass += p[j];
+	    if (rT <= mass)
+		break;
+	}
+	ans[i] = perm[j];
+	totalmass -= p[j];
+	for(k = j; k < n1; k++) {
+	    p[k] = p[k + 1];
+	    perm[k] = perm[k + 1];
+	}
+    }
+}
+
 
 /**
     determine if i is element of the integer vector set
@@ -584,3 +619,21 @@ SEXP R_modify_response(SEXP x, SEXP vf) {
 }
 
 double F77_SUB(unifrnd)(void) { return unif_rand(); }
+
+void C_SampleSplitting(int n, double *prob, int *weights, int k) {
+
+    int i;
+    double *tmpprob;
+    int *ans, *perm;
+
+    tmpprob = Calloc(n, double);
+    perm = Calloc(n, int);
+    ans = Calloc(k, int);
+    for (i = 0; i < n; i++) tmpprob[i] = prob[i];
+
+    C_ProbSampleNoReplace(n, tmpprob, perm, k, ans);
+    for (i = 0; i < n; i++) weights[i] = 0;
+    for (i = 0; i < k; i++)
+        weights[ans[i] - 1] = 1;
+    Free(tmpprob); Free(perm); Free(ans);
+}

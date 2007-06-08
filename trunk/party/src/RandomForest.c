@@ -21,9 +21,9 @@
 SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls) {
             
      SEXP nweights, tree, where, ans;
-     double *dnweights, *dweights, sw = 0.0, *prob, fraction;
+     double *dnweights, *dweights, sw = 0.0, *prob;
      int nobs, i, b, B , nodenum = 1, *iweights, *iweightstmp, 
-         *iwhere, replace;
+         *iwhere, replace, fraction, wgrzero = 0;
      
      B = get_ntree(controls);
      nobs = get_nobs(learnsample);
@@ -35,13 +35,16 @@ SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls) {
      prob = Calloc(nobs, double);
      dweights = REAL(weights);
 
-     for (i = 0; i < nobs; i++)
+     for (i = 0; i < nobs; i++) {
          sw += dweights[i];
+         if (dweights[i] > 0) wgrzero++;
+     }
      for (i = 0; i < nobs; i++)
          prob[i] = dweights[i]/sw;
 
      replace = get_replace(controls);
-     fraction = get_fraction(controls) * nobs;
+     /* fraction of number of obs with weight > 0 */
+     fraction = (int) (get_fraction(controls) * wgrzero);
 
      if (!replace) {
          if (fraction < 10)
@@ -69,14 +72,7 @@ SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls) {
              rmultinom((int) sw, prob, nobs, iweights);
          } else {
              /* weights for sample splitting */
-             C_SampleNoReplace(iweightstmp, nobs, nobs, iweights);
-             for (i = 0; i < nobs; i++) {
-                 if (iweights[i] < fraction) {
-                     iweights[i] = 1;
-                 } else {
-                    iweights[i] = 0;
-                 } 
-             }
+             C_SampleSplitting(nobs, prob, iweights, fraction);
          }
 
          nweights = S3get_nodeweights(tree);
