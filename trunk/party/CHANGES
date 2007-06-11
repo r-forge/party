@@ -1,9 +1,13 @@
 
-                CHANGES IN party VERSION 0.9-10 (2007-05-xx)
+                CHANGES IN party VERSION 0.9-11 (2007-06-11)
 
     o   populate `where' slot in `mob' objects.
 
     o   `mob_control' now has an `na.action' argument
+
+    o   cforest with replace = FALSE, fraction = ...
+        can now deal with weights (spotted by Carolin Strobl
+        <carolin.strobl@stat.uni-muenchen.de>)
 
 
                 CHANGES IN party VERSION 0.9-10 (2007-02-28)
