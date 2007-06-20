@@ -83,7 +83,7 @@ w[x > 0.9] <- 2
 
 rf <- cforest(Ozone ~ .,data = airq, weights = w, control = cctrl)
 rfw <- sapply(rf@ensemble, function(x) x[[2]])
-stopifnot(all(colSums(rfw) == floor(sum(w) / 2)))
+stopifnot(all(colSums(rfw) == ceiling(sum(w) / 2)))
 stopifnot(max(abs(rfw[w == 0,])) == 0)
 
 ### real weights
@@ -91,6 +91,6 @@ w <- runif(n)
 w[1:10] <- 0
 rf <- cforest(Ozone ~ .,data = airq, weights = w, control = cctrl)
 rfw <- sapply(rf@ensemble, function(x) x[[2]])
-stopifnot(all(colSums(rfw) == floor(sum(w > 0) / 2)))
+stopifnot(all(colSums(rfw) == ceiling(sum(w > 0) / 2)))
 stopifnot(max(abs(rfw[w == 0,])) == 0)
 

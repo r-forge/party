@@ -18,7 +18,6 @@ SEXP
     PL2_dimensionSym,
     PL2_MPinvSym,  
     PL2_rankSym,
-    PL2_svdSym,
     PL2_svdmemSym,
     PL2_methodSym,
     PL2_jobuSym, 
@@ -85,7 +84,6 @@ SEXP party_init(void) {
     PL2_dimensionSym = install("dimension");
     PL2_MPinvSym = install("MPinv");
     PL2_rankSym = install("rank");
-    PL2_svdSym = install("svd");
     PL2_svdmemSym = install("svdmem");
     PL2_methodSym = install("method");
     PL2_jobuSym = install("jobu");

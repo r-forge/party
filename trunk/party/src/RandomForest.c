@@ -21,7 +21,7 @@
 SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls) {
             
      SEXP nweights, tree, where, ans;
-     double *dnweights, *dweights, sw = 0.0, *prob;
+     double *dnweights, *dweights, sw = 0.0, *prob, tmp;
      int nobs, i, b, B , nodenum = 1, *iweights, *iweightstmp, 
          *iwhere, replace, fraction, wgrzero = 0, realweights = 0;
      
@@ -51,11 +51,13 @@ SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP fitmem, SEXP controls) {
      /* fraction of number of obs with weight > 0 */
      if (realweights) {
          /* fraction of number of obs with weight > 0 for real weights*/
-         fraction = (int) (get_fraction(controls) * wgrzero);
+         tmp = (get_fraction(controls) * wgrzero);
      } else {
          /* fraction of sum of weights for case weights */
-         fraction = (int) (get_fraction(controls) * sw);
+         tmp = (get_fraction(controls) * sw);
      }
+     fraction = (int) ftrunc(tmp);
+     if (ftrunc(tmp) < tmp) fraction++;
 
      if (!replace) {
          if (fraction < 10)

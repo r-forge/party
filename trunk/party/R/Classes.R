@@ -31,7 +31,6 @@ setClass(Class = "LinStatExpectCovar",
 ### Memory for C_svd
 setClass(Class = "svd_mem",
     representation = representation(
-        svd    = "list",
         method = "character",
         jobu   = "character",
         jobv   = "character",

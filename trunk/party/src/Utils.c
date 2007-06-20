@@ -89,7 +89,64 @@ SEXP R_kronecker (SEXP A, SEXP B) {
 
 
 /**
-    C- and R-interface to La_svd (R/src/main/lapack.c)
+    C- and R-interface to La_svd 
+    *\param jobu
+    *\param jobv
+    *\parm x
+    *\parm s
+    *\param u
+    *\param v
+    *\param method
+    *\param val svd slot of svdmem object
+*/
+
+void CR_La_svd(SEXP jobu, SEXP jobv, SEXP x, SEXP s, SEXP u, SEXP v,
+               SEXP method)
+{
+    int *xdims, n, p, lwork, info = 0;
+    double *work, *xvals, tmp;
+    char *meth;
+
+    if (!(isString(jobu) && isString(jobv)))
+	error(("'jobu' and 'jobv' must be character strings"));
+    if (!isString(method))
+	error(("'method' must be a character string"));
+    meth = CHAR(STRING_ELT(method, 0));
+    xdims = INTEGER(coerceVector(getAttrib(x, R_DimSymbol), INTSXP));
+    n = xdims[0]; p = xdims[1];
+    xvals = Calloc(n * p, double);
+    /* work on a copy of x */
+    Memcpy(xvals, REAL(x), (size_t) (n * p));
+
+    {
+	int ldu = INTEGER(getAttrib(u, R_DimSymbol))[0],
+	    ldvt = INTEGER(getAttrib(v, R_DimSymbol))[0];
+	int *iwork= (int *) R_alloc(8*(n<p ? n : p), sizeof(int));
+
+	/* ask for optimal size of work array */
+	lwork = -1;
+	F77_CALL(dgesdd)(CHAR(STRING_ELT(jobu, 0)),
+			 &n, &p, xvals, &n, REAL(s),
+			 REAL(u), &ldu,
+			 REAL(v), &ldvt,
+			 &tmp, &lwork, iwork, &info);
+	if (info != 0)
+	    error(("error code %d from Lapack routine '%s'"), info, "dgesdd");
+	lwork = (int) tmp;
+	work = Calloc(lwork, double);
+	F77_CALL(dgesdd)(CHAR(STRING_ELT(jobu, 0)),
+			 &n, &p, xvals, &n, REAL(s),
+			 REAL(u), &ldu,
+			 REAL(v), &ldvt,
+			 work, &lwork, iwork, &info);
+	if (info != 0)
+	    error(("error code %d from Lapack routine '%s'"), info, "dgesdd");
+    }
+    Free(work); Free(xvals);
+}
+
+/**
+    C- and R-interface to CR_La_svd
     *\param x matrix
     *\param svdmem an object of class `svd_mem'
 */
@@ -105,14 +162,15 @@ SEXP CR_svd (SEXP x, SEXP svdmem) {
     du = REAL(GET_SLOT(svdmem, PL2_uSym));
     dv = REAL(GET_SLOT(svdmem, PL2_vSym));
     p = INTEGER(GET_SLOT(svdmem, PL2_pSym))[0];
+    if (nrow(x) != p) error("svd p x error");
     for (i = 0; i < p*p; i++) {
         du[i] = 0.0;
         dv[i] = 0.0;
     }
-    SET_SLOT(svdmem, PL2_svdSym, La_svd(GET_SLOT(svdmem, PL2_jobuSym), 
+    CR_La_svd(GET_SLOT(svdmem, PL2_jobuSym), 
         GET_SLOT(svdmem, PL2_jobvSym), x, GET_SLOT(svdmem, PL2_sSym), 
         GET_SLOT(svdmem, PL2_uSym), GET_SLOT(svdmem, PL2_vSym), 
-        GET_SLOT(svdmem, PL2_methodSym)));
+        GET_SLOT(svdmem, PL2_methodSym));
     return(R_NilValue);
 }
 
@@ -136,12 +194,11 @@ void C_MPinv (SEXP x, double tol, SEXP svdmem, SEXP ans) {
     dMPinv = REAL(GET_SLOT(ans, PL2_MPinvSym));
 
     dummy = CR_svd(x, svdmem);
-    svdx = GET_SLOT(svdmem, PL2_svdSym);
-    d = VECTOR_ELT(svdx, 0);
+    d = GET_SLOT(svdmem, PL2_sSym);
     dd = REAL(d);
-    u = VECTOR_ELT(svdx, 1);
+    u = GET_SLOT(svdmem, PL2_uSym);
     du = REAL(u);
-    vt = VECTOR_ELT(svdx, 2);
+    vt = GET_SLOT(svdmem, PL2_vSym);
     dvt = REAL(vt);
     p = LENGTH(d);
 
