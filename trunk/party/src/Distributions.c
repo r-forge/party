@@ -106,7 +106,7 @@ double C_maxabsConditionalPvalue(const double tstat, const double *Sigma,
         
     /* call FORTRAN subroutine */
     F77_CALL(mvtdst)(n, nu, lower, upper, infin, corr, delta, 
-                     maxpts, abseps, releps, tol, myerror, prob, inform);
+                     maxpts, abseps, releps, myerror, prob, inform);
                          
     /* inform == 0 means: everything is OK */
     switch (inform[0]) {
