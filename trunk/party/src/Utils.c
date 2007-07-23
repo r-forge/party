@@ -104,7 +104,7 @@ void CR_La_svd(SEXP jobu, SEXP jobv, SEXP x, SEXP s, SEXP u, SEXP v,
 {
     int *xdims, n, p, lwork, info = 0;
     double *work, *xvals, tmp;
-    char *meth;
+    const char * meth;
 
     if (!(isString(jobu) && isString(jobv)))
 	error(("'jobu' and 'jobv' must be character strings"));
