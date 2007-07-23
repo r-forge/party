@@ -23,6 +23,8 @@ void C_remove_weights(SEXP subtree) {
     An experimental implementation of random forest like algorithms \n
     *\param learnsample an object of class `LearningSample'
     *\param weights a vector of case weights
+    *\param bwhere integer matrix (n x ntree) for terminal node numbers
+    *\param bweights double matrix (n x ntree) for bootstrap case weights
     *\param fitmem an object of class `TreeFitMemory'
     *\param controls an object of class `TreeControl'
 */

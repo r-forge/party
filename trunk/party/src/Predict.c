@@ -417,6 +417,8 @@ SEXP R_getpredictions(SEXP tree, SEXP where) {
 /**
     Predictions weights from RandomForest objects
     *\param forest a list of trees
+    *\param where integer matrix (n x ntree) for terminal node numbers
+    *\param weights double matrix (n x ntree) for bootstrap case weights
     *\param newinputs an object of class `VariableFrame'
     *\param mincriterion overwrites mincriterion used for tree growing
     *\param oobpred a logical indicating out-of-bag predictions

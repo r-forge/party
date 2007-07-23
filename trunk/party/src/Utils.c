@@ -694,3 +694,18 @@ void C_SampleSplitting(int n, double *prob, int *weights, int k) {
         weights[ans[i] - 1] = 1;
     Free(tmpprob); Free(perm); Free(ans);
 }
+
+/**
+    Remove weights vector from each node of a tree (in order to save memory)
+    \*param subtree a tree
+*/ 
+
+void C_remove_weights(SEXP subtree) {
+
+    SET_VECTOR_ELT(subtree, S3_WEIGHTS, R_NilValue);
+    
+    if (!S3get_nodeterminal(subtree)) {
+        C_remove_weights(S3get_leftnode(subtree));
+        C_remove_weights(S3get_rightnode(subtree));
+    }
+}
