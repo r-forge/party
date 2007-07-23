@@ -195,7 +195,7 @@ varimp <- function(x, mincriterion = 0.0) {
     for (b in 1:length(x@ensemble)) {
 
         tree <- x@ensemble[[b]]
-        oob <- tree[[2]] == 0
+        oob <- x@weights[[b]] == 0
 
         p <- .Call("R_predict", tree, inp, mincriterion,
                    PACKAGE = "party")
