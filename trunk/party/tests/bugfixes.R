@@ -103,6 +103,6 @@ stopifnot(max(abs(rfw[w == 0,])) == 0)
 df <- data.frame(y1 = rnorm(100), y2 = rnorm(100), x1 = runif(100), x2 = runif(100))
 df$y1[df$x1 < 0.5] <- df$y1[df$x1 < 0.5] + 1
 cf <- cforest(y1 + y2 ~ x1 + x2, data = df)
-pr <- predict(ct)
+pr <- predict(cf)
 stopifnot(nrow(pr) == nrow(df) || ncol(pr) != 2)
 
