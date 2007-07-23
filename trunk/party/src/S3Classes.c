@@ -21,6 +21,7 @@ void C_init_node(SEXP node, int nobs, int ninputs, int nsurr, int q) {
         SET_VECTOR_ELT(node, S3_WEIGHTS, weights = allocVector(REALSXP, nobs));
     else
         SET_VECTOR_ELT(node, S3_WEIGHTS, R_NilValue);
+    SET_VECTOR_ELT(node, S3_SUMWEIGHTS, allocVector(REALSXP, 1));
     SET_VECTOR_ELT(node, S3_CRITERION, 
         criterion = allocVector(VECSXP, CRITERION_LENGTH));
     /* teststats */
@@ -54,6 +55,10 @@ SEXP S3get_nodeweights(SEXP node) {
     if (ans == R_NilValue)
         error("node has no weights element"); 
     return(VECTOR_ELT(node, S3_WEIGHTS));
+}
+
+double S3get_sumweights(SEXP node) {
+    REAL(VECTOR_ELT(node, S3_SUMWEIGHTS))[0];
 }
 
 SEXP S3get_teststat(SEXP node) {

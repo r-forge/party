@@ -59,6 +59,7 @@ void C_TreeGrow(SEXP node, SEXP learnsample, SEXP fitmem,
         nodenum[0] += 1;                                      
         C_TreeGrow(S3get_rightnode(node), learnsample, fitmem, 
                    controls, where, nodenum, depth + 1);
+                   
     } else {
         dweights = REAL(weights);
         nobs = get_nobs(learnsample);

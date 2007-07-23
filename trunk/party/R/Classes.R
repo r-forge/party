@@ -267,8 +267,9 @@ setClass(Class = "BinaryTreePartition",
     representation = representation(
         tree     = "list",          # the basic tree structure as (named or
                                     # unnamed) list
-        where    = "integer"        # the nodeID of the observations in the
+        where    = "integer",       # the nodeID of the observations in the
                                     # learning sample
+        weights  = "numeric"         # the weights in the root node
     ),
 )
 
@@ -290,6 +291,8 @@ setClass(Class = "BinaryTree",
 setClass(Class = "RandomForest", 
     representation = representation(
         ensemble            = "list",
+        where               = "list",
+        weights             = "list",
         data                = "ModelEnv",
         responses           = "VariableFrame", # a list of response `variables'
                                                # for computing predictions

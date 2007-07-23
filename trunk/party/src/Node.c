@@ -80,6 +80,7 @@ void C_Node(SEXP node, SEXP learnsample, SEXP weights,
     /* sum of weights: C_GlobalTest did nothing if sweights < mincriterion */
     sweights = REAL(GET_SLOT(GET_SLOT(fitmem, PL2_expcovinfSym), 
                              PL2_sumweightsSym))[0];
+    REAL(VECTOR_ELT(node, S3_SUMWEIGHTS))[0] = sweights;
 
     /* compute the prediction of this node */
     dprediction = REAL(S3get_prediction(node));
@@ -92,6 +93,7 @@ void C_Node(SEXP node, SEXP learnsample, SEXP weights,
 
     teststat = REAL(S3get_teststat(node));
     pvalue = REAL(S3get_criterion(node));
+    for (j = 0; j < ninputs; j++) pvaluetmp[j] = pvalue[j];
 
     /* try the two out of ninputs best inputs variables */
     /* <FIXME> be more flexible and add a parameter controlling
@@ -197,13 +199,12 @@ void C_Node(SEXP node, SEXP learnsample, SEXP weights,
                  Free(standstat);
             }
             if (maxstat == 0) {
-                warning("no admissible split found\n");
             
                 if (j == 1) {          
                     S3set_nodeterminal(node);
                 } else {
-                    /* <FIXME> why? </FIXME> */
-                    pvalue[jselect - 1] = 0.0;
+                    /* do not look at jselect in next iteration */
+                    pvalue[jselect - 1] = R_NegInf;
                 }
             } else {
                 S3set_variableID(split, jselect);

@@ -15,6 +15,8 @@ o	more checks for MonteCarlo
 o	check `cforest' and convenience functions (`treepredict' seems the
         wrong name)
 
+o       predictions for multiple response including factors
+
 o   unbiased defaults for cforest_control
 
 o   optimize initVariableFrame for numeric inputs
