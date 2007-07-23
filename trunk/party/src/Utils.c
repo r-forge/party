@@ -92,12 +92,11 @@ SEXP R_kronecker (SEXP A, SEXP B) {
     C- and R-interface to La_svd 
     *\param jobu
     *\param jobv
-    *\parm x
-    *\parm s
+    *\param x
+    *\param s
     *\param u
     *\param v
     *\param method
-    *\param val svd slot of svdmem object
 */
 
 void CR_La_svd(SEXP jobu, SEXP jobv, SEXP x, SEXP s, SEXP u, SEXP v,

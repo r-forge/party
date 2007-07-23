@@ -8,17 +8,6 @@
 
 #include "party.h"
 
-void C_remove_weights(SEXP subtree) {
-
-    SET_VECTOR_ELT(subtree, S3_WEIGHTS, R_NilValue);
-    
-    if (!S3get_nodeterminal(subtree)) {
-        C_remove_weights(S3get_leftnode(subtree));
-        C_remove_weights(S3get_rightnode(subtree));
-    }
-}
-
-
 /**
     An experimental implementation of random forest like algorithms \n
     *\param learnsample an object of class `LearningSample'

@@ -93,7 +93,6 @@ void C_Node(SEXP node, SEXP learnsample, SEXP weights,
 
     teststat = REAL(S3get_teststat(node));
     pvalue = REAL(S3get_criterion(node));
-    for (j = 0; j < ninputs; j++) pvaluetmp[j] = pvalue[j];
 
     /* try the two out of ninputs best inputs variables */
     /* <FIXME> be more flexible and add a parameter controlling
