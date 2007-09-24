@@ -29,5 +29,6 @@ o   optimize initVariableFrame for numeric inputs
 >     funktioniert. Vielleicht kann man das auch fuer die "BinaryTree"
 >     Objekte dazugeben?
 
-o  ctree(, na.action = na.pass, ...) ?
+o  ctree(, na.action = na.pass, ...) ? und fuer cforest auch!
+
 
