@@ -70,7 +70,7 @@ cforest_control(teststat = "max",
 
   Function \code{cforest_unbiased} returns the settings suggested 
   for the construction of unbiased random forests by Strobl et al. (2007)
-  and is the default since version 0.9-15.
+  and is the default since version 0.9-90.
   Hyper parameter settings mimicing the behaviour of
   \code{\link[randomForest]{randomForest}} are available in
   \code{cforest_classical} which have been used as default up to

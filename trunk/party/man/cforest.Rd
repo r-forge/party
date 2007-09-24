@@ -100,7 +100,7 @@ varimp(x, mincriterion = 0.0)
     ### honest (i.e., out-of-bag) cross-classification of
     ### true vs. predicted classes
     table(mammoexp$ME, predict(cforest(ME ~ ., data = mammoexp, 
-                               control = traditional_forest(ntree = 50)),
+                               control = cforest_classical(ntree = 50)),
                                OOB = TRUE))
 
     ### fit forest to censored response
@@ -108,7 +108,7 @@ varimp(x, mincriterion = 0.0)
 
         data("GBSG2", package = "ipred")
         bst <- cforest(Surv(time, cens) ~ ., data = GBSG2, 
-                   control = traditional_forest(ntree = 50))
+                   control = cforest_classical(ntree = 50))
 
         ### estimate conditional Kaplan-Meier curves
         treeresponse(bst, newdata = GBSG2[1:2,], OOB = TRUE)
