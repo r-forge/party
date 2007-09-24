@@ -28,7 +28,7 @@ edge_simple(treeobj, digits = 3, abbreviate = FALSE)
 node_surv(ctreeobj, ylines = 2, id = TRUE, \dots)
 node_barplot(ctreeobj, col = "black", fill = NULL, beside = NULL,
   ymax = NULL, ylines = NULL, widths = 1, gap = NULL, 
-  reverse = FALSE, id = TRUE)
+  reverse = NULL, id = TRUE)
 node_boxplot(ctreeobj, col = "black", fill = "lightgray", 
   width = 0.5,  yscale = NULL, ylines = 3, cex = 0.5, id = TRUE)
 node_hist(ctreeobj, col = "black", fill = "lightgray", 

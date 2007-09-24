@@ -155,7 +155,7 @@ node_barplot <- function(ctreeobj,
 		         ylines = NULL,
 		         widths = 1,
 		         gap = NULL,
-			 reverse = FALSE,
+			 reverse = NULL,
 		         id = TRUE)
 {   
     getMaxPred <- function(x) {
@@ -178,7 +178,7 @@ node_barplot <- function(ctreeobj,
         if(length(ylevels) < 2) ylevels <- ""
 	if(is.null(gap)) gap <- 1
     }
-
+    if(is.null(reverse)) reverse <- !beside
     if(is.null(fill)) fill <- gray.colors(length(ylevels))
     if(is.null(ylines)) ylines <- if(beside) c(3, 2) else c(1.5, 2.5)
 
