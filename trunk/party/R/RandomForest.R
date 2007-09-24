@@ -192,12 +192,20 @@ varimp <- function(x, mincriterion = 0.0) {
     tmp <- inp
     ### jt <- response@jointtransf
 
-    CLASS <- all(response@is_nominal || response@is_ordinal)
+    CLASS <- all(response@is_nominal)
+    ORDERED  <- all(response@is_ordinal)
     if (CLASS) {
         error <- function(x, oob) 
             mean((levels(y)[sapply(x, which.max)] != y)[oob])
     } else {
-        error <- function(x, oob) mean((unlist(x) - y)[oob]^2)
+        ### <FIXME> ordered variables are of class was_ordered
+        if (ORDERED) {
+            error <- function(x, oob) 
+                mean((sapply(x, which.max) != y)[oob])
+        ### </FIXME>
+        } else {
+            error <- function(x, oob) mean((unlist(x) - y)[oob]^2)
+        }
     }
 
     perror <- matrix(0, nrow = length(x@ensemble), ncol = ncol(inputs))

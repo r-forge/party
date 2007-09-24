@@ -32,3 +32,4 @@ o   optimize initVariableFrame for numeric inputs
 o  ctree(, na.action = na.pass, ...) ? und fuer cforest auch!
 
 
+o  check storage mode of ordinal variables and fix varimp
