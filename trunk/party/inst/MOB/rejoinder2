@@ -1,0 +1,87 @@
+Dear Luke,
+
+we prepared a revision of our manuscript
+  "Model-based Recursive Partitioning"
+addressing the points raised by the referee. We extended the
+discussion of stopping rules and the multiple testing aspects
+of "pre-pruning". We also provide more comments on application
+of the algorithm to large data sets.
+
+A detailed point-to-point reply to the referee is included below.
+
+I've put up a ZIP archive containing an unblinded and blinded
+version of the paper at
+  http://statmath.wu-wien.ac.at/~zeileis/JCGS-06045r2.zip
+
+Best wishes,
+Z
+
+
+POINT-TO-POINT REPLY TO THE REFEREE
+***********************************
+
+> First, the probabilities involved in recursive partitioning are
+> much more complicated than what have been discussed in this paper
+> and conditional inference. I would say that it is far behind
+> comprehension of current probability theories. Take the
+> multiplicity issues emerging from significant testings for
+> example. In the current proposal, the Bonferroni typed
+> adjustment might sound OK for splitting the root node. But what
+> would happen when splitting its child and grandchild nodes? The
+> current proposal simplifies things by ignoring the hierarchical
+> between-node inferences.
+
+Thanks for pointing us to this issue. In fact, the idea for testing
+the stability (or independence) hypothesis recursively in a tree
+corresponds to closed testing procedures for multiple comparisons
+(Marcus et al. 1976, Hochberg & Tamhane, 1987}: because the
+hypotheses are recursively nested, significance of p-values is
+only interpretable if parameter stability has been rejected for
+all previous nodes in the tree. Now, this is pointed out explicitely
+in the discussion of pre- and post-pruning strategies in Section 5.
+
+> For example, you will have to select a threshold joint significance
+> level (which is rather arbitrary). Let's say alpha = 0.05. Suppose
+> that at node t, the minimum p-value from the variable importance
+> test is 0.06. So we will claim a terminal node. However, let us not
+> stop. Instead, we keep splitting further. My question is, can we
+> guarantee that the minimum p-values for the variable importance
+> test in its child nodes would be all less than 0.05? The answer is
+> no. Actually, we often see an insignificant split at earlier
+> stage of the tree followed by very significant ones when splitting
+> nodes with a test statistic.
+
+Yes, this is true, and there are two aspects to this. The first is
+size: In the sense of a closed testing procedure, stability can only
+be rejected in a certain node if it was also rejected in all 
+preceeding nodes (to control the family-wise error rate). In the
+example above, this would not be the case and hence a p < alpha would
+not imply a significant instability in the daughter node. However,
+the second aspect is power: You are right that not rejecting stability
+in a particular node does not imply that there is really no
+instability. The test procedures employed do not have uniform power
+against all patterns of instability and are thus more likely to miss
+certain types of instabilities than others (e.g., interactions). We
+tried to point this out more clearly in the "Pruning" paragraph of
+Section 5.
+
+> Secondly, it is well known that the concept of significance testing
+> is not very attractive in the area of data mining where decision
+> trees are among the most commonly-used tools. This is because even
+> a practically negligible difference would become statistically
+> significant with a huge sample size. This would enviably pose
+> challenge to the threshold selection for stopping rules. For
+> example, applying the same significance level alpha = 0.05 as the
+> stopping rule, one may grow a larger tree for a larger sample size.
+
+If the true underlying data-generating process is indeed a recursive
+partition, the algorithm will detect this with growing sample size
+and stop after that (i.e., further unnecessary splits are only made
+with probability alpha). Thus, the tree size would not increase with
+increasing sample size. However, you are right that in practice,
+there will always be some differences (and not a clean recursive
+partition). In this case, a trade-off has to be made between
+predictive power and complexity. Capturing even small differences
+would increase predictive power but also model complexity. Some
+discussion of these considerations has been added to Section 5 in
+the "Large datasets" paragraph.

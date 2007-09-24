@@ -150,7 +150,7 @@ class(node_surv) <- "grapcon_generator"
 node_barplot <- function(ctreeobj,
                          col = "black",
       		         fill = NULL,
-			 beside = TRUE,
+			 beside = NULL,
 		         ymax = NULL,
 		         ylines = NULL,
 		         widths = 1,
@@ -169,6 +169,7 @@ node_barplot <- function(ctreeobj,
     
     if(is.factor(y) || class(y) == "was_ordered") {
         ylevels <- levels(y)
+	beside <- if(length(ylevels) < 3) FALSE else TRUE
         if(is.null(ymax)) ymax <- if(beside) 1.1 else 1
 	if(is.null(gap)) gap <- if(beside) 0.1 else 0
     } else {
@@ -178,11 +179,8 @@ node_barplot <- function(ctreeobj,
 	if(is.null(gap)) gap <- 1
     }
 
-    if(is.null(fill))
-      fill <- if(beside) "lightgray" else gray.colors(length(ylevels))
-     
-    if(is.null(ylines))
-      ylines <- if(beside) c(3, 1) else c(1.5, 2.5)
+    if(is.null(fill)) fill <- gray.colors(length(ylevels))
+    if(is.null(ylines)) ylines <- if(beside) c(3, 2) else c(1.5, 2.5)
 
     ### panel function for barplots in nodes
     rval <- function(node) {

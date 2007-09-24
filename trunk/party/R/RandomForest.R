@@ -129,10 +129,21 @@ cforest_control <- function(teststat = "max",
         stop("RET is not a valid object of class", class(RET))
     RET
 }
+
+cforest_classical <- function(...) cforest_control(teststat = "max",
+                            testtype = "Teststatistic",
+                            mincriterion = qnorm(0.9), 
+                            replace = TRUE, ...)
+
+cforest_unbiased <- function(...) cforest_control(teststat = "quad", 
+                            testtype = "Univ",
+                            mincriterion = 0,
+                            replace = FALSE, 
+                            fraction = 0.632, ...) 
     
 ### the top-level convenience function
 cforest <- function(formula, data = list(), subset = NULL, weights = NULL, 
-                    controls = cforest_control(),
+                    controls = cforest_unbiased(),
                     xtrafo = ptrafo, ytrafo = ptrafo, scores = NULL) {
 
     ### setup learning sample

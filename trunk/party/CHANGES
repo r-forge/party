@@ -1,4 +1,13 @@
 
+                CHANGES IN party VERSION 0.9-15 (2007-09-xx)
+
+    o   new defaults for `control' argument of `cforest': unbiased
+        forests are now grown by default
+
+    o   new defaults for binary classification tree visualization:
+        stacked bar charts are used by default.
+
+
                 CHANGES IN party VERSION 0.9-14 (2007-07-23)
 
     o   fix problem in `varimp' introduced by new weights handling

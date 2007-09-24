@@ -46,6 +46,7 @@ Pval <- function(p, digits = 3)
   ifelse(p <= 10^(-digits),
     paste("p < 0.", paste(rep("0", digits-1), collapse = "") , "1", sep = ""),
     paste("p =", as.character(round(p, digits = digits))))
+get_version <- function(pkg) packageDescription(pkg)["Version"]
 @
 
 \section{Introduction}
@@ -101,7 +102,7 @@ partitioning (testing \textit{and} split point estimation).
 The recursive partitioning allows for modeling of
 non-linear relationships and automated detection of interactions among
 the explanatory variables. The statistical formulation of the algorithm
-ensures the validity of interpretations drawn from the depicted model.
+ensures the validity of interpretations drawn from the resulting model.
 Moreover, the use of well-known parametric models provides
 subject-matter scientists with a segmented model that they are used to
 analyzing and interpreting.
@@ -159,7 +160,7 @@ $g(\cdot)$ is a known link function and $\theta$ are the regression coefficients
 In many situations, it is unreasonable to assume that a single global model
 $\mathcal{M}(Y, \theta)$ fits all $n$ observations well. But it might be possible
 to partition the observations with respect to some covariates
-such that a well-fitting model can be found in each cell of the partition. In such a
+such that a well-fitting model can be found locally in each cell of the partition. In such a
 situation, we can use a recursive partitioning approach based
 on $\ell$ partitioning variables $Z_j \in \mathcal{Z}_j \; (j = 1, \dots, \ell)$
 to adaptively find a good approximation of this partition.
@@ -169,8 +170,8 @@ $\mathcal{Z} = \mathcal{Z}_1 \times \dots \times \mathcal{Z}_\ell$
 exists with $B$ cells (or segments) such that in each cell $\mathcal{B}_b$
 a model $\mathcal{M}(Y, \theta_b)$ with a cell-specific 
 parameter $\theta_b$ holds.
-We denote this segmented model by $\mathcal{M}_\mathcal{B}(Y, \theta)$
-where $\theta$ is now the full combined parameter $\theta = (\theta_1, \dots, \theta_B)^\top$.
+We denote this segmented model by $\mathcal{M}_\mathcal{B}(Y, \{\theta_b\})$
+where $\{\theta_b\}_{b = 1, \dots, B}$ is the full combined parameter.
 
 Special cases of such segmented models are classification and regression trees
 where many partitioning variables $Z_j$ but only very simple models $\mathcal{M}$
@@ -193,7 +194,7 @@ which is usually time \citep{BaiPerron2003,ZeileisKleiberKraemer2003}.
 
 %% \dotfill
 
-Given the correct partition $\{\mathcal{B}_b\}$ the estimation of the parameters $\theta$
+Given the correct partition $\{\mathcal{B}_b\}$ the estimation of the parameters $\{\theta_b\}$
 that minimize the global objective function can easily be achieved by computing the locally
 optimal parameter estimates $\hat \theta_b$ in each segment $\mathcal{B}_b$. However,
 if $\{\mathcal{B}_b\}$ is unknown, minimization of the global objective function
@@ -223,7 +224,7 @@ this algorithm is given in the next section.
 \label{sec:algorithm}
 
 The basic idea is that each node is associated with a single model.
-To assess whether splitting of the node is necessary a fluctuation test
+To assess whether splitting of the node is necessary, a fluctuation test
 for parameter instability is performed. If there is significant instability
 with respect to any of the partitioning variables $Z_j$, split the node into 
 $B$ locally optimal segments and repeat the procedure. If no more significant
@@ -303,7 +304,7 @@ but other robust estimators such as HC (heteroskedasticity consistent) and HAC
 %% If the estimator is order-dependent it would have to be re-computed for each
 %% ordering.
 This empirical fluctuation process is governed by a functional central limit theorem
-\citep{ZeileisHornik2003} under the null hypothesis of parameter stability: it converges to a Brownian
+\citep{ZeileisHornik2007} under the null hypothesis of parameter stability: it converges to a Brownian
 bridge $W^0$. A test statistic can be derived
 by applying a scalar functional $\lambda(\cdot)$ capturing the fluctuation in the
 empirical process to the fluctuation process $\lambda(W_j(\cdot))$ and the corresponding
@@ -313,7 +314,7 @@ applied to the limiting process $\lambda(W^0(\cdot))$.
 
 This very general framework for testing parameter stability is called
 generalized M-fluctuation test and has been established by
-\cite{ZeileisHornik2003}.  It has been shown to encompass a large number
+\cite{ZeileisHornik2007}.  It has been shown to encompass a large number
 of structural change tests suggested both in the econometrics and
 statistics literature, including OLS-based CUSUM and MOSUM tests
 \citep{PlobergerKraemer1992,ChuHornikKuan1995}, score-based tests
@@ -370,7 +371,7 @@ functional $\lambda$ could be used, because these always lead to omnibus tests
 that are not uniformly dominated by any other functional over all conceivable patterns
 of parameter changes. However, the $\lambda_{\sup LM}$ is particularly
 attractive for fitting tree models because it has high power against abrupt changes
-\citep[as captured by partitioning,][]{AndrewsPloberger1994}, evaluates all
+\citep{AndrewsPloberger1994} as captured by partitioning, evaluates all
 conceivable change points, and is sensitive to changes in all elements of the parameter
 vector $\theta$. The latter is not true for residual-based tests as employed by GUIDE;
 this is illustrated in Section~\ref{sec:discussion}.
@@ -390,7 +391,7 @@ this is illustrated in Section~\ref{sec:discussion}.
 %% The asymptotic distribution of
 %% $\lambda_{\mbox{CvM}} (W_j)$ is given by $\int_0^1 \left| \left| W^0(t) \right| \right|^2_2 \mbox{ d} t$
 %% from which the corresponding $p$~value $p_j$ can be computed
-%% \citep{ZeileisHornik2003}.
+%% \citep{ZeileisHornik2007}.
 
 
 \textbf{Assessing categorical variables:}
@@ -442,7 +443,7 @@ Exhaustive search for a split into $B = 2$ segments is feasible in
 $O(n)$ operations. For $B > 2$, an exhaustive search would be of order
 $O(n^{B-1})$---however, the optimal partition can be found using a dynamic
 programming approach of order $O(n^2)$. This is an application of Bellman's principle and has been
-discussed in several places in the statistics and econometrics literature on
+discussed in several places in the literature on
 change point and structural change analysis
 \citep[see e.g.,][among others]{Hawkins2001,BaiPerron2003,ZeileisKleiberKraemer2003}.
 Alternatively, iterative algorithms can be used that are known to converge to
@@ -825,7 +826,7 @@ complexity by difference in number of estimated parameters.}
 Another popular data set for comparing new classifiers is the Pima Indians diabetes
 data which is---just as the Boston Housing data---available from the 
 UCI machine learning repository \citep{Newmanetal1998}. The data set contains
-many missing values---usually falsely coded as zero values (which are physically impossible)---which
+many missing values---usually falsely coded as (physically impossible) zero values---which
 are most prevalent in the variables serum insulin and triceps skin fold thickness
 \citep{Ripley1996}. Hence, these two variables and the missing values in the remaining
 data are omitted, so that the data comprises 
@@ -845,7 +846,7 @@ the data and the fitted logistic regression model using spinograms \citep{Hofman
 of diabetes by glucose (where the bins are chosen via the five point summary of
 glucose on the full data set). It can be seen that for women with a low body mass 
 index the average risk of diabetes is low, but increases clearly with age (corresponding
-to an odds ratio of $\Sexpr{format(round(exp(coef(fmPID)[1,2]), digits = 3), nsmall = 3)}$ per year).
+to an odds ratio of $\Sexpr{format(round(exp(coef(fmPID)[1,2]), digits = 3), nsmall = 3)}$ per glucose unit).
 For the young women with a high body mass index, the average risk is higher and increases
 less quickly with respect to age (with an odds ratio of
 $\Sexpr{format(round(exp(coef(fmPID)[2,2]), digits = 3), nsmall = 3)}$). Finally, the older
@@ -1012,7 +1013,7 @@ with the empirical analysis for this regression problem.
 
 \section{Discussion} \label{sec:discussion}
 
-In this section, some aspects of the model-based recursive partitioning are discussed
+In this section, some aspects of model-based recursive partitioning are discussed
 in more detail or compared with previous approaches---also, some ideas for extensions
 are given.
 
@@ -1090,25 +1091,33 @@ selection bias (e.g., towards partitioning variables with many potential change
 points), this problem can be overcome by separating variable and split
 point selection (or assessing the significance of a selected split
 appropriately). As MOB is based on formal parameter instability tests,
-unbiasedness is also be achieved: If the model fitted in a certain node
+unbiasedness is also achieved: If the model fitted in a certain node
 is stable, any of the partitioning variables will only be selected
 with (approximate) probability $\alpha$ because the overall test
 is constructed by Bonferroni-adjusting asymptotic $p$~values from the
 individual parameter instability tests for each partitioning variable.
 If there is parameter instability with respect to one partitioning variable,
 it will be picked up (for large enough $n$) because all tests used are
-consistent \citep[at rate $\sqrt{n}$, see][]{ZeileisHornik2003}.
+consistent \citep[at rate $\sqrt{n}$, see][]{ZeileisHornik2007}.
 
 \textbf{Pruning:}
 The algorithm as discussed in this paper relies on a statistically motivated
 internal stopping criterion (sometimes called \textit{pre-pruning}). This has the
-advantage that it is very easy to understand and interpret the tree-growing algorithm
-as it simply relies on significance tests. By construction, the procedure splits in irrelevant partitioning
-variables only with probability $\alpha$ (as also illustrated in Table~\ref{tab:size-power}).
-If the focus of its application is predicitve performance, the algorithm could
-also be combined with a refined model-selection strategy, such as
-cross-validation-based \textit{post-pruning}. However, this has the disadvantage
-that statistical interpretation of the $p$~values is then be lost.
+advantage that it is easy to understand and interpret the tree-growing algorithm
+as it simply relies on significance tests. By construction, splits in irrelevant partitioning
+variables are selected in each node only with probability $\alpha$
+(as also illustrated in Table~\ref{tab:size-power}). Across nodes, significance
+is controlled by an approach corresponding to closed testing procedures for
+multiple comparisons \citep{MarcusPeritzGabriel1976,HochbergTamhane1987}: because the
+hypotheses in a tree are recursively nested, significance of $p$~values is only interpretable if
+parameter stability has been rejected for all previous nodes in the tree. Conversely,
+this implies that the algorithm stops growing the tree in nodes where parameter stability cannot
+be rejected. However, such an inference-based strategy does not have uniform power
+against all patterns of parameter instability and it might miss certain instabilities,
+e.g., interaction effects (see also below). Thus, if the focus of application is predicitve
+performance, the power could be enhanced by combining the algorithm
+with a refined model-selection strategy, such as cross-validation-based \textit{post-pruning}.
+Note that in such a situation $p$~values can only be interpreted in an exploratory manner.
 As every node of the tree is associated with a fitted model with a certain number
 of parameters, another attractive option is to grow the tree with a large $\alpha$
 (leading to a large tree) and then prune based on information criteria.
@@ -1139,8 +1148,8 @@ e.g., in biostatistics it would be natural to fit a dose-response relationship a
 it with respect to further experiment-specific covariables, or in business applications
 a market segmentation could be carried out based on a standard demand function.
 Finally, the variables entering the explanatory part of $Y$ and $Z$ can also be
-overlapping, however, a trend-resistant fluctuation test should be conducted for
-partitioning.
+overlapping---in this case, a trend-resistant fluctuation test is probably more
+appropriate for partitioning.
 
 \textbf{Large datasets:}
 In Section~\ref{sec:illustration}, we have applied the suggested MOB algorithm
@@ -1148,12 +1157,14 @@ to several small to medium-sized data analysis tasks, showing that both satisfac
 predictive performance and interpretability can be achieved simultaneously.
 The same is not necessarily true in very large data sets (both with many observations
 and many partitioning variables), where there is usually a stronger trade-off
-between complexity and predictive power. For large data sets, the same ideas can be
-employed for approximating a global model by recursive partitioning and fitting local
-models in the resulting segments---however, there is typically no simple
-partition-based model (both with a simple partition and simple local models)
-for large data sets.  The algorithm will try to address this
-by finding a more complex partition; alternatively, the practitioner can often reduce
+between complexity and predictive power. If there is a true underlying recursive
+partition, the algorithm will recover this and stop growing the tree (as irrelevant
+splits are only selected with probability $\alpha$). However, in practice, there is
+typically no simple partition-based model (both with a simple partition and simple
+local models) for large data sets. Thus, the algorithm can be used for approximating
+a global model by recursive partitioning and fitting local models in the resulting
+segments, typically by finding a more complex partition.
+Alternatively, the practitioner can often reduce
 the complexity of the partition by making the model $\mathcal{M}(Y, \theta)$ more
 complex. In contrast, if the primary focus is model-based data exploration (rather than
 prediction), a smaller tree can be grown, e.g., by decreasing $\alpha$ or by limiting
@@ -1189,7 +1200,7 @@ are valid in a statistical sense.
 %%   %% We just claim that MOB also works for survival regression. If a 
 %%   %% referee wants more details, we can still think about it.
 %%   \item FCLT: Cox-PH probably needs a different proof for the FCLT than in
-%%     \cite{ZeileisHornik2003}. The score function $\psi$ depends not only on
+%%     \cite{ZeileisHornik2007}. The score function $\psi$ depends not only on
 %%     observation $i$ but is conditioned on all observation with a greater
 %%     survival time (...I think).
 %%
@@ -1212,7 +1223,19 @@ are valid in a statistical sense.
 
 %% <TH> address missing in Stock & Watson reference </TH>
 
+\section{Computational details}
+
+All results were obtained using
+\proglang{R}~\Sexpr{paste(R.Version()[6:7], collapse = ".")}---with the packages
+\pkg{party}~\Sexpr{get_version("party")}, \pkg{strucchange}~\Sexpr{get_version("strucchange")},
+\pkg{modeltools}~\Sexpr{get_version("modeltools")}, \pkg{survival}~\Sexpr{get_version("survival")},
+and \pkg{vcd}~\Sexpr{get_version("vcd")}.
+A detailed vignette reproducing the empirical analysis for the Boston housing and Pima Indians
+diabetes data sets is available as \code{vignette("MOB", package = "party")}.
+
 \bibliography{mob}
+
+\end{document}
 
 \begin{appendix}
 
@@ -1262,5 +1285,3 @@ plot(mobGBSG2, terminal = node_scatterplot, tp_args = list(yscale = c(-0.1, 11))
 \end{verbatim}
 
 \end{appendix}
-
-\end{document}
