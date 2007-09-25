@@ -1,5 +1,11 @@
 
-                CHANGES IN party VERSION 0.9-15 (2007-09-xx)
+                CHANGES IN party VERSION 0.9-91 (2007-09-xx)
+
+    o   bugfix: NAs in factors lead to segfaults on 64bit machines
+        as reported by Carolin Strobl <carolin.strobl@lmu.de>
+
+
+                CHANGES IN party VERSION 0.9-90 (2007-09-24)
 
     o   new defaults for `control' argument of `cforest': unbiased
         forests are now grown by default

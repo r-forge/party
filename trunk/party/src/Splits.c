@@ -249,7 +249,13 @@ void C_splitcategorical(const int *codingx, int p,
         
         /* a temporary response variable: the rank of the level */
         for (i = 0; i < n; i++) {
-            tmpx[i] = (double) irank[codingx[i] - 1];
+            /* <FIXME> do we have to adjust weights for missing values here??? */
+            if (codingx[i] == NA_INTEGER) {
+                tmpx[i] = 0.0;
+            } else {
+                tmpx[i] = (double) irank[codingx[i] - 1];
+            }
+            /* </FIXME> */
             tmptmpx[i] = tmpx[i];
             ordertmpx[i] = i + 1;
         }

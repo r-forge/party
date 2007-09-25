@@ -110,3 +110,13 @@ stopifnot(nrow(pr) == nrow(df) || ncol(pr) != 2)
 ### spotted by Max Kuhn <Max.Kuhn@pfizer.com>
 test <- cforest(ME ~ ., data = mammoexp, control = cforest_control(ntree = 50))
 stopifnot(sum(abs(varimp(test)[,1])) > 0)
+
+### missing values in factors lead to segfaults on 64 bit systems
+### spotted by Carolin Strobl <carolin.strobl@lme.de>
+y <- rnorm(100)
+x <- gl(2, 50)
+z <- gl(2, 50)[sample(1:100)]
+y <- y + (x == "1") * 3
+xNA <- x
+xNA[1:2] <- NA
+ctree(y ~ xNA )
