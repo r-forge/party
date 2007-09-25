@@ -209,15 +209,10 @@ other trees (including \pkg{Weka}'s LMT and J4.8 implementation of C4.5) see
 \begin{figure}[t!]
 \begin{center}
 <<mob-plot, echo=FALSE, fig=TRUE, height=6, width=14>>=
-### <FIXME> work around reverse = TRUE problem in node_barplot
-G <- GM1
-G$Class <- factor(as.character(G$Class), levels = c("normal", "glaucoma"))
-ctGMtmp <- ctree(Class ~ ., data = G)
-### </FIXME>
 grid.newpage()
 pushViewport(viewport(layout = grid.layout(1, 2)))
 pushViewport(viewport(layout.pos.col = 1, layout.pos.row = 1))
-plot(ctGMtmp, newpage = FALSE, pop = TRUE)
+plot(ctGM, newpage = FALSE, pop = TRUE, tp_args = list(reverse = FALSE))
 popViewport()
 pushViewport(viewport(layout.pos.col = 2, layout.pos.row = 1))
 plot(mobPID, newpage = FALSE, pop = TRUE, tp_args = list(ylines = 1.3,
