@@ -51,7 +51,7 @@ options(prompt = "R> ", continue = "+  ", digits = 4)
 \begin{abstract}
 Package \pkg{party}, implemented in the \proglang{R} system for statistical
 computing, provides basic classes and methods for recursive partitioning
-along with reference implementations for three recently-suggested tree-based
+along with reference implementations for three recently suggested tree-based
 learners: conditional inference trees and forests, and model-based
 recursive partitioning.
 \end{abstract}
@@ -108,7 +108,7 @@ inference techniques---are available under the General
 Public License (GPL) from the Comprehensive \proglang{R} Archive Network (CRAN) at
 \url{http://CRAN.R-project.org/}. The package contains \proglang{R} and \proglang{C}
 code and has been successfully built on a multitude of platforms including Windows,
-Mac~OS and various flavours of Linux.  It can be installed automatically from within
+Mac~OS and various flavors of Linux.  It can be installed automatically from within
 \proglang{R} via the command \code{install.packages("party", dependencies = TRUE)}
 (which also installs all packages needed for examples); to get started, see the
 online reference manual, e.g., via \code{help(package = "party")}. More advanced
@@ -157,7 +157,8 @@ creating a fitted \code{BinaryTree} object \code{ctGM}. For obtaining a short su
 of the tree it can be either printed by typing \code{ctGM} at the command line (or more
 explicitly: \code{print(ctGM)}) or visualized by \code{plot(ctGM)}. The resulting plot
 (depicted in the left panel of Figure~\ref{fig}) shows that the glaucoma probability 
-increases clearly for lower eye volumes (as captured in the different volume measures
+increases clearly for lower volumes of the optic nerve head 
+(as captured in the different volume measures
 \code{vari} and \code{vasg}). After three splits, no more significant splits were found.
 To evaluate the performance of this fitted tree on the test data \code{GM2}, we can
 compute the confusion matrix of true and predicted class memberships
@@ -198,7 +199,7 @@ mobPID <- mob(diabetes ~ glucose | pregnant + pressure + mass + pedigree + age,
 @
 Its visualization produced by \code{plot(mobPID)} is depicted in the right panel of
 Figure~\ref{fig}. It shows the empirical \code{diabetes} proportions over \code{glucose}
-groups along with the predictions from the logisitc regression, conveying that the overall
+groups along with the predictions from the logistic regression, conveying that the overall
 level (regression intercept) increases with body mass index and age while the glucose
 effect (regression slope) decreases. For a benchmark comparison of this algorithm with
 other trees (including \pkg{Weka}'s LMT and J4.8 implementation of C4.5) see
@@ -208,10 +209,15 @@ other trees (including \pkg{Weka}'s LMT and J4.8 implementation of C4.5) see
 \begin{figure}[t!]
 \begin{center}
 <<mob-plot, echo=FALSE, fig=TRUE, height=6, width=14>>=
+### <FIXME> work around reverse = TRUE problem in node_barplot
+G <- GM1
+G$Class <- factor(as.character(G$Class), levels = c("normal", "glaucoma"))
+ctGMtmp <- ctree(Class ~ ., data = G)
+### </FIXME>
 grid.newpage()
 pushViewport(viewport(layout = grid.layout(1, 2)))
 pushViewport(viewport(layout.pos.col = 1, layout.pos.row = 1))
-plot(ctGM, newpage = FALSE, pop = TRUE)
+plot(ctGMtmp, newpage = FALSE, pop = TRUE)
 popViewport()
 pushViewport(viewport(layout.pos.col = 2, layout.pos.row = 1))
 plot(mobPID, newpage = FALSE, pop = TRUE, tp_args = list(ylines = 1.3,
@@ -235,8 +241,8 @@ for logistic-regression \code{mob} (right).}
 
 The \pkg{party} package contains \proglang{R} code defining classes and 
 methods along with high-level algorithms built on top of these, as well as
-an additional program layer in \proglang{C} that codes time-critical operations
-directly modifying previously created \proglang{R} objects.
+an additional program layer in \proglang{C} that implements time-critical operations
+by directly modifying previously created \proglang{R} objects.
 In particular, the \proglang{R} building blocks encompass
 classes and methods for \code{LearningSample} and \code{BinaryTree} objects
 which can be re-used in high-level algorithms (such as
