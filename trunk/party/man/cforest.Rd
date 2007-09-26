@@ -92,9 +92,6 @@ varimp(x, mincriterion = 0.0)
     a Solution. \emph{BMC Bioinformatics}, \bold{8}, 25. 
     \url{http://www.biomedcentral.com/1471-2105/8/25/abstract}
 }
-
-
-}
 \examples{
 
     ### honest (i.e., out-of-bag) cross-classification of
