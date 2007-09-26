@@ -1,5 +1,5 @@
 
-R version 2.5.1 (2007-06-27)
+R version 2.6.0 RC (2007-09-25 r42980)
 Copyright (C) 2007 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -86,21 +86,25 @@ Number of observations:  250
 > 
 > ### we did not check the hyper parameters
 > try(cforest_control(minsplit = -1))
-Error in validObject(object@splitctrl) : invalid class "SplitControl" object: FALSE
+Error in validObject(object@splitctrl) : 
+  invalid class "SplitControl" object: FALSE
 In addition: Warning message:
-no negative values allowed in objects of class ‘SplitControl’ in: validityMethod(object) 
+In validityMethod(object) :
+  no negative values allowed in objects of class ‘SplitControl’
 > try(cforest_control(ntree = -1))
 Error in validObject(RET) : invalid class "ForestControl" object: FALSE
 In addition: Warning message:
-‘ntree’ must be equal or greater 1 in: validityMethod(object) 
+In validityMethod(object) : ‘ntree’ must be equal or greater 1
 > try(cforest_control(maxdepth = -1))
-Error in validObject(object@tgctrl) : invalid class "TreeGrowControl" object: FALSE
+Error in validObject(object@tgctrl) : 
+  invalid class "TreeGrowControl" object: FALSE
 In addition: Warning message:
-‘maxdepth’ must be positive in: validityMethod(object) 
+In validityMethod(object) : ‘maxdepth’ must be positive
 > try(cforest_control(nresample = 10))
-Error in validObject(object@gtctrl) : invalid class "GlobalTestControl" object: FALSE
+Error in validObject(object@gtctrl) : 
+  invalid class "GlobalTestControl" object: FALSE
 In addition: Warning message:
-‘nresample’ must be larger than 100 in: validityMethod(object) 
+In validityMethod(object) : ‘nresample’ must be larger than 100
 > 
 > ### NA handling for factors and in random forest
 > ### more than one (ordinal) response variable
@@ -130,7 +134,8 @@ There were 50 or more warnings (use warnings() to see the first 50)
 > airq <- subset(airquality, !is.na(Ozone))
 > tr <- try(ctree(Ozone ~ Wind, data = airq,
 +           controls = ctree_control(maxsurrogate = 3)))
-Error in model@fit(data, ...) : cannot set up 3 surrogate splits with only 1 input variable(s)
+Error in model@fit(data, ...) : 
+  cannot set up 3 surrogate splits with only 1 input variable(s)
 > stopifnot(inherits(tr, "try-error"))
 > 
 > ### ctree() used only the first of a multivariate response
@@ -166,7 +171,7 @@ Number of observations:  100
 
 1)*  weights = 100 
 Warning message:
-factors at only one level may lead to problems in: factor_trafo(x) 
+In factor_trafo(x) : factors at only one level may lead to problems
 > 
 > ### weights for sampling without replacement for cforest
 > ### spotted by Carolin Strobl <carolin.strol@stat.uni-muenchen.de>
@@ -210,4 +215,25 @@ There were 50 or more warnings (use warnings() to see the first 50)
 > ### spotted by Max Kuhn <Max.Kuhn@pfizer.com>
 > test <- cforest(ME ~ ., data = mammoexp, control = cforest_control(ntree = 50))
 > stopifnot(sum(abs(varimp(test)[,1])) > 0)
+> 
+> ### missing values in factors lead to segfaults on 64 bit systems
+> ### spotted by Carolin Strobl <carolin.strobl@lme.de>
+> y <- rnorm(100)
+> x <- gl(2, 50)
+> z <- gl(2, 50)[sample(1:100)]
+> y <- y + (x == "1") * 3
+> xNA <- x
+> xNA[1:2] <- NA
+> ctree(y ~ xNA )
+
+	 Conditional inference tree with 2 terminal nodes
+
+Response:  y 
+Input:  xNA 
+Number of observations:  100 
+
+1) xNA == {1}; criterion = 1, statistic = 72.397
+  2)*  weights = 48 
+1) xNA == {2}
+  3)*  weights = 52 
 > 

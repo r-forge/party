@@ -1,11 +1,13 @@
 
-                CHANGES IN party VERSION 0.9-91 (2007-09-xx)
+                CHANGES IN party VERSION 0.9-91 (2007-09-26)
 
     o   bugfix: NAs in factors lead to segfaults on 64bit machines
         as reported by Carolin Strobl <carolin.strobl@lmu.de>
 
     o   related to this: be more careful when splitting in
         variables containing missing values, especially factors.
+
+    o   add examples to regression tests
 
 
                 CHANGES IN party VERSION 0.9-90 (2007-09-24)
