@@ -120,3 +120,38 @@ y <- y + (x == "1") * 3
 xNA <- x
 xNA[1:2] <- NA
 ctree(y ~ xNA )
+
+
+y <- rnorm(100)
+x <- y + rnorm(100, sd = 0.1)
+
+tmp <- data.frame(x, y)
+
+x[sample(1:100)[1:10]] <- NA
+
+ct1 <- ctree(y ~ x, data = tmp)
+ct2 <- ctree(y ~ x, data = tmp[complete.cases(tmp),])
+w <- as.double(complete.cases(tmp))
+ct3 <- ctree(y ~ x, data = tmp, weights = w)
+
+xx <- data.frame(x = rnorm(100))
+t1 <- max(abs(predict(ct2, newdata = xx) - predict(ct3, newdata = xx))) == 0
+t2 <- party:::nterminal(ct1@tree) == party:::nterminal(ct2@tree)
+t3 <- party:::nterminal(ct3@tree) == party:::nterminal(ct1@tree)
+t4 <- all.equal(ct2@tree$psplit, ct1@tree$psplit)
+stopifnot(t1 && t2 && t3 && t4)
+
+y <- rnorm(100)
+x <- cut(y, c(-Inf, -1, 0, 1, Inf))
+
+tmp <- data.frame(x, y)
+
+x[sample(1:100)[1:10]] <- NA
+
+ct1 <- ctree(y ~ x, data = tmp)
+ct2 <- ctree(y ~ x, data = tmp[complete.cases(tmp),])
+w <- as.double(complete.cases(tmp))
+ct3 <- ctree(y ~ x, data = tmp, weights = w)
+
+stopifnot(all.equal(ct2@tree$psplit, ct1@tree$psplit))
+stopifnot(all.equal(ct2@tree$psplit, ct3@tree$psplit))
