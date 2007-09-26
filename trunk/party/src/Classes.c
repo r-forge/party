@@ -287,7 +287,7 @@ int get_ninputs(SEXP object) {
     return(INTEGER(GET_SLOT(object, PL2_ninputsSym))[0]);
 }
 
-SEXP get_weights(SEXP object, int variable) {
+SEXP get_weights(SEXP object) {
     return(GET_SLOT(object, PL2_weightsSym));
 }
 

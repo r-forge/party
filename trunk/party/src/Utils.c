@@ -715,7 +715,7 @@ double* C_tempweights(int j, SEXP weights, SEXP fitmem, SEXP inputs) {
     double *dw, *dweights;
     SEXP NAs;
     
-    dw = REAL(get_weights(fitmem, j));
+    dw = REAL(get_weights(fitmem);
     nobs = LENGTH(weights);
     dweights = REAL(weights);
     NAs = get_missings(inputs, j);
