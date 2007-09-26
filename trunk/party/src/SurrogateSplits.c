@@ -81,11 +81,7 @@ void C_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls,
 
          if (has_missings(inputs, j + 1)) {
 
-             thisweights = REAL(get_weights(fitmem, j + 1));
-             for (i = 0; i < nobs; i++) thisweights[i] = tweights[i];
-             thiswhichNA = get_missings(inputs, j + 1);
-             for (k = 0; k < LENGTH(thiswhichNA); k++)
-                 thisweights[INTEGER(thiswhichNA)[k] - 1] = 0.0;
+             thisweights = C_tempweights(j + 1, weights, fitmem, inputs);
                  
              C_ExpectCovarInfluence(REAL(y), 1, thisweights, nobs, expcovinf);
              

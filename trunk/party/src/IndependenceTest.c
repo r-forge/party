@@ -203,12 +203,7 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
                                 REAL(weights), nrow(x), !RECALC, expcovinf,
                                 xmem);
             } else {
-                thisweights = REAL(get_weights(fitmem, j));
-                thiswhichNA = get_missings(inputs, j);
-                ithiswhichNA = INTEGER(thiswhichNA);
-                for (i = 0; i < nobs; i++) thisweights[i] = dweights[i];
-                for (k = 0; k < LENGTH(thiswhichNA); k++)
-                    thisweights[ithiswhichNA[k] - 1] = 0.0;
+                thisweights = C_tempweights(j, weights, fitmem, inputs);
 
                 /* check if minsplit criterion is still met 
                    in the presence of missing values

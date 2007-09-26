@@ -288,7 +288,7 @@ int get_ninputs(SEXP object) {
 }
 
 SEXP get_weights(SEXP object, int variable) {
-    return(VECTOR_ELT(GET_SLOT(object, PL2_weightsSym), variable - 1));
+    return(GET_SLOT(object, PL2_weightsSym));
 }
 
 int get_testtype(SEXP object) {

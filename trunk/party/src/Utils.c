@@ -708,3 +708,22 @@ void C_remove_weights(SEXP subtree) {
         C_remove_weights(S3get_rightnode(subtree));
     }
 }
+
+double* C_tempweights(int j, SEXP weights, SEXP fitmem, SEXP inputs) {
+
+    int nobs, *iNAs, i, k;
+    double *dw, *dweights;
+    SEXP NAs;
+    
+    dw = REAL(get_weights(fitmem, j));
+    nobs = LENGTH(weights);
+    dweights = REAL(weights);
+    NAs = get_missings(inputs, j);
+    iNAs = INTEGER(NAs);
+    if (length(NAs) == 0) return(dw);
+    for (i = 0; i < nobs; i++) dw[i] = dweights[i];
+    for (k = 0; k < LENGTH(NAs); k++)
+        dw[iNAs[k] - 1] = 0.0;
+    
+    return(dw);
+}
