@@ -17,8 +17,7 @@ Type 'q()' to quit R.
 
 > 
 > set.seed(290875)
-> gctorture(on = FALSE)
-> library(party)
+> library("party")
 Loading required package: survival
 Loading required package: splines
 Loading required package: grid
@@ -40,11 +39,14 @@ Loading required package: strucchange
 Loading required package: vcd
 Loading required package: MASS
 Loading required package: colorspace
-> gctorture(on = GCtorture)
 > 
 > ### get rid of the NAMESPACE
-> nsparty <- attach(NULL, name="ns-party")
-> .Internal(lib.fixup(asNamespace("party"), nsparty))
+> attach(asNamespace("party"))
+
+	The following object(s) are masked from package:party :
+
+	 cforest cforest_classical cforest_control cforest_unbiased conditionalTree ctree ctree_control ctree_memory edge_simple mob mob_control node_barplot node_bivplot node_boxplot node_density node_hist node_inner node_scatterplot node_surv node_terminal proximity ptrafo reweight sctest.mob varimp 
+
 > 
 > ### check if doxygen documentation is there
 > stopifnot(nchar(system.file("documentation/html/index.html", package = "party")) > 29)
@@ -236,4 +238,39 @@ Number of observations:  100
   2)*  weights = 48 
 1) xNA == {2}
   3)*  weights = 52 
+> 
+> 
+> y <- rnorm(100)
+> x <- y + rnorm(100, sd = 0.1)
+> 
+> tmp <- data.frame(x, y)
+> 
+> x[sample(1:100)[1:10]] <- NA
+> 
+> ct1 <- ctree(y ~ x, data = tmp)
+> ct2 <- ctree(y ~ x, data = tmp[complete.cases(tmp),])
+> w <- as.double(complete.cases(tmp))
+> ct3 <- ctree(y ~ x, data = tmp, weights = w)
+> 
+> xx <- data.frame(x = rnorm(100))
+> t1 <- max(abs(predict(ct2, newdata = xx) - predict(ct3, newdata = xx))) == 0
+> t2 <- nterminal(ct1@tree) == nterminal(ct2@tree)
+> t3 <- nterminal(ct3@tree) == nterminal(ct1@tree)
+> t4 <- all.equal(ct2@tree$psplit, ct1@tree$psplit)
+> stopifnot(t1 && t2 && t3 && t4)
+> 
+> y <- rnorm(100)
+> x <- cut(y, c(-Inf, -1, 0, 1, Inf))
+> 
+> tmp <- data.frame(x, y)
+> 
+> x[sample(1:100)[1:10]] <- NA
+> 
+> ct1 <- ctree(y ~ x, data = tmp)
+> ct2 <- ctree(y ~ x, data = tmp[complete.cases(tmp),])
+> w <- as.double(complete.cases(tmp))
+> ct3 <- ctree(y ~ x, data = tmp, weights = w)
+> 
+> stopifnot(all.equal(ct2@tree$psplit, ct1@tree$psplit))
+> stopifnot(all.equal(ct2@tree$psplit, ct3@tree$psplit))
 > 

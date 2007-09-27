@@ -17,8 +17,7 @@ Type 'q()' to quit R.
 
 > 
 > set.seed(290875)
-> gctorture(on = FALSE)
-> library(party)
+> library("party")
 Loading required package: survival
 Loading required package: splines
 Loading required package: grid
@@ -40,16 +39,15 @@ Loading required package: strucchange
 Loading required package: vcd
 Loading required package: MASS
 Loading required package: colorspace
-> if (!require(ipred))
+> if (!require("ipred"))
 +     stop("cannot load package ipred")
 Loading required package: ipred
 Loading required package: rpart
 Loading required package: mlbench
 Loading required package: nnet
 Loading required package: class
-> if (!require(coin))
+> if (!require("coin"))
 +     stop("cannot load package coin")
-> gctorture(on = GCtorture)
 > 
 > data("GlaucomaM", package = "ipred")
 > rf <- cforest(Class ~ ., data = GlaucomaM, control = cforest_control(ntree = 100))
@@ -59,14 +57,14 @@ Loading required package: class
 > data("GBSG2", package = "ipred")
 > rfS <- cforest(Surv(time, cens) ~ ., data = GBSG2, control = cforest_control(ntree = 100))
 > treeresponse(rfS, newdata = GBSG2[1:2,])
-[[1]]
+$`1`
 Call: survival:::survfit(formula = resp, weights = w, subset = w > 
     0)
 
       n  events  median 0.95LCL 0.95UCL 
   10226    4394    1807    1806    1814 
 
-[[2]]
+$`2`
 Call: survival:::survfit(formula = resp, weights = w, subset = w > 
     0)
 
@@ -139,4 +137,20 @@ rnf          1.030206e-02        0.034011030
 mdic         7.126014e-03        0.025823108
 emd          1.387742e-03        0.011016591
 mv           2.401021e-04        0.006046620
+> 
+> P <- proximity(rf)
+> stopifnot(max(abs(P - t(P))) == 0)
+> 
+> P[1:10,1:10]
+    2 43 25 65 70 16  6  5 12 63
+2  62  7 29 23  5  7 27 23 22 30
+43  7 66 10  6  3 11 12  9  7 11
+25 29 10 66 25  6  6 29 23 22 33
+65 23  6 25 66  3  2 28 31 27 24
+70  5  3  6  3 65  3  8  5  2  6
+16  7 11  6  2  3 62  7  5  3 12
+6  27 12 29 28  8  7 58 31 25 29
+5  23  9 23 31  5  5 31 64 30 27
+12 22  7 22 27  2  3 25 30 54 26
+63 30 11 33 24  6 12 29 27 26 64
 > 

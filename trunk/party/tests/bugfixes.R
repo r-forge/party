@@ -1,12 +1,9 @@
 
 set.seed(290875)
-gctorture(on = FALSE)
-library(party)
-gctorture(on = GCtorture)
+library("party")
 
 ### get rid of the NAMESPACE
-nsparty <- attach(NULL, name="ns-party")
-.Internal(lib.fixup(asNamespace("party"), nsparty))
+attach(asNamespace("party"))
 
 ### check if doxygen documentation is there
 stopifnot(nchar(system.file("documentation/html/index.html", package = "party")) > 29)
@@ -136,8 +133,8 @@ ct3 <- ctree(y ~ x, data = tmp, weights = w)
 
 xx <- data.frame(x = rnorm(100))
 t1 <- max(abs(predict(ct2, newdata = xx) - predict(ct3, newdata = xx))) == 0
-t2 <- party:::nterminal(ct1@tree) == party:::nterminal(ct2@tree)
-t3 <- party:::nterminal(ct3@tree) == party:::nterminal(ct1@tree)
+t2 <- nterminal(ct1@tree) == nterminal(ct2@tree)
+t3 <- nterminal(ct3@tree) == nterminal(ct1@tree)
 t4 <- all.equal(ct2@tree$psplit, ct1@tree$psplit)
 stopifnot(t1 && t2 && t3 && t4)
 

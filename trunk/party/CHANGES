@@ -9,6 +9,8 @@
 
     o   add examples to regression tests
 
+    o   new function `proximity' (feature request by Henric Nilsson)
+
 
                 CHANGES IN party VERSION 0.9-90 (2007-09-24)
 
