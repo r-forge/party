@@ -1,7 +1,7 @@
 \documentclass{Z}
 
 %% packages
-\usepackage{amsmath}
+\usepackage{amsmath,fancyheadings}
 
 %% Sweave: need no \usepackage{Sweave}
 \SweaveOpts{engine=R,eps=FALSE}
@@ -13,7 +13,7 @@
 
 %% author/title
 \author{Achim Zeileis\\Wirtschaftsuniversit\"at Wien \And
-        Torsten Hothorn\\Friedrich-Alexander-Universit\"at\\Erlangen-N\"urnberg \And
+        Torsten Hothorn\\Ludwig-Maximilians-Universit\"at\\M\"unchen \And
 	Kurt Hornik\\Wirtschaftsuniversit\"at Wien}
 \Plainauthor{Achim Zeileis, Torsten Hothorn, Kurt Hornik}
 \title{Model-based Recursive Partitioning}
@@ -36,6 +36,20 @@
 }
 
 \begin{document}
+
+\pagestyle{fancy}
+\thispagestyle{fancyplain}
+\headrulewidth0pt
+\lhead[]{}
+\chead[]{}
+\rhead[]{}
+\lfoot[This is a preprint of an article accepted for publication in \textit{Journal of Computational and Graphical Statistics}.
+Copyright {\copyright} 2007 American Statistical Association, Institute of Mathematical Statistics, and Interface Foundation of North America]%
+{This is a preprint of an article accepted for publication in \textit{Journal of Computational and Graphical Statistics}.
+Copyright {\copyright} 2007 American Statistical Association, Institute of Mathematical Statistics, and Interface Foundation of North America}
+\cfoot[]{}
+\rfoot[]{}
+
 
 <<preliminaries,echo=FALSE,results=hide>>=
 library("party")
@@ -80,7 +94,7 @@ coworkers. GUIDE \citep{Loh2002}, CRUISE \citep{KimLoh2001} and
 LOTUS \citep{ChanLoh2004} attach parametric models to terminal nodes,
 and \cite{Choietal2005} suggest an extension to count data.
 Some of these algorithms \citep[in particular CRUISE or QUEST,][]{LohShih1997}
-additionally allow to employ parametric
+additionally allow one to employ parametric
 models to obtain splits in inner nodes. Furthermore, maximum likelihood
 trees \citep{Suetal2004} embed regression trees with a constant fit
 in each terminal node into maximum likelihood estimation.
@@ -106,6 +120,15 @@ ensures the validity of interpretations drawn from the resulting model.
 Moreover, the use of well-known parametric models provides
 subject-matter scientists with a segmented model that they are used to
 analyzing and interpreting.
+
+
+\headrulewidth0pt
+\lhead[\thepage]{}
+\chead[\textit{Model-based Recursive Partitioning}]{\textit{Achim Zeileis, Torsten Hothorn, Kurt Hornik}}
+\rhead[]{\thepage}
+\lfoot[{\small Copyright {\copyright} 2007 American Statistical Association, Institute of Mathematical Statistics, and Interface Foundation of North America}]{{\small Copyright {\copyright} 2007 American Statistical Association, Institute of Mathematical Statistics, and Interface Foundation of North America}}
+\cfoot[]{}
+\rfoot[]{}
 
 The remainder of the paper is organized as follows: Section~\ref{sec:segmented}
 establishes the class of models the framework is based on before Section~\ref{sec:algorithm} describes
@@ -211,7 +234,7 @@ are excluded, e.g.,  by requiring some minimum segment size. Furthermore, in thi
 some means should be taken to avoid overfitting by increasing $B$.
 
 In short, determining the optimal partition (with respect to $\Psi$) is difficult,
-even for fixed $B$. However, if there is only $\ell = 1$ partitioning variable,
+even for fixed $B$. However, if there is only partitioning variable ($\ell = 1$),
 the optimal split(s) can be found easily: both the statistics and econometrics
 literature on change point and structural change analysis discuss various algorithms
 for segmenting models over a single variable, typically time.
@@ -339,10 +362,7 @@ scaled by its variance function. This is the sup$LM$ statistic of \cite{Andrews1
 which can be interpreted as the supremum of $LM$ statistics against a single change point alternative
 where the potential change point is shifted over the interval $[\ui, \oi]$ that
 is typically defined by requiring some minimal segment size $\ui$ and then
-$\oi = n - \ui$.\footnote{To avoid that the test becomes liberal, it can additionally be imposed
-that in each node at least a certain fraction of the current observations are trimmed on each end. 
-Typically, 10\% are used for this \citep{Andrews1993}. The trimming affects only the tests
-not the subsequent splitting.}
+$\oi = n - \ui$.
 This test statistic is asymptotically equivalent to the supremum of likelihood-ratio (or Chow)
 statistics \citep{Chow1960} but has the advantage that the model has to be fitted
 only once under the null hypothesis of parameter stability and not under the 
@@ -351,6 +371,10 @@ The limiting distribution of the sup$LM$ statistic is given by the supremum of a
 squared, $k$-dimensional tied-down Bessel process $\sup_t (t (1-t))^{-1} ||W^0(t)||_2^2$
 from which the corresponding $p$~value $p_j$ can be computed \citep{Hansen1997}
 for the ordering $Z_j$ ($j = 1, \dots, \ell$).
+To avoid that the test becomes liberal, it can be imposed---in addition to the
+minimal segment size---that in each node at least a certain fraction of the current
+observations are trimmed on each end. Typically, 10\% are used for this \citep{Andrews1993}.
+The trimming affects only the tests not the subsequent splitting.
 
 This approach of assessing numeric partitioning variables combines the ideas from
 (linear) model tree algorithms, such as GUIDE \citep{Loh2002} or the RD and RA trees of
@@ -550,18 +574,18 @@ based on 250 bootstrap replications and employing the root mean squared error (R
 or misclassification rate on the out-of-bag (OOB) samples as predictive
 performance measure and the number of estimated parameters (splits and coefficients) as
 complexity measure.
-The median performances\footnote{The median rather than the mean is used for two reasons: First, to
-account for the skewness of the performance distributions, and second due to the many ties
-in the complexity measure for the model-based tree algorithms (MOB, GUIDE, M5', LMT).}
-on the bootstrap replications are reported in tabular form, simultaneous confidence intervals
-for performance differences (obtained by treatment contrasts with MOB as the reference
-category)
-are visualized. In addition, the tables contain the obvious complexity and prediction
+The median performances on the bootstrap replications are reported in tabular form,
+simultaneous confidence intervals for performance differences (obtained by treatment
+contrasts with MOB as the reference category) are visualized. The median rather than
+the mean performance is used for two reasons: First, to account for the skewness of
+the performance distributions, and second due to the many ties
+in the complexity measure for the model-based tree algorithms (MOB, GUIDE, M5', LMT).
+In addition to the OOB performances, the tables contain the obvious complexity and prediction
 performance measures (RMSE or misclassification) on the original data set as an additional
 reference information (although the obvious prediction measures obviously represent no honest estimators).
 
 Most computations have been carried out in the \proglang{R} system for statistical computing
-\citep{R2006}, in particular using the packages \pkg{party} \citep{HothornZeileisHornik2006a},
+\citep{R2007}, in particular using the packages \pkg{party} \citep{HothornZeileisHornik2006a},
 providing implementations of MOB and CTree, \pkg{rpart} \citep{TherneauAtkinson1997}, implementing
 CART, and \pkg{RWeka} \citep{HornikZeileisHothorn2006}, the \proglang{R} interface to \pkg{Weka}
 \citep{WittenFrank2005} containing implementations of M5', LMT and J4.8. For GUIDE, QUEST and CRUISE,
@@ -587,7 +611,7 @@ and number of citations, the age of the journal, number of characters and a fact
 journal is associated with a society or not. Thus, we use a standard model whose specification
 is driven by economic knowledge and try to partition it with respect to further variables
 whose influence is not clear in advance. Note that whereas the selection of appropriate transformations
-is crucial for the modeling variables, monotonous transformations of the partitioning
+is crucial for the modeling variables, monotone transformations of the partitioning
 variables have no influence on the fitting process. For testing, a Bonferroni-corrected
 significance level of $\alpha = 0.05$ and a minimal segment size of $\ui = 10$ are used.
 
@@ -996,7 +1020,7 @@ are above $50\%$). The resulting model has
 $\Sexpr{ncol(vcov(fmGBSG2@tree$model)) * nrow(coef(fmGBSG2)) + nrow(coef(fmGBSG2)) - 1}$ parameters
 ($\Sexpr{nrow(coef(fmGBSG2))} \cdot \Sexpr{ncol(vcov(fmGBSG2@tree$model))}$ coefficients
 and $\Sexpr{nrow(coef(fmGBSG2))} - 1$ splits), yielding a log-likelihood of
-$\Sexpr{round(as.vector(logLik(fmGBSG2)), digits = 4)}$.
+$\Sexpr{round(as.vector(logLik(fmGBSG2)), digits = 3)}$.
 
 For this survival regression problem, we refrain from conducting a benchmark comparison
 of performance as carried out in the previous section. The main reason for this is
