@@ -1,4 +1,7 @@
 
+o  cvrisk for ctree and cforest (now that predictions for obs with zero
+   weight are computed)
+
 o  milestones for 0.9-0:
    -  docu for mob (incl. journal + survreg)
    -  cite new TR
