@@ -126,7 +126,8 @@ proximity(object)
     }
 
     ### proximity, see ?randomForest
-    iris.cf <- cforest(Species ~ ., data = iris)
+    iris.cf <- cforest(Species ~ ., data = iris, 
+                       control = cforest_unbiased(mtry = 2))
     iris.mds <- cmdscale(1 - proximity(iris.cf), eig = TRUE)
     op <- par(pty="s")
     pairs(cbind(iris[,1:4], iris.mds$points), cex = 0.6, gap = 0, 
