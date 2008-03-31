@@ -1,4 +1,8 @@
 
+* fix C_surrogates
+
+* quantile regression (Meinshausen, JMLR)
+
 o  cvrisk for ctree and cforest (now that predictions for obs with zero
    weight are computed)
 
