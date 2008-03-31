@@ -106,6 +106,12 @@ void C_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls,
          cutpoint[j] = cp;
     }
 
+    /* <FIXME>
+      what happens when maxstat == 0 for all j?
+      in case order[j] is a nominal variable, line
+      130 will give an error
+    </FIXME> */
+
     /* order with respect to maximal statistic */
     rsort_with_index(maxstat, order, ninputs);
     
