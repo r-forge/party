@@ -1,7 +1,7 @@
-\documentclass{Z}
+\documentclass[noheadings]{Z}
 
 %% packages
-\usepackage{amsmath,fancyheadings}
+\usepackage{amsmath}
 
 %% Sweave: need no \usepackage{Sweave}
 \SweaveOpts{engine=R,eps=FALSE}
@@ -17,7 +17,7 @@
 	Kurt Hornik\\Wirtschaftsuniversit\"at Wien}
 \Plainauthor{Achim Zeileis, Torsten Hothorn, Kurt Hornik}
 \title{Model-based Recursive Partitioning}
-\Keywords{change points, maximum likelihood, parameter instability, recursive partitioning}
+\Keywords{change points, maximum likelihood, parameter instability}
 
 %% abstract
 \Abstract{
@@ -34,22 +34,27 @@
   visualized and that subject-matter scientists are used to analyzing and
   interpreting.
 }
+\usepackage{fancyhdr}
+\setlength{\headheight}{15pt}
+\renewcommand{\headrulewidth}{0pt}
+\pagestyle{fancy}
+\thispagestyle{plain}
+\fancyhf{}
+\fancyhead[RO,LE]{\thepage} 
+\fancyhead[CO]{\textit{\normalsize Achim Zeileis, Torsten Hothorn, Kurt Hornik}}
+\fancyhead[CE]{\textit{\normalsize Model-based Recursive Partitioning}}
+\fancyfoot[LO,LE]{\small Copyright {\copyright} 2008 American Statistical Association,%
+  Institute of Mathematical Statistics, and Interface Foundation of North America}
+\fancypagestyle{plain}{
+\fancyhf{}
+\fancyfoot[LO,LE]{\small This is a preprint of an article accepted for publication in%
+  \textit{Journal of Computational and Graphical Statistics}. %
+  Copyright {\copyright} 2008 American Statistical Association,%
+  Institute of Mathematical Statistics, and Interface Foundation of North America
+  \doi{10.1198/10618600SX319331}}
+}
 
 \begin{document}
-
-\pagestyle{fancy}
-\thispagestyle{fancyplain}
-\headrulewidth0pt
-\lhead[]{}
-\chead[]{}
-\rhead[]{}
-\lfoot[This is a preprint of an article accepted for publication in \textit{Journal of Computational and Graphical Statistics}.
-Copyright {\copyright} 2007 American Statistical Association, Institute of Mathematical Statistics, and Interface Foundation of North America]%
-{This is a preprint of an article accepted for publication in \textit{Journal of Computational and Graphical Statistics}.
-Copyright {\copyright} 2007 American Statistical Association, Institute of Mathematical Statistics, and Interface Foundation of North America}
-\cfoot[]{}
-\rfoot[]{}
-
 
 <<preliminaries,echo=FALSE,results=hide>>=
 library("party")
@@ -120,15 +125,6 @@ ensures the validity of interpretations drawn from the resulting model.
 Moreover, the use of well-known parametric models provides
 subject-matter scientists with a segmented model that they are used to
 analyzing and interpreting.
-
-
-\headrulewidth0pt
-\lhead[\thepage]{}
-\chead[\textit{Model-based Recursive Partitioning}]{\textit{Achim Zeileis, Torsten Hothorn, Kurt Hornik}}
-\rhead[]{\thepage}
-\lfoot[{\small Copyright {\copyright} 2007 American Statistical Association, Institute of Mathematical Statistics, and Interface Foundation of North America}]{{\small Copyright {\copyright} 2007 American Statistical Association, Institute of Mathematical Statistics, and Interface Foundation of North America}}
-\cfoot[]{}
-\rfoot[]{}
 
 The remainder of the paper is organized as follows: Section~\ref{sec:segmented}
 establishes the class of models the framework is based on before Section~\ref{sec:algorithm} describes
@@ -234,7 +230,7 @@ are excluded, e.g.,  by requiring some minimum segment size. Furthermore, in thi
 some means should be taken to avoid overfitting by increasing $B$.
 
 In short, determining the optimal partition (with respect to $\Psi$) is difficult,
-even for fixed $B$. However, if there is only partitioning variable ($\ell = 1$),
+even for fixed $B$. However, if there is only one partitioning variable ($\ell = 1$),
 the optimal split(s) can be found easily: both the statistics and econometrics
 literature on change point and structural change analysis discuss various algorithms
 for segmenting models over a single variable, typically time.
@@ -683,7 +679,7 @@ assessed with respect to all $\ell = 5$ partitioning variables, the correspondin
 parameter instability test statistics (as defined in Equation~\ref{eq:supLM} and
 \ref{eq:Chisq}, respectively) are provided in Table~\ref{tab:Journals-algorithm}
 along with their Bonferroni-adjusted $p$~values. A highly significant instability is
-found only with respect to age (with a Bonferroni-adjusted $p$~value of
+found only with respect to glucose (with a Bonferroni-adjusted $p$~value of
 $\Sexpr{Pval(sctest(fmJ, node = 1)[2,3])}$) which is subsequently used for splitting, 
 leading to an optimal split at age 18.
 For the \Sexpr{sum(weights(fmJ@tree$left$model))} young journals in node~2
@@ -849,7 +845,7 @@ complexity by difference in number of estimated parameters.}
 
 Another popular data set for comparing new classifiers is the Pima Indians diabetes
 data which is---just as the Boston Housing data---available from the 
-UCI machine learning repository \citep{Newmanetal1998}. The data set contains
+UCI machine learning repository \citep{AsuncionNewman2007}. The data set contains
 many missing values---usually falsely coded as (physically impossible) zero values---which
 are most prevalent in the variables serum insulin and triceps skin fold thickness
 \citep{Ripley1996}. Hence, these two variables and the missing values in the remaining
