@@ -14,5 +14,23 @@ citEntry(entry="Article",
          paste("Torsten Hothorn, Kurt Hornik and Achim Zeileis (2006).",
                "Unbiased Recursive Partitioning: A Conditional Inference Framework.",
                "Journal of Computational and Graphical Statistics, 15(3), 651--674.")
+	 header = "If ctree() is used cite:"
+)
+
+citEntry(entry="Article",
+         title = "Model-Based Recursive Partitioning",
+         author = personList(as.person("Achim Zeileis"), as.person("Torsten Hothorn"),
+	                     as.person("Kurt Hornik")),
+         journal      = "Journal of Computational and Graphical Statistics",
+         year         = "2008",
+         volume       = "17",
+         number       = "2",
+         pages        = "492--514",
+
+         textVersion =
+         paste("Achim Zeileis, Torsten Hothorn and Kurt Hornik (2008).",
+               "Model-Based Recursive Partitioning.",
+               "Journal of Computational and Graphical Statistics, 17(2), 492--514.")
+	 header = "If mob() is used cite:"
 )
 
