@@ -135,7 +135,7 @@ SEXP C_get_node(SEXP subtree, SEXP newinputs,
     if (has_missings(newinputs, S3get_variableID(split))) {
         whichNA = get_missings(newinputs, S3get_variableID(split));
     
-        if (C_i_in_set(numobs, whichNA)) {
+        if (C_i_in_set(numobs + 1, whichNA)) {
         
             surrsplit = S3get_surrogatesplits(subtree);
             ns = 0;
