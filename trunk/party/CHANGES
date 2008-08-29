@@ -1,4 +1,11 @@
 
+                CHANGES IN party VERSION 0.9-98 (2008-08-29)
+
+    o   don't compute ordering of censored variables (thanks to
+        Brian D. Ripley for the report)
+
+    o   experimental version of partialPlot for cforests
+
 
                 CHANGES IN party VERSION 0.9-97 (2008-06-26)
 

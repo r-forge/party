@@ -85,6 +85,7 @@ initVariableFrame.df <- function(obj, trafo = ptrafo, scores = NULL, response = 
     ### ordering
     ordering <- lapply(obj, function(x) {
         if (is.factor(x) && !is.ordered(x)) return(NULL)
+        if (inherits(x, "Surv")) return(NULL)
         if (is.ordered(x)) return(as.integer(order(as.numeric(x))))
         as.integer(order(x))
     })

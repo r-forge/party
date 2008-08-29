@@ -276,7 +276,7 @@ partialPlot.party <-
     xv <- newdata[, xname]
     n <- nrow(newdata)
 
-    if (missing(weights)) w <- rep(1, n)
+    if (missing(weights)) weights <- rep(1, n)
 
     if (classRF) {
         if (missing(which.class)) {
