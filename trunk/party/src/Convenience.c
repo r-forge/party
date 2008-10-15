@@ -101,7 +101,7 @@ double C_ConditionalPvalue(const double tstat, SEXP linexpcov,
                            int *maxpts, double *releps, double *abseps) {
                            
     int pq;
-    double ans = 0.0;
+    double ans = 1.0;
     
     pq = get_dimension(linexpcov);
 
@@ -114,8 +114,10 @@ double C_ConditionalPvalue(const double tstat, SEXP linexpcov,
             break;
         /* quadform-type test statistic */
         case QUADFORM:
-            ans = C_quadformConditionalPvalue(tstat, 
-                REAL(GET_SLOT(linexpcov, PL2_rankSym))[0]);
+            /* var = 0 => rank = 0 */
+            if (REAL(GET_SLOT(linexpcov, PL2_rankSym))[0] > 0.5)
+                ans = C_quadformConditionalPvalue(tstat, 
+                    REAL(GET_SLOT(linexpcov, PL2_rankSym))[0]);
             break;
         default: error("C_ConditionalPvalue: undefined value for type argument");
     }
