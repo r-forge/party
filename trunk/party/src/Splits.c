@@ -67,7 +67,7 @@ void C_split(const double *x, int p,
         /* we need to ensure that at least minbucket weights 
            are there to split (either left or right) */
         minprob = get_minprob(splitctrl);
-        minbucket = get_minbucket(splitctrl);
+        minbucket = get_minbucket(splitctrl); /* FIXME: minbucket - 1 would be OK */
         minobs = sweights * minprob + 1.0;
 
         if (minobs < minbucket) 
