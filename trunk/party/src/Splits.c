@@ -150,7 +150,7 @@ void C_split(const double *x, int p,
     
         /* search for the maximum and the best separating cutpoint */
         maxstat[0] = 0.0;        
-        for (i = 0; i < (n - 1); i++) {
+        for (i = 0; i < n; i++) {
             if (statistics[i] > maxstat[0]) {
                 maxstat[0] = statistics[i];
                 cutpoint[0] = x[i];
