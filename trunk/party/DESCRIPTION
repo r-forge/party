@@ -1,8 +1,8 @@
 Package: party
 Title: A Laboratory for Recursive Partytioning
-Date: $Date$
-Version: 0.9-99
-Author: Torsten Hothorn, Kurt Hornik and Achim Zeileis
+Date: 2009-01-13
+Version: 0.9-991
+Author: Torsten Hothorn, Kurt Hornik, Carolin Strobl and Achim Zeileis
 Maintainer: Torsten Hothorn <Torsten.Hothorn@R-project.org>
 Description: A computational toolbox for recursive partitioning.
   The core of the package is ctree(), an implementation of
