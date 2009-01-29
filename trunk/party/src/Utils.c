@@ -709,6 +709,12 @@ void C_remove_weights(SEXP subtree) {
     }
 }
 
+SEXP R_remove_weights(SEXP subtree) {
+
+    C_remove_weights(subtree);
+    return(R_NilValue);
+}
+
 double* C_tempweights(int j, SEXP weights, SEXP fitmem, SEXP inputs) {
 
     int nobs, *iNAs, i, k;
