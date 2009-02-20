@@ -950,7 +950,7 @@ data("spider", package = "mvpart")
 sptree <- ctree(arct.lute + pard.lugu + zora.spin + pard.nigr + pard.pull +
            aulo.albi + troc.terr + alop.cune + pard.mont + alop.acce + 
            alop.fabr + arct.peri ~ herbs+reft+moss+sand+twigs+water, 
-           controls = ctree_control(teststat = "maxabs", testtype = "MonteCarlo", nresample = 9999, 
+           controls = ctree_control(teststat = "max", testtype = "MonteCarlo", nresample = 9999, 
            minsplit = 5, mincriterion = 0.9), data = spider)
 sptree@tree$criterion
 
