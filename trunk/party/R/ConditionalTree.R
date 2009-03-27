@@ -73,8 +73,7 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
             resp <- response@variables[[1]]
             for (i in 1:length(swh)) {
                 w <- weights * (where == swh[i])
-                RET[wh == swh[i]] <- list(survival:::survfit(resp,
-                    weights = w, subset = w > 0))
+                RET[wh == swh[i]] <- list(mysurvfit(resp, weights = w))
             }
             return(RET)
         }

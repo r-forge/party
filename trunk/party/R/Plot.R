@@ -104,7 +104,7 @@ node_surv <- function(ctreeobj,
 
     ### panel function for Kaplan-Meier curves in nodes
     rval <- function(node) {
-        km <- survfit(survobj, subset = node$weights > 0, ...)
+        km <- mysurvfit(survobj, weights = node$weights, ...)
 
         a <- dostep(km$time, km$surv)
 

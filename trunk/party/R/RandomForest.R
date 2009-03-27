@@ -49,7 +49,7 @@ cforestfit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
         if (any(response@is_censored)) {
             resp <- response@variables[[1]]
             RET <- lapply(pw, function(w) 
-                survival:::survfit(resp, weights = w, subset = w > 0))
+                mysurvfit(resp, weights = w))
             return(RET)
         }
 

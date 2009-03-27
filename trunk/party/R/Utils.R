@@ -210,3 +210,12 @@ isequal <- function(a, b) {
         return(TRUE)
     }
 }
+
+mysurvfit <- function(y, weights, ...) {
+
+    stopifnot(extends(class(y), "Surv"))
+    ret <- survival:::survfitKM(x = gl(1, NROW(y)), y = y, 
+                         casewt = weights, ...)
+    class(ret) <- "survfit"
+    ret
+}
