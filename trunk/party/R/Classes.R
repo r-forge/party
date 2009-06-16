@@ -142,7 +142,7 @@ setClass(Class = "GlobalTestControl",
             warning(sQuote("mincriterion"), " must not be negative")
             return(FALSE)
         }
-        if (object@mtry < 0) {
+        if (any(object@mtry < 0)) {
             warning(sQuote("mtry"), " must be positive")
             return(FALSE)
         }

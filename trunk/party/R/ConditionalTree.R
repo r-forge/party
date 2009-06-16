@@ -208,7 +208,7 @@ ctree_control <- function(teststat = c("quad", "max"),
 
     RET@gtctrl@nresample <- as.integer(nresample)
     RET@gtctrl@mincriterion <- mincriterion
-    if (mtry > 0) {
+    if (all(mtry > 0)) {
         RET@gtctrl@randomsplits <- TRUE
         RET@gtctrl@mtry <- as.integer(mtry)
     }

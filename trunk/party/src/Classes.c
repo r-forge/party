@@ -327,8 +327,8 @@ int get_randomsplits(SEXP object) {
     return(INTEGER(GET_SLOT(object, PL2_randomsplitsSym))[0]);
 }
 
-int get_mtry(SEXP object) {
-    return(INTEGER(GET_SLOT(object, PL2_mtrySym))[0]);
+SEXP get_mtry(SEXP object) {
+    return(GET_SLOT(object, PL2_mtrySym));
 }
 
 SEXP get_dontuse(SEXP object) {

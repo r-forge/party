@@ -36,9 +36,9 @@ void C_TreeGrow(SEXP node, SEXP learnsample, SEXP fitmem,
     stop = stop || !check_depth(get_tgctrl(controls), depth);
     
     if (stop)
-        C_Node(node, learnsample, weights, fitmem, controls, 1);
+        C_Node(node, learnsample, weights, fitmem, controls, 1, depth);
     else
-        C_Node(node, learnsample, weights, fitmem, controls, 0);
+        C_Node(node, learnsample, weights, fitmem, controls, 0, depth);
     
     S3set_nodeID(node, nodenum[0]);    
     
