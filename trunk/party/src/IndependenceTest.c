@@ -173,7 +173,6 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
             /* mtry may vary with tree depth */
             depth = (depth <= LENGTH(Smtry)) ? depth : LENGTH(Smtry);
             mtry = INTEGER(get_mtry(gtctrl))[depth - 1];
-            Rprintf("using mtry %d\n", mtry);
         }
         if (RANDOM & (mtry > ninputs)) {
             warning("mtry is larger than ninputs, using mtry = inputs");
