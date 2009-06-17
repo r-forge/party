@@ -103,7 +103,7 @@ void C_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls,
 
              /* check if sum(weights) > 1 */
              sumw = 0.0;
-             for (i = 0; i < nobs; i++) sumw += tweights[i];
+             for (i = 0; i < nobs; i++) sumw += thisweights[i];
              if (sumw < 2.0) continue;
                  
              C_ExpectCovarInfluence(ytmp, 1, thisweights, nobs, expcovinf);
