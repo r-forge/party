@@ -67,7 +67,7 @@ void C_split(const double *x, int p,
         /* we need to ensure that at least minbucket weights 
            are there to split (either left or right) */
         minprob = get_minprob(splitctrl);
-        minbucket = get_minbucket(splitctrl); /* FIXME: minbucket - 1 would be OK */
+        minbucket = get_minbucket(splitctrl);
         minobs = sweights * minprob + 1.0;
 
         if (minobs < minbucket) 
@@ -115,14 +115,14 @@ void C_split(const double *x, int p,
             w += weights[j];
 
             /* do not consider those splits */
-            if (w >= maxobs || x[j] >= xmax) break;
+            if (w > maxobs || x[j] >= xmax) break;
 
             /* compute the linear statistic and expectation and 
              * covariance if needed */
             for (k = 0; k < q; k++)
                 dlinstat[k] += y[n * k + j] * weights[j];
  
-            if (w > minobs) {
+            if (w >= minobs) {
                 for (k = 0; k < q; k++)
                     dexpect[k] = w * dExp_y[k];
 
