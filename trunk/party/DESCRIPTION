@@ -1,6 +1,6 @@
 Package: party
 Title: A Laboratory for Recursive Partytioning
-Date: 2009-09-16
+Date: 2009-09-21
 Version: 0.9-999
 Author: Torsten Hothorn, Kurt Hornik, Carolin Strobl and Achim Zeileis
 Maintainer: Torsten Hothorn <Torsten.Hothorn@R-project.org>
