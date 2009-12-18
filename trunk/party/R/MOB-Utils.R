@@ -201,6 +201,7 @@ mob_fit_fluctests <- function(obj, mf, minsplit, trim, breakties, parm) {
     beta <- get("sc.beta.sup")
     logp.supLM <- function(x, k, lambda)
     {
+      if(k > 40) k <- 40
       m <- ncol(beta)-1
       if(lambda<1) tau <- lambda
       else tau <- 1/(1+sqrt(lambda))
