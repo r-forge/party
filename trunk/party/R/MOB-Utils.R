@@ -63,13 +63,13 @@ mob_fit_setupnode <- function(obj, mf, weights, control) {
     test <- try(mob_fit_fluctests(obj, mf, minsplit = minsplit, trim = trim,
       breakties = breakties, parm = parm))
 
-    if(bonferroni) {
-      pval1 <- pmin(1, sum(!is.na(test$pval)) * test$pval)
-      pval2 <- 1 - (1-test$pval)^sum(!is.na(test$pval))
-      test$pval <- ifelse(!is.na(test$pval) & (test$pval > 0.01), pval2, pval1)
-    }
+    if (!inherits(test, "try-error")) {
+        if(bonferroni) {
+          pval1 <- pmin(1, sum(!is.na(test$pval)) * test$pval)
+          pval2 <- 1 - (1-test$pval)^sum(!is.na(test$pval))
+          test$pval <- ifelse(!is.na(test$pval) & (test$pval > 0.01), pval2, pval1)
+        }
 
-    if (!inherits(test, "try-error")) {    
         best <- test$best
         TERMINAL <- is.na(best) || test$pval[best] > alpha
 
@@ -84,8 +84,7 @@ mob_fit_setupnode <- function(obj, mf, weights, control) {
         }
     } else {
         TERMINAL <- TRUE
-        test$stat <- NA
-        test$pval <- NA
+        test <- list(stat = NA, pval = NA)
     }
 
     ### splitting
