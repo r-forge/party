@@ -198,7 +198,7 @@ SEXP R_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls,
 void C_splitsurrogate(SEXP node, SEXP learnsample) {
 
     SEXP weights, split, surrsplit;
-    SEXP inputs, whichNA;
+    SEXP inputs, whichNA, whichNAns;
     double cutpoint, *dx, *dweights, *leftweights, *rightweights;
     int *iwhichNA, k;
     int nobs, i, nna, ns;
@@ -231,11 +231,11 @@ void C_splitsurrogate(SEXP node, SEXP learnsample) {
             while(TRUE) {
             
                 if (ns >= LENGTH(surrsplit)) break;
-            
+
                 split = VECTOR_ELT(surrsplit, ns);
                 if (has_missings(inputs, S3get_variableID(split))) {
-                    if (INTEGER(get_missings(inputs, 
-                            S3get_variableID(split)))[i]) {
+                    whichNAns = get_missings(inputs, S3get_variableID(split));
+                    if (C_i_in_set(i + 1, whichNAns)) {
                         ns++;
                         continue;
                     }
