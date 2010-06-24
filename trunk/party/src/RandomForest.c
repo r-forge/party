@@ -26,6 +26,7 @@ SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP bwhere, SEXP bweights,
      double *dnweights, *dweights, sw = 0.0, *prob, tmp;
      int nobs, i, b, B , nodenum = 1, *iweights, *iweightstmp, 
          *iwhere, replace, fraction, wgrzero = 0, realweights = 0;
+     int j, k, l;
      
      B = get_ntree(controls);
      nobs = get_nobs(learnsample);
@@ -70,6 +71,8 @@ SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP bwhere, SEXP bweights,
          calls??? </FIXME> */
      GetRNGstate();
   
+     if (get_trace(controls))
+         Rprintf("\n");
      for (b  = 0; b < B; b++) {
          SET_VECTOR_ELT(ans, b, tree = allocVector(VECSXP, NODE_LENGTH + 1));
          SET_VECTOR_ELT(bwhere, b, where = allocVector(INTSXP, nobs));
@@ -102,7 +105,29 @@ SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP bwhere, SEXP bweights,
          C_TreeGrow(tree, learnsample, fitmem, controls, iwhere, &nodenum, 1);
          nodenum = 1;
          C_remove_weights(tree, 0);
+         
+         if (get_trace(controls)) {
+             /* progress bar; inspired by 
+             http://avinashjoshi.co.in/2009/10/13/creating-a-progress-bar-in-c/ */
+             Rprintf("[");
+             /* Print the = until the current percentage */
+             l = (int) ceil( ((double) b * 50.0) / B);
+             for (j = 0; j < l; j++)
+                 Rprintf("=");
+             Rprintf(">");
+             for (k = j; k < 50; k++)
+                 Rprintf(" ");
+             Rprintf("]");
+             /* % completed */
+                 Rprintf(" %3d%% completed", j * 2);
+             /* To delete the previous line */
+             Rprintf("\r");
+             /* Flush all char in buffer */
+             fflush(stdout);
+         }
      }
+     if (get_trace(controls))
+         Rprintf("\n");
 
      PutRNGstate();
 

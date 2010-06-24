@@ -118,7 +118,8 @@ cforest_control <- function(teststat = "max",
                             mincriterion = qnorm(0.9),
                             savesplitstats = FALSE,
                             ntree = 500, mtry = 5, replace = TRUE, 
-                            fraction = 0.632, ...) {
+                            fraction = 0.632, 
+                            trace = FALSE, ...) {
 
     if (is.null(mtry)) mtry <- 0
     RET <- ctree_control(teststat = teststat, testtype = testtype,
@@ -129,6 +130,7 @@ cforest_control <- function(teststat = "max",
     RET@ntree <- as.integer(ntree)
     RET@replace <- replace
     RET@fraction <- as.double(fraction)
+    RET@trace <- as.logical(trace)
     if (!validObject(RET))
         stop("RET is not a valid object of class", class(RET))
     RET

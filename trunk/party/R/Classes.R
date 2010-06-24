@@ -194,7 +194,8 @@ setClass(Class = "ForestControl",
     representation = representation(
         ntree    = "integer",
         replace  = "logical",
-        fraction = "numeric"),
+        fraction = "numeric",
+        trace    = "logical"),
     contains = "TreeControl",
     validity = function(object) {
         if (object@ntree < 1) {

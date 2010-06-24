@@ -72,7 +72,8 @@ SEXP
     PL2_tgctrlSym,
     PL2_ntreeSym,
     PL2_replaceSym,
-    PL2_fractionSym;
+    PL2_fractionSym,
+    PL2_traceSym;
 
 SEXP party_init(void) {
     PL2_expectationSym = install("expectation");
@@ -139,6 +140,7 @@ SEXP party_init(void) {
     PL2_ntreeSym = install("ntree"),
     PL2_replaceSym = install("replace"),
     PL2_fractionSym = install("fraction");
+    PL2_traceSym = install("trace");
     return(R_NilValue);
 }
 
@@ -361,4 +363,8 @@ int get_replace(SEXP object) {
 
 double get_fraction(SEXP object) {
     return(REAL(GET_SLOT(object, PL2_fractionSym))[0]);
+}
+
+int get_trace(SEXP object) {
+    return(INTEGER(GET_SLOT(object, PL2_traceSym))[0]);
 }
