@@ -114,7 +114,7 @@ void C_splitnode(SEXP node, SEXP learnsample, SEXP control) {
     *\param newinputs an object of class `VariableFrame'
     *\param mincriterion overwrites mincriterion used for tree growing
     *\param numobs observation number
-    *\param which variable shall be permuted?
+    *\param varperm which variable shall be permuted?
     *\todo handle surrogate splits
 */
 
@@ -238,7 +238,6 @@ SEXP C_get_node(SEXP subtree, SEXP newinputs,
     *\param newinputs an object of class `VariableFrame'
     *\param mincriterion overwrites mincriterion used for tree growing
     *\param numobs observation number
-    *\param which variable shall be permuted?
 */
 
 SEXP R_get_node(SEXP subtree, SEXP newinputs, SEXP mincriterion, 
@@ -286,7 +285,7 @@ SEXP R_get_nodebynum(SEXP subtree, SEXP nodenum) {
     *\param newinputs an object of class `VariableFrame'
     *\param mincriterion overwrites mincriterion used for tree growing
     *\param numobs observation number
-    *\param which variable shall be permuted?
+    *\param varperm which variable shall be permuted?
 */
 
 SEXP C_get_prediction(SEXP subtree, SEXP newinputs, 
@@ -353,7 +352,7 @@ SEXP R_get_nodeID(SEXP tree, SEXP newinputs, SEXP mincriterion) {
     *\param tree a tree
     *\param newinputs an object of class `VariableFrame'
     *\param mincriterion overwrites mincriterion used for tree growing
-    *\param which variable shall be permuted?
+    *\param varperm which variable shall be permuted?
     *\param ans return value
 */
 
@@ -397,7 +396,7 @@ SEXP R_predict(SEXP tree, SEXP newinputs, SEXP mincriterion) {
     *\param tree a tree
     *\param newinputs an object of class `VariableFrame'
     *\param mincriterion overwrites mincriterion used for tree growing
-    *\param which variable shall be permuted?
+    *\param varperm which variable shall be permuted?
 */
 
 SEXP R_predict2(SEXP tree, SEXP newinputs, SEXP mincriterion,
