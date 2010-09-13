@@ -283,7 +283,8 @@ setClass(Class = "BinaryTree",
         cond_distr_response = "function",      # predict distribtion
         predict_response    = "function",      # predict responses
         prediction_weights  = "function",      # prediction weights
-        get_where           = "function"       # node numbers
+        get_where           = "function",      # node numbers
+        update              = "function"       # update weights
     ),
     contains = "BinaryTreePartition"
 )
@@ -299,7 +300,8 @@ setClass(Class = "RandomForest",
                                                # for computing predictions
         cond_distr_response = "function",      # predict distribtion
         predict_response    = "function",      # predict responses
-        prediction_weights  = "function"      # prediction weights
+        prediction_weights  = "function",      # prediction weights
+	update              = "function"       # update weights
     )
 )
 

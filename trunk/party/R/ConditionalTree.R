@@ -44,6 +44,11 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
     if (inherits(object, "LearningSampleFormula"))
         RET@data <- object@menv
 
+    RET@update <- function(weights = NULL) {
+        ctreefit(object = object, controls = controls, 
+                 weights = weights, fitmem = fitmem, ...)
+    }
+
     ### get terminal node numbers
     RET@get_where <- function(newdata = NULL, mincriterion = 0, ...) {
 

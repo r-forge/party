@@ -36,6 +36,12 @@ cforestfit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
     if (inherits(object, "LearningSampleFormula"))
         RET@data <- object@menv
 
+    RET@update <- function(weights = NULL) {
+        cforestfit(object = object, controls = controls,
+                   weights = weights, fitmem = fitmem, ...)
+    }
+
+
     ### (estimated) conditional distribution of the response given the
     ### covariates
     RET@cond_distr_response <- function(newdata = NULL, mincriterion = 0, ...) { 
