@@ -222,11 +222,9 @@ void C_splitcategorical(const int *codingx, int p,
                         SEXP expcovinf, double *cutpoint, int *levelset, 
                         double *maxstat, double *statistics) {
 
-    double tol, *tmpx, *tmptmpx, tmp = 0.0;
+    double *tmpx, *tmptmpx, tmp = 0.0;
     int *irank, *ordertmpx, i, j, k, l, jp, chk;
 
-    tol = get_tol(splitctrl);          
-                     
     /* allocate memory */
     tmpx = Calloc(n, double);
     ordertmpx = Calloc(n, int);

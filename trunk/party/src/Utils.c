@@ -104,13 +104,13 @@ void CR_La_svd(SEXP jobu, SEXP jobv, SEXP x, SEXP s, SEXP u, SEXP v,
 {
     int *xdims, n, p, lwork, info = 0;
     double *work, *xvals, tmp;
-    const char * meth;
+    /* const char * meth; not used*/
 
     if (!(isString(jobu) && isString(jobv)))
 	error(("'jobu' and 'jobv' must be character strings"));
     if (!isString(method))
 	error(("'method' must be a character string"));
-    meth = CHAR(STRING_ELT(method, 0));
+    /* meth = CHAR(STRING_ELT(method, 0)); not used */
     xdims = INTEGER(coerceVector(getAttrib(x, R_DimSymbol), INTSXP));
     n = xdims[0]; p = xdims[1];
     xvals = Calloc(n * p, double);
@@ -145,12 +145,12 @@ void CR_La_svd(SEXP jobu, SEXP jobv, SEXP x, SEXP s, SEXP u, SEXP v,
 }
 
 /**
-    C- and R-interface to CR_La_svd
+    C-interface to CR_La_svd
     *\param x matrix
     *\param svdmem an object of class `svd_mem'
 */
 
-SEXP CR_svd (SEXP x, SEXP svdmem) {
+void C_svd (SEXP x, SEXP svdmem) {
 
     int p, i;
     double *du, *dv;
@@ -170,6 +170,18 @@ SEXP CR_svd (SEXP x, SEXP svdmem) {
         GET_SLOT(svdmem, PL2_jobvSym), x, GET_SLOT(svdmem, PL2_sSym), 
         GET_SLOT(svdmem, PL2_uSym), GET_SLOT(svdmem, PL2_vSym), 
         GET_SLOT(svdmem, PL2_methodSym));
+    /* return(R_NilValue); */
+}
+
+/**
+    R-interface to CR_La_svd
+    *\param x matrix
+    *\param svdmem an object of class `svd_mem'
+*/
+
+SEXP R_svd (SEXP x, SEXP svdmem) {
+
+    C_svd(x, svdmem);
     return(R_NilValue);
 }
 
@@ -184,7 +196,7 @@ SEXP CR_svd (SEXP x, SEXP svdmem) {
 
 void C_MPinv (SEXP x, double tol, SEXP svdmem, SEXP ans) {
 
-    SEXP svdx, d, u, vt, dummy;
+    SEXP d, u, vt;
     int i, j, p, k, *positive;
     double *dd, *du, *dvt, *dMPinv;
     double *drank;
@@ -192,7 +204,7 @@ void C_MPinv (SEXP x, double tol, SEXP svdmem, SEXP ans) {
     drank = REAL(GET_SLOT(ans, PL2_rankSym));
     dMPinv = REAL(GET_SLOT(ans, PL2_MPinvSym));
 
-    dummy = CR_svd(x, svdmem);
+    C_svd(x, svdmem);
     d = GET_SLOT(svdmem, PL2_sSym);
     dd = REAL(d);
     u = GET_SLOT(svdmem, PL2_uSym);

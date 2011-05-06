@@ -55,7 +55,7 @@ void C_Node(SEXP node, SEXP learnsample, SEXP weights,
     double *standstat, *splitstat;
     SEXP responses, inputs, x, expcovinf, linexpcov;
     SEXP varctrl, splitctrl, gtctrl, tgctrl, split, testy, predy;
-    double *dxtransf, *dweights, *thisweights;
+    double *dxtransf, *thisweights;
     int *itable;
     
     nobs = get_nobs(learnsample);
