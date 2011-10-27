@@ -58,7 +58,7 @@ SEXP S3get_nodeweights(SEXP node) {
 }
 
 double S3get_sumweights(SEXP node) {
-    REAL(VECTOR_ELT(node, S3_SUMWEIGHTS))[0];
+    return(REAL(VECTOR_ELT(node, S3_SUMWEIGHTS))[0]);
 }
 
 SEXP S3get_teststat(SEXP node) {
