@@ -142,9 +142,21 @@ ctree(formula, data, subset = NULL, weights = NULL,
     }
 
     ### if you are interested in the internals:
+    ### generate doxygen documentation
     \dontrun{
-        browseURL(system.file("documentation/html/index.html", 
-                              package = "party"))
+
+        ### download src package into temp dir
+        tmpdir <- tempdir()
+        tgz <- download.packages("party", destdir = tmpdir)[2]
+        ### extract
+        untar(tgz, exdir = tmpdir)
+        wd <- setwd(file.path(tmpdir, "party"))
+        ### run doxygen (assuming it is there)
+        system("doxygen doxygen.cfg")
+        setwd(wd)
+        ### have fun
+        browseURL(file.path(tmpdir, "party", "inst", 
+                            "documentation", "html", "index.html")) 
     }
 }
 \keyword{tree}
