@@ -123,7 +123,7 @@ SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP bwhere, SEXP bweights,
              /* To delete the previous line */
              Rprintf("\r");
              /* Flush all char in buffer */
-             fflush(stdout);
+             /* fflush(stdout); */
          }
      }
      if (get_trace(controls))
