@@ -1,7 +1,8 @@
 
-R version 2.11.0 (2010-04-22)
-Copyright (C) 2010 The R Foundation for Statistical Computing
+R version 2.14.1 (2011-12-22)
+Copyright (C) 2011 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
+Platform: i686-pc-linux-gnu (32-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -28,7 +29,15 @@ Loading required package: modeltools
 Loading required package: stats4
 Loading required package: coin
 Loading required package: mvtnorm
+Loading required package: multcomp
 Loading required package: zoo
+
+Attaching package: ‘zoo’
+
+The following object(s) are masked from ‘package:base’:
+
+    as.Date, as.Date.numeric
+
 Loading required package: sandwich
 Loading required package: strucchange
 Loading required package: vcd
@@ -527,9 +536,21 @@ records   n.max n.start  events  median 0.95LCL 0.95UCL
 
 > 
 >     ### if you are interested in the internals:
+>     ### generate doxygen documentation
 >     ## Not run: 
-> ##D         browseURL(system.file("documentation/html/index.html", 
-> ##D                               package = "party"))
+> ##D 
+> ##D         ### download src package into temp dir
+> ##D         tmpdir <- tempdir()
+> ##D         tgz <- download.packages("party", destdir = tmpdir)[2]
+> ##D         ### extract
+> ##D         untar(tgz, exdir = tmpdir)
+> ##D         wd <- setwd(file.path(tmpdir, "party"))
+> ##D         ### run doxygen (assuming it is there)
+> ##D         system("doxygen doxygen.cfg")
+> ##D         setwd(wd)
+> ##D         ### have fun
+> ##D         browseURL(file.path(tmpdir, "party", "inst", 
+> ##D                             "documentation", "html", "index.html")) 
 > ##D     
 > ## End(Not run)
 > 
@@ -567,10 +588,8 @@ detaching ‘package:ipred’, ‘package:class’, ‘package:nnet’,
 >     bs <- rmultinom(50, nrow(airq), rep(1, nrow(airq))/nrow(airq))
 >     storage.mode(bs) <- "double"
 >     cfit <- conditionalTree@fit
->     system.time(ens <- apply(bs, 2, function(w) cfit(ls, ct, weights = w, 
-+                                                      fitmem = mem)))
-   user  system elapsed 
-  0.240   0.000   0.239 
+>     ens <- apply(bs, 2, function(w) cfit(ls, ct, weights = w, 
++                                          fitmem = mem))
 > 
 > 
 > 
@@ -883,13 +902,19 @@ detaching ‘package:mlbench’
 >    readingSkills.cf <- cforest(score ~ ., data = readingSkills,
 +        control = cforest_unbiased(mtry = 2, ntree = 50))
 > 
+>    # standard importance
 >    varimp(readingSkills.cf)
 nativeSpeaker           age      shoeSize 
-     13.13315      81.79755      15.69448 
-> 
->    varimp(readingSkills.cf, conditional = TRUE)
+     12.69213      82.26737      13.60017 
+>    # the same modulo random variation
+>    varimp(readingSkills.cf, pre1.0_0 = TRUE)
 nativeSpeaker           age      shoeSize 
-    11.616286     51.106067      1.233911 
+     13.06254      80.44754      14.38979 
+> 
+>    # conditional importance, may take a while...
+>    varimp(readingSkills.cf, conditional = TRUE) 
+nativeSpeaker           age      shoeSize 
+    11.870034     52.114547      1.461803 
 > 
 > 
 > 
@@ -945,12 +970,16 @@ Linear model with coefficients:
 >    # standard importance
 >    varimp(readingSkills.cf)
 nativeSpeaker           age      shoeSize 
-     13.13315      81.79755      15.69448 
+     12.69213      82.26737      13.60017 
+>    # the same modulo random variation
+>    varimp(readingSkills.cf, pre1.0_0 = TRUE)
+nativeSpeaker           age      shoeSize 
+     13.06254      80.44754      14.38979 
 > 
 >    # conditional importance, may take a while...
 >    varimp(readingSkills.cf, conditional = TRUE)
 nativeSpeaker           age      shoeSize 
-    11.616286     51.106067      1.233911 
+    11.870034     52.114547      1.461803 
 > 
 > 
 > 
@@ -958,7 +987,7 @@ nativeSpeaker           age      shoeSize
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  41.622 0.116 41.746 0 0 
+Time elapsed:  23.445 0.284 23.762 0 0 
 > grDevices::dev.off()
 null device 
           1 

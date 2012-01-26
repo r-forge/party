@@ -1,7 +1,8 @@
 
-R version 2.11.0 (2010-04-22)
-Copyright (C) 2010 The R Foundation for Statistical Computing
+R version 2.14.1 (2011-12-22)
+Copyright (C) 2011 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
+Platform: i686-pc-linux-gnu (32-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -25,7 +26,15 @@ Loading required package: modeltools
 Loading required package: stats4
 Loading required package: coin
 Loading required package: mvtnorm
+Loading required package: multcomp
 Loading required package: zoo
+
+Attaching package: 'zoo'
+
+The following object(s) are masked from 'package:base':
+
+    as.Date, as.Date.numeric
+
 Loading required package: sandwich
 Loading required package: strucchange
 Loading required package: vcd
@@ -59,7 +68,7 @@ records   n.max n.start  events  median 0.95LCL 0.95UCL
 
 > 
 > ### give it a try, at least
-> varimp(rf)
+> varimp(rf, pre1.0_0 = TRUE)
            ag            at            as            an            ai 
  1.378143e-03  1.209502e-04  2.168549e-03  1.514677e-03  5.667840e-04 
           eag           eat           eas           ean           eai 
@@ -92,17 +101,17 @@ There were 50 or more warnings (use warnings() to see the first 50)
 > stopifnot(max(abs(P - t(P))) == 0)
 > 
 > P[1:10,1:10]
-           2        43        25        65        70         16         6
-2  1.0000000 0.3125000 0.8250000 0.5250000 0.1764706 0.15151515 0.8285714
-43 0.3125000 1.0000000 0.2250000 0.1428571 0.0882353 0.39473684 0.2105263
-25 0.8250000 0.2250000 1.0000000 0.5384615 0.2285714 0.08823529 0.8333333
-65 0.5250000 0.1428571 0.5384615 1.0000000 0.1081081 0.00000000 0.6500000
-70 0.1764706 0.0882353 0.2285714 0.1081081 1.0000000 0.21875000 0.2000000
-16 0.1515152 0.3947368 0.0882353 0.0000000 0.2187500 1.00000000 0.1578947
-6  0.8285714 0.2105263 0.8333333 0.6500000 0.2000000 0.15789474 1.0000000
-5  0.8000000 0.1842105 0.8055556 0.7948718 0.1363636 0.02631579 0.8048780
-12 0.8571429 0.2000000 0.7428571 0.4736842 0.1842105 0.09523810 0.8000000
-63 0.7027027 0.3421053 0.6190476 0.4791667 0.2222222 0.18604651 0.7560976
+           2         43         25        65         70         16         6
+2  1.0000000 0.31250000 0.82500000 0.5250000 0.17647059 0.15151515 0.8285714
+43 0.3125000 1.00000000 0.22500000 0.1428571 0.08823529 0.39473684 0.2105263
+25 0.8250000 0.22500000 1.00000000 0.5384615 0.22857143 0.08823529 0.8333333
+65 0.5250000 0.14285714 0.53846154 1.0000000 0.10810811 0.00000000 0.6500000
+70 0.1764706 0.08823529 0.22857143 0.1081081 1.00000000 0.21875000 0.2000000
+16 0.1515152 0.39473684 0.08823529 0.0000000 0.21875000 1.00000000 0.1578947
+6  0.8285714 0.21052632 0.83333333 0.6500000 0.20000000 0.15789474 1.0000000
+5  0.8000000 0.18421053 0.80555556 0.7948718 0.13636364 0.02631579 0.8048780
+12 0.8571429 0.20000000 0.74285714 0.4736842 0.18421053 0.09523810 0.8000000
+63 0.7027027 0.34210526 0.61904762 0.4791667 0.22222222 0.18604651 0.7560976
             5        12        63
 2  0.80000000 0.8571429 0.7027027
 43 0.18421053 0.2000000 0.3421053
@@ -118,7 +127,7 @@ There were 50 or more warnings (use warnings() to see the first 50)
 > ### variable importances
 > a <- cforest(Species ~ ., data = iris,
 +              control = cforest_unbiased(mtry = 2, ntree = 10))
-> varimp(a)
+> varimp(a, pre1.0_0 = TRUE)
 Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
    0.0600000    0.0000000    0.3672727    0.2309091 
 > varimp(a, conditional = TRUE)
@@ -128,7 +137,7 @@ Sepal.Length  Sepal.Width Petal.Length  Petal.Width
 > airq <- subset(airquality, complete.cases(airquality))
 > a <- cforest(Ozone ~ ., data = airq,
 +              control = cforest_unbiased(mtry = 2, ntree = 10))
-> varimp(a)   
+> varimp(a, pre1.0_0 = TRUE)   
    Solar.R       Wind       Temp      Month        Day 
  18.709803 419.161930 468.897255  12.324762  -5.843064 
 > varimp(a, conditional = TRUE)
@@ -136,29 +145,29 @@ Sepal.Length  Sepal.Width Petal.Length  Petal.Width
  21.781398 310.203904 337.112896  -8.277057  14.038489 
 > 
 > a <- cforest(ME ~ ., data = mammoexp, control = cforest_classical(ntree = 10))
-> varimp(a)   
+> varimp(a, pre1.0_0 = TRUE)   
       SYMPT          PB        HIST         BSE        DECT 
 0.026676924 0.017718899 0.024070157 0.003977788 0.004566563 
 Warning messages:
-1: In varimp(a) :
+1: In varimp(a, pre1.0_0 = TRUE) :
   'varimp' with non-unity weights might give misleading results
-2: In varimp(a) :
+2: In varimp(a, pre1.0_0 = TRUE) :
   'varimp' with non-unity weights might give misleading results
-3: In varimp(a) :
+3: In varimp(a, pre1.0_0 = TRUE) :
   'varimp' with non-unity weights might give misleading results
-4: In varimp(a) :
+4: In varimp(a, pre1.0_0 = TRUE) :
   'varimp' with non-unity weights might give misleading results
-5: In varimp(a) :
+5: In varimp(a, pre1.0_0 = TRUE) :
   'varimp' with non-unity weights might give misleading results
-6: In varimp(a) :
+6: In varimp(a, pre1.0_0 = TRUE) :
   'varimp' with non-unity weights might give misleading results
-7: In varimp(a) :
+7: In varimp(a, pre1.0_0 = TRUE) :
   'varimp' with non-unity weights might give misleading results
-8: In varimp(a) :
+8: In varimp(a, pre1.0_0 = TRUE) :
   'varimp' with non-unity weights might give misleading results
-9: In varimp(a) :
+9: In varimp(a, pre1.0_0 = TRUE) :
   'varimp' with non-unity weights might give misleading results
-10: In varimp(a) :
+10: In varimp(a, pre1.0_0 = TRUE) :
   'varimp' with non-unity weights might give misleading results
 > varimp(a, conditional = TRUE)
       SYMPT          PB        HIST         BSE        DECT 

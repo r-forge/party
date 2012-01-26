@@ -16,7 +16,7 @@ rfS <- cforest(Surv(time, cens) ~ ., data = GBSG2, control = cforest_control(ntr
 treeresponse(rfS, newdata = GBSG2[1:2,])
 
 ### give it a try, at least
-varimp(rf)
+varimp(rf, pre1.0_0 = TRUE)
 
 P <- proximity(rf)
 stopifnot(max(abs(P - t(P))) == 0)
@@ -26,15 +26,15 @@ P[1:10,1:10]
 ### variable importances
 a <- cforest(Species ~ ., data = iris,
              control = cforest_unbiased(mtry = 2, ntree = 10))
-varimp(a)
+varimp(a, pre1.0_0 = TRUE)
 varimp(a, conditional = TRUE)
 
 airq <- subset(airquality, complete.cases(airquality))
 a <- cforest(Ozone ~ ., data = airq,
              control = cforest_unbiased(mtry = 2, ntree = 10))
-varimp(a)   
+varimp(a, pre1.0_0 = TRUE)   
 varimp(a, conditional = TRUE)
 
 a <- cforest(ME ~ ., data = mammoexp, control = cforest_classical(ntree = 10))
-varimp(a)   
+varimp(a, pre1.0_0 = TRUE)   
 varimp(a, conditional = TRUE)
