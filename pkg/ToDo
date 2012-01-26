@@ -1,45 +1,30 @@
 
-* ctree(y ~ x1 + x2 - x3) will not work
+Some open issues
 
-* fix C_surrogates
+o  update CITATION: package and papers
 
-* quantile regression (Meinshausen, JMLR)
+### conditional inference trees
 
-o  cvrisk for ctree and cforest (now that predictions for obs with zero
+o  ctree(y ~ x1 + x2 - x3) will not work
+
+o  implement quantile regression (Meinshausen, JMLR)
+
+o  implement cvrisk for ctree and cforest (now that predictions for obs with zero
    weight are computed)
 
-o  milestones for 0.9-0:
-   -  docu for mob (incl. journal + survreg)
-   -  cite new TR
-   -  vignette for cforest
-   -  update CITATION: package and papers
+o  check GetRNGstate() and PutRNGstate() calls in C code
 
-o       check GetRNGstate() and PutRNGstate() calls in C code
+o  we can re-compute prediction weights from the weights in the root
+   node, the terminal node number and where.
 
-o	we can re-compute prediction weights from the weights in the root
-	node, the terminal node number and where.
+o  more checks for MonteCarlo
 
-o	more checks for MonteCarlo
+o  check convenience functions (`treepredict' seems the
+   wrong name)
 
-o	check `cforest' and convenience functions (`treepredict' seems the
-        wrong name)
+o  predictions for multiple response including factors
 
-o       predictions for multiple response including factors
-
-o   unbiased defaults for cforest_control
-
-o   optimize initVariableFrame for numeric inputs
-    don't duplicate data (get_transformation may call get_variable)
-
-
-> Umgekehrt ist es so, dass fuer
->     "mob" Objekte auch
->       predict(obj, newdata, type = "node")
->     funktioniert. Vielleicht kann man das auch fuer die "BinaryTree"
->     Objekte dazugeben?
-
-o  ctree(, na.action = na.pass, ...) ? und fuer cforest auch!
-
+o  unbiased defaults for cforest_control
 
 o  check storage mode of ordinal variables and fix varimp
 
@@ -48,3 +33,15 @@ o  missing values and splitting: weights isn't adjusted for functions in
 
 o  implement splits in binary factors without looking at statistics (check
    only minsplit)
+
+o  vignette for cforest
+
+o  predict(obj, newdata, type = "node") works for mob,
+   can this be done for BinaryTrees (-> partykit!)
+
+### model-based trees
+
+o  better docu for mob (incl. journal + survreg)
+
+o  cite new TR
+
