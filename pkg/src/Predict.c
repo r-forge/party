@@ -376,39 +376,21 @@ void C_predict(SEXP tree, SEXP newinputs, double mincriterion,
     *\param tree a tree
     *\param newinputs an object of class `VariableFrame'
     *\param mincriterion overwrites mincriterion used for tree growing
+    *\param varperm which variable shall be permuted? -1 for no permutation
 */
 
-SEXP R_predict(SEXP tree, SEXP newinputs, SEXP mincriterion) {
-
-    SEXP ans;
-    int nobs;
-    
-    nobs = get_nobs(newinputs);
-    PROTECT(ans = allocVector(VECSXP, nobs));
-    C_predict(tree, newinputs, REAL(mincriterion)[0], 
-              -1, ans);
-    UNPROTECT(1);
-    return(ans);
-}
-
-/**
-    R-Interface to C_predict \n
-    *\param tree a tree
-    *\param newinputs an object of class `VariableFrame'
-    *\param mincriterion overwrites mincriterion used for tree growing
-    *\param varperm which variable shall be permuted?
-*/
-
-SEXP R_predict2(SEXP tree, SEXP newinputs, SEXP mincriterion,
+SEXP R_predict(SEXP tree, SEXP newinputs, SEXP mincriterion,
                SEXP varperm) {
 
     SEXP ans;
     int nobs;
-    
+
     nobs = get_nobs(newinputs);
     PROTECT(ans = allocVector(VECSXP, nobs));
+    GetRNGstate();
     C_predict(tree, newinputs, REAL(mincriterion)[0], 
               INTEGER(varperm)[0], ans);
+    PutRNGstate();
     UNPROTECT(1);
     return(ans);
 }
