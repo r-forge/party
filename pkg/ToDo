@@ -12,8 +12,6 @@ o  implement quantile regression (Meinshausen, JMLR)
 o  implement cvrisk for ctree and cforest (now that predictions for obs with zero
    weight are computed)
 
-o  check GetRNGstate() and PutRNGstate() calls in C code
-
 o  we can re-compute prediction weights from the weights in the root
    node, the terminal node number and where.
 
