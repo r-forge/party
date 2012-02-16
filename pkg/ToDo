@@ -1,8 +1,4 @@
 
-Some open issues
-
-o  update CITATION: package and papers
-
 ### conditional inference trees
 
 o  ctree(y ~ x1 + x2 - x3) will not work
@@ -22,8 +18,6 @@ o  check convenience functions (`treepredict' seems the
 
 o  predictions for multiple response including factors
 
-o  unbiased defaults for cforest_control
-
 o  check storage mode of ordinal variables and fix varimp
 
 o  missing values and splitting: weights isn't adjusted for functions in
@@ -37,5 +31,4 @@ o  vignette for cforest
 ### model-based trees
 
 o  better docu for mob (incl. journal + survreg)
-
 
