@@ -3,6 +3,10 @@
 
     o    varimp can now partially deal with missing values
 
+    o    Kaplan-Meier curves are now computed _after_ removing
+         zero case weights (see comment in ?survfit); plots may change
+         slightly.
+
 
                 CHANGES IN party VERSION 0.9-99996 (2011-12-20)
 

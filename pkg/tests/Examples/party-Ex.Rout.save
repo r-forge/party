@@ -528,11 +528,11 @@ Loading required package: nnet
 Loading required package: class
 [[1]]
 records   n.max n.start  events  median 0.95LCL 0.95UCL 
-    686     248     248      88    2093    1814      NA 
+    248     248     248      88    2093    1814      NA 
 
 [[2]]
 records   n.max n.start  events  median 0.95LCL 0.95UCL 
-    686     166     166      77    1701    1174    2018 
+    166     166     166      77    1701    1174    2018 
 
 > 
 >     ### if you are interested in the internals:
@@ -987,7 +987,7 @@ nativeSpeaker           age      shoeSize
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  23.445 0.284 23.762 0 0 
+Time elapsed:  22.901 0.264 23.21 0 0 
 > grDevices::dev.off()
 null device 
           1 

@@ -214,6 +214,9 @@ isequal <- function(a, b) {
 mysurvfit <- function(y, weights, ...) {
 
     stopifnot(extends(class(y), "Surv"))
+    ### see comment on weights and subset in ?survfit
+    y <- y[weights > 0,]
+    weights <- weights[weights > 0]
     ret <- survival:::survfitKM(x = gl(1, NROW(y)), y = y, 
                          casewt = weights, ...)
     class(ret) <- "survfit"

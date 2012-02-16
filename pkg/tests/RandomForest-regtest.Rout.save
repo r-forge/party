@@ -60,11 +60,11 @@ Loading required package: class
 > treeresponse(rfS, newdata = GBSG2[1:2,])
 $`1`
 records   n.max n.start  events  median 0.95LCL 0.95UCL 
-    686   12028   12028    4813    1990    1814    1990 
+    579   12028   12028    4813    1990    1814    1990 
 
 $`2`
 records   n.max n.start  events  median 0.95LCL 0.95UCL 
-    686    4659    4659    2233    1502    1493    1701 
+    473    4659    4659    2233    1502    1493    1701 
 
 > 
 > ### give it a try, at least
