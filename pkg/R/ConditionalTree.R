@@ -91,7 +91,7 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
 
     ### predict in the response space, always!
     RET@predict_response <- function(newdata = NULL, mincriterion = 0, 
-        type = c("response", "node"), ...) { 
+        type = c("response", "node", "prob"), ...) { 
 
         type <- match.arg(type)
         if (type == "node")
@@ -100,6 +100,8 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
 
         cdresp <- RET@cond_distr_response(newdata = newdata, 
                                           mincriterion = mincriterion, ...)
+        if (type == "prob")
+            return(cdresp)
 
         ### <FIXME> multivariate responses, we might want to return
         ###         a data.frame
