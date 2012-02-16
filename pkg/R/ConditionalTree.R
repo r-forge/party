@@ -90,7 +90,13 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
     }
 
     ### predict in the response space, always!
-    RET@predict_response <- function(newdata = NULL, mincriterion = 0, ...) { 
+    RET@predict_response <- function(newdata = NULL, mincriterion = 0, 
+        type = c("response", "node"), ...) { 
+
+        type <- match.arg(type)
+        if (type == "node")
+            return(RET@get_where(newdata = newdata, 
+                                 mincriterion = mincriterion, ...))
 
         cdresp <- RET@cond_distr_response(newdata = newdata, 
                                           mincriterion = mincriterion, ...)

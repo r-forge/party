@@ -34,12 +34,8 @@ o  implement splits in binary factors without looking at statistics (check
 
 o  vignette for cforest
 
-o  predict(obj, newdata, type = "node") works for mob,
-   can this be done for BinaryTrees (-> partykit!)
-
 ### model-based trees
 
 o  better docu for mob (incl. journal + survreg)
 
-o  cite new TR
 

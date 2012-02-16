@@ -116,6 +116,8 @@ ctree(formula, data, subset = NULL, weights = NULL,
     airct
     plot(airct)
     mean((airq$Ozone - predict(airct))^2)
+    ### extract terminal node ID, two ways
+    all.equal(predict(airct, type = "node") == where(airct))
 
     ### classification
     irisct <- ctree(Species ~ .,data = iris)
