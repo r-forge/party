@@ -445,6 +445,9 @@ Number of observations:  116
 >     plot(airct)
 >     mean((airq$Ozone - predict(airct))^2)
 [1] 403.6668
+>     ### extract terminal node ID, two ways
+>     all.equal(predict(airct, type = "node"), where(airct))
+[1] TRUE
 > 
 >     ### classification
 >     irisct <- ctree(Species ~ .,data = iris)
@@ -987,7 +990,7 @@ nativeSpeaker           age      shoeSize
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  22.901 0.264 23.21 0 0 
+Time elapsed:  22.629 0.292 22.971 0 0 
 > grDevices::dev.off()
 null device 
           1 
