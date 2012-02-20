@@ -26,7 +26,7 @@ SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP bwhere, SEXP bweights,
      double *dnweights, *dweights, sw = 0.0, *prob, tmp;
      int nobs, i, b, B , nodenum = 1, *iweights, *iweightstmp, 
          *iwhere, replace, fraction, wgrzero = 0, realweights = 0;
-     int j, k, l;
+     int j, k, l, swi = 0;
      
      B = get_ntree(controls);
      nobs = get_nobs(learnsample);
@@ -49,6 +49,7 @@ SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP bwhere, SEXP bweights,
      }
      for (i = 0; i < nobs; i++)
          prob[i] = dweights[i]/sw;
+     swi = (int) fprec(sw, 0.0);
 
      replace = get_replace(controls);
      /* fraction of number of obs with weight > 0 */
@@ -89,7 +90,7 @@ SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP bwhere, SEXP bweights,
          /* generate altered weights for perturbation */
          if (replace) {
              /* weights for a bootstrap sample */
-             rmultinom((int) sw, prob, nobs, iweights);
+             rmultinom(swi, prob, nobs, iweights);
          } else {
              /* weights for sample splitting */
              C_SampleSplitting(nobs, prob, iweights, fraction);
