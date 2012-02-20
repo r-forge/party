@@ -291,6 +291,10 @@ Loading required package: rpart
 Loading required package: mlbench
 Loading required package: nnet
 Loading required package: class
+Loading required package: prodlim
+Loading required package: KernSmooth
+KernSmooth 2.23 loaded
+Copyright M. P. Wand 1997-2009
 1) tgrade <= 1; criterion = 5.039, statistic = 5.039
   2) age <= 51; criterion = 2.187, statistic = 2.187
     3)*  weights = 0 
@@ -399,8 +403,8 @@ Loading required package: class
 > graphics::par(get("par.postscript", pos = 'CheckExEnv'))
 > cleanEx()
 
-detaching ‘package:ipred’, ‘package:class’, ‘package:nnet’,
-  ‘package:mlbench’, ‘package:rpart’
+detaching ‘package:ipred’, ‘package:prodlim’, ‘package:KernSmooth’,
+  ‘package:class’, ‘package:nnet’, ‘package:mlbench’, ‘package:rpart’
 
 > nameEx("ctree")
 > ### * ctree
@@ -529,6 +533,8 @@ Loading required package: rpart
 Loading required package: mlbench
 Loading required package: nnet
 Loading required package: class
+Loading required package: prodlim
+Loading required package: KernSmooth
 [[1]]
 records   n.max n.start  events  median 0.95LCL 0.95UCL 
     248     248     248      88    2093    1814      NA 
@@ -561,8 +567,8 @@ records   n.max n.start  events  median 0.95LCL 0.95UCL
 > 
 > cleanEx()
 
-detaching ‘package:ipred’, ‘package:class’, ‘package:nnet’,
-  ‘package:mlbench’, ‘package:rpart’
+detaching ‘package:ipred’, ‘package:prodlim’, ‘package:KernSmooth’,
+  ‘package:class’, ‘package:nnet’, ‘package:mlbench’, ‘package:rpart’
 
 > nameEx("ctree_memory")
 > ### * ctree_memory
@@ -801,14 +807,16 @@ Loading required package: rpart
 Loading required package: mlbench
 Loading required package: nnet
 Loading required package: class
+Loading required package: prodlim
+Loading required package: KernSmooth
 > 
 > 
 > 
 > 
 > cleanEx()
 
-detaching ‘package:ipred’, ‘package:class’, ‘package:nnet’,
-  ‘package:mlbench’, ‘package:rpart’
+detaching ‘package:ipred’, ‘package:prodlim’, ‘package:KernSmooth’,
+  ‘package:class’, ‘package:nnet’, ‘package:mlbench’, ‘package:rpart’
 
 > nameEx("plot.mob")
 > ### * plot.mob
@@ -990,7 +998,7 @@ nativeSpeaker           age      shoeSize
 > ### * <FOOTER>
 > ###
 > cat("Time elapsed: ", proc.time() - get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  22.629 0.292 22.971 0 0 
+Time elapsed:  23.109 0.252 23.397 0 0 
 > grDevices::dev.off()
 null device 
           1 

@@ -47,6 +47,10 @@ Loading required package: rpart
 Loading required package: mlbench
 Loading required package: nnet
 Loading required package: class
+Loading required package: prodlim
+Loading required package: KernSmooth
+KernSmooth 2.23 loaded
+Copyright M. P. Wand 1997-2009
 > 
 > ### get rid of the NAMESPACE
 > attach(asNamespace("party"))

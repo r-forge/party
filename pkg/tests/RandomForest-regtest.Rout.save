@@ -47,6 +47,10 @@ Loading required package: rpart
 Loading required package: mlbench
 Loading required package: nnet
 Loading required package: class
+Loading required package: prodlim
+Loading required package: KernSmooth
+KernSmooth 2.23 loaded
+Copyright M. P. Wand 1997-2009
 > if (!require("coin"))
 +     stop("cannot load package coin")
 > 
@@ -54,6 +58,8 @@ Loading required package: class
 > rf <- cforest(Class ~ ., data = GlaucomaM, control = cforest_control(ntree = 100))
 > stopifnot(mean(GlaucomaM$Class != predict(rf)) < 
 +           mean(GlaucomaM$Class != predict(rf, OOB = TRUE)))
+> 
+> stopifnot(all.equal(unique(sapply(rf@weights, sum)), nrow(GlaucomaM)))
 > 
 > data("GBSG2", package = "ipred")
 > rfS <- cforest(Surv(time, cens) ~ ., data = GBSG2, control = cforest_control(ntree = 100))
@@ -66,6 +72,8 @@ $`2`
 records   n.max n.start  events  median 0.95LCL 0.95UCL 
     473    4659    4659    2233    1502    1493    1701 
 
+> 
+> stopifnot(all.equal(unique(sapply(rfS@weights, sum)), nrow(GBSG2)))
 > 
 > ### give it a try, at least
 > varimp(rf, pre1.0_0 = TRUE)
@@ -193,4 +201,7 @@ Warning messages:
   'varimp' with non-unity weights might give misleading results
 10: In varimp(a, conditional = TRUE) :
   'varimp' with non-unity weights might give misleading results
+> 
+> stopifnot(all.equal(unique(sapply(a@weights, sum)), nrow(mammoexp)))
+> 
 > 
