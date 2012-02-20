@@ -11,9 +11,13 @@ rf <- cforest(Class ~ ., data = GlaucomaM, control = cforest_control(ntree = 100
 stopifnot(mean(GlaucomaM$Class != predict(rf)) < 
           mean(GlaucomaM$Class != predict(rf, OOB = TRUE)))
 
+stopifnot(all.equal(unique(sapply(rf@weights, sum)), nrow(GlaucomaM)))
+
 data("GBSG2", package = "ipred")
 rfS <- cforest(Surv(time, cens) ~ ., data = GBSG2, control = cforest_control(ntree = 100))
 treeresponse(rfS, newdata = GBSG2[1:2,])
+
+stopifnot(all.equal(unique(sapply(rfS@weights, sum)), nrow(GBSG2)))
 
 ### give it a try, at least
 varimp(rf, pre1.0_0 = TRUE)
@@ -38,3 +42,6 @@ varimp(a, conditional = TRUE)
 a <- cforest(ME ~ ., data = mammoexp, control = cforest_classical(ntree = 10))
 varimp(a, pre1.0_0 = TRUE)   
 varimp(a, conditional = TRUE)
+
+stopifnot(all.equal(unique(sapply(a@weights, sum)), nrow(mammoexp)))
+
