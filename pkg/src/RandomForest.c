@@ -51,8 +51,6 @@ SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP bwhere, SEXP bweights,
          prob[i] = dweights[i]/sw;
      swi = (int) ftrunc(sw);
 
-Rprintf("n: %d %f\n", swi, sw);
-
      replace = get_replace(controls);
      /* fraction of number of obs with weight > 0 */
      if (realweights) {
