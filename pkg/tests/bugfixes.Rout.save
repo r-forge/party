@@ -114,7 +114,7 @@ In validityMethod(object) : 'nresample' must be larger than 100
 > xo <- ordered(x)
 > x[sample(1:length(x), 10)] <- NA
 > cforest(y + xo ~ x + z, data = df, 
-+         control = cforest_control(ntree = 50))
++         control = cforest_unbiased(ntree = 50))
 
 	 Random Forest using Conditional Inference Trees
 
@@ -216,9 +216,8 @@ There were 50 or more warnings (use warnings() to see the first 50)
 > 
 > ### varimp with ordered response
 > ### spotted by Max Kuhn <Max.Kuhn@pfizer.com>
-> test <- cforest(ME ~ ., data = mammoexp, control = cforest_control(ntree = 50))
+> test <- cforest(ME ~ ., data = mammoexp, control = cforest_unbiased(ntree = 50))
 > stopifnot(sum(abs(varimp(test))) > 0)
-There were 50 or more warnings (use warnings() to see the first 50)
 > 
 > ### missing values in factors lead to segfaults on 64 bit systems
 > ### spotted by Carolin Strobl <carolin.strobl@lme.de>
@@ -236,7 +235,7 @@ Response:  y
 Input:  xNA 
 Number of observations:  100 
 
-1) xNA == {1}; criterion = 1, statistic = 70.928
+1) xNA == {1}; criterion = 1, statistic = 72.566
   2)*  weights = 48 
 1) xNA == {2}
   3)*  weights = 52 
@@ -299,7 +298,7 @@ Number of observations:  100
 +           controls = ctree_control(maxsurrogate = nm))
 > foo(4)
 
-	 Conditional inference tree with 5 terminal nodes
+	 Conditional inference tree with 6 terminal nodes
 
 Response:  Ozone 
 Inputs:  Solar.R, Wind, Temp, Month, Day, x1, x2, x3 
@@ -315,9 +314,12 @@ Number of observations:  116
       6)*  weights = 21 
 1) Temp > 82
   7) Wind <= 10.3; criterion = 0.995, statistic = 11.712
-    8)*  weights = 30 
+    8) x1 == {1}; criterion = 0.961, statistic = 7.877
+      9)*  weights = 15 
+    8) x1 == {0}
+      10)*  weights = 15 
   7) Wind > 10.3
-    9)*  weights = 7 
+    11)*  weights = 7 
 > try(foo(5))
 Error in model@fit(data, ...) : 
   cannot set up 5 surrogate splits with only 4 ordered input variable(s)

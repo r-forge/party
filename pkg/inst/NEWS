@@ -7,6 +7,9 @@
          zero case weights (see comment in ?survfit); plots may change
          slightly.
 
+    o    use cforest_unbiased instead of cforest_control/cforest_classical
+         in examples and regression tests
+
 
                 CHANGES IN party VERSION 0.9-99996 (2011-12-20)
 
