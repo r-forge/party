@@ -66,10 +66,14 @@ cforestfit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
     }
 
     ### predict in the response space, always!
-    RET@predict_response <- function(newdata = NULL, mincriterion = 0, ...) { 
+    RET@predict_response <- function(newdata = NULL, mincriterion = 0, 
+        type = c("response", "prob"), ...) { 
 
+        type <- match.arg(type)
         cdresp <- RET@cond_distr_response(newdata = newdata, 
                                           mincriterion = mincriterion, ...)
+        if (type == "prob" || object@responses@ninputs > 1)
+            return(cdresp)
 
         response <- object@responses
         ### classification: classes
