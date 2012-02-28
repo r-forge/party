@@ -212,7 +212,7 @@ In factor_trafo(x) : factors at only one level may lead to problems
 > cf <- cforest(y1 + y2 ~ x1 + x2, data = df)
 There were 50 or more warnings (use warnings() to see the first 50)
 > pr <- predict(cf)
-> stopifnot(nrow(pr) == nrow(df) || ncol(pr) != 2)
+> stopifnot(length(pr) == nrow(df) || lengthl(pr[[1]]) != 2)
 > 
 > ### varimp with ordered response
 > ### spotted by Max Kuhn <Max.Kuhn@pfizer.com>

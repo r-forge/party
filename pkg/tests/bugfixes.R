@@ -98,7 +98,7 @@ df <- data.frame(y1 = rnorm(100), y2 = rnorm(100), x1 = runif(100), x2 = runif(1
 df$y1[df$x1 < 0.5] <- df$y1[df$x1 < 0.5] + 1
 cf <- cforest(y1 + y2 ~ x1 + x2, data = df)
 pr <- predict(cf)
-stopifnot(nrow(pr) == nrow(df) || ncol(pr) != 2)
+stopifnot(length(pr) == nrow(df) || lengthl(pr[[1]]) != 2)
 
 ### varimp with ordered response
 ### spotted by Max Kuhn <Max.Kuhn@pfizer.com>
