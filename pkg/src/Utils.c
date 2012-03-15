@@ -365,7 +365,7 @@ SEXP R_abs(SEXP x) {
 void C_matprod(double *x, int nrx, int ncx,
                double *y, int nry, int ncy, double *z)
 {
-    char *transa = "N", *transb = "N";
+    const char *transa = "N", *transb = "N";
     double one = 1.0, zero = 0.0;
     int i;
 
@@ -417,7 +417,7 @@ SEXP R_matprod(SEXP x, SEXP y) {
 void C_matprodT(double *x, int nrx, int ncx,
                 double *y, int nry, int ncy, double *z)
 {
-    char *transa = "N", *transb = "T";
+    const char *transa = "N", *transb = "T";
     double one = 1.0, zero = 0.0;
     int i;
 
