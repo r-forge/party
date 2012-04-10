@@ -28,6 +28,8 @@ o  implement splits in binary factors without looking at statistics (check
 
 o  vignette for cforest
 
+o  varimp for censored observations
+
 ### model-based trees
 
 o  better docu for mob (incl. journal + survreg)
