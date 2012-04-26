@@ -136,7 +136,7 @@ node_surv <- function(ctreeobj,
                          sep = ""))
 
         pushViewport(plot)
-        grid.lines(a$x/max(a$x), a$y)
+        grid.lines(a$x/max(survobj[,1]), a$y)
         grid.xaxis()
         grid.yaxis()
         grid.rect(gp = gpar(fill = "transparent"))
