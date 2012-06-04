@@ -30,6 +30,8 @@ o  vignette for cforest
 
 o  varimp for censored observations
 
+o  varimp for matrix interface
+
 ### model-based trees
 
 o  better docu for mob (incl. journal + survreg)
