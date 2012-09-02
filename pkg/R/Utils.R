@@ -222,3 +222,20 @@ mysurvfit <- function(y, weights, ...) {
     class(ret) <- "survfit"
     ret
 }
+
+R_get_nodeID <- function(tree, inputs, mincriterion)
+    .Call("R_get_nodeID", tree, inputs, 0.0, PACKAGE = "party")
+
+R_getpredictions <- function(tree, where)
+    .Call("R_getpredictions", tree, where, PACKAGE = "party")
+
+R_remove_weights <- function(tree, remove)
+    .Call("R_remove_weights", tree, remove, package = "party")
+
+R_modify_response <- function(y, responses)
+    .Call("R_modify_response", as.double(y), responses,
+          PACKAGE = "party")
+
+R_TreeGrow <- function(object, weights, fitmem, ctrl, where)
+    .Call("R_TreeGrow", object, weights, fitmem, ctrl,
+          where, PACKAGE = "party")
