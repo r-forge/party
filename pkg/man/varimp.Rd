@@ -1,5 +1,6 @@
 \name{varimp}
 \alias{varimp}
+\alias{varimpAUC}
 \title{ Variable Importance }
 \description{
     Standard and conditional variable importance for `cforest', following the permutation
