@@ -1,5 +1,5 @@
 
-R version 2.14.2 (2012-02-29)
+R Under development (unstable) (2012-08-27 r60457) -- "Unsuffered Consequences"
 Copyright (C) 2012 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 Platform: i686-pc-linux-gnu (32-bit)
@@ -157,3 +157,6 @@ Sepal.Length  Sepal.Width Petal.Length  Petal.Width
 > stopifnot(all.equal(unique(sapply(a@weights, sum)), nrow(mammoexp)))
 > 
 > 
+> proc.time()
+   user  system elapsed 
+  7.604   0.172   7.781 
