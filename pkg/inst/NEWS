@@ -1,7 +1,10 @@
 
                 CHANGES IN party VERSION 1.0-3 (2012-xx-xx)
 
-    o    new function `varimpAUC' for AUC-based variable importance measures
+    o    new function varimpAUC() for AUC-based variable importance measures
+
+    o    the `weights' argument in cforest() can now be used to define
+         alternative case weights for each of the trees in the forest.
 
 
                 CHANGES IN party VERSION 1.0-2 (2012-04-26)
