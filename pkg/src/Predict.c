@@ -487,7 +487,7 @@ SEXP R_predictRF_weights(SEXP forest, SEXP where, SEXP weights,
             count++;
         }
         if (count == 0) 
-            error("cannot compute out-of-bag predictions for obs ", i + 1);
+            error("cannot compute out-of-bag predictions for observation number %d", i + 1);
     }
     UNPROTECT(1);
     return(ans);
