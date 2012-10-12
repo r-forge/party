@@ -73,7 +73,7 @@ varimpAUC(object, mincriterion = 0, conditional = FALSE,
 
     Alexander Hapfelmeier, Torsten Hothorn, Kurt Ulm, and Carolin Strobl (2012).
     A New Variable Importance Measure for Random Forests with Missing Data.
-    Manuscript under review.
+    \emph{Statistics and Computing}, accepted.
 
     Torsten Hothorn, Kurt Hornik, and Achim Zeileis (2006b). Unbiased
     Recursive Partitioning: A Conditional Inference Framework.
