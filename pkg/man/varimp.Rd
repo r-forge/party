@@ -84,6 +84,7 @@ varimpAUC(object, mincriterion = 0, conditional = FALSE,
     Silke Janitza and Anne-Laure Boulesteix (2012). An AUC-based Permutation 
     Variable Importance Measure for Random Forests for Unbalanced Data.
     Technical Report 130, Institut fuer Statistik, LMU Muenchen.
+    \url{http://epub.ub.uni-muenchen.de/14206/}
 
     Carolin Strobl, Anne-Laure Boulesteix, Thomas Kneib, Thomas Augustin, and Achim Zeileis (2008).
     Conditional Variable Importance for Random Forests. \emph{BMC Bioinformatics}, \bold{9}, 307. 
