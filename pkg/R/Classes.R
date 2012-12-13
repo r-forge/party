@@ -284,6 +284,7 @@ setClass(Class = "RandomForest",
         cond_distr_response = "function",      # predict distribtion
         predict_response    = "function",      # predict responses
         prediction_weights  = "function",      # prediction weights
+        get_where           = "function",      # node numbers
 	update              = "function"       # update weights
     )
 )

@@ -117,6 +117,18 @@ cforestfit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
         return(RET)
     }
 
+    ### get terminal node numbers
+    RET@get_where <- function(newdata = NULL, mincriterion = 0, ...) {
+
+        if (is.null(newdata) && mincriterion == 0) {
+            if (all(where > 0)) return(RET@where)
+        }
+
+        newinp <- newinputs(object, newdata)
+
+        lapply(ensemble, function(e) .Call("R_get_nodeID", e, newinp, mincriterion, PACKAGE = "party"))
+    }
+
     RET@prediction_weights <- function(newdata = NULL, 
                                        mincriterion = 0, OOB = FALSE) {
 

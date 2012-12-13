@@ -53,6 +53,13 @@ setMethod("where", signature = signature(object = "BinaryTree"),
     }
 )
 
+setMethod("where", signature = signature(object = "RandomForest"),
+    definition = function(object, newdata = NULL, ...) {
+        if(is.null(newdata)) object@where
+	    else object@get_where(newdata = newdata, ...)
+    }
+)
+
 
 setGeneric("nodes", function(object, where, ...) standardGeneric("nodes"))
 
