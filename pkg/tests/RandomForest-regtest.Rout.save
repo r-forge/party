@@ -1,5 +1,5 @@
 
-R Under development (unstable) (2012-09-25 r60811) -- "Unsuffered Consequences"
+R version 2.15.2 (2012-10-26) -- "Trick or Treat"
 Copyright (C) 2012 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 Platform: i686-pc-linux-gnu (32-bit)
@@ -43,7 +43,6 @@ Loading required package: colorspace
 +     stop("cannot load package ipred")
 Loading required package: ipred
 Loading required package: rpart
-Loading required package: mlbench
 Loading required package: nnet
 Loading required package: class
 Loading required package: prodlim
@@ -170,4 +169,4 @@ Sepal.Length  Sepal.Width Petal.Length  Petal.Width
 > 
 > proc.time()
    user  system elapsed 
-  8.160   0.212   8.378 
+  8.324   0.248   8.579 
