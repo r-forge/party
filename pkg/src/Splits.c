@@ -149,6 +149,8 @@ void C_split(const double *x, int p,
         }
     
         /* search for the maximum and the best separating cutpoint */
+        /* <FIXME> the result might differ between 32 and 64bit systems 
+                   because of rounding errors in 'statistics' */
         maxstat[0] = 0.0;        
         for (i = 0; i < n; i++) {
             if (statistics[i] > maxstat[0]) {
@@ -156,6 +158,7 @@ void C_split(const double *x, int p,
                 cutpoint[0] = x[i];
             }
         }
+        /* </FIXME> */
     }
 }
 
