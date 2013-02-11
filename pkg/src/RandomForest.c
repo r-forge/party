@@ -154,7 +154,7 @@ SEXP R_Ensemble_weights(SEXP learnsample, SEXP bwhere, SEXP bweights,
      SEXP nweights, tree, where, ans;
      double *dnweights, *dweights;
      int nobs, i, b, B , nodenum = 1, *iwhere;
-     int j, k, l, swi = 0;
+     int j, k, l;
      
      B = get_ntree(controls);
      nobs = get_nobs(learnsample);
