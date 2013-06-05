@@ -204,6 +204,7 @@ plot(mobGBSG2, terminal = node_scatterplot, tp_args = list(yscale = c(-0.1, 11))
 
 ### factors were evaluated for surrogate splits
 data("Ozone", package = "mlbench")
+Ozone$V2 <- ordered(Ozone$V2)
 Ozone <- subset(Ozone, !is.na(V4))
 rf <- cforest(V4 ~ ., data = Ozone, control = cforest_unbiased(maxsurrogate = 7))
 
