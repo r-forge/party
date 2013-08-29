@@ -1,8 +1,7 @@
 
-R Under development (unstable) (2013-01-06 r61571) -- "Unsuffered Consequences"
+R version 3.0.1 (2013-05-16) -- "Good Sport"
 Copyright (C) 2013 The R Foundation for Statistical Computing
-ISBN 3-900051-07-0
-Platform: i686-pc-linux-gnu (32-bit)
+Platform: x86_64-unknown-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -46,7 +45,6 @@ Loading required package: rpart
 Loading required package: nnet
 Loading required package: class
 Loading required package: prodlim
-Loading required package: KernSmooth
 KernSmooth 2.23 loaded
 Copyright M. P. Wand 1997-2009
 > 
@@ -56,10 +54,11 @@ The following objects are masked from package:party:
 
     cforest, cforest_classical, cforest_control, cforest_unbiased,
     conditionalTree, ctree, ctree_control, ctree_memory, edge_simple,
-    mob, mob_control, node_barplot, node_bivplot, node_boxplot,
-    node_density, node_hist, node_inner, node_scatterplot, node_surv,
-    node_terminal, nodes, proximity, ptrafo, response, reweight,
-    sctest.mob, treeresponse, varimp, varimpAUC, where
+    initVariableFrame, mob, mob_control, node_barplot, node_bivplot,
+    node_boxplot, node_density, node_hist, node_inner,
+    node_scatterplot, node_surv, node_terminal, nodes, proximity,
+    ptrafo, response, reweight, sctest.mob, treeresponse, varimp,
+    varimpAUC, where
 > 
 > gtctrl <- new("GlobalTestControl")
 > tlev <- levels(gtctrl@testtype)
@@ -89,4 +88,4 @@ The following objects are masked from package:party:
 > 
 > proc.time()
    user  system elapsed 
-  1.528   0.068   1.588 
+  1.044   0.040   1.079 
