@@ -217,10 +217,7 @@ mysurvfit <- function(y, weights, ...) {
     ### see comment on weights and subset in ?survfit
     y <- y[weights > 0,]
     weights <- weights[weights > 0]
-    ret <- survival:::survfitKM(x = gl(1, NROW(y)), y = y, 
-                         casewt = weights, ...)
-    class(ret) <- "survfit"
-    ret
+    return(survfit(y ~ 1, weights = weights, ...))
 }
 
 R_get_nodeID <- function(tree, inputs, mincriterion)
