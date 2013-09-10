@@ -142,9 +142,9 @@ proximity(object)
                                OOB = TRUE))
 
     ### fit forest to censored response
-    if (require("ipred")) {
+    if (require("TH.data") && require("survival")) {
 
-        data("GBSG2", package = "ipred")
+        data("GBSG2", package = "TH.data")
         bst <- cforest(Surv(time, cens) ~ ., data = GBSG2, 
                    control = cforest_unbiased(ntree = 50))
 

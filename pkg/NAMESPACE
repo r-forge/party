@@ -1,7 +1,13 @@
 
-importFrom("coin", "logrank_trafo")
-importFrom("modeltools", "fit")
+importFrom("coin", "logrank_trafo", "trafo", "id_trafo", "of_trafo")
 importFrom("stats", "weights")
+importFrom("survival", "Surv", "survfit", "is.Surv")
+
+import("modeltools")
+import("methods")
+import("zoo")
+import("strucchange")
+import("sandwich")
 
 importClassesFrom("coin", "ExpectCovar", "ExpectCovarInfluence")
 

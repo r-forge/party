@@ -145,8 +145,8 @@ ctree(formula, data, subset = NULL, weights = NULL,
     treeresponse(mammoct, newdata = mammoexp[1:10,])
 
     ### survival analysis
-    if (require("ipred")) {
-        data("GBSG2", package = "ipred")
+    if (require("TH.data") && require("survival")) {
+        data("GBSG2", package = "TH.data")
         GBSG2ct <- ctree(Surv(time, cens) ~ .,data = GBSG2)
         plot(GBSG2ct)
         treeresponse(GBSG2ct, newdata = GBSG2[1:2,])        
@@ -163,7 +163,7 @@ ctree(formula, data, subset = NULL, weights = NULL,
         untar(tgz, exdir = tmpdir)
         wd <- setwd(file.path(tmpdir, "party"))
         ### run doxygen (assuming it is there)
-        system("doxygen doxygen.cfg")
+        system("doxygen inst/doxygen.cfg")
         setwd(wd)
         ### have fun
         browseURL(file.path(tmpdir, "party", "inst", 
