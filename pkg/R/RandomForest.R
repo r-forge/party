@@ -228,11 +228,17 @@ varIDs <- function(node) {
 
 ### calculate proximity matrix: p[i,j] = number of times obs i and j are 
 ### in the same terminal node
-proximity <- function(object) {
+proximity <- function(object, newdata = NULL) {
 
+    if (is.null(newdata)) {
+        wh <- object@where
+        rn <- rownames(object@data@get("response"))
+    } else {
+        wh <- object@get_where(newdata = newdata)
+        rn <- rownames(newdata)
+    }
     ### extract prediction weights
-    prox <- .Call("R_proximity", object@where, package = "party")
-    rn <- rownames(object@data@get("response"))
+    prox <- .Call("R_proximity", wh, package = "party")
     prox <- matrix(unlist(prox), ncol = length(prox))
     rownames(prox) <- rn
     colnames(prox) <- rn
