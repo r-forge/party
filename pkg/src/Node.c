@@ -198,7 +198,6 @@ void C_Node(SEXP node, SEXP learnsample, SEXP weights,
                  Free(standstat);
             }
             if (maxstat == 0) {
-            
                 if (j == 1) {          
                     S3set_nodeterminal(node);
                 } else {
