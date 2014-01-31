@@ -6,7 +6,7 @@ setMethod(f = "initialize", signature = "ExpectCovar",
         pq <- as.integer(pq)
         .Object@expectation <- rep(0, pq)
         .Object@covariance <- matrix(0, nrow = pq, ncol = pq)
-        .Object@dimension  <- pq
+        .Object@dimension  <- as.integer(pq)
         .Object
     }
 )
@@ -16,8 +16,8 @@ setMethod(f = "initialize", signature = "ExpectCovarInfluence",
     definition = function(.Object, q) {
         .Object@expectation <- rep(0, q)
         .Object@covariance <- matrix(0, nrow = q, ncol = q)
-        .Object@dimension  <- q
-        .Object@sumweights <- 0.0
+        .Object@dimension  <- as.integer(q)
+        .Object@sumweights <- as.double(0.0)
         .Object
     }
 )
@@ -53,7 +53,7 @@ setMethod(f = "initialize", signature = "LinStatExpectCovarMPinv",
 setMethod(f = "initialize", signature = "svd_mem",
     definition = function(.Object, p) {
         if (p <= 0) stop(sQuote("p"), " is not a positive integer")
-        .Object@p <- p
+        .Object@p <- as.integer(p)
         .Object@method <- "dgesdd"
         .Object@jobu <- "S"
         .Object@jobv <- ""
@@ -68,8 +68,8 @@ setMethod(f = "initialize", signature = "VariableFrame",
     definition = function(.Object, nobs, ninputs) {
         if (nobs <= 0 || ninputs <= 0) stop(sQuote("nobs"), " or ", 
             sQuote("ninputs"), " is not a positive integer")
-        .Object@nobs <- nobs
-        .Object@ninputs <- ninputs
+        .Object@nobs <- as.integer(nobs)
+        .Object@ninputs <- as.integer(ninputs)
         .Object@variables <- vector(mode = "list", length = ninputs)
         .Object@transformations <- vector(mode = "list", length = ninputs)
         .Object@is_nominal <- vector(mode = "logical", length = ninputs)
