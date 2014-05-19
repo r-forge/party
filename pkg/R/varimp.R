@@ -70,7 +70,7 @@ varimp <- function (object, mincriterion = 0, conditional = FALSE,
 
 
             ## if OOB == TRUE use only oob observations, otherwise use all observations in learning sample
-            if(OOB){oob <- object@weights[[b]] == 0} else{ oob <- rep(TRUE, length(xnames))}
+            if(OOB){oob <- object@weights[[b]] == 0} else{ oob <- rep(TRUE, length(y))}
             p <- .Call("R_predict", tree, inp, mincriterion, -1L, PACKAGE = "party")
             eoob <- error(p, oob)
 
