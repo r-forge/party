@@ -221,7 +221,7 @@ mysurvfit <- function(y, weights, ...) {
 }
 
 R_get_nodeID <- function(tree, inputs, mincriterion)
-    .Call("R_get_nodeID", tree, inputs, 0.0, PACKAGE = "party")
+    .Call("R_get_nodeID", tree, inputs, 0.0, -1L, PACKAGE = "party")
 
 R_getpredictions <- function(tree, where)
     .Call("R_getpredictions", tree, where, PACKAGE = "party")
