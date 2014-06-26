@@ -126,7 +126,8 @@ cforestfit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
 
         newinp <- newinputs(object, newdata)
 
-        lapply(ensemble, function(e) .Call("R_get_nodeID", e, newinp, mincriterion, PACKAGE = "party"))
+        lapply(ensemble, function(e) 
+            R_get_nodeID(e, newinp, mincriterion))
     }
 
     RET@prediction_weights <- function(newdata = NULL, 

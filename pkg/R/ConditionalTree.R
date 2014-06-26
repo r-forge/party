@@ -58,7 +58,7 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
 
         newinp <- newinputs(object, newdata)
 
-        .Call("R_get_nodeID", tree, newinp, mincriterion, PACKAGE = "party")
+        R_get_nodeID(tree, newinp, mincriterion)
     }
 
     ### (estimated) conditional distribution of the response given the
