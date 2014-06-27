@@ -248,6 +248,7 @@ proximity <- function(object, newdata = NULL) {
 
 
 ### FIXME: newdata may be missing, reuse weights
+### partialPlot.BinaryTree?
 partialPlot.party <-
     function (x, newdata, x.var, which.class, weights, plot = TRUE, add = FALSE,
               n.pt = min(length(unique(newdata[, xname])), 51), rug = TRUE,
