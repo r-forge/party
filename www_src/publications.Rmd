@@ -1,0 +1,24 @@
+---
+layout: page
+title: Publications
+permalink: /publications/
+---
+
+Add Citations to an RMarkdown Document and Print Bibliography
+========================================================
+
+```{r setup, include = FALSE, cache = FALSE}
+library("RefManageR")
+bib <- ReadBib("TH.bib", check = FALSE)
+BibOptions(check.entries = FALSE, style = "html", cite.style = "authoryear",
+           bib.style = "numeric")
+```
+This is an R Markdown document. This is an example of a citation in the 
+text `r Citet(bib, "Hapfelmeier_Hothorn_Riediger_2014")`. Now we cite in parentheses 
+`r AutoCite(bib, "Zeileis_Hothorn_2013", before = "e.g., ")`.  
+
+**References**
+
+```{r results = "asis", echo = FALSE}
+PrintBibliography(bib, .opts = list(check.entries = FALSE, sorting = "ynt"))
+```

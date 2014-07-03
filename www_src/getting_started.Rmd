@@ -1,0 +1,12 @@
+---
+layout: page
+title: Getting Started
+permalink: /getting_started/
+---
+Add Citations to an RMarkdown Document and Print Bibliography
+========================================================
+
+```{r fig.width=7, fig.height=6}
+head(cars)
+plot(cars)
+```
