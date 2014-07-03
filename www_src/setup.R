@@ -34,4 +34,7 @@ for (f in Rmd)
 
 file.remove("TH.bib")
 
-setwd(dest)
+file.copy("party.jpg", file.path(dest, "img"))
+x <- readLines(file.path(dest, "_data", "pkg.yml"))
+x <- c(x, "headpic: /img/party.jpg")
+writeLines(x, con = file.path(dest, "_data", "pkg.yml"))
