@@ -40,7 +40,12 @@ file.remove("TH.bib")
 
 file.copy("party.jpg", file.path(dest, "img"))
 x <- readLines(file.path(dest, "_data", "pkg.yml"))
-#x <- c(x, "headpic: /img/party.jpg")
+x <- c(x, "headpic: /img/party.jpg")
+#x <- c(x, "acol: #2a7ae2")
+#x <- c(x, "acolvisited: #205caa")
+#x <- x[-length(x)]
+x <- c(x, "acol: \'a         { color: #FF00FF; text-decoration: none; }\'")
+x <- c(x, "acolvisited: \'a:visited { color: #FF0000; }\'")
 writeLines(x, con = file.path(dest, "_data", "pkg.yml"))
 
 yml <- list.files(pattern = "yml$")
