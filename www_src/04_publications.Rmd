@@ -20,7 +20,11 @@ model-based recursive partitioning
 and conditional inference forests
 `r AutoCite(bib, "Hothorn:2006:Biostatistics:16344280", before = "function cforest(), ")`.
 Variable importances for conditional inference forests are
-implemented in function varimp() `r AutoCite(bib, "Strobl:2006:BMC-Bioinformatics")`.
+implemented in function varimp() as described in
+`r Citet(bib, "Strobl:2006:BMC-Bioinformatics")` and
+`r Citet(bib, "Strobl_Boulesteix_Kneib_2008")`.
+An introduction to trees and forests was published by 
+`r Citet(bib, "Strobl_Malley_Tutz_2009")`.
 
 **References**
 

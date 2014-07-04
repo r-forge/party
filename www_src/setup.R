@@ -4,6 +4,7 @@ library("markdown")
 
 pkg <- "party"
 download.file("http://user.math.uzh.ch/hothorn/TH.bib", dest = "TH.bib")
+system("cat party.bib >> TH.bib")
 dest <- "html"
 
 if (!file.exists(dest))
@@ -20,7 +21,8 @@ wd <- setwd(file.path(dest, "_data"))
 R2yaml(pkg)
 writeLines(bib2yaml(file.path(wd, "TH.bib"), 
            c("Hothorn:2006:JCGS", "Hothorn:2006:Biostatistics:16344280",
-             "Strobl:2006:BMC-Bioinformatics", "Zeileis+Hothorn+Hornik:2008")), 
+             "Strobl:2006:BMC-Bioinformatics", "Zeileis+Hothorn+Hornik:2008",
+             "Strobl_Boulesteix_Kneib_2008", "Strobl_Malley_Tutz_2009")), 
            con = "cites.yml")
 
 setwd(wd)
