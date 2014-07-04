@@ -14,16 +14,22 @@
   role: aut
   email: ~
   comment: ~
+  url: http://www.wu.ac.at/statmath/faculty_staff/faculty/khornik
+  image: http://www.wu.ac.at/statmath/faculty_staff/faculty/kh2
 - name: Carolin Strobl
   given: Carolin
   family: Strobl
   role: aut
   email: ~
   comment: ~
+  url: http://www.psychologie.uzh.ch/fachrichtungen/methoden/team/carolinstrobl.html
+  image: http://www.psychologie.uzh.ch/fachrichtungen/methoden/team/carolinstrobl.jpg
 - name: Achim Zeileis
   given: Achim
   family: Zeileis
   role: aut
   email: ~
   comment: ~
+  url: http://eeecon.uibk.ac.at/~zeileis/
+  image: http://eeecon.uibk.ac.at/~zeileis/images/zeileis.jpg
 
