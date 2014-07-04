@@ -19,7 +19,9 @@ system(paste("cp -ra", file.path(template, "*"), dest, sep = " "))
 wd <- setwd(file.path(dest, "_data"))
 R2yaml(pkg)
 writeLines(bib2yaml(file.path(wd, "TH.bib"), 
-           c("Hothorn:2006:JCGS", "Strobl:2006:BMC-Bioinformatics")), con = "cites.yml")
+           c("Hothorn:2006:JCGS", "Hothorn:2006:Biostatistics:16344280",
+             "Strobl:2006:BMC-Bioinformatics", "Zeileis+Hothorn+Hornik:2008")), 
+           con = "cites.yml")
 
 setwd(wd)
 setwd(file.path(dest, "_posts"))
@@ -38,3 +40,6 @@ file.copy("party.jpg", file.path(dest, "img"))
 x <- readLines(file.path(dest, "_data", "pkg.yml"))
 x <- c(x, "headpic: /img/party.jpg")
 writeLines(x, con = file.path(dest, "_data", "pkg.yml"))
+
+yml <- list.files(pattern = "yml$")
+sapply(yml, function(f) file.copy(f, file.path(dest, "_data"), overwrite = TRUE))

@@ -6,7 +6,39 @@ permalink: /getting_started/
 Add Citations to an RMarkdown Document and Print Bibliography
 ========================================================
 
+First, install and fire-up R on your computer. Within R, one needs to
+install the party package by typing
+
+```{r eval=FALSE}
+install.packages("party")
+```
+
+and hitting the ENTER key. Once the package it installed, you can
+load it using
+
+```{r results: hide}
+library("party")
+```
+
+Now all party functions are ready to be used, for example the ctree()
+function for fitting a regression tree to the Ozone data:
+
+```{r}
+### regression
+airq <- subset(airquality, !is.na(Ozone))
+airct <- ctree(Ozone ~ ., data = airq,   
+               controls = ctree_control(maxsurrogate = 3))
+airct
+```
+
+The tree is represented by an object called airct which can be plotted
+
 ```{r fig.width=7, fig.height=6}
-head(cars)
-plot(cars)
+plot(airct)
+```
+
+or used for computing predictions
+
+```{r}
+summary(predict(airct))
 ```

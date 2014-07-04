@@ -4,7 +4,7 @@ title: Publications
 permalink: /publications/
 ---
 
-Add Citations to an RMarkdown Document and Print Bibliography
+Scholary papers describing the methodology
 ========================================================
 
 ```{r setup, include = FALSE, cache = FALSE}
@@ -13,9 +13,14 @@ bib <- ReadBib("TH.bib", check = FALSE)
 BibOptions(check.entries = FALSE, style = "html", cite.style = "authoryear",
            bib.style = "numeric")
 ```
-This is an R Markdown document. This is an example of a citation in the 
-text `r Citet(bib, "Hapfelmeier_Hothorn_Riediger_2014")`. Now we cite in parentheses 
-`r AutoCite(bib, "Zeileis_Hothorn_2013", before = "e.g., ")`.  
+The party package implements conditional inference trees
+`r AutoCite(bib, "Hothorn:2006:JCGS", before = "function ctree(), ")`,
+model-based recursive partitioning 
+`r AutoCite(bib, "Zeileis+Hothorn+Hornik:2008", before = "function mob(), ")`,
+and conditional inference forests
+`r AutoCite(bib, "Hothorn:2006:Biostatistics:16344280", before = "function cforest(), ")`.
+Variable importances for conditional inference forests are
+implemented in function varimp() `r AutoCite(bib, "Strobl:2006:BMC-Bioinformatics")`.
 
 **References**
 
