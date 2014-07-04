@@ -1,0 +1,29 @@
+- name: Torsten Hothorn
+  given: Torsten
+  family: Hothorn
+  role:
+  - aut
+  - cre
+  email: Torsten.Hothorn@R-project.org
+  url: http://user.math.uzh.ch/hothorn/
+  image: http://user.math.uzh.ch/hothorn/pics/th.jpg
+  comment: ~
+- name: Kurt Hornik
+  given: Kurt
+  family: Hornik
+  role: aut
+  email: ~
+  comment: ~
+- name: Carolin Strobl
+  given: Carolin
+  family: Strobl
+  role: aut
+  email: ~
+  comment: ~
+- name: Achim Zeileis
+  given: Achim
+  family: Zeileis
+  role: aut
+  email: ~
+  comment: ~
+

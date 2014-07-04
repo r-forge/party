@@ -40,7 +40,7 @@ file.remove("TH.bib")
 
 file.copy("party.jpg", file.path(dest, "img"))
 x <- readLines(file.path(dest, "_data", "pkg.yml"))
-x <- c(x, "headpic: /img/party.jpg")
+#x <- c(x, "headpic: /img/party.jpg")
 writeLines(x, con = file.path(dest, "_data", "pkg.yml"))
 
 yml <- list.files(pattern = "yml$")
