@@ -42,15 +42,18 @@ x <- readLines(file.path(dest, "_data", "pkg.yml"))
 x <- c(x, "headpic: /img/party.png")
 writeLines(x, con = file.path(dest, "_data", "pkg.yml"))
 
+file.copy("_config.yml", dest, overwrite = TRUE)
+
 yml <- list.files(pattern = "yml$")
+yml <- yml[-grep("^_", yml)]
 sapply(yml, function(f) file.copy(f, file.path(dest, "_data"), overwrite = TRUE))
 
 system(paste("cat site.css >> ", file.path(dest, "css", "main.css")))
 
-wd <- setwd(dest")
+wd <- setwd(dest)
 
 system("jekyll build")
 
 setwd(wd)
 
-system(paste("cp -ra", file.path(dest, "_site"), publish))
+system(paste("cp -ra", file.path(dest, "_site/*"), publish))

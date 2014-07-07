@@ -1,0 +1,6 @@
+# Site settings
+baseurl: "http://party.r-forge.r-project.org"
+
+# Build settings
+markdown: kramdown
+permalink: pretty
