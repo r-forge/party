@@ -6,7 +6,7 @@
   - cre
   email: Torsten.Hothorn@R-project.org
   url: http://user.math.uzh.ch/hothorn/
-  image: http://user.math.uzh.ch/hothorn/pics/th.jpg
+  image: /img/torsten_hothorn.jpg
   comment: ~
 - name: Kurt Hornik
   given: Kurt
@@ -15,7 +15,7 @@
   email: ~
   comment: ~
   url: http://www.wu.ac.at/statmath/faculty_staff/faculty/khornik
-  image: http://www.wu.ac.at/statmath/faculty_staff/faculty/kh2
+  image: /img/kurt_hornik.jpg
 - name: Carolin Strobl
   given: Carolin
   family: Strobl
@@ -23,7 +23,7 @@
   email: ~
   comment: ~
   url: http://www.psychologie.uzh.ch/fachrichtungen/methoden/team/carolinstrobl.html
-  image: http://www.psychologie.uzh.ch/fachrichtungen/methoden/team/carolinstrobl.jpg
+  image: /img/carolin_strobl.jpg
 - name: Achim Zeileis
   given: Achim
   family: Zeileis
@@ -31,5 +31,5 @@
   email: ~
   comment: ~
   url: http://eeecon.uibk.ac.at/~zeileis/
-  image: http://eeecon.uibk.ac.at/~zeileis/images/zeileis.jpg
+  image: /img/achim_zeileis.jpg
 

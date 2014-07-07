@@ -38,8 +38,7 @@ for (f in Rmd)
 
 file.remove("TH.bib")
 
-file.copy("party.png", file.path(dest, "img"))
-file.copy("backgrnd.jpg", file.path(dest, "img"))
+system("cp -ra img/* html/img")
 x <- readLines(file.path(dest, "_data", "pkg.yml"))
 x <- c(x, "headpic: /img/party.png")
 writeLines(x, con = file.path(dest, "_data", "pkg.yml"))
