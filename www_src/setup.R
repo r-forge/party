@@ -5,13 +5,12 @@ library("markdown")
 pkg <- "party"
 download.file("http://user.math.uzh.ch/hothorn/TH.bib", dest = "TH.bib")
 system("cat party.bib >> TH.bib")
-dest <- "html"
+dest <- "../www"
 
 if (!file.exists(dest))
     dir.create(dest)
 
 stopifnot(file.exists(dest)) 
-system("rm -rf www/_posts/*")
 
 template <- system.file("template", package = "pkg2html")
 
@@ -38,7 +37,6 @@ for (f in Rmd)
 
 file.remove("TH.bib")
 
-system("cp -ra img/* html/img")
 x <- readLines(file.path(dest, "_data", "pkg.yml"))
 x <- c(x, "headpic: /img/party.png")
 writeLines(x, con = file.path(dest, "_data", "pkg.yml"))
@@ -46,4 +44,6 @@ writeLines(x, con = file.path(dest, "_data", "pkg.yml"))
 yml <- list.files(pattern = "yml$")
 sapply(yml, function(f) file.copy(f, file.path(dest, "_data"), overwrite = TRUE))
 
-system("cat site.css >> html/css/main.css")
+system(paste("cat site.css >> ", file.path(dest, "html/css/main.css")))
+
+
