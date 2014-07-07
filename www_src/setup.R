@@ -38,15 +38,13 @@ for (f in Rmd)
 
 file.remove("TH.bib")
 
-file.copy("party.jpg", file.path(dest, "img"))
+file.copy("party.png", file.path(dest, "img"))
+file.copy("backgrnd.jpg", file.path(dest, "img"))
 x <- readLines(file.path(dest, "_data", "pkg.yml"))
-x <- c(x, "headpic: /img/party.jpg")
-#x <- c(x, "acol: #2a7ae2")
-#x <- c(x, "acolvisited: #205caa")
-#x <- x[-length(x)]
-x <- c(x, "acol: \'a         { color: #FF00FF; text-decoration: none; }\'")
-x <- c(x, "acolvisited: \'a:visited { color: #FF0000; }\'")
+x <- c(x, "headpic: /img/party.png")
 writeLines(x, con = file.path(dest, "_data", "pkg.yml"))
 
 yml <- list.files(pattern = "yml$")
 sapply(yml, function(f) file.copy(f, file.path(dest, "_data"), overwrite = TRUE))
+
+system("cat site.css >> html/css/main.css")
