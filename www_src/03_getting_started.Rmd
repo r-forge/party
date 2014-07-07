@@ -14,7 +14,7 @@ install the party package by typing
 install.packages("party")
 ```
 
-and hitting the ENTER key. Once the package it installed, you can
+and hitting the ENTER key. Once the package is installed, you can
 load it using
 
 ```{r results: hide}
@@ -22,7 +22,8 @@ library("party")
 ```
 
 Now all party functions are ready to be used, for example the ctree()
-function for fitting a regression tree to the Ozone data:
+function for fitting a regression tree to the Ozone data (after removing observations
+with missing response):
 
 ```{r}
 ### regression
@@ -44,7 +45,7 @@ or used for computing predictions
 summary(predict(airct))
 ```
 
-which can be compared with the actual response values:
+which can be compared to the actual response values:
 
 ```{r fig.width=7, fig.height=6}
 plot(airq$Ozone, predict(airct))

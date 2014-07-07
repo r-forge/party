@@ -5,7 +5,8 @@ library("markdown")
 pkg <- "party"
 download.file("http://user.math.uzh.ch/hothorn/TH.bib", dest = "TH.bib")
 system("cat party.bib >> TH.bib")
-dest <- "../www"
+dest <- "html"
+publish <- "../www"
 
 if (!file.exists(dest))
     dir.create(dest)
@@ -44,6 +45,12 @@ writeLines(x, con = file.path(dest, "_data", "pkg.yml"))
 yml <- list.files(pattern = "yml$")
 sapply(yml, function(f) file.copy(f, file.path(dest, "_data"), overwrite = TRUE))
 
-system(paste("cat site.css >> ", file.path(dest, "html/css/main.css")))
+system(paste("cat site.css >> ", file.path(dest, "css", "main.css")))
 
+wd <- setwd(dest")
 
+system("jekyll build")
+
+setwd(wd)
+
+system(paste("cp -ra", file.path(dest, "_site"), publish))
