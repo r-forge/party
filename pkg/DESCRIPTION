@@ -28,3 +28,4 @@ Imports: survival, coin
 Suggests: TH.data (>= 1.0-3), mlbench, colorspace, MASS, mvtnorm, vcd, ipred
 LazyData: yes
 License: GPL-2
+URL: http://party.R-forge.R-project.org
