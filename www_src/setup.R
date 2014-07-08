@@ -50,6 +50,8 @@ sapply(yml, function(f) file.copy(f, file.path(dest, "_data"), overwrite = TRUE)
 
 system(paste("cat site.css >> ", file.path(dest, "css", "main.css")))
 
+system(paste("cp ", file.path(publish, "img", "*"), file.path(dest, "img")))
+
 wd <- setwd(dest)
 
 system("jekyll build")
