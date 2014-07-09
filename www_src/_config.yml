@@ -1,5 +1,5 @@
 # Site settings
-baseurl: "http://party.r-forge.r-project.org"
+baseurl: ""
 
 # Build settings
 markdown: kramdown
