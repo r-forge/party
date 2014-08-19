@@ -1,5 +1,5 @@
 
-R version 3.1.0 (2014-04-10) -- "Spring Dance"
+R Under development (unstable) (2014-08-18 r66424) -- "Unsuffered Consequences"
 Copyright (C) 2014 The R Foundation for Statistical Computing
 Platform: x86_64-unknown-linux-gnu (64-bit)
 
@@ -20,6 +20,18 @@ Type 'q()' to quit R.
 > pkgname <- "party"
 > source(file.path(R.home("share"), "R", "examples-header.R"))
 > options(warn = 1)
+> base::assign(".ExTimings", "party-Ex.timings", pos = 'CheckExEnv')
+> base::cat("name\tuser\tsystem\telapsed\n", file=base::get(".ExTimings", pos = 'CheckExEnv'))
+> base::assign(".format_ptime",
++ function(x) {
++   if(!is.na(x[4L])) x[1L] <- x[1L] + x[4L]
++   if(!is.na(x[5L])) x[2L] <- x[2L] + x[5L]
++   options(OutDec = '.')
++   format(x[1L:3L], digits = 7L)
++ },
++ pos = 'CheckExEnv')
+> 
+> ### * </HEADER>
 > library('party')
 Loading required package: grid
 Loading required package: zoo
@@ -42,6 +54,7 @@ Loading required package: stats4
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: BinaryTree Class
 > ### Title: Class "BinaryTree"
 > ### Aliases: BinaryTree-class weights weights-methods
@@ -130,12 +143,15 @@ Loading required package: stats4
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("BinaryTree-class", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("RandomForest-class")
 > ### * RandomForest-class
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: RandomForest-class
 > ### Title: Class "RandomForest"
 > ### Aliases: RandomForest-class treeresponse,RandomForest-method
@@ -162,12 +178,15 @@ Loading required package: stats4
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("RandomForest-class", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("Transformations")
 > ### * Transformations
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: Transformations
 > ### Title: Function for Data Transformations
 > ### Aliases: ptrafo ff_trafo
@@ -239,12 +258,15 @@ attr(,"assign")
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("Transformations", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("cforest")
 > ### * cforest
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: cforest
 > ### Title: Random Forest
 > ### Aliases: cforest proximity
@@ -400,6 +422,8 @@ Loading required package: splines
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("cforest", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > graphics::par(get("par.postscript", pos = 'CheckExEnv'))
 > cleanEx()
 
@@ -410,6 +434,7 @@ detaching ‘package:survival’, ‘package:splines’, ‘package:TH.data’
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: Conditional Inference Trees
 > ### Title: Conditional Inference Trees
 > ### Aliases: ctree conditionalTree
@@ -565,6 +590,8 @@ records   n.max n.start  events  median 0.95LCL 0.95UCL
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("ctree", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 
 detaching ‘package:survival’, ‘package:splines’, ‘package:TH.data’
@@ -574,6 +601,7 @@ detaching ‘package:survival’, ‘package:splines’, ‘package:TH.data’
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: Memory Allocation
 > ### Title: Memory Allocation
 > ### Aliases: ctree_memory
@@ -602,12 +630,15 @@ detaching ‘package:survival’, ‘package:splines’, ‘package:TH.data’
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("ctree_memory", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("mob")
 > ### * mob
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: mob
 > ### Title: Model-based Recursive Partitioning
 > ### Aliases: mob mob-class coef.mob deviance.mob fitted.mob logLik.mob
@@ -681,19 +712,21 @@ detaching ‘package:survival’, ‘package:splines’, ‘package:TH.data’
 + plot(fmPID, tp_args = list(cdplot = TRUE))
 + }
 Loading required package: mlbench
-Loading required package: vcd
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("mob", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 
-detaching ‘package:vcd’, ‘package:mlbench’
+detaching ‘package:mlbench’
 
 > nameEx("panelfunctions")
 > ### * panelfunctions
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: Panel Generating Functions
 > ### Title: Panel-Generators for Visualization of Party Trees
 > ### Aliases: node_inner node_terminal edge_simple node_surv node_barplot
@@ -729,12 +762,15 @@ detaching ‘package:vcd’, ‘package:mlbench’
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("panelfunctions", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("plot.BinaryTree")
 > ### * plot.BinaryTree
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: Plot BinaryTree
 > ### Title: Visualization of Binary Regression Trees
 > ### Aliases: plot.BinaryTree
@@ -773,6 +809,8 @@ Loading required package: splines
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("plot.BinaryTree", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 
 detaching ‘package:survival’, ‘package:splines’, ‘package:TH.data’
@@ -782,6 +820,7 @@ detaching ‘package:survival’, ‘package:splines’, ‘package:TH.data’
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: plot.mob
 > ### Title: Visualization of MOB Trees
 > ### Aliases: plot.mob
@@ -848,19 +887,21 @@ detaching ‘package:survival’, ‘package:splines’, ‘package:TH.data’
 + 
 + }
 Loading required package: mlbench
-Loading required package: vcd
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("plot.mob", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 
-detaching ‘package:vcd’, ‘package:mlbench’
+detaching ‘package:mlbench’
 
 > nameEx("readingSkills")
 > ### * readingSkills
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: readingSkills
 > ### Title: Reading Skills
 > ### Aliases: readingSkills
@@ -890,12 +931,15 @@ nativeSpeaker           age      shoeSize
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("readingSkills", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("reweight")
 > ### * reweight
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: reweight
 > ### Title: Re-fitting Models with New Weights
 > ### Aliases: reweight reweight.linearModel reweight.glinearModel
@@ -920,12 +964,15 @@ Linear model with coefficients:
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("reweight", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 > nameEx("varimp")
 > ### * varimp
 > 
 > flush(stderr()); flush(stdout())
 > 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
 > ### Name: varimp
 > ### Title: Variable Importance
 > ### Aliases: varimp varimpAUC
@@ -970,11 +1017,13 @@ nativeSpeaker           age      shoeSize
 > 
 > 
 > 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("varimp", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > ### * <FOOTER>
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  12.888 0.188 13.098 0 0 
+Time elapsed:  11.676 0.112 11.804 0 0 
 > grDevices::dev.off()
 null device 
           1 
