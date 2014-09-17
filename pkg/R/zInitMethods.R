@@ -1,6 +1,8 @@
 
 # $Id$
 
+### moved to coin as of coin 1.0-24
+if (FALSE) {
 setMethod(f = "initialize", signature = "ExpectCovar",
     definition = function(.Object, pq = 1) {
         pq <- as.integer(pq)
@@ -23,6 +25,7 @@ setMethod(f = "initialize", signature = "ExpectCovarInfluence",
     }
 )
 
+}
 
 setMethod(f = "initialize", signature = "LinStatExpectCovar",
     definition = function(.Object, p, q) {
