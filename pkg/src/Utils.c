@@ -800,7 +800,6 @@ SEXP R_modify_response(SEXP x, SEXP vf) {
     return(R_NilValue);
 }
 
-double F77_SUB(unifrnd)(void) { return unif_rand(); }
 
 void C_SampleSplitting(int n, double *prob, int *weights, int k) {
 
