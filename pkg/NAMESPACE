@@ -23,7 +23,7 @@ export(ctree, ctree_memory, ctree_control,
        treeresponse, response, ptrafo, cforest,
        mob, mob_control,
        reweight, sctest.mob, cforest_control, varimp, varimpAUC,
-       cforest_classical, cforest_unbiased, proximity)
+       cforest_classical, cforest_unbiased, proximity, prettytree)
 
 exportClasses("BinaryTree", "LearningSample", "SplittingNode",
               "TerminalNode", "TreeControl", "RandomForest", "mob",
