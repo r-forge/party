@@ -1,8 +1,8 @@
 
-                CHANGES IN party VERSION 1.0-19 (2014-12-16)
+                CHANGES IN party VERSION 1.0-19 (2014-12-17)
 
-    o    directly link to mvtnorm and thus make duplication of F
-         ORTRAN code obsolate.
+    o    directly link to mvtnorm and thus make duplication of 
+         FORTRAN code obsolate.
 
     o    export prettytree (for package mlmeta by Andrew Z)
 
