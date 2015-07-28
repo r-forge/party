@@ -9,7 +9,6 @@ predict.RandomForest <- function(object, OOB = FALSE, ...) {
     RandomForest@predict(object, OOB = OOB, ...)
 }
 
-
 setGeneric("treeresponse", function(object, ...) 
            standardGeneric("treeresponse"))
 
