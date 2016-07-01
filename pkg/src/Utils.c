@@ -773,6 +773,7 @@ SEXP R_listplus(SEXP a, SEXP b, SEXP which) {
     return(a);
 }
 
+/* <FIXME> will not work with byte compiler </FIXME> */
 SEXP R_modify_response(SEXP x, SEXP vf) {
 
     double *src, *tar;
