@@ -2,7 +2,7 @@
 # $Id$
 
 ### the fitting procedure
-ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
+ctreefit <- function(object, controls, weights = NULL, ...) {
 
     if (!extends(class(object), "LearningSample"))
         stop(sQuote("object"), " is not of class ", sQuote("LearningSample"))
@@ -197,7 +197,7 @@ ctree_control <- function(teststat = c("quad", "max"),
                           testtype = c("Bonferroni", "MonteCarlo", "Univariate", "Teststatistic"),
                           mincriterion = 0.95, minsplit = 20, minbucket = 7, stump = FALSE,
                           nresample = 9999, maxsurrogate = 0, mtry = 0, 
-                          savesplitstats = TRUE, maxdepth = 0) {
+                          savesplitstats = TRUE, maxdepth = 0, remove_weights = FALSE) {
 
     teststat <- match.arg(teststat)
     testtype <- match.arg(testtype)
@@ -231,6 +231,7 @@ ctree_control <- function(teststat = c("quad", "max"),
     RET@tgctrl@stump <- as.logical(stump)
     RET@tgctrl@maxdepth <- as.integer(maxdepth)
     RET@tgctrl@savesplitstats <- as.logical(savesplitstats)
+    RET@tgctrl@remove_weights <- as.logical(remove_weights)
     if (!validObject(RET))
         stop("RET is not a valid object of class", class(RET))
     RET

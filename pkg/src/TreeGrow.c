@@ -101,6 +101,9 @@ SEXP R_TreeGrow(SEXP learnsample, SEXP weights, SEXP controls) {
      for (i = 0; i < nobs; i++) dnweights[i] = dweights[i];
      
      C_TreeGrow(tree, learnsample, fitmem, controls, INTEGER(where), &nodenum, 1);
+
+     if (LOGICAL(GET_SLOT(get_tgctrl(controls), PL2_remove_weightsSym))[0])
+         C_remove_weights(tree, 0);
      
      PutRNGstate();
      

@@ -143,11 +143,13 @@ setClass(Class = "TreeGrowControl",
     representation = representation(
         stump           = "logical",
         maxdepth        = "integer",
-        savesplitstats  = "logical"
+        savesplitstats  = "logical",
+        remove_weights  = "logical"
     ),
     prototype = list(stump = as.logical(FALSE), 
                      maxdepth = as.integer(0), 
-                     savesplitstats = as.logical(TRUE)),
+                     savesplitstats = as.logical(TRUE),
+                     remove_weights = as.logical(FALSE)),
     validity = function(object) {
         if (object@maxdepth < 0) {
             warning(sQuote("maxdepth"), " must be positive")

@@ -27,6 +27,7 @@ setMethod(f = "initialize", signature = "ExpectCovarInfluence",
 
 }
 
+### done at C level as of party 1.1-0 but still used in Utils (for tests)
 setMethod(f = "initialize", signature = "LinStatExpectCovar",
     definition = function(.Object, p, q) {
         .Object@expectation <- rep(0, p*q)

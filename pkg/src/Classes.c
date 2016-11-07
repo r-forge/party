@@ -73,7 +73,10 @@ SEXP
     PL2_ntreeSym,
     PL2_replaceSym,
     PL2_fractionSym,
-    PL2_traceSym;
+    PL2_traceSym,
+    PL2_ensembleSym,
+    PL2_whereSym,
+    PL2_remove_weightsSym;
 
 SEXP party_init(void) {
     PL2_expectationSym = install("expectation");
@@ -141,6 +144,9 @@ SEXP party_init(void) {
     PL2_replaceSym = install("replace"),
     PL2_fractionSym = install("fraction");
     PL2_traceSym = install("trace");
+    PL2_ensembleSym = install("ensemble");
+    PL2_whereSym = install("where");
+    PL2_remove_weightsSym = install("remove_weights");
     return(R_NilValue);
 }
 

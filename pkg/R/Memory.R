@@ -1,4 +1,8 @@
 
+### This is deprecated as of party 1.1-0
+### Allocating memory in R for later modification in R does not
+### work with byte compiling
+
 # $Id$
 
 ctree_memory <- function(object, MPinv = FALSE) {
