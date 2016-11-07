@@ -233,9 +233,8 @@ R_modify_response <- function(y, responses)
     .Call("R_modify_response", as.double(y), responses,
           PACKAGE = "party")
 
-R_TreeGrow <- function(object, weights, fitmem, ctrl, where)
-    .Call("R_TreeGrow", object, weights, fitmem, ctrl,
-          where, PACKAGE = "party")
+R_TreeGrow <- function(object, weights, ctrl)
+    .Call("R_TreeGrow", object, weights, ctrl, PACKAGE = "party")
 
 copyslots <- function(source, target) {
     slots <- names(getSlots(class(source)))

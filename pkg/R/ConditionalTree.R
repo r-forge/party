@@ -9,10 +9,10 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
     if (!extends(class(controls), "TreeControl"))
         stop(sQuote("controls"), " is not of class ", sQuote("TreeControl"))
 
-    if (is.null(fitmem)) 
-        fitmem <- ctree_memory(object, TRUE)
-    if (!extends(class(fitmem), "TreeFitMemory"))
-        stop(sQuote("fitmem"), " is not of class ", sQuote("TreeFitMemory"))
+#    if (is.null(fitmem)) 
+#        fitmem <- ctree_memory(object, TRUE)
+#    if (!extends(class(fitmem), "TreeFitMemory"))
+#        stop(sQuote("fitmem"), " is not of class ", sQuote("TreeFitMemory"))
 
     if (is.null(weights))
         weights <- object@weights
@@ -24,12 +24,10 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
         stop(sQuote("weights"), " contains real valued elements; currently
              only integer values are allowed") 
 
-    where <- rep(0, object@nobs)
-    storage.mode(where) <- "integer"
-
     ### grow the tree
-    tree <- .Call("R_TreeGrow", object, weights, fitmem, controls, where,
-                  PACKAGE = "party")
+    tree <- .Call("R_TreeGrow", object, weights, controls, PACKAGE = "party")
+    where <- tree[[1]]
+    tree <- tree[[2]]
 
     ### create S3 classes and put names on lists
     tree <- prettytree(tree, names(object@inputs@variables), 
@@ -46,7 +44,7 @@ ctreefit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
 
     RET@update <- function(weights = NULL) {
         ctreefit(object = object, controls = controls, 
-                 weights = weights, fitmem = fitmem, ...)
+                 weights = weights, ...)
     }
 
     ### get terminal node numbers
@@ -247,10 +245,9 @@ ctree <- function(formula, data = list(), subset = NULL, weights = NULL,
     ls <- dpp(conditionalTree, formula, data, subset, xtrafo = xtrafo, 
               ytrafo = ytrafo, scores = scores)
 
-    ### setup memory
-    fitmem <- ctree_memory(ls, TRUE)
+#    ### setup memory
+#    fitmem <- ctree_memory(ls, TRUE)
 
     ### fit and return a conditional tree
-    fit(conditionalTree, ls, controls = controls, weights = weights, 
-        fitmem = fitmem)
+    fit(conditionalTree, ls, controls = controls, weights = weights)
 }

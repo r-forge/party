@@ -20,9 +20,9 @@
 
 
 SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP bwhere, SEXP bweights, 
-                SEXP fitmem, SEXP controls) {
+                SEXP controls) {
             
-     SEXP nweights, tree, where, ans, bw;
+     SEXP nweights, tree, where, ans, bw, fitmem;
      double *dnweights, *dweights, sw = 0.0, *prob, tmp;
      int nobs, i, b, B , nodenum = 1, *iweights, *iweightstmp, 
          *iwhere, replace, fraction, wgrzero = 0, realweights = 0;
@@ -32,6 +32,7 @@ SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP bwhere, SEXP bweights,
      nobs = get_nobs(learnsample);
      
      PROTECT(ans = allocVector(VECSXP, B));
+     PROTECT(fitmem = ctree_memory(learnsample, PROTECT(ScalarLogical(1))));
 
      iweights = Calloc(nobs, int);
      iweightstmp = Calloc(nobs, int);
@@ -133,7 +134,7 @@ SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP bwhere, SEXP bweights,
      PutRNGstate();
 
      Free(prob); Free(iweights); Free(iweightstmp);
-     UNPROTECT(1);
+     UNPROTECT(3);
      return(ans);
 }
 
@@ -149,9 +150,9 @@ SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP bwhere, SEXP bweights,
 
 
 SEXP R_Ensemble_weights(SEXP learnsample, SEXP bwhere, SEXP bweights, 
-                SEXP fitmem, SEXP controls) {
+                        SEXP controls) {
             
-     SEXP nweights, tree, where, ans;
+     SEXP nweights, tree, where, ans, fitmem;
      double *dnweights, *dweights;
      int nobs, i, b, B , nodenum = 1, *iwhere;
      int j, k, l;
@@ -160,6 +161,7 @@ SEXP R_Ensemble_weights(SEXP learnsample, SEXP bwhere, SEXP bweights,
      nobs = get_nobs(learnsample);
      
      PROTECT(ans = allocVector(VECSXP, B));
+     PROTECT(fitmem = ctree_memory(learnsample, PROTECT(ScalarLogical(1))));
 
      /* <FIXME> can we call those guys ONCE? what about the deeper
          calls??? </FIXME> */
@@ -215,6 +217,6 @@ SEXP R_Ensemble_weights(SEXP learnsample, SEXP bwhere, SEXP bweights,
 
      PutRNGstate();
 
-     UNPROTECT(1);
+     UNPROTECT(3);
      return(ans);
 }

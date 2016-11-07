@@ -9,10 +9,10 @@ cforestfit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
     if (!extends(class(controls), "ForestControl"))
         stop(sQuote("controls"), " is not of class ", sQuote("ForestControl"))
 
-    if (is.null(fitmem)) 
-        fitmem <- ctree_memory(object, TRUE)
-    if (!extends(class(fitmem), "TreeFitMemory"))
-        stop(sQuote("fitmem"), " is not of class ", sQuote("TreeFitMemory"))
+#    if (is.null(fitmem)) 
+#        fitmem <- ctree_memory(object, TRUE)
+#    if (!extends(class(fitmem), "TreeFitMemory"))
+#        stop(sQuote("fitmem"), " is not of class ", sQuote("TreeFitMemory"))
 
     if (is.null(weights))
         weights <- object@weights
@@ -27,7 +27,7 @@ cforestfit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
         bweights <- weights
         bwhere <- vector(mode = "list", length = controls@ntree)
         ### grow the tree
-        ensemble <- .Call("R_Ensemble_weights", object, bwhere, bweights, fitmem, controls,
+        ensemble <- .Call("R_Ensemble_weights", object, bwhere, bweights, controls,
                           PACKAGE = "party")
     } else {
         if (length(weights) != object@nobs || storage.mode(weights) != "double")
@@ -36,7 +36,7 @@ cforestfit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
         bweights <- vector(mode = "list", length = controls@ntree)
         bwhere <- vector(mode = "list", length = controls@ntree)
         ### grow the tree
-        ensemble <- .Call("R_Ensemble", object, weights, bwhere, bweights, fitmem, controls,
+        ensemble <- .Call("R_Ensemble", object, weights, bwhere, bweights, controls,
                           PACKAGE = "party")
     }
 
@@ -56,7 +56,7 @@ cforestfit <- function(object, controls, weights = NULL, fitmem = NULL, ...) {
 
     RET@update <- function(weights = NULL) {
         cforestfit(object = object, controls = controls,
-                   weights = weights, fitmem = fitmem, ...)
+                   weights = weights, ...)
     }
 
 
@@ -198,12 +198,11 @@ cforest <- function(formula, data = list(), subset = NULL, weights = NULL,
     ls <- dpp(RandomForest, formula, data, subset, xtrafo = xtrafo, 
               ytrafo = ytrafo, scores = scores)
 
-    ### setup memory
-    fitmem <- ctree_memory(ls, TRUE)
+#    ### setup memory
+#    fitmem <- ctree_memory(ls, TRUE)
 
     ### fit and return a conditional tree
-    fit(RandomForest, ls, controls = controls, weights = weights, 
-        fitmem = fitmem)
+    fit(RandomForest, ls, controls = controls, weights = weights)
 }
 
 ###

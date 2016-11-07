@@ -45,6 +45,7 @@ extern SEXP
     PL2_varmemorySym,
     PL2_linexpcov2sampleSym, 
     PL2_weightsSym, 
+    PL2_splitstatisticsSym,
     PL2_varmemorySym, 
     PL2_responsesSym, 
     PL2_inputsSym,
