@@ -4,7 +4,7 @@ library("party")
 library("survival")
 
 ### get rid of the NAMESPACE
-attach(asNamespace("party"))
+attach(list2env(as.list(asNamespace("party"))))
 
 ### check nominal level printing
 set.seed(290875)
