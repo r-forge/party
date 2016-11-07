@@ -226,12 +226,13 @@ R_get_nodeID <- function(tree, inputs, mincriterion)
 R_getpredictions <- function(tree, where)
     .Call("R_getpredictions", tree, where, PACKAGE = "party")
 
-R_remove_weights <- function(tree, remove)
-    .Call("R_remove_weights", tree, remove, package = "party")
+### no longer available as for party 1.1-0
+#R_remove_weights <- function(tree, remove)
+#    .Call("R_remove_weights", tree, remove, package = "party")
 
-R_modify_response <- function(y, responses)
-    .Call("R_modify_response", as.double(y), responses,
-          PACKAGE = "party")
+#R_modify_response <- function(y, responses)
+#    .Call("R_modify_response", as.double(y), responses,
+#          PACKAGE = "party")
 
 R_TreeGrow <- function(object, weights, ctrl)
     .Call("R_TreeGrow", object, weights, ctrl, PACKAGE = "party")
