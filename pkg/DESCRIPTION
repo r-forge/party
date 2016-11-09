@@ -1,6 +1,6 @@
 Package: party
 Title: A Laboratory for Recursive Partytioning
-Date: 2016-11-07
+Date: 2016-11-09
 Version: 1.1-0
 Authors@R: c(person("Torsten", "Hothorn", role = c("aut", "cre"),
                     email = "Torsten.Hothorn@R-project.org"),
