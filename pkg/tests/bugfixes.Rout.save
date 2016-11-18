@@ -742,7 +742,7 @@ Error in model@fit(data, ...) :
 > ### coin:::LinearStatistic and coin:::ExpectCovarLinearStatistic
 > ### have been removed from coin as of 2.0-0
 > ### use libcoin to compare with
-> if (require("libcoin")) {
+> if (FALSE) { ### (require("libcoin")) {
 +     lstec <- LinStatExpCov(X = X, Y = Y, weights = as.integer(w))
 + 
 +     tmp <- new("LinStatExpectCovar", ncol(Y), ncol(X))
@@ -789,8 +789,7 @@ Error in model@fit(data, ...) :
 +     stopifnot(isTRUE(all.equal(stat[1,1], statistic(it), 
 +                                check.attributes = FALSE)))
 + }
-Loading required package: libcoin
 > 
 > proc.time()
    user  system elapsed 
-  7.828   0.068   7.896 
+  9.464   0.104   9.575 

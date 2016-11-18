@@ -598,7 +598,7 @@ w <- rep(1, nrow(X))
 ### coin:::LinearStatistic and coin:::ExpectCovarLinearStatistic
 ### have been removed from coin as of 2.0-0
 ### use libcoin to compare with
-if (require("libcoin")) {
+if (FALSE) { ### (require("libcoin")) {
     lstec <- LinStatExpCov(X = X, Y = Y, weights = as.integer(w))
 
     tmp <- new("LinStatExpectCovar", ncol(Y), ncol(X))
