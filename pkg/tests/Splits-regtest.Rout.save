@@ -97,7 +97,7 @@ The following objects are masked from package:party:
 	Approximative Generalized Maximally Selected Statistics
 
 data:  y by x
-maxT = 1.1008, p-value = 1
+maxT = 1.1008, p-value = 0.9
 alternative hypothesis: two.sided
 sample estimates:
   "best" cutpoint: <= 1.337766
@@ -113,7 +113,7 @@ sample estimates:
 	Approximative Generalized Maximally Selected Statistics
 
 data:  Surv(month, cens) by EF
-maxT = 3.5647, p-value < 2.2e-16
+maxT = 3.5647, p-value = 0.1
 alternative hypothesis: two.sided
 sample estimates:
   "best" cutpoint: <= 39
@@ -188,4 +188,4 @@ sample estimates:
 > 
 > proc.time()
    user  system elapsed 
-  0.964   0.016   0.982 
+  1.432   0.044   1.472 
