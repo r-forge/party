@@ -137,7 +137,7 @@ chis <- chisq.test(table(xf, yf), correct = FALSE)
 print(chis)
 stopifnot(isequal(round(res[2],3), round(chis$p.value,3)))
 
-
+if (FALSE) {
 ### Multiple Variables
 gtctrl <- new("GlobalTestControl")
 tlev <- levels(gtctrl@testtype)   
@@ -176,3 +176,4 @@ tm <- ctree_memory(ls)
 pvals <- .Call("R_GlobalTest", ls, ls@weights, tm, varctrl, gtctrl, PACKAGE = "party")[[2]]
 stopifnot(abs((1 - pvals) - wilcox.test(x1 ~ y, data = mydata, 
     exact = TRUE)$p.value) < 1e-2)
+}
