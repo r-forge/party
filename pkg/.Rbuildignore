@@ -3,3 +3,4 @@ R/crossvalidation.R
 R/memory.R
 inst/RR
 tests/Node-regtest
+tests/IndependenceTest-regtest
