@@ -276,7 +276,7 @@ partialPlot.party <-
     if (is.factor(xv)) { ### includes ordered
         x.pt <- levels(xv)
         y.pt <- numeric(length(x.pt))
-        for (i in seq(along = x.pt)) {
+        for (i in seq_along(x.pt)) {
             x.data <- newdata
             x.data[, xname] <- factor(rep(x.pt[i], n), levels = x.pt, ordered = is.ordered(xv))
             if (classRF) {
@@ -299,7 +299,7 @@ partialPlot.party <-
     } else {
         x.pt <- seq(min(xv), max(xv), length = n.pt)
         y.pt <- numeric(length(x.pt))
-        for (i in seq(along = x.pt)) {
+        for (i in seq_along(x.pt)) {
             x.data <- newdata
             x.data[, xname] <- rep(x.pt[i], n)
             class(x.data[, xname]) <- class(newdata[, xname])

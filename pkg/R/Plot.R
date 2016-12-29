@@ -175,7 +175,7 @@ node_barplot <- function(ctreeobj,
     } else {
         if(is.null(beside)) beside <- FALSE
         if(is.null(ymax)) ymax <- getMaxPred(ctreeobj@tree) * 1.1
-        ylevels <- seq(along = ctreeobj@tree$prediction)
+        ylevels <- seq_along(ctreeobj@tree$prediction)
         if(length(ylevels) < 2) ylevels <- ""
 	if(is.null(gap)) gap <- 1
     }
