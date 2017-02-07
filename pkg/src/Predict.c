@@ -163,9 +163,12 @@ SEXP C_get_node(SEXP subtree, SEXP newinputs,
                 if (ns >= LENGTH(surrsplit)) break;
             
                 ssplit = VECTOR_ELT(surrsplit, ns);
+                /* any missings in the surrogate variable ? */
                 if (has_missings(newinputs, S3get_variableID(ssplit))) {
-                    if (INTEGER(get_missings(newinputs, 
-                                             S3get_variableID(ssplit)))[i]) {
+                    /* i in 0 ... n - 1 but get_missings in 1:n */
+                    /* if i is missing, move to next surrogate split */
+                    if (C_i_in_set(i + 1, 
+                                   get_missings(newinputs, S3get_variableID(ssplit)))) {
                         ns++;
                         continue;
                     }
