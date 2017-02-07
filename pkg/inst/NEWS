@@ -4,6 +4,9 @@
     o    fix a memory leak occuring while searching for surrogate
          splits in the process of predicting the terminal node ID
 
+    o    surrogate splits might have used statistics with slightly
+         incorrect sum of weights
+
 
                 CHANGES IN party VERSION 1.2-0 (2017-02-06)
 
