@@ -59,7 +59,12 @@ void C_split(const double *x, int p,
      * values and the sum of the weights */
     dExp_y = REAL(GET_SLOT(expcovinf, PL2_expectationSym));
     dCov_y = REAL(GET_SLOT(expcovinf, PL2_covarianceSym));
-    sweights = REAL(GET_SLOT(expcovinf, PL2_sumweightsSym))[0];
+    /* sweights = REAL(GET_SLOT(expcovinf, PL2_sumweightsSym))[0]; */
+
+    /* weights are different in surrogate splits, so recompute here */
+    sweights = 0.0;
+    for (i = 0; i < n; i++)
+        sweights += weights[i];
 
     /* if there is something to split */
     if (sweights > 1) {
@@ -145,9 +150,8 @@ void C_split(const double *x, int p,
                 tmp = fabs(dlinstat[k] - dexpect[k]) / sqrt(dcovar[k * q + k]);
                 if (statistics[j] < tmp) statistics[j] = tmp;
             }
-
         }
-    
+        
         /* search for the maximum and the best separating cutpoint */
         /* <FIXME> the result might differ between 32 and 64bit systems 
                    because of rounding errors in 'statistics' */
