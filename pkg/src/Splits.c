@@ -69,8 +69,6 @@ void C_split(const double *x, int p,
             sweights += weights[i];
     }
 
-Rprintf("sw: %f\n", sweights);
-
     /* if there is something to split */
     if (sweights > 1) {
 
