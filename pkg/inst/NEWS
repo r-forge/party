@@ -1,11 +1,14 @@
 
-                CHANGES IN party VERSION 1.2-1 (2017-02-07)
+                CHANGES IN party VERSION 1.2-1 (2017-02-08)
 
     o    fix a memory leak occuring while searching for surrogate
          splits in the process of predicting the terminal node ID
 
     o    surrogate splits might have used statistics with slightly
-         incorrect sum of weights
+         incorrect weights
+
+    o    party::ctree gives _same_ results as partykit::ctree 
+         (version >= 2.0-1 from R-forge)
 
 
                 CHANGES IN party VERSION 1.2-0 (2017-02-06)
