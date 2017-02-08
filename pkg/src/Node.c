@@ -114,7 +114,7 @@ void C_Node(SEXP node, SEXP learnsample, SEXP weights,
             if (has_missings(inputs, jselect)) {
                 expcovinf = GET_SLOT(get_varmemory(fitmem, jselect), 
                                     PL2_expcovinfSym);
-                thisweights = C_tempweights(jselect, weights, fitmem, inputs);
+                thisweights = C_tempweights(jselect, REAL(weights), fitmem, inputs);
             } else {
                 expcovinf = GET_SLOT(fitmem, PL2_expcovinfSym);
                 thisweights = REAL(weights);
@@ -139,7 +139,7 @@ void C_Node(SEXP node, SEXP learnsample, SEXP weights,
                 C_split(REAL(x), 1, REAL(testy), q, thisweights, nobs,
                         INTEGER(get_ordering(inputs, jselect)), splitctrl, 
                         GET_SLOT(fitmem, PL2_linexpcov2sampleSym),
-                        expcovinf, REAL(S3get_splitpoint(split)), &maxstat,
+                        expcovinf, 0, REAL(S3get_splitpoint(split)), &maxstat,
                         splitstat);
                 S3set_variableID(split, jselect);
              } else {
