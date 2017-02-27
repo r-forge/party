@@ -142,7 +142,7 @@ double C_maxabsConditionalPvalue(const double tstat, const double *Sigma,
     ans = prob[0];
     Free(corr); Free(sd); Free(lower); Free(upper); 
     Free(infin); Free(delta); Free(myerror); Free(prob);
-    Free(n); Free(nu); Free(inform); 
+    Free(n); Free(nu); Free(inform); Free(index);
     return(1 - ans);  /* return P-value */
 }
 
