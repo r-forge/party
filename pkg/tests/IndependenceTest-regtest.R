@@ -21,8 +21,8 @@ weights <- rep(1, nrow(x))
 varctrl <- new("VariableControl")
 lec <- new("LinStatExpectCovar", ncol(x), ncol(y))
 
-res <- .Call("R_IndependenceTest", x, y, weights,  
-              lec, varctrl, PACKAGE = "party")
+res <- .Call(R_IndependenceTest, x, y, weights,  
+             lec, varctrl)
 print(res)
 wmw <- wilcox.test(xval ~ yf, exact = FALSE, correct = FALSE)
 print(wmw)
@@ -42,8 +42,8 @@ lec@rank <- 0
 lec@MPinv <- matrix(0, nrow = ncol(x) * ncol(y), ncol = ncol(x) * ncol(y))
 lec@svdmem <- new("svd_mem", ncol(x) * ncol(y))
 
-res <- .Call("R_IndependenceTest", x, y, weights,  
-              lec, varctrl, PACKAGE = "party")
+res <- .Call(R_IndependenceTest", x, y, weights,  
+             lec, varctrl)
 print(res)
 kw <- kruskal.test(xval ~ yf)
 print(kw)
@@ -61,8 +61,8 @@ lec@rank <- 0
 lec@MPinv <- matrix(0, nrow = ncol(x) * ncol(y), ncol = ncol(x) * ncol(y))
 lec@svdmem <- new("svd_mem", ncol(x) * ncol(y))
 
-res <- .Call("R_IndependenceTest", x, y, weights,  
-              lec, varctrl, PACKAGE = "party")
+res <- .Call(R_IndependenceTest, x, y, weights,  
+             lec, varctrl)
 print(res)
 kw <- kruskal.test(xval ~ yf)
 print(kw)
@@ -82,8 +82,8 @@ lec@rank <- 0
 lec@MPinv <- matrix(0, nrow = ncol(x) * ncol(y), ncol = ncol(x) * ncol(y))
 lec@svdmem <- new("svd_mem", ncol(x) * ncol(y))
 
-res <- .Call("R_IndependenceTest", x, y, weights,  
-              lec, varctrl, PACKAGE = "party")
+res <- .Call(R_IndependenceTest, x, y, weights,  
+             lec, varctrl)
 print(res)
 chis <- chisq.test(table(xf, yf), correct = FALSE)
 print(chis)
@@ -99,8 +99,8 @@ weights <- rep(1, nrow(x))
 varctrl <- new("VariableControl")
 lec <- new("LinStatExpectCovar", ncol(x), ncol(y))
 
-res <- .Call("R_IndependenceTest", x, y, weights,
-              lec, varctrl, PACKAGE = "party")
+res <- .Call(R_IndependenceTest, x, y, weights,
+             lec, varctrl)
 print(res)
 wmw <- wilcox.test(xval ~ yf, exact = FALSE, correct = FALSE)
 print(wmw)
@@ -109,8 +109,8 @@ stopifnot(isequal(res[2], wmw$p.value))
 varctrl <- new("VariableControl")
 lec <- new("LinStatExpectCovar", ncol(y), ncol(x))
 
-res <- .Call("R_IndependenceTest", y, x, weights,
-              lec, varctrl, PACKAGE = "party")
+res <- .Call(R_IndependenceTest, y, x, weights,
+             lec, varctrl)
 print(res)
 wmw <- wilcox.test(xval ~ yf, exact = FALSE, correct = FALSE)
 print(wmw)
@@ -130,8 +130,8 @@ lec@rank <- 0
 lec@MPinv <- matrix(0, nrow = ncol(x) * ncol(y), ncol = ncol(x) * ncol(y))
 lec@svdmem <- new("svd_mem", ncol(x) * ncol(y))
 
-res <- .Call("R_IndependenceTest", x, y, weights,  
-              lec, varctrl, PACKAGE = "party")
+res <- .Call(R_IndependenceTest, x, y, weights,  
+             lec, varctrl)
 print(res)
 chis <- chisq.test(table(xf, yf), correct = FALSE)
 print(chis)
@@ -153,7 +153,7 @@ ls <- new("LearningSample", inputs = inp, responses = resp,
           ninputs = inp@ninputs)
 tm <- ctree_memory(ls)
 varctrl <- new("VariableControl")
-pvals <- .Call("R_GlobalTest", ls, ls@weights, tm, varctrl, gtctrl, PACKAGE = "party")[[2]]
+pvals <- .Call(R_GlobalTest, ls, ls@weights, tm, varctrl, gtctrl)[[2]]
 wpvals <- rep(0, 3)
 wpvals[1] <- wilcox.test(x1 ~ y, data = mydata,
                          correct = FALSE, exact = FALSE)$p.value
@@ -173,7 +173,7 @@ ls <- new("LearningSample", inputs = inp, responses = resp,
           weights = rep(1, inp@nobs), nobs = nrow(mydata), 
           ninputs = as.integer(1))
 tm <- ctree_memory(ls)
-pvals <- .Call("R_GlobalTest", ls, ls@weights, tm, varctrl, gtctrl, PACKAGE = "party")[[2]]
+pvals <- .Call(R_GlobalTest, ls, ls@weights, tm, varctrl, gtctrl)[[2]]
 stopifnot(abs((1 - pvals) - wilcox.test(x1 ~ y, data = mydata, 
     exact = TRUE)$p.value) < 1e-2)
 }

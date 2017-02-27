@@ -65,7 +65,7 @@ setGeneric("nodes", function(object, where, ...) standardGeneric("nodes"))
 setMethod("nodes", signature = signature(object = "BinaryTree", 
                                          where = "integer"),
     definition = function(object, where, ...)
-        lapply(where, function(i) .Call("R_get_nodebynum", object@tree, i))
+        lapply(where, function(i) .Call(R_get_nodebynum, object@tree, i))
 )
 
 setMethod("nodes", signature = signature(object = "BinaryTree", 
