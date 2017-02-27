@@ -4,10 +4,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Version 0.9-8</title>
+    <title>Version 1.2-1</title>
     <meta name="viewport" content="width=device-width">
     <meta name="description" content="">
-    <link rel="canonical" href="http://party.r-forge.r-project.org/2007/01/15/0.9-8/">
+    <link rel="canonical" href="http://party.r-forge.r-project.org/2017/02/08/1.2-1/">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="http://party.r-forge.r-project.org/css/main.css">
@@ -64,13 +64,18 @@ hljs.initHighlightingOnLoad();
       <div class="post">
 
   <header class="post-header">
-    <h1>Version 0.9-8</h1>
-    <p class="meta">Jan 15, 2007</p>
+    <h1>Version 1.2-1</h1>
+    <p class="meta">Feb 8, 2017</p>
   </header>
 
   <article class="post-content">
   <ul>
-<li> thicker median lines in boxplots </li>
+<li> fix a memory leak occuring while searching for surrogate
+        splits in the process of predicting the terminal node ID </li>
+<li> surrogate splits might have used statistics with slightly
+        incorrect weights </li>
+<li> party::ctree gives _same_ results as partykit::ctree 
+        (version >= 2.0-1 from R-forge) </li>
 </ul>
 
   </article>
