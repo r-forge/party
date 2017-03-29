@@ -25,7 +25,7 @@ Description: A computational toolbox for recursive partitioning.
   Hothorn et al. (2006) <doi:10.1198/106186006X133933>,
   Zeileis et al. (2008) <doi:10.1198/106186008X319331> and 
   Strobl et al. (2007) <doi:10.1186/1471-2105-8-25>.
-Depends: R (>= 2.14.0), methods, grid, stats, mvtnorm (>= 1.0-2), modeltools (>= 0.2-21), 
+Depends: R (>= 3.0.0), methods, grid, stats, mvtnorm (>= 1.0-2), modeltools (>= 0.2-21), 
   strucchange
 LinkingTo: mvtnorm
 Imports: survival (>= 2.37-7), coin (>= 1.1-0), zoo, sandwich (>= 1.1-1)
