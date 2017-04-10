@@ -331,6 +331,8 @@ SEXP R_splitcategorical(SEXP x, SEXP codingx, SEXP y, SEXP weights,
     SEXP ans, cutpoint, maxstat, statistics, levelset;
     double *standstat;
 
+    /* GET_SLOT / ncol are assumed NOT to return a fresh object so
+       we don't PROTECT here */
     C_LinStatExpCov(REAL(x), ncol(x), REAL(y), ncol(y), REAL(weights), nrow(x),
                     1, GET_SLOT(linexpcov, PL2_expcovinfSym), linexpcov);
 

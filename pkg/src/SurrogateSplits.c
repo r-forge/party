@@ -138,6 +138,8 @@ void C_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls,
         
         for (i = 0; i < 4; i++) twotab[i] = 0.0;
         cut = cutpoint[order[j] - 1];
+        /* this might give warnings about split being
+           UNPROTECTed but is is since node is PROTECTed */
         SET_VECTOR_ELT(S3get_surrogatesplits(node), j, 
                        split = allocVector(VECSXP, SPLIT_LENGTH));
         C_init_orderedsplit(split, 0);

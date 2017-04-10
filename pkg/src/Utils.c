@@ -112,6 +112,8 @@ void CR_La_svd(int dim, SEXP jobu, SEXP jobv, SEXP x, SEXP s, SEXP u, SEXP v,
     if (!isString(method))
 	error(("'method' must be a character string"));
     /* meth = CHAR(STRING_ELT(method, 0)); not used */
+    /* getAttrib is assumed NOT to return a fresh object so
+       we don't PROTECT here */
     xdims = INTEGER(coerceVector(getAttrib(x, R_DimSymbol), INTSXP));
     n = xdims[0]; p = xdims[1];
     xvals = Calloc(n * p, double);
@@ -174,6 +176,9 @@ void C_svd (SEXP x, SEXP svdmem) {
         du[i] = 0.0;
         dv[i] = 0.0;
     }
+
+    /* GET_SLOT is assumed NOT to return a fresh object so
+       we don't PROTECT here */
     CR_La_svd(p, GET_SLOT(svdmem, PL2_jobuSym), 
         GET_SLOT(svdmem, PL2_jobvSym), x, GET_SLOT(svdmem, PL2_sSym), 
         GET_SLOT(svdmem, PL2_uSym), GET_SLOT(svdmem, PL2_vSym), 
