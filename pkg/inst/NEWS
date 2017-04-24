@@ -1,4 +1,11 @@
 
+
+                CHANGES IN party VERSION 1.2-4 (2017-04-xx)
+
+    o    Bonferroni sometimes overcorrected (by taking constant variables into account). 
+         Spotted by Heidi Seibold.
+
+
                 CHANGES IN party VERSION 1.2-3 (2017-04-10)
 
     o    predict(<cforest>, OOB = TRUE) in party < 1.2-0 was _correct_
