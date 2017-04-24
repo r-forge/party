@@ -454,7 +454,6 @@ SEXP R_predictRF_weights(SEXP forest, SEXP where, SEXP weights,
 
     SEXP ans, tree, bw;
     int ntrees, nobs, i, b, j, iwhere, oob = 0, count = 0, ntrain;
-    double *dw;
     
     if (LOGICAL(oobpred)[0]) oob = 1;
     
