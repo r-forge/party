@@ -243,3 +243,5 @@ copyslots <- function(source, target) {
         eval(parse(text = paste("target@", s, " <- source@", s)))
     return(target)
 }
+
+.resample <- function(x, ...) x[sample.int(length(x), ...)]
