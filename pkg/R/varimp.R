@@ -165,7 +165,7 @@ varimpsurv <- function (object, mincriterion = 0, conditional = FALSE,
                  if (conditional || pre1.0_0) {
                     tmp <- inp
                     ccl <- create_cond_list(conditional, threshold, xnames[j], input)
-                    if (is.null(ccl)) {
+                    if (length(ccl) < 1) {
                         perm <- sample(which(oob))
                     } else {
                         perm <- conditional_perm(ccl, xnames, input, tree, oob)
@@ -345,7 +345,7 @@ varimpAUC <- function(object, mincriterion = 0, conditional = FALSE,
                 if (conditional || pre1.0_0) {
                     tmp <- inp
                     ccl <- create_cond_list(conditional, threshold, xnames[j], input)
-                    if (is.null(ccl)) {
+                    if (length(ccl) < 1) {
                         perm <- sample(which(oob))
                     } else {
                         perm <- conditional_perm(ccl, xnames, input, tree, oob)
