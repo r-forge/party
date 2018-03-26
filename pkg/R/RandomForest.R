@@ -121,12 +121,12 @@ cforestfit <- function(object, controls, weights = NULL, ...) {
     }
 
     RET@prediction_weights <- function(newdata = NULL, 
-                                       mincriterion = 0, OOB = FALSE) {
+                                       mincriterion = 0, OOB = FALSE, scale = TRUE) {
 
         newinp <- newinputs(object, newdata)
 
         RET <- .Call(R_predictRF_weights, RET@ensemble, RET@where, RET@weights, 
-                     newinp, mincriterion, OOB && is.null(newdata))
+                     newinp, mincriterion, OOB && is.null(newdata), scale)
         names(RET) <- rownames(newinp@variables)
         RET
     }
