@@ -9,8 +9,7 @@
 \usage{
 varimp(object, mincriterion = 0, conditional = FALSE, 
        threshold = 0.2, nperm = 1, OOB = TRUE, pre1.0_0 = conditional)
-varimpAUC(object, mincriterion = 0, conditional = FALSE, 
-       threshold = 0.2, nperm = 1, OOB = TRUE, pre1.0_0 = conditional)
+varimpAUC(...)
 }
 \arguments{
   \item{object}{ an object as returned by \code{cforest}.}
@@ -61,7 +60,8 @@ varimpAUC(object, mincriterion = 0, conditional = FALSE,
   Note that in the presence of missings in the predictor variables the procedure
   described in Hapfelmeier et al. (2012) is performed.
 
-  Function \code{varimpAUC} implements AUC-based variables importances as
+  Function \code{varimpAUC} is a wrapper for
+  \code{\link[varImp]{varImpAUC}} which implements AUC-based variables importances as
   described by Janitza et al. (2012).  Here, the area under the curve
   instead of the accuracy is used to calculate the importance of each variable. 
   This AUC-based variable importance measure is more robust towards class imbalance.

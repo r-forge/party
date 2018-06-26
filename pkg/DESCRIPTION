@@ -32,7 +32,7 @@ Depends: R (>= 3.0.0), methods, grid, stats, mvtnorm (>= 1.0-2), modeltools (>= 
   strucchange
 LinkingTo: mvtnorm
 Imports: survival (>= 2.37-7), coin (>= 1.1-0), zoo, sandwich (>= 1.1-1)
-Suggests: TH.data (>= 1.0-3), mlbench, colorspace, MASS, vcd, ipred
+Suggests: TH.data (>= 1.0-3), mlbench, colorspace, MASS, vcd, ipred, varImp
 LazyData: yes
 License: GPL-2
 URL: http://party.R-forge.R-project.org
