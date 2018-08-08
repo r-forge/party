@@ -37,6 +37,7 @@ varimpAUC(...)
                    variables and is more efficient wrt memory consumption and 
                    computing time. This method does not apply to conditional
                    variable importances.}
+  \item{\dots}{Arguments to \code{\link[varImp]{varImpAUC}}.}
 }
 \details{
 
