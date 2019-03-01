@@ -112,10 +112,10 @@ PermutedLinearStatistic <- function(x, y, indx, perm) {
     storage.mode(x) <- "double"
     storage.mode(y) <- "double"
 
-    if (any(indx < 1 || indx > nrow(y)))
+    if (any(indx < 1 | indx > nrow(y)))
         stop("wrong indices")
 
-    if (any(perm < 1 || perm > nrow(y)))
+    if (any(perm < 1 | perm > nrow(y)))
         stop("wrong indices")
 
     # C indexing 
