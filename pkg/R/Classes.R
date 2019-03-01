@@ -1,6 +1,24 @@
 
 # $Id$
 
+### Conditional Expectation and Covariance
+setClass("ExpectCovar",
+    slots = c(
+        expectation = "numeric",
+        covariance  = "matrix",
+        dimension   = "integer"
+   )
+)
+
+### Expectation and Covariance of the influence function
+### (+ sum of weights)
+setClass("ExpectCovarInfluence",
+    contains = "ExpectCovar",
+    slots = c(
+        sumweights = "numeric"
+    )
+)
+
 ### Linear statistic with expectation and covariance
 setClass(Class = "LinStatExpectCovar",
     slots = c(
