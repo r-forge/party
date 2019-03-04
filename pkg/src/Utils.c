@@ -388,7 +388,7 @@ SEXP R_MPinv (SEXP x, SEXP tol, SEXP svdmem) {
         error("R_MPinv: dimensions don't match");
     */
 
-    PROTECT(ans = NEW_OBJECT(MAKE_CLASS("LinStatExpectCovarMPinv")));
+    PROTECT(ans = party_NEW_OBJECT("LinStatExpectCovarMPinv"));
     SET_SLOT(ans, PL2_MPinvSym, PROTECT(allocMatrix(REALSXP, p, p)));
     SET_SLOT(ans, PL2_rankSym, PROTECT(allocVector(REALSXP, 1)));
     
@@ -871,4 +871,11 @@ double* C_tempweights(int j, double *dweights, SEXP fitmem, SEXP inputs) {
         dw[iNAs[k] - 1] = 0.0;
     
     return(dw);
+}
+
+SEXP party_NEW_OBJECT(const char* classname)
+{
+    SEXP ans = NEW_OBJECT(PROTECT(MAKE_CLASS(classname)));
+    UNPROTECT(1);
+    return ans;
 }

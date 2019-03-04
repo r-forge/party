@@ -30,7 +30,7 @@ SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP controls) {
      B = get_ntree(controls);
      nobs = get_nobs(learnsample);
      
-     PROTECT(ans = NEW_OBJECT(MAKE_CLASS("RandomForest")));
+     PROTECT(ans = party_NEW_OBJECT("RandomForest"));
      PROTECT(bwhere = allocVector(VECSXP, B));
      PROTECT(bweights = allocVector(VECSXP, B));
      PROTECT(ensemble = allocVector(VECSXP, B));
@@ -170,7 +170,7 @@ SEXP R_Ensemble_weights(SEXP learnsample, SEXP bweights,
      B = get_ntree(controls);
      nobs = get_nobs(learnsample);
      
-     PROTECT(ans = NEW_OBJECT(MAKE_CLASS("RandomForest")));
+     PROTECT(ans = party_NEW_OBJECT("RandomForest"));
      PROTECT(bwhere = allocVector(VECSXP, B));
      PROTECT(ensemble = allocVector(VECSXP, B));
      PROTECT(fitmem = ctree_memory(learnsample, PROTECT(ScalarLogical(1))));
