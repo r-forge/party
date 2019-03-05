@@ -179,10 +179,13 @@ void C_svd (SEXP x, SEXP svdmem) {
 
     /* GET_SLOT is assumed NOT to return a fresh object so
        we don't PROTECT here */
-    CR_La_svd(p, GET_SLOT(svdmem, PL2_jobuSym), 
-        GET_SLOT(svdmem, PL2_jobvSym), x, GET_SLOT(svdmem, PL2_sSym), 
-        GET_SLOT(svdmem, PL2_uSym), GET_SLOT(svdmem, PL2_vSym), 
-        GET_SLOT(svdmem, PL2_methodSym));
+    CR_La_svd(p, PROTECT(GET_SLOT(svdmem, PL2_jobuSym)), 
+        PROTECT(GET_SLOT(svdmem, PL2_jobvSym)), x, 
+        PROTECT(GET_SLOT(svdmem, PL2_sSym)), 
+        PROTECT(GET_SLOT(svdmem, PL2_uSym)), 
+        PROTECT(GET_SLOT(svdmem, PL2_vSym)), 
+        PROTECT(GET_SLOT(svdmem, PL2_methodSym)));
+    UNPROTECT(6);
     /* return(R_NilValue); */
 }
 

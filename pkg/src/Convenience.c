@@ -60,8 +60,9 @@ void C_LinStatExpCovMPinv(SEXP linexpcov, double tol) {
     /* compute MPinv in reduced dimension */                   
     /* GET_SLOT is assumed NOT to return a fresh object so
        we don't PROTECT here */
-    C_MPinv(GET_SLOT(linexpcov, PL2_covarianceSym), tol,
-            GET_SLOT(linexpcov, PL2_svdmemSym), linexpcov);
+    C_MPinv(PROTECT(GET_SLOT(linexpcov, PL2_covarianceSym)), tol,
+            PROTECT(GET_SLOT(linexpcov, PL2_svdmemSym)), linexpcov);
+    UNPROTECT(2);
 
     /* make sure to reset svdmem to original dimension;
        the dimension of linexpcov is reset in C_TestStatistic */
