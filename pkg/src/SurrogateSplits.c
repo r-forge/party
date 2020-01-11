@@ -140,10 +140,9 @@ void C_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls,
         cut = cutpoint[order[j] - 1];
         /* this might give warnings about split being
            UNPROTECTed but is is since node is PROTECTed */
-        SET_VECTOR_ELT(S3get_surrogatesplits(node), j, 
-                       split = allocVector(VECSXP, SPLIT_LENGTH));
-        C_init_orderedsplit(PROTECT(split), 0);
-        UNPROTECT(1);
+        PROTECT(split = allocVector(VECSXP, SPLIT_LENGTH));
+        SET_VECTOR_ELT(S3get_surrogatesplits(node), j, split);
+        C_init_orderedsplit(split, 0);
         S3set_variableID(split, order[j]);
         REAL(S3get_splitpoint(split))[0] = cut;
         dx = REAL(get_variable(inputs, order[j]));
@@ -161,6 +160,7 @@ void C_surrogates(SEXP node, SEXP learnsample, SEXP weights, SEXP controls,
         }
         S3set_toleft(split, (int) (twotab[0] - twotab[1] * twotab[2] / 
                      twotab[3]) > 0);
+        UNPROTECT(1);
     }
     
     Free(maxstat);
