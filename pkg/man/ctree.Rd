@@ -89,7 +89,7 @@ ctree(formula, data, subset = NULL, weights = NULL,
   For a general description of the methodology see Hothorn, Hornik and
   Zeileis (2006) and Hothorn, Hornik, van de Wiel and Zeileis (2006). 
   Introductions for novices can be found in Strobl et al. (2009) and
-  at \url{http://github.com/christophM/overview-ctrees.git}.
+  at \url{https://github.com/christophM/overview-ctrees}.
 
 }
 \value{

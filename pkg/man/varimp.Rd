@@ -81,7 +81,7 @@ varimpAUC(...)
 
     Alexander Hapfelmeier, Torsten Hothorn, Kurt Ulm, and Carolin Strobl (2012).
     A New Variable Importance Measure for Random Forests with Missing Data.
-    \emph{Statistics and Computing}, \url{http://dx.doi.org/10.1007/s11222-012-9349-1}
+    \emph{Statistics and Computing}, \doi{10.1007/s11222-012-9349-1}
 
     Torsten Hothorn, Kurt Hornik, and Achim Zeileis (2006b). Unbiased
     Recursive Partitioning: A Conditional Inference Framework.
@@ -91,11 +91,11 @@ varimpAUC(...)
 
     Silke Janitza, Carolin Strobl and Anne-Laure Boulesteix (2013). An AUC-based Permutation 
     Variable Importance Measure for Random Forests. BMC Bioinformatics.2013, \bold{14} 119.
-    \url{http://www.biomedcentral.com/1471-2105/14/119}
+    \doi{10.1186/1471-2105-14-119}
 
     Carolin Strobl, Anne-Laure Boulesteix, Thomas Kneib, Thomas Augustin, and Achim Zeileis (2008).
     Conditional Variable Importance for Random Forests. \emph{BMC Bioinformatics}, \bold{9}, 307. 
-    \url{http://www.biomedcentral.com/1471-2105/9/307}
+    \doi{10.1186/1471-2105-9-307}
 }
 \examples{
     

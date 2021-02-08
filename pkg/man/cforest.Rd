@@ -124,7 +124,7 @@ proximity(object, newdata = NULL)
     Carolin Strobl, Anne-Laure Boulesteix, Achim Zeileis and Torsten Hothorn (2007).
     Bias in Random Forest Variable Importance Measures: Illustrations, Sources and 
     a Solution. \emph{BMC Bioinformatics}, \bold{8}, 25. 
-    \url{http://www.biomedcentral.com/1471-2105/8/25}
+    \doi{10.1186/1471-2105-8-25}
 
     Carolin Strobl, James Malley and Gerhard Tutz (2009).
     An Introduction to Recursive Partitioning: Rationale, Application, and Characteristics of
