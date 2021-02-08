@@ -108,7 +108,7 @@ ctree(formula, data, subset = NULL, weights = NULL,
    Partitioning: A Conditional Inference Framework. \emph{Journal of
    Computational and Graphical Statistics}, \bold{15}(3), 651--674. 
    Preprint available
-   from \url{http://statmath.wu-wien.ac.at/~zeileis/papers/Hothorn+Hornik+Zeileis-2006.pdf}
+   from \url{https://www.zeileis.org/papers/Hothorn+Hornik+Zeileis-2006.pdf}
 
    Carolin Strobl, James Malley and Gerhard Tutz (2009).
    An Introduction to Recursive Partitioning: Rationale, Application, and Characteristics of 

@@ -87,7 +87,7 @@ varimpAUC(...)
     Recursive Partitioning: A Conditional Inference Framework.
     \emph{Journal of Computational and Graphical Statistics}, \bold{15} (3),
     651-674.  Preprint available from 
-    \url{http://statmath.wu-wien.ac.at/~zeileis/papers/Hothorn+Hornik+Zeileis-2006.pdf}
+    \url{https://www.zeileis.org/papers/Hothorn+Hornik+Zeileis-2006.pdf}
 
     Silke Janitza, Carolin Strobl and Anne-Laure Boulesteix (2013). An AUC-based Permutation 
     Variable Importance Measure for Random Forests. BMC Bioinformatics.2013, \bold{14} 119.
