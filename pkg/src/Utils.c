@@ -137,7 +137,7 @@ void CR_La_svd(int dim, SEXP jobu, SEXP jobv, SEXP x, SEXP s, SEXP u, SEXP v,
 			 &dim, &dim, xvals, &dim, REAL(s),
 			 REAL(u), &ldu,
 			 REAL(v), &ldvt,
-			 &tmp, &lwork, iwork, &info FCONE FCONE);
+			 &tmp, &lwork, iwork, &info FCONE);
 	if (info != 0)
 	    error(("error code %d from Lapack routine '%s'"), info, "dgesdd");
 	lwork = (int) tmp;
@@ -147,7 +147,7 @@ void CR_La_svd(int dim, SEXP jobu, SEXP jobv, SEXP x, SEXP s, SEXP u, SEXP v,
 /* was			 &n, &p, xvals, &n, REAL(s), for the non-square case */
 			 REAL(u), &ldu,
 			 REAL(v), &ldvt,
-			 work, &lwork, iwork, &info FCONE FCONE);
+			 work, &lwork, iwork, &info FCONE);
 	if (info != 0)
 	    error(("error code %d from Lapack routine '%s'"), info, "dgesdd");
     }
