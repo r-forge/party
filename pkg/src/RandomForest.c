@@ -72,7 +72,7 @@ SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP controls) {
 
      if (!replace) {
          if (fraction < 10)
-             error("fraction of %f is too small", fraction);
+             error("fraction of %d is too small", fraction);
      }
 
      /* <FIXME> can we call those guys ONCE? what about the deeper
