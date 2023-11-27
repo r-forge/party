@@ -2,7 +2,7 @@
 # $Id$
 
 .onLoad <- function(lib, pkg) {
-    GCtorture <<- FALSE
+    ### GCtorture <<- FALSE
     .Call(party_init)
     return(TRUE)
 }
