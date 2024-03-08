@@ -234,12 +234,8 @@ mysurvfit <- function(y, weights, ...) {
 .R_TreeGrow <- function(object, weights, ctrl)
     .Call(R_TreeGrow, object, weights, ctrl)
 
-.R_getpredictions <- function(tree, where)
-    .Call(R_getpredictions, tree, where)
-
 .R_predict <- function(tree, newinputs, mincriterion, varperm)
     .Call(R_predict, tree, newinputs, mincriterion, varperm)
-
 
 copyslots <- function(source, target) {
     slots <- names(getSlots(class(source)))
