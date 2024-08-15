@@ -162,7 +162,7 @@ void C_Node(SEXP node, SEXP learnsample, SEXP weights,
                 }
           
                  linexpcov = get_varmemory(fitmem, jselect);
-                 standstat = Calloc(get_dimension(linexpcov), double);
+                 standstat = R_Calloc(get_dimension(linexpcov), double);
                  C_standardize(REAL(GET_SLOT(linexpcov, 
                                              PL2_linearstatisticSym)),
                                REAL(GET_SLOT(linexpcov, PL2_expectationSym)),
@@ -195,7 +195,7 @@ void C_Node(SEXP node, SEXP learnsample, SEXP weights,
                      }
                  }
 
-                 Free(standstat);
+                 R_Free(standstat);
             }
             if (maxstat == 0) {
                 if (j == 1) {          

@@ -470,7 +470,7 @@ SEXP R_predictRF_weights(SEXP forest, SEXP where, SEXP weights,
     
     PROTECT(ans = allocVector(VECSXP, nobs));
     
-    tnsize = Calloc(ntrain, int);
+    tnsize = R_Calloc(ntrain, int);
     for (j = 0; j < ntrain; j++) tnsize[j] = 1;
     
     for (i = 0; i < nobs; i++) {
@@ -505,7 +505,7 @@ SEXP R_predictRF_weights(SEXP forest, SEXP where, SEXP weights,
         if (count == 0) 
             error("cannot compute out-of-bag predictions for observation number %d", i + 1);
     }
-    Free(tnsize);
+    R_Free(tnsize);
     UNPROTECT(1);
     return(ans);
 }

@@ -40,9 +40,9 @@ SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP controls) {
      SET_SLOT(ans, PL2_whereSym, bwhere);
      SET_SLOT(ans, PL2_weightsSym, bweights);
 
-     iweights = Calloc(nobs, int);
-     iweightstmp = Calloc(nobs, int);
-     prob = Calloc(nobs, double);
+     iweights = R_Calloc(nobs, int);
+     iweightstmp = R_Calloc(nobs, int);
+     prob = R_Calloc(nobs, double);
      dweights = REAL(weights);
 
      for (i = 0; i < nobs; i++) {
@@ -143,7 +143,7 @@ SEXP R_Ensemble(SEXP learnsample, SEXP weights, SEXP controls) {
 
      PutRNGstate();
 
-     Free(prob); Free(iweights); Free(iweightstmp);
+     R_Free(prob); R_Free(iweights); R_Free(iweightstmp);
      UNPROTECT(6);
      return(ans);
 }
