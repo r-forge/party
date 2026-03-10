@@ -1,6 +1,7 @@
 \name{cforest}
 \alias{cforest}
 \alias{proximity}
+\encoding{utf-8}
 \title{ Random Forest }
 \description{
     An implementation of the random forest and bagging ensemble algorithms
