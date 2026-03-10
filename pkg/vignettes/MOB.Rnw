@@ -483,6 +483,6 @@ The resulting ``\code{mob}'' tree can be flexibly summarized, both numerically a
 and used for predictions on new data.
 
 
-\bibliography{partyrefs}
+\bibliography{\Sexpr{gsub("\\.bib", "", system.file("REFERENCES.bib", package = "party"))}}
 
 \end{document}

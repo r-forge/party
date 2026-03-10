@@ -921,7 +921,7 @@ benefits of the examination. For those women in (strong) disagreement with the f
 question above, low values of \texttt{benefit} identify persons being more likely to have 
 experienced such an examination at all. 
 
-\bibliography{partyrefs}
+\bibliography{\Sexpr{gsub("\\.bib", "", system.file("REFERENCES.bib", package = "party"))}}
 
 \end{document}
 
