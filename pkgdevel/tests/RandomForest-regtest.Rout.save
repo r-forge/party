@@ -1,0 +1,177 @@
+
+R version 4.1.1 (2021-08-10) -- "Kick Things"
+Copyright (C) 2021 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> RNGversion("3.5.2")
+Warning message:
+In RNGkind("Mersenne-Twister", "Inversion", "Rounding") :
+  non-uniform 'Rounding' sampler used
+> set.seed(290875)
+> library("party")
+Loading required package: grid
+Loading required package: mvtnorm
+Loading required package: modeltools
+Loading required package: stats4
+Loading required package: strucchange
+Loading required package: zoo
+
+Attaching package: 'zoo'
+
+The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric
+
+Loading required package: sandwich
+> if (!require("TH.data"))
++     stop("cannot load package TH.data")
+Loading required package: TH.data
+Loading required package: survival
+Loading required package: MASS
+
+Attaching package: 'TH.data'
+
+The following object is masked from 'package:MASS':
+
+    geyser
+
+> if (!require("coin"))
++     stop("cannot load package coin")
+Loading required package: coin
+> 
+> data("GlaucomaM", package = "TH.data")
+> rf <- cforest(Class ~ ., data = GlaucomaM, control = cforest_unbiased(ntree = 30))
+> stopifnot(mean(GlaucomaM$Class != predict(rf)) < 
++           mean(GlaucomaM$Class != predict(rf, OOB = TRUE)))
+> 
+> data("GBSG2", package = "TH.data")
+> rfS <- cforest(Surv(time, cens) ~ ., data = GBSG2, control = cforest_unbiased(ntree = 30))
+> treeresponse(rfS, newdata = GBSG2[1:2,])
+$`1`
+Call: survfit(formula = y ~ 1, weights = weights)
+
+     records  n events median 0.95LCL 0.95UCL
+[1,]     146 30   15.9   1753    1481      NA
+
+$`2`
+Call: survfit(formula = y ~ 1, weights = weights)
+
+     records  n events median 0.95LCL 0.95UCL
+[1,]     148 30   13.4   1975    1343    2018
+
+> 
+> ### give it a try, at least
+> varimp(rf, pre1.0_0 = TRUE)
+           ag            at            as            an            ai 
+ 0.0000000000 -0.0023148148  0.0009259259  0.0009259259  0.0078703704 
+          eag           eat           eas           ean           eai 
+ 0.0000000000  0.0000000000  0.0000000000  0.0013888889 -0.0009259259 
+         abrg          abrt          abrs          abrn          abri 
+ 0.0000000000  0.0000000000  0.0032407407  0.0027777778  0.0041666667 
+          hic          mhcg          mhct          mhcs          mhcn 
+ 0.0060185185  0.0000000000  0.0013888889 -0.0004629630  0.0027777778 
+         mhci          phcg          phct          phcs          phcn 
+ 0.0078703704  0.0060185185  0.0000000000  0.0004629630  0.0018518519 
+         phci           hvc          vbsg          vbst          vbss 
+ 0.0166666667  0.0032407407  0.0032407407  0.0013888889  0.0000000000 
+         vbsn          vbsi          vasg          vast          vass 
+ 0.0000000000  0.0000000000  0.0000000000  0.0000000000  0.0000000000 
+         vasn          vasi          vbrg          vbrt          vbrs 
+ 0.0000000000  0.0046296296  0.0000000000  0.0018518519  0.0004629630 
+         vbrn          vbri          varg          vart          vars 
+ 0.0032407407  0.0004629630  0.0351851852  0.0000000000  0.0245370370 
+         varn          vari           mdg           mdt           mds 
+ 0.0129629630  0.0481481481  0.0000000000  0.0000000000 -0.0013888889 
+          mdn           mdi           tmg           tmt           tms 
+ 0.0000000000  0.0000000000  0.0273148148  0.0000000000  0.0097222222 
+          tmn           tmi            mr           rnf          mdic 
+-0.0023148148  0.0226851852  0.0000000000  0.0037037037  0.0055555556 
+          emd            mv 
+ 0.0000000000 -0.0009259259 
+> 
+> P <- proximity(rf)
+> stopifnot(max(abs(P - t(P))) == 0)
+> 
+> P[1:10,1:10]
+           2         43        25         65         70         16          6
+2  1.0000000 0.26666667 0.7666667 0.20000000 0.10000000 0.13333333 0.70000000
+43 0.2666667 1.00000000 0.2000000 0.03333333 0.06666667 0.36666667 0.23333333
+25 0.7666667 0.20000000 1.0000000 0.26666667 0.10000000 0.10000000 0.76666667
+65 0.2000000 0.03333333 0.2666667 1.00000000 0.00000000 0.03333333 0.33333333
+70 0.1000000 0.06666667 0.1000000 0.00000000 1.00000000 0.23333333 0.06666667
+16 0.1333333 0.36666667 0.1000000 0.03333333 0.23333333 1.00000000 0.10000000
+6  0.7000000 0.23333333 0.7666667 0.33333333 0.06666667 0.10000000 1.00000000
+5  0.5333333 0.06666667 0.6000000 0.46666667 0.10000000 0.06666667 0.63333333
+12 0.5000000 0.06666667 0.5000000 0.50000000 0.10000000 0.06666667 0.53333333
+63 0.4666667 0.23333333 0.5000000 0.23333333 0.16666667 0.13333333 0.56666667
+            5         12        63
+2  0.53333333 0.50000000 0.4666667
+43 0.06666667 0.06666667 0.2333333
+25 0.60000000 0.50000000 0.5000000
+65 0.46666667 0.50000000 0.2333333
+70 0.10000000 0.10000000 0.1666667
+16 0.06666667 0.06666667 0.1333333
+6  0.63333333 0.53333333 0.5666667
+5  1.00000000 0.83333333 0.4333333
+12 0.83333333 1.00000000 0.5000000
+63 0.43333333 0.50000000 1.0000000
+> 
+> ### variable importances
+> a <- cforest(Species ~ ., data = iris,
++              control = cforest_unbiased(mtry = 2, ntree = 10))
+> varimp(a, pre1.0_0 = TRUE)
+Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
+  0.06181818   0.00000000   0.20727273   0.33636364 
+> varimp(a, conditional = TRUE)
+Sepal.Length  Sepal.Width Petal.Length  Petal.Width 
+ 0.007272727  0.000000000  0.103636364  0.243636364 
+> 
+> airq <- subset(airquality, complete.cases(airquality))
+> a <- cforest(Ozone ~ ., data = airq,
++              control = cforest_unbiased(mtry = 2, ntree = 10))
+> varimp(a, pre1.0_0 = TRUE)   
+  Solar.R      Wind      Temp     Month       Day 
+137.76700 550.19004 295.40387  16.21802   5.42690 
+> varimp(a, conditional = TRUE)
+   Solar.R       Wind       Temp      Month        Day 
+ 67.713060 341.413307 227.670123   4.257196   3.204209 
+> 
+> data("mammoexp", package = "TH.data")
+> a <- cforest(ME ~ ., data = mammoexp, control = cforest_classical(ntree = 10))
+> varimp(a, pre1.0_0 = TRUE)   
+     SYMPT         PB       HIST        BSE       DECT 
+0.02466021 0.01046237 0.01607246 0.01045324 0.00133305 
+> varimp(a, conditional = TRUE)
+      SYMPT          PB        HIST         BSE        DECT 
+0.019882337 0.009532482 0.006163146 0.007732481 0.003382481 
+> 
+> stopifnot(all.equal(unique(sapply(a@weights, sum)), nrow(mammoexp)))
+> 
+> ### check user-defined weights
+> nobs <- nrow(GlaucomaM)
+> i <- rep(0.0, nobs)
+> i[1:floor(.632 * nobs)] <- 1
+> folds <- replicate(100, sample(i))
+> rf2 <- cforest(Class ~ ., data = GlaucomaM, control = cforest_unbiased(ntree = 100), weights = folds)
+> table(predict(rf), predict(rf2))
+          
+           glaucoma normal
+  glaucoma       89      4
+  normal          1    102
+> 
+> proc.time()
+   user  system elapsed 
+  2.769   0.094   2.847 
