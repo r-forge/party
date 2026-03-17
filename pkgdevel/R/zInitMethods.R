@@ -80,6 +80,7 @@ setMethod(f = "initialize", signature = "VariableFrame",
         .Object@scores <- vector(mode = "list", length = ninputs)
         .Object@has_missings <- vector(mode = "logical", length = ninputs)
         .Object@whichNA <- vector(mode = "list", length = ninputs)
+        .Object@subset <- vector(mode = "list", length = ninputs)
         # .Object@jointtransf <- matrix()
         .Object
     }

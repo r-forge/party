@@ -45,6 +45,7 @@ SEXP
     PL2_scoresSym, 
     PL2_has_missingsSym, 
     PL2_whichNASym, 
+    PL2_subsetSym, 
     PL2_test_trafoSym, 
     PL2_predict_trafoSym, 
     PL2_nobsSym, 
@@ -115,6 +116,7 @@ SEXP party_init(void) {
     PL2_scoresSym = install("scores"); 
     PL2_has_missingsSym = install("has_missings"); 
     PL2_whichNASym = install("whichNA"); 
+    PL2_subsetSym = install("subset"); 
     PL2_test_trafoSym = install("test_trafo"); 
     PL2_predict_trafoSym = install("predict_trafo"); 
     PL2_nobsSym = install("nobs"); 
@@ -267,6 +269,17 @@ SEXP get_missings(SEXP object, int variable) {
     if (has_missings(object, variable)) {
         return(VECTOR_ELT(
                GET_SLOT(object, PL2_whichNASym), 
+               variable - 1));
+    } else {
+        error("Variable %d has no missing values", variable);
+        return(R_NilValue);
+    }
+}
+
+SEXP get_subset(SEXP object, int variable) {
+    if (has_missings(object, variable)) {
+        return(VECTOR_ELT(
+               GET_SLOT(object, PL2_subsetSym), 
                variable - 1));
     } else {
         error("Variable %d has no missing values", variable);

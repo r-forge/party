@@ -88,6 +88,7 @@ int is_ordinal(SEXP object, int variable);
 int is_censored(SEXP object, int variable);
 int has_missings(SEXP object, int variable);
 SEXP get_missings(SEXP object, int variable);
+SEXP get_subset(SEXP object, int variable);
 SEXP get_ordering(SEXP object, int variable);
 SEXP get_levels(SEXP object, int variable);
 SEXP get_scores(SEXP object, int variable); 

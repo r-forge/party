@@ -118,6 +118,9 @@ Slot "mtry":
 Slot "mincriterion":
 [1] 0.95
 
+Slot "tol":
+[1] 1.490116e-08
+
 
 Slot "tgctrl":
 An object of class "TreeGrowControl"
@@ -194,6 +197,9 @@ Slot "mtry":
 
 Slot "mincriterion":
 [1] 0.95
+
+Slot "tol":
+[1] 1.490116e-08
 
 
 Slot "tgctrl":
@@ -272,6 +278,9 @@ Slot "mtry":
 Slot "mincriterion":
 [1] 0.95
 
+Slot "tol":
+[1] 1.490116e-08
+
 
 Slot "tgctrl":
 An object of class "TreeGrowControl"
@@ -349,6 +358,9 @@ Slot "mtry":
 Slot "mincriterion":
 [1] 0.95
 
+Slot "tol":
+[1] 1.490116e-08
+
 
 Slot "tgctrl":
 An object of class "TreeGrowControl"
@@ -425,6 +437,9 @@ Slot "mtry":
 
 Slot "mincriterion":
 [1] 0.95
+
+Slot "tol":
+[1] 1.490116e-08
 
 
 Slot "tgctrl":
@@ -574,4 +589,4 @@ Call: survfit(formula = y ~ 1, weights = weights)
  *** Run successfully completed ***
 > proc.time()
    user  system elapsed 
-  1.667   0.076   1.737 
+  0.912   0.087   0.999 

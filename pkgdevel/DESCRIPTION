@@ -1,7 +1,7 @@
 Package: party
 Title: A Laboratory for Recursive Partytioning
-Date: 2026-03-10
-Version: 1.3-19
+Date: 2026-03-17
+Version: 1.4-0
 Authors@R: c(person("Torsten", "Hothorn", role = c("aut", "cre"),
                     email = "Torsten.Hothorn@R-project.org",
                     comment = c(ORCID = "0000-0001-8301-0471")),
@@ -34,8 +34,8 @@ Description: A computational toolbox for recursive partitioning.
   Strobl et al. (2007) <doi:10.1186/1471-2105-8-25>.
 Depends: R (>= 3.0.0), methods, grid, stats, mvtnorm (>= 1.0-2), modeltools (>= 0.2-21), 
   strucchange
-LinkingTo: mvtnorm
-Imports: survival (>= 2.37-7), coin (>= 1.1-0), zoo, sandwich (>= 1.1-1)
+LinkingTo: mvtnorm, libcoin
+Imports: survival (>= 2.37-7), coin (>= 1.1-0), zoo, sandwich (>= 1.1-1), libcoin
 Suggests: TH.data (>= 1.0-3), mlbench, colorspace, MASS, vcd, ipred, varImp, 
   randomForest, lattice, AER, bibtex
 LazyData: yes

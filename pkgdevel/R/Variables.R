@@ -14,7 +14,7 @@ ff_trafo <- function(x) {
         ### construct design matrix _without_ intercept
         mm <- model.matrix(~ x - 1)
     }
-    colnames(mm) <- levels(x)  
+    colnames(mm) <- levels(x)
     return(mm)
 }
 
@@ -92,8 +92,12 @@ initVariableFrame.df <- function(obj, trafo = ptrafo, scores = NULL, response = 
 
     ### div.
     levels <- lapply(obj, function(x) if(is.factor(x)) levels(x))
-    whichNA <- lapply(obj, function(x) which(is.na(x)))
     has_missings <- sapply(obj, function(x) any(is.na(x)))
+    whichNA <- subset <- vector(mode = "list", length = ncol(obj))
+    if (any(has_missings)) {
+        whichNA[has_missings] <- lapply(obj[has_missings], function(x) which(is.na(x)))
+        subset[has_missings] <- lapply(obj[has_missings], function(x) which(!is.na(x)))
+    }
     censored <- sapply(obj, function(x) inherits(x, "Surv"))
 
     ### some "handwork" 
@@ -128,6 +132,7 @@ initVariableFrame.df <- function(obj, trafo = ptrafo, scores = NULL, response = 
     RET@ordering <- ordering
     RET@has_missings <- has_missings
     RET@whichNA <- whichNA
+    RET@subset <- subset
 
     if (response) {
         RET@test_trafo <- as.matrix(as.data.frame(xt))
@@ -161,8 +166,12 @@ initVariableFrame.matrix <- function(obj, response = FALSE, ...) {
 
     ### div.
     levels <- vector(mode = "list", length = p)
-    whichNA <- lapply(obj, function(x) which(is.na(x)))
     has_missings <- sapply(obj, function(x) any(is.na(x)))
+    whichNA <- subset <- vector(mode = "list", length = p)
+    if (any(has_missings)) {
+        whichNA[has_missings] <- lapply(obj[has_missings], function(x) which(is.na(x)))
+        subset[has_missings] <- lapply(obj[has_missings], function(x) which(!is.na(x)))
+    }
     censored <- rep(FALSE, p)
 
     RET@transformations <- obj
@@ -174,6 +183,7 @@ initVariableFrame.matrix <- function(obj, response = FALSE, ...) {
     RET@ordering <- ordering
     RET@has_missings <- has_missings
     RET@whichNA <- whichNA
+    RET@subset <- subset
 
     RET
 }

@@ -7,7 +7,7 @@
 */
                 
 #include "party.h"
-
+#include <libcoinAPI.h>
 
 /**
     Computes the test statistic and, if requested, the corresponding 
@@ -130,7 +130,7 @@ SEXP R_IndependenceTest(SEXP x, SEXP y, SEXP weights, SEXP linexpcov, SEXP varct
     *\param depth an integer giving the depth of the current node
 */
 
-void C_GlobalTest(const SEXP learnsample, const SEXP weights, 
+void C_GlobalTest2(const SEXP learnsample, const SEXP weights, 
                   SEXP fitmem, const SEXP varctrl, 
                   const SEXP gtctrl, const double minsplit, 
                   double *ans_teststat, double *ans_criterion, int depth) {
@@ -250,7 +250,7 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
                 
             C_TeststatCriterion(xmem, varctrl, &ans_teststat[j - 1], 
                                 &ans_criterion[j - 1]);
-                            
+
             /* teststat = "quad"
                make sure that the test statistics etc match the original order of levels 
                <FIXME> can we avoid to compute these things twice??? */ 
@@ -299,6 +299,227 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
                      break;
         }
     }
+}
+
+
+/**
+    Perform a global test on independence of a response and multiple inputs \n
+    *\param learnsample an object of class `LearningSample'
+    *\param weights case weights
+    *\param fitmem an object of class `TreeFitMemory'
+    *\param varctrl an object of class `VariableControl'
+    *\param gtctrl an object of class `GlobalTestControl'
+    *\param minsplit minimum sum of weights to proceed
+    *\param ans_teststat return value; vector of test statistics
+    *\param ans_criterion return value; vector of node criteria 
+            (adjusted) pvalues or raw test statistics
+    *\param depth an integer giving the depth of the current node
+*/
+
+void C_GlobalTest(const SEXP learnsample, const SEXP weights, 
+                  SEXP fitmem, const SEXP varctrl, 
+                  const SEXP gtctrl, const double minsplit, 
+                  double *ans_teststat, double *ans_criterion, int depth) {
+
+    int ninputs, nobs, j, i, k, q, n, l, type;
+    SEXP responses, inputs, y, x, xmem, expcovinf, tmp;
+    SEXP Smtry;
+
+    SEXP LECV, PLS, iEMPTY, iFALSE, iTRUE, ans;
+
+    double *thisweights, stweights = 0.0;
+    int RANDOM, mtry, *randomvar, *index;
+    int *dontuse, *dontusetmp, countvars = 0;
+    
+    ninputs = get_ninputs(learnsample);
+    nobs = get_nobs(learnsample);
+
+    PROTECT(responses = GET_SLOT(learnsample, PL2_responsesSym));
+    PROTECT(inputs = GET_SLOT(learnsample, PL2_inputsSym));
+    
+    PROTECT(iEMPTY = allocVector(INTSXP, 0));
+    PROTECT(iTRUE = allocVector(INTSXP, 1));
+    INTEGER(iTRUE)[0] = 1;
+    PROTECT(iFALSE = allocVector(INTSXP, 1));
+    INTEGER(iFALSE)[0] = 0;
+    
+    /* y = get_transformation(responses, 1); */
+    PROTECT(y = get_test_trafo(responses));
+
+    thisweights = REAL(weights);
+    for (i = 0; i < nobs; i++) stweights += thisweights[i];
+
+    expcovinf = GET_SLOT(fitmem, PL2_expcovinfSym);
+    REAL(GET_SLOT(expcovinf, PL2_sumweightsSym))[0] = stweights;
+    
+    if (stweights < minsplit) {
+        for (j = 0; j < ninputs; j++) {
+            ans_teststat[j] = 0.0;
+            ans_criterion[j] = 0.0;
+        }
+    } else {
+
+        dontuse = INTEGER(get_dontuse(fitmem));
+        dontusetmp = INTEGER(get_dontusetmp(fitmem));
+    
+        for (j = 0; j < ninputs; j++) dontusetmp[j] = !dontuse[j];
+    
+        /* random forest */
+        RANDOM = get_randomsplits(gtctrl);
+        Smtry = get_mtry(gtctrl);
+        if (LENGTH(Smtry) == 1) {
+            mtry = INTEGER(Smtry)[0];
+        } else {
+            /* mtry may vary with tree depth */
+            depth = (depth <= LENGTH(Smtry)) ? depth : LENGTH(Smtry);
+            mtry = INTEGER(get_mtry(gtctrl))[depth - 1];
+        }
+        if (RANDOM & (mtry > ninputs)) {
+            warning("mtry is larger than ninputs, using mtry = inputs");
+            mtry = ninputs;
+            RANDOM = 0;
+        }
+        if (RANDOM) {
+            index = R_Calloc(ninputs, int);
+            randomvar = R_Calloc(mtry, int);
+            C_SampleNoReplace(index, ninputs, mtry, randomvar);
+            j = 0;
+            for (k = 0; k < mtry; k++) {
+                j = randomvar[k];
+                while(dontuse[j] && j < ninputs) j++;
+                if (j == ninputs) 
+                    error("not enough variables to sample from");
+                dontusetmp[j] = 0;
+            }
+            R_Free(index);
+            R_Free(randomvar);
+        }
+
+        countvars = 0;
+        for (j = 1; j <= ninputs; j++) {
+
+            if ((RANDOM && dontusetmp[j - 1]) || dontuse[j - 1]) {
+                ans_teststat[j - 1] = 0.0;
+                ans_criterion[j - 1] = 0.0;
+                continue; 
+            }
+        
+            PROTECT(x = get_transformation(inputs, j));
+            PROTECT(xmem = get_varmemory(fitmem, j));
+
+            if (!has_missings(inputs, j)) {
+                PROTECT(LECV = libcoin_R_ExpectationCovarianceStatistic(x, y, weights, 
+                        iEMPTY, // SEXP subset
+                        iEMPTY, // SEXP block 
+                        iFALSE, // SEXP varonly 
+                        GET_SLOT(gtctrl, PL2_tolSym)));
+
+                if (get_testtype(gtctrl) == MONTECARLO)
+                    SET_VECTOR_ELT(LECV, 12, // PermutedLinearStatistic_SLOT
+                    libcoin_R_PermutedLinearStatistic(x, y, weights, 
+                        iEMPTY, // SEXP subset
+                        iEMPTY, // SEXP block
+                        GET_SLOT(gtctrl, PL2_nresampleSym)));
+                        
+                expcovinf = GET_SLOT(fitmem, PL2_expcovinfSym);
+
+            } else {
+
+                PROTECT(LECV = libcoin_R_ExpectationCovarianceStatistic(x, y, weights, 
+                    get_subset(inputs, j), // SEXP subset
+                    iEMPTY, // SEXP block
+                    iFALSE, // SEXP varonly
+                    GET_SLOT(gtctrl, PL2_tolSym)));
+
+                if (get_testtype(gtctrl) == MONTECARLO)
+                    SET_VECTOR_ELT(LECV, 12, // PermutedLinearStatistic_SLOT
+                    libcoin_R_PermutedLinearStatistic(x, y, weights, 
+                        get_subset(inputs, j), // SEXP subset
+                        iEMPTY, // SEXP block
+                        GET_SLOT(gtctrl, PL2_nresampleSym)));
+
+                expcovinf = GET_SLOT(xmem, PL2_expcovinfSym);
+
+                stweights = REAL(VECTOR_ELT(LECV, 15))[0]; // Sumweights_SLOT
+                if (stweights < minsplit) {
+                    ans_teststat[j - 1] = 0.0;
+                    ans_criterion[j - 1] = 0.0;
+                    continue; 
+                }
+            }
+
+            tmp = VECTOR_ELT(LECV, 7); // ExpectationInfluence_SLOT
+            for (q = 0; q < LENGTH(tmp); q++)
+                REAL(GET_SLOT(expcovinf, PL2_expectationSym))[q] = REAL(tmp)[q];
+                
+            tmp = VECTOR_ELT(LECV, 8); // CovarianceInfluence_SLOT, packed 
+            n = (int) (sqrt(0.25 + 2 * LENGTH(tmp)) - 0.5);
+            k = 0;
+            for (i = 0; i < n; i++) {
+                REAL(GET_SLOT(expcovinf, PL2_covarianceSym))[i * n + i] = REAL(tmp)[k];     /* diagonal */
+                k++;
+                for (l = i + 1; l < n; l++) {
+                    REAL(GET_SLOT(expcovinf, PL2_covarianceSym))[i * n + l] = REAL(tmp)[k]; /* lower triangular */
+                    REAL(GET_SLOT(expcovinf, PL2_covarianceSym))[l * n + i] = REAL(tmp)[k]; /* upper triangular */
+                    k++;
+                }
+            }
+
+            tmp = VECTOR_ELT(LECV, 15); // Sumweights_SLOT
+            REAL(GET_SLOT(expcovinf, PL2_sumweightsSym))[0] = REAL(tmp)[0];
+
+            /* count the number of non-constant variables */
+            countvars++;
+
+            if (get_teststat(varctrl) == 2)
+                PROTECT(ans = libcoin_R_QuadraticTest(LECV, 
+                    GET_SLOT(varctrl, PL2_pvalueSym), 
+                    iTRUE,  // SEXP lower
+                    iFALSE, // SEXP give_log
+                    iFALSE  // SEXP PermutedStatistics 
+                    ));
+            else
+                PROTECT(ans = libcoin_R_MaximumTest(LECV,
+                    iTRUE, // SEXP alternative (1 = "two.sided") 
+                    GET_SLOT(varctrl, PL2_pvalueSym), 
+                    iTRUE, // SEXP lower
+                    iFALSE, // SEXP give_log
+                    iFALSE, // SEXP PermutedStatistics
+                    GET_SLOT(varctrl, PL2_maxptsSym), 
+                    GET_SLOT(varctrl, PL2_relepsSym),
+                    GET_SLOT(varctrl, PL2_absepsSym)));
+
+            ans_teststat[j - 1] = REAL(VECTOR_ELT(ans, 0))[0]; 
+            if (get_pvalue(varctrl))
+                ans_criterion[j - 1] = REAL(VECTOR_ELT(ans, 1))[0]; // 1 - pvalue
+            else
+                ans_criterion[j - 1] = ans_teststat[j - 1];
+
+            UNPROTECT(4);
+        }                
+
+        type = get_testtype(gtctrl);
+        switch(type) {
+            /* Bonferroni: p_adj = 1 - (1 - p)^k */
+            case BONFERRONI: 
+                    for (j = 0; j < ninputs; j++)
+                        ans_criterion[j] = R_pow_di(ans_criterion[j], countvars);
+                    break;
+            /* Monte-Carlo */
+            case MONTECARLO: 
+                    break;
+            /* aggregated */
+            case AGGREGATED: 
+                    error("C_GlobalTest: aggregated global test not yet implemented");
+                    break;
+            /* raw */
+            case UNIVARIATE: break;
+            case TESTSTATISTIC: break;
+            default: error("C_GlobalTest: undefined value for type argument");
+                     break;
+        }
+    }
+    UNPROTECT(6);
 }
 
 

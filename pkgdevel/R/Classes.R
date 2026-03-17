@@ -129,7 +129,8 @@ setClass(Class = "GlobalTestControl",
         nresample    = "integer",
         randomsplits = "logical",
         mtry         = "integer",
-        mincriterion = "numeric"
+        mincriterion = "numeric",
+        tol          = "numeric"
     ),
     prototype = list(
         testtype = factor("Bonferroni", 
@@ -138,7 +139,8 @@ setClass(Class = "GlobalTestControl",
         nresample = as.integer(9999),
         randomsplits = as.logical(FALSE),
         mtry = as.integer(0),
-        mincriterion = as.double(0.95)
+        mincriterion = as.double(0.95),
+        tol = sqrt(.Machine$double.eps)
     ),
     validity = function(object) {
         if (object@mincriterion < 0) {
@@ -229,6 +231,7 @@ setClass(Class = "VariableFrame",
         scores          = "list",
         has_missings    = "logical", 
         whichNA         = "list",
+        subset          = "list",
         nobs            = "integer",
         ninputs         = "integer")
 )
