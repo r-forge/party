@@ -322,7 +322,7 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
                   double *ans_teststat, double *ans_criterion, int depth) {
 
     int ninputs, nobs, j, i, k, q, n, l, type;
-    SEXP responses, inputs, y, x, xmem, expcovinf, tmp;
+    SEXP responses, inputs, y, x, xmem, expcovinf, expcovinfj, tmp;
     SEXP Smtry;
 
     SEXP LECV, PLS, iEMPTY, iFALSE, iTRUE, ans;
@@ -406,6 +406,7 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
         
             PROTECT(x = get_transformation(inputs, j));
             PROTECT(xmem = get_varmemory(fitmem, j));
+            expcovinfj = GET_SLOT(xmem, PL2_expcovinfSym);
 
             if (!has_missings(inputs, j)) {
                 PROTECT(LECV = libcoin_R_ExpectationCovarianceStatistic(x, y, weights, 
@@ -420,9 +421,6 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
                         iEMPTY, // SEXP subset
                         iEMPTY, // SEXP block
                         GET_SLOT(gtctrl, PL2_nresampleSym)));
-                        
-                expcovinf = GET_SLOT(fitmem, PL2_expcovinfSym);
-
             } else {
 
                 PROTECT(LECV = libcoin_R_ExpectationCovarianceStatistic(x, y, weights, 
@@ -438,7 +436,6 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
                         iEMPTY, // SEXP block
                         GET_SLOT(gtctrl, PL2_nresampleSym)));
 
-                expcovinf = GET_SLOT(xmem, PL2_expcovinfSym);
 
                 stweights = REAL(VECTOR_ELT(LECV, 15))[0]; // Sumweights_SLOT
                 if (stweights < minsplit) {
@@ -449,21 +446,54 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
             }
 
             tmp = VECTOR_ELT(LECV, 7); // ExpectationInfluence_SLOT
-            for (q = 0; q < LENGTH(tmp); q++)
+            for (q = 0; q < LENGTH(tmp); q++) {
                 REAL(GET_SLOT(expcovinf, PL2_expectationSym))[q] = REAL(tmp)[q];
-                
+                REAL(GET_SLOT(expcovinfj, PL2_expectationSym))[q] = REAL(tmp)[q];
+            }
+
             tmp = VECTOR_ELT(LECV, 8); // CovarianceInfluence_SLOT, packed 
             n = (int) (sqrt(0.25 + 2 * LENGTH(tmp)) - 0.5);
             k = 0;
             for (i = 0; i < n; i++) {
                 REAL(GET_SLOT(expcovinf, PL2_covarianceSym))[i * n + i] = REAL(tmp)[k];     /* diagonal */
+                REAL(GET_SLOT(expcovinfj, PL2_covarianceSym))[i * n + i] = REAL(tmp)[k];     /* diagonal */
                 k++;
                 for (l = i + 1; l < n; l++) {
                     REAL(GET_SLOT(expcovinf, PL2_covarianceSym))[i * n + l] = REAL(tmp)[k]; /* lower triangular */
                     REAL(GET_SLOT(expcovinf, PL2_covarianceSym))[l * n + i] = REAL(tmp)[k]; /* upper triangular */
+                    REAL(GET_SLOT(expcovinfj, PL2_covarianceSym))[i * n + l] = REAL(tmp)[k]; /* lower triangular */
+                    REAL(GET_SLOT(expcovinfj, PL2_covarianceSym))[l * n + i] = REAL(tmp)[k]; /* upper triangular */
                     k++;
                 }
             }
+
+            tmp = VECTOR_ELT(LECV, 15); // Sumweights_SLOT
+            REAL(GET_SLOT(expcovinf, PL2_sumweightsSym))[0] = REAL(tmp)[0];
+
+            tmp = VECTOR_ELT(LECV, 0); // LinearStatistic_SLOT
+            for (q = 0; q < LENGTH(tmp); q++) {
+                REAL(GET_SLOT(xmem, PL2_linearstatisticSym))[q] = REAL(tmp)[q];
+            }
+
+            tmp = VECTOR_ELT(LECV, 1); // Expectation_SLOT
+            for (q = 0; q < LENGTH(tmp); q++) {
+                REAL(GET_SLOT(xmem, PL2_expectationSym))[q] = REAL(tmp)[q];
+            }
+
+            tmp = VECTOR_ELT(LECV, 2); // Covariance_SLOT, packed 
+            n = (int) (sqrt(0.25 + 2 * LENGTH(tmp)) - 0.5);
+            k = 0;
+            for (i = 0; i < n; i++) {
+                REAL(GET_SLOT(xmem, PL2_covarianceSym))[i * n + i] = REAL(tmp)[k];     /* diagonal */
+                k++;
+                for (l = i + 1; l < n; l++) {
+                    REAL(GET_SLOT(xmem, PL2_covarianceSym))[i * n + l] = REAL(tmp)[k]; /* lower triangular */
+                    REAL(GET_SLOT(xmem, PL2_covarianceSym))[l * n + i] = REAL(tmp)[k]; /* upper triangular */
+                    k++;
+                }
+            }
+
+            INTEGER(GET_SLOT(xmem, PL2_dimensionSym))[0] = n;
 
             tmp = VECTOR_ELT(LECV, 15); // Sumweights_SLOT
             REAL(GET_SLOT(expcovinf, PL2_sumweightsSym))[0] = REAL(tmp)[0];

@@ -102,7 +102,7 @@ void C_Node(SEXP node, SEXP learnsample, SEXP weights,
 
         smax = C_max(pvalue, ninputs);
         REAL(S3get_maxcriterion(node))[0] = smax;
-    
+
         /* if the global null hypothesis was rejected */
         if (smax > mincriterion && !TERMINAL) {
 
@@ -143,7 +143,6 @@ void C_Node(SEXP node, SEXP learnsample, SEXP weights,
                         splitstat);
                 S3set_variableID(split, jselect);
              } else {
-           
                  /* search of a set of levels (split) in a numeric variable x */
                  split = S3get_primarysplit(node);
                  
@@ -162,6 +161,7 @@ void C_Node(SEXP node, SEXP learnsample, SEXP weights,
                 }
           
                  linexpcov = get_varmemory(fitmem, jselect);
+                 
                  standstat = R_Calloc(get_dimension(linexpcov), double);
                  C_standardize(REAL(GET_SLOT(linexpcov, 
                                              PL2_linearstatisticSym)),
