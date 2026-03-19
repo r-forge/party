@@ -130,7 +130,7 @@ SEXP R_IndependenceTest(SEXP x, SEXP y, SEXP weights, SEXP linexpcov, SEXP varct
     *\param depth an integer giving the depth of the current node
 */
 
-void C_GlobalTest2(const SEXP learnsample, const SEXP weights, 
+void C_GlobalTest(const SEXP learnsample, const SEXP weights, 
                   SEXP fitmem, const SEXP varctrl, 
                   const SEXP gtctrl, const double minsplit, 
                   double *ans_teststat, double *ans_criterion, int depth) {
@@ -316,7 +316,7 @@ void C_GlobalTest2(const SEXP learnsample, const SEXP weights,
     *\param depth an integer giving the depth of the current node
 */
 
-void C_GlobalTest(const SEXP learnsample, const SEXP weights, 
+void C_GlobalTest2(const SEXP learnsample, const SEXP weights, 
                   SEXP fitmem, const SEXP varctrl, 
                   const SEXP gtctrl, const double minsplit, 
                   double *ans_teststat, double *ans_criterion, int depth) {

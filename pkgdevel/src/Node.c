@@ -23,7 +23,7 @@ void C_prediction(const double *y, int n, int q, const double *weights,
                   const double sweights, double *ans) {
 
     int i, j, jn;
-    
+
     for (j = 0; j < q; j++) {
         ans[j] = 0.0;
         jn = j * n;
