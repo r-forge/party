@@ -130,7 +130,7 @@ SEXP R_IndependenceTest(SEXP x, SEXP y, SEXP weights, SEXP linexpcov, SEXP varct
     *\param depth an integer giving the depth of the current node
 */
 
-void C_GlobalTest(const SEXP learnsample, const SEXP weights, 
+void C_GlobalTest2(const SEXP learnsample, const SEXP weights, 
                   SEXP fitmem, const SEXP varctrl, 
                   const SEXP gtctrl, const double minsplit, 
                   double *ans_teststat, double *ans_criterion, int depth) {
@@ -316,7 +316,7 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
     *\param depth an integer giving the depth of the current node
 */
 
-void C_GlobalTest2(const SEXP learnsample, const SEXP weights, 
+void C_GlobalTest(const SEXP learnsample, const SEXP weights, 
                   SEXP fitmem, const SEXP varctrl, 
                   const SEXP gtctrl, const double minsplit, 
                   double *ans_teststat, double *ans_criterion, int depth) {
@@ -416,7 +416,7 @@ void C_GlobalTest2(const SEXP learnsample, const SEXP weights,
                         GET_SLOT(gtctrl, PL2_tolSym)));
 
                 if (get_testtype(gtctrl) == MONTECARLO)
-                    SET_VECTOR_ELT(LECV, 12, // PermutedLinearStatistic_SLOT
+                    SET_VECTOR_ELT(LECV, PermutedLinearStatistic_SLOT,
                     libcoin_R_PermutedLinearStatistic(x, y, weights, 
                         iEMPTY, // SEXP subset
                         iEMPTY, // SEXP block
@@ -430,14 +430,14 @@ void C_GlobalTest2(const SEXP learnsample, const SEXP weights,
                     GET_SLOT(gtctrl, PL2_tolSym)));
 
                 if (get_testtype(gtctrl) == MONTECARLO)
-                    SET_VECTOR_ELT(LECV, 12, // PermutedLinearStatistic_SLOT
+                    SET_VECTOR_ELT(LECV, PermutedLinearStatistic_SLOT,
                     libcoin_R_PermutedLinearStatistic(x, y, weights, 
                         get_subset(inputs, j), // SEXP subset
                         iEMPTY, // SEXP block
                         GET_SLOT(gtctrl, PL2_dresampleSym)));
 
 
-                stweights = REAL(VECTOR_ELT(LECV, 15))[0]; // Sumweights_SLOT
+                stweights = REAL(VECTOR_ELT(LECV, Sumweights_SLOT))[0]; 
                 if (stweights < minsplit) {
                     ans_teststat[j - 1] = 0.0;
                     ans_criterion[j - 1] = 0.0;
@@ -445,13 +445,13 @@ void C_GlobalTest2(const SEXP learnsample, const SEXP weights,
                 }
             }
 
-            tmp = VECTOR_ELT(LECV, 7); // ExpectationInfluence_SLOT
+            tmp = VECTOR_ELT(LECV, ExpectationInfluence_SLOT);
             for (q = 0; q < LENGTH(tmp); q++) {
                 REAL(GET_SLOT(expcovinf, PL2_expectationSym))[q] = REAL(tmp)[q];
                 REAL(GET_SLOT(expcovinfj, PL2_expectationSym))[q] = REAL(tmp)[q];
             }
 
-            tmp = VECTOR_ELT(LECV, 8); // CovarianceInfluence_SLOT, packed 
+            tmp = VECTOR_ELT(LECV, CovarianceInfluence_SLOT); // packed 
             n = (int) (sqrt(0.25 + 2 * LENGTH(tmp)) - 0.5);
             k = 0;
             for (i = 0; i < n; i++) {
@@ -467,21 +467,21 @@ void C_GlobalTest2(const SEXP learnsample, const SEXP weights,
                 }
             }
 
-            tmp = VECTOR_ELT(LECV, 15); // Sumweights_SLOT
+            tmp = VECTOR_ELT(LECV, Sumweights_SLOT);
             REAL(GET_SLOT(expcovinf, PL2_sumweightsSym))[0] = REAL(tmp)[0];
             REAL(GET_SLOT(expcovinfj, PL2_sumweightsSym))[0] = REAL(tmp)[0];
 
-            tmp = VECTOR_ELT(LECV, 0); // LinearStatistic_SLOT
+            tmp = VECTOR_ELT(LECV, LinearStatistic_SLOT);
             for (q = 0; q < LENGTH(tmp); q++) {
                 REAL(GET_SLOT(xmem, PL2_linearstatisticSym))[q] = REAL(tmp)[q];
             }
 
-            tmp = VECTOR_ELT(LECV, 1); // Expectation_SLOT
+            tmp = VECTOR_ELT(LECV, Expectation_SLOT);
             for (q = 0; q < LENGTH(tmp); q++) {
                 REAL(GET_SLOT(xmem, PL2_expectationSym))[q] = REAL(tmp)[q];
             }
 
-            tmp = VECTOR_ELT(LECV, 2); // Covariance_SLOT, packed 
+            tmp = VECTOR_ELT(LECV, Covariance_SLOT); // packed 
             n = (int) (sqrt(0.25 + 2 * LENGTH(tmp)) - 0.5);
             k = 0;
             for (i = 0; i < n; i++) {
@@ -496,7 +496,7 @@ void C_GlobalTest2(const SEXP learnsample, const SEXP weights,
 
             INTEGER(GET_SLOT(xmem, PL2_dimensionSym))[0] = n;
 
-            tmp = VECTOR_ELT(LECV, 15); // Sumweights_SLOT
+            tmp = VECTOR_ELT(LECV, Sumweights_SLOT);
             REAL(GET_SLOT(expcovinf, PL2_sumweightsSym))[0] = REAL(tmp)[0];
 
             /* count the number of non-constant variables */
@@ -528,7 +528,6 @@ void C_GlobalTest2(const SEXP learnsample, const SEXP weights,
                 else
                     ans_criterion[j - 1] = ans_teststat[j - 1];
             }
-
             UNPROTECT(4);
         }                
 
