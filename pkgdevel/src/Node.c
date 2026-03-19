@@ -79,8 +79,10 @@ void C_Node(SEXP node, SEXP learnsample, SEXP weights,
                  REAL(S3get_teststat(node)), REAL(S3get_criterion(node)), depth);
     
     /* sum of weights: C_GlobalTest did nothing if sweights < mincriterion */
-    sweights = REAL(GET_SLOT(GET_SLOT(fitmem, PL2_expcovinfSym), 
-                             PL2_sumweightsSym))[0];
+    /* sum of weights regardless of missingness in covariates, recompute here */
+    sweights = 0.0;
+    thisweights = REAL(weights);
+    for (i = 0; i < nobs; i++) sweights += thisweights[i];
     REAL(VECTOR_ELT(node, S3_SUMWEIGHTS))[0] = sweights;
 
     /* compute the prediction of this node */
