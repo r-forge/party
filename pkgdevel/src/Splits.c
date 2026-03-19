@@ -58,9 +58,9 @@ void C_split(const double *x, int p,
 
     /* we already have expecation and covariance of the response
      * values and the sum of the weights */
-    dExp_y = REAL(GET_SLOT(expcovinf, PL2_expectationSym));
-    dCov_y = REAL(GET_SLOT(expcovinf, PL2_covarianceSym));
-    sweights = REAL(GET_SLOT(expcovinf, PL2_sumweightsSym))[0];
+    dExp_y = get_expectation(expcovinf);
+    dCov_y = get_covariance(expcovinf);
+    sweights = get_sumweights(expcovinf)[0];
 
     /* weights are different in surrogate splits, so recompute here */
     if (surrogate) {

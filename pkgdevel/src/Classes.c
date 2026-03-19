@@ -389,3 +389,19 @@ double get_fraction(SEXP object) {
 int get_trace(SEXP object) {
     return(INTEGER(GET_SLOT(object, PL2_traceSym))[0]);
 }
+
+double* get_expectation(SEXP object) {
+    return(REAL(GET_SLOT(object, PL2_expectationSym)));
+}
+
+double* get_covariance(SEXP object) {
+    return(REAL(GET_SLOT(object, PL2_covarianceSym)));
+}
+
+double* get_sumweights(SEXP object) {
+    return(REAL(GET_SLOT(object, PL2_sumweightsSym)));
+}
+
+
+
+    
