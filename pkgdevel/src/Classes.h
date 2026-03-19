@@ -118,3 +118,6 @@ int get_ntree(SEXP object);
 int get_replace(SEXP object);
 double get_fraction(SEXP object);
 int get_trace(SEXP object);
+double* get_expectation(SEXP object);
+double* get_covariance(SEXP object);
+double* get_sumweights(SEXP object);
