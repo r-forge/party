@@ -59,6 +59,7 @@ SEXP
     PL2_inputsSym,
     PL2_testtypeSym, 
     PL2_nresampleSym,
+    PL2_dresampleSym,
     PL2_varctrlSym, 
     PL2_splitctrlSym, 
     PL2_gtctrlSym,
@@ -130,6 +131,7 @@ SEXP party_init(void) {
     PL2_inputsSym = install("inputs"); 
     PL2_testtypeSym = install("testtype"); 
     PL2_nresampleSym = install("nresample"); 
+    PL2_dresampleSym = install("dresample"); 
     PL2_varctrlSym = install("varctrl"); 
     PL2_splitctrlSym = install("splitctrl"); 
     PL2_gtctrlSym = install("gtctrl"); 

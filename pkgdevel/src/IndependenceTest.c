@@ -351,13 +351,13 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
 
     expcovinf = GET_SLOT(fitmem, PL2_expcovinfSym);
     REAL(GET_SLOT(expcovinf, PL2_sumweightsSym))[0] = stweights;
-    
-    if (stweights < minsplit) {
-        for (j = 0; j < ninputs; j++) {
-            ans_teststat[j] = 0.0;
-            ans_criterion[j] = 0.0;
-        }
-    } else {
+
+    for (j = 0; j < ninputs; j++) {
+        ans_teststat[j] = 0.0;
+        ans_criterion[j] = 0.0;
+    }
+
+    if (stweights >= minsplit) {
 
         dontuse = INTEGER(get_dontuse(fitmem));
         dontusetmp = INTEGER(get_dontusetmp(fitmem));
@@ -420,7 +420,7 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
                     libcoin_R_PermutedLinearStatistic(x, y, weights, 
                         iEMPTY, // SEXP subset
                         iEMPTY, // SEXP block
-                        GET_SLOT(gtctrl, PL2_nresampleSym)));
+                        GET_SLOT(gtctrl, PL2_dresampleSym)));
             } else {
 
                 PROTECT(LECV = libcoin_R_ExpectationCovarianceStatistic(x, y, weights, 
@@ -434,7 +434,7 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
                     libcoin_R_PermutedLinearStatistic(x, y, weights, 
                         get_subset(inputs, j), // SEXP subset
                         iEMPTY, // SEXP block
-                        GET_SLOT(gtctrl, PL2_nresampleSym)));
+                        GET_SLOT(gtctrl, PL2_dresampleSym)));
 
 
                 stweights = REAL(VECTOR_ELT(LECV, 15))[0]; // Sumweights_SLOT
@@ -469,6 +469,7 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
 
             tmp = VECTOR_ELT(LECV, 15); // Sumweights_SLOT
             REAL(GET_SLOT(expcovinf, PL2_sumweightsSym))[0] = REAL(tmp)[0];
+            REAL(GET_SLOT(expcovinfj, PL2_sumweightsSym))[0] = REAL(tmp)[0];
 
             tmp = VECTOR_ELT(LECV, 0); // LinearStatistic_SLOT
             for (q = 0; q < LENGTH(tmp); q++) {
@@ -519,11 +520,14 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
                     GET_SLOT(varctrl, PL2_relepsSym),
                     GET_SLOT(varctrl, PL2_absepsSym)));
 
-            ans_teststat[j - 1] = REAL(VECTOR_ELT(ans, 0))[0]; 
-            if (get_pvalue(varctrl))
-                ans_criterion[j - 1] = REAL(VECTOR_ELT(ans, 1))[0]; // 1 - pvalue
-            else
-                ans_criterion[j - 1] = ans_teststat[j - 1];
+            // linstat not defined
+            if (R_FINITE(REAL(VECTOR_ELT(ans, 0))[0])) {
+                ans_teststat[j - 1] = REAL(VECTOR_ELT(ans, 0))[0]; 
+                if (get_pvalue(varctrl))
+                    ans_criterion[j - 1] = REAL(VECTOR_ELT(ans, 1))[0]; // 1 - pvalue
+                else
+                    ans_criterion[j - 1] = ans_teststat[j - 1];
+            }
 
             UNPROTECT(4);
         }                
@@ -549,6 +553,7 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
                      break;
         }
     }
+
     UNPROTECT(6);
 }
 

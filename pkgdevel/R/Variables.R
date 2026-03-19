@@ -94,10 +94,9 @@ initVariableFrame.df <- function(obj, trafo = ptrafo, scores = NULL, response = 
     levels <- lapply(obj, function(x) if(is.factor(x)) levels(x))
     has_missings <- sapply(obj, function(x) any(is.na(x)))
     whichNA <- subset <- vector(mode = "list", length = ncol(obj))
-    if (any(has_missings)) {
-        whichNA[has_missings] <- lapply(obj[has_missings], function(x) which(is.na(x)))
+    whichNA <- lapply(obj, function(x) which(is.na(x)))
+    if (any(has_missings))
         subset[has_missings] <- lapply(obj[has_missings], function(x) which(!is.na(x)))
-    }
     censored <- sapply(obj, function(x) inherits(x, "Surv"))
 
     ### some "handwork" 
@@ -168,10 +167,9 @@ initVariableFrame.matrix <- function(obj, response = FALSE, ...) {
     levels <- vector(mode = "list", length = p)
     has_missings <- sapply(obj, function(x) any(is.na(x)))
     whichNA <- subset <- vector(mode = "list", length = p)
-    if (any(has_missings)) {
-        whichNA[has_missings] <- lapply(obj[has_missings], function(x) which(is.na(x)))
+    whichNA <- lapply(obj, function(x) which(is.na(x)))
+    if (any(has_missings))
         subset[has_missings] <- lapply(obj[has_missings], function(x) which(!is.na(x)))
-    }
     censored <- rep(FALSE, p)
 
     RET@transformations <- obj

@@ -69,6 +69,7 @@ void C_split(const double *x, int p,
             sweights += weights[i];
     }
 
+
     /* if there is something to split */
     if (sweights > 1) {
 

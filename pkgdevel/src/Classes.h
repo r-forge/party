@@ -51,6 +51,7 @@ extern SEXP
     PL2_inputsSym,
     PL2_testtypeSym, 
     PL2_nresampleSym,
+    PL2_dresampleSym,
     PL2_varctrlSym, 
     PL2_splitctrlSym, 
     PL2_gtctrlSym,

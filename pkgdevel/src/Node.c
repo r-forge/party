@@ -101,6 +101,7 @@ void C_Node(SEXP node, SEXP learnsample, SEXP weights,
     for (j = 0; j < 2; j++) {
 
         smax = C_max(pvalue, ninputs);
+
         REAL(S3get_maxcriterion(node))[0] = smax;
 
         /* if the global null hypothesis was rejected */
