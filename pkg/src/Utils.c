@@ -703,11 +703,41 @@ int C_i_in_set(int i, SEXP set) {
 }
     
 int nrow(SEXP x) {
-    return(INTEGER(getAttrib(x, R_DimSymbol))[0]);
+    SEXP a;
+    int ret;
+
+    PROTECT(a = getAttrib(x, R_DimSymbol));  // rchk warning
+    if (a == R_NilValue) {
+        UNPROTECT(1);
+        return(1);
+    }
+    if (TYPEOF(a) == REALSXP) {
+        ret = (int) REAL(a)[0];
+        UNPROTECT(1);
+        return(ret);
+    }
+    ret = INTEGER(a)[0];
+    UNPROTECT(1);
+    return(ret);
 }
 
 int ncol(SEXP x) {
-    return(INTEGER(getAttrib(x, R_DimSymbol))[1]);
+    SEXP a;
+    int ret;
+
+    PROTECT(a = getAttrib(x, R_DimSymbol));  // rchk warning
+    if (a == R_NilValue) {
+        UNPROTECT(1);
+        return(1);
+    }
+    if (TYPEOF(a) == REALSXP) {
+        ret = (int) REAL(a)[1];
+        UNPROTECT(1);
+        return(ret);
+    }
+    ret = INTEGER(a)[1];
+    UNPROTECT(1);
+    return(ret);
 }
 
 /* compute index of variable with smallest p-value 

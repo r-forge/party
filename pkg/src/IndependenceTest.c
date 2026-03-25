@@ -144,13 +144,13 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
     
     ninputs = get_ninputs(learnsample);
     nobs = get_nobs(learnsample);
-    responses = GET_SLOT(learnsample, PL2_responsesSym);
-    inputs = GET_SLOT(learnsample, PL2_inputsSym);
+    PROTECT(responses = GET_SLOT(learnsample, PL2_responsesSym));
+    PROTECT(inputs = GET_SLOT(learnsample, PL2_inputsSym));
     
     /* y = get_transformation(responses, 1); */
-    y = get_test_trafo(responses);
+    PROTECT(y = get_test_trafo(responses));
     
-    expcovinf = GET_SLOT(fitmem, PL2_expcovinfSym);
+    PROTECT(expcovinf = GET_SLOT(fitmem, PL2_expcovinfSym));
     C_ExpectCovarInfluence(REAL(y), ncol(y), REAL(weights), 
                            nobs, expcovinf);
     
@@ -299,6 +299,7 @@ void C_GlobalTest(const SEXP learnsample, const SEXP weights,
                      break;
         }
     }
+    UNPROTECT(4);
 }
 
 
