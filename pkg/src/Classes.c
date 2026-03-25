@@ -374,3 +374,12 @@ double get_fraction(SEXP object) {
 int get_trace(SEXP object) {
     return(INTEGER(GET_SLOT(object, PL2_traceSym))[0]);
 }
+
+int get_remove_weights(SEXP object) {
+    int ans;
+    SEXP tc;
+    PROTECT(tc = get_tgctrl(object));
+    ans = LOGICAL(GET_SLOT(tc, PL2_remove_weightsSym))[0];
+    UNPROTECT(1);
+    return(ans);
+}
